@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.member.dao.POSMemberMapper">
+
+  <!-- 获取会员信息 -->
+  <select id="searchMember" resultType="com.rograndec.feijiayun.chain.inf.pos.member.vo.SelectPOSMemberVO">
+	SELECT 
+	  id,
+	  card_code as cardCode,
+	  member_name as memberName,
+	  current_integral as currentIntegral,
+	  current_stored_amount as currentStoredAmount,
+	  wechat_num as wechatNum,
+	  qq_num as qqNum,
+	  mobile_phone as mobilePhone,
+	  card_code_type as cardCodeType,
+	  card_type_name as cardTypeName,
+	  send_card_time as sendCardTime,
+	  `status`,
+	  password,
+	  enterprise_id,
+	  parent_id
+	FROM
+	  saas_member_info 
+	WHERE 1=1
+	and (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId})
+	
+	<if test="param != null and param != ''">
+        and (member_name like concat('%', #{param},'%')
+        or card_code like concat('%', #{param},'%')
+        or mobile_phone like concat('%', #{param},'%')
+        or wechat_num like concat('%', #{param},'%')
+        or qq_num like concat('%', #{param},'%')
+        )
+    </if>
+  </select>
+  
+  
+</mapper>

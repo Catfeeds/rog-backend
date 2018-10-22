@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.syncdata.dao.POSDataSyncMapper">
+
+  <!-- 获取企业数据 -->
+  <select id="getEnterprise" resultType="map">
+	select * from saas_enterprise where id=#{enterpriseId} and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getEnterpriseBusiness" resultType="map">
+	select * from saas_enterprise_business where enterprise_id=#{enterpriseId}
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getGoods" resultType="map">
+	select * from saas_goods where 1=1
+	<choose>
+        <when test="chainType == 2">
+			<if test="enterpriseId != null and parentId != null">
+				and enterprise_id = #{parentId}
+				and owner_id in (#{parentId},#{enterpriseId})
+			</if>
+		</when>
+		<otherwise>
+			<if test="chainType == 0">
+			and enterprise_id = #{enterpriseId} and owner_id = #{enterpriseId}
+			</if>
+			<if test="chainType == 1">
+			and enterprise_id = #{parentId} and owner_id = #{parentId}
+			</if>
+		</otherwise>
+	</choose>
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPriceOrderDetail" resultType="map">
+	select * from saas_price_order_detail where enterprise_id=#{enterpriseId} and status=1
+	<include refid="whereSql"></include>
+  </select>
+ 
+  <select id="getIncompatibilityGoodsOne" resultType="map">
+	select * from saas_incompatibility_goods_one where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) 
+  </select>
+  
+  <select id="getSpecialGoods" resultType="map">
+	select * from saas_special_goods where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSpecialPriceStrategy" resultType="map">
+	select * from saas_special_price_strategy where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSpecialPriceGoods" resultType="map">
+	select * from saas_special_price_goods where (enterprise_id = #{enterpriseId} or enterprise_id = #{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getLotNumber" resultType="map">
+	select * from saas_lot_number where enterprise_id=#{enterpriseId} 
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getStock" resultType="map">
+	select stock.* from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id AND stock.enterprise_id=lot.enterprise_id
+    LEFT JOIN saas_warehouse_shelf ws ON ws.id=stock.shelf_id AND stock.enterprise_id=ws.enterprise_id
+    LEFT JOIN saas_warehouse_cargo_area wca ON wca.id=ws.cargo_area_id AND stock.enterprise_id=wca.enterprise_id
+    WHERE stock.enterprise_id=#{enterpriseId}
+	AND stock.goods_id = lot.goods_id
+	AND wca.job_type=0
+    and wca.job_area=0
+    <if test="lastSyncTime != null and lastSyncTime != '' ">
+      and DATE_FORMAT(stock.update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+    </if>
+	<if test="startRow != null">
+      limit #{startRow},#{endRow}
+    </if>
+  </select>
+  
+  <select id="getWarehouseShelf" resultType="map">
+	select * from saas_warehouse_shelf
+    WHERE enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getWarehouseCargoArea" resultType="map">
+	select * from saas_warehouse_cargo_area
+    WHERE enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getMemberCardType" resultType="map">
+	select * from saas_member_card_type
+    where (enterprise_id=#{enterpriseId} or enterprise_id=0 or enterprise_id = #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getMemberInfo" resultType="map">
+	select * from saas_member_info
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId})
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPrescriptionRegister" resultType="map">
+	select * from saas_prescription_register
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPrescriptionRegisterDetail" resultType="map">
+	select * from saas_prescription_register_detail
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPrescriptionRegisterShelf" resultType="map">
+	select * from saas_prescription_register_shelf
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSpecialRegister" resultType="map">
+	select * from saas_special_register
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSpecialRegisterDetail" resultType="map">
+	select * from saas_special_register_detail
+    where enterprise_id=#{enterpriseId}
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSpecialRegisterShelf" resultType="map">
+	select * from saas_special_register_shelf
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPrescriptionSignature" resultType="map">
+	select * from saas_prescription_signature
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getUser" resultType="map">
+	select * from saas_user
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getUserAdministration" resultType="map">
+	select * from saas_user_administration
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getUserPosition" resultType="map">
+	select * from saas_user_position
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosition" resultType="map">
+	select * from saas_position
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getSysRole" resultType="map">
+	select * from saas_sys_role 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+   <select id="getUserRole" resultType="map">
+	select * from saas_user_role
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId})
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosSet" resultType="map">
+	select * from saas_pos_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosPayType" resultType="map">
+	select * from saas_pos_pay_type 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosBank" resultType="map">
+	select * from saas_pos_bank 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosTeam" resultType="map">
+	select * from saas_pos_team 
+    where (enterprise_id=#{enterpriseId} or enterprise_id=#{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosClerk" resultType="map">
+	select * from saas_pos_clerk 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosPayee" resultType="map">
+	select * from saas_pos_payee 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPosPayeeAuth" resultType="map">
+	select * from saas_pos_payee_auth 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <!-- 
+  	统计商品、价格清单、库存的总数量
+   
+  <select id="countGoods" resultType="java.lang.Integer">
+  	select count(1) from saas_goods where enterprise_id=#{enterpriseId} and status=1
+	and valid_flag=1 and approve_status=1
+	<include refid="whereANDSql"></include>
+  </select>
+  
+  <select id="countPriceOrderDetail" resultType="java.lang.Integer">
+  	select count(1) from saas_price_order_detail where enterprise_id=#{enterpriseId} and status=1
+  	<include refid="whereANDSql"></include>
+  </select>
+  
+  <select id="countStock" resultType="java.lang.Integer">
+  	select count(1) from 
+  	(
+  	select stock.id from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id
+    LEFT JOIN saas_warehouse_shelf ws ON ws.id=stock.shelf_id
+    LEFT JOIN saas_warehouse_cargo_area wca ON wca.id=ws.cargo_area_id
+    WHERE stock.enterprise_id=#{enterpriseId}
+	AND stock.goods_id = lot.goods_id
+	AND stock.usable_quantity>0
+	AND wca.job_type=0
+    and wca.job_area=0
+    <include refid="whereANDSql"></include>
+  	)tab
+  </select>
+  -->
+  
+  <select id="getGoodsBusiness" resultType="map">
+	select * from saas_goods_business a JOIN saas_goods b on a.goods_id = b.id
+	where 1=1
+	<include refid="whereGoodsBusiness"></include>
+	<if test="startRow != null">
+		limit #{startRow},#{endRow}
+	</if>
+  </select>
+  
+  <select id="getQualitySet" resultType="map">
+	select * from saas_quality_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="getPharmacySet" resultType="map">
+	select * from saas_pharmacy_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  
+  <sql id="whereSql">
+  	<include refid="whereANDSql"></include>
+	<if test="startRow != null">
+      limit #{startRow},#{endRow}
+    </if>
+  </sql>
+  
+  <sql id="whereANDSql">
+  	<if test='tableName != "saas_incompatibility_goods_one"'>
+  	<if test="lastSyncTime != null and lastSyncTime != '' ">
+    	and	DATE_FORMAT(update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+    </if>
+    </if>
+  </sql>
+  
+  <sql id="whereEIdSql">
+  	<choose>
+		<when test='tableName == "saas_enterprise"'>
+			and id= #{enterpriseId}
+		</when>
+		<otherwise>
+		<!-- 加盟店商品为总部和自己 -->
+		<if test='tableName == "saas_goods"'>
+			<choose>
+				<when test="chainType == 2">
+					and enterprise_id = #{parentId}
+					and owner_id in (#{parentId},#{enterpriseId})
+				</when>
+				<otherwise>
+					<if test="chainType == 0">
+					and enterprise_id = #{enterpriseId} and owner_id = #{enterpriseId}
+					</if>
+					<if test="chainType == 1">
+					and enterprise_id = #{parentId} and owner_id = #{parentId}
+					</if>
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test='tableName != "saas_goods"'>
+			<choose>
+				<when test="countParam != null">
+					<!-- 需同步总部和门店自己的数据 -->
+					<if test="countParam == 0">
+						and (enterprise_id = #{enterpriseId} or enterprise_id = #{parentId})
+					</if>
+					<!-- 需同步总部和门店、系统默认的数据 -->
+					<if test="countParam == 1">
+						and (enterprise_id = #{enterpriseId} or enterprise_id = #{parentId} or enterprise_id=0)
+					</if>
+				</when>
+				<otherwise>
+					and enterprise_id = #{enterpriseId}
+				</otherwise>
+			</choose>
+		</if>
+		</otherwise>
+	</choose>
+  </sql>
+	
+	<!-- 商品业务表条件 -->
+	<sql id="whereGoodsBusiness">
+		<choose>
+			<!-- 加盟店 -->
+			<when test="chainType == 2">
+				and b.enterprise_id = #{parentId}
+				and b.owner_id in (#{parentId},#{enterpriseId})
+			</when>
+			<otherwise>
+				<!-- 总部 -->
+				<if test="chainType == 0">
+					and b.enterprise_id = #{enterpriseId} and b.owner_id = #{enterpriseId}
+				</if>
+				<!-- 自营店 -->
+				<if test="chainType == 1">
+					and b.enterprise_id = #{parentId} and b.owner_id = #{parentId}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="lastSyncTime != null and lastSyncTime != '' ">
+    		and	DATE_FORMAT(b.update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+    	</if>
+	</sql>
+  	
+  <!-- 根据表名获取数据总数 -->
+  <select id="countByTableName" resultType="java.lang.Long">
+  	<choose>
+	  	<when test='tableName == "saas_goods_business"'>
+	  		select count(1) from saas_goods_business a JOIN saas_goods b on a.goods_id = b.id
+			where 1=1
+			<include refid="whereGoodsBusiness"></include>
+	  	</when>
+	  	<otherwise>
+		  	select count(1) from ${tableName} where 1=1
+		  	<include refid="whereEIdSql"></include>
+		  	<include refid="whereANDSql"></include>
+	  	</otherwise>
+  	</choose>
+  </select>
+  
+</mapper>

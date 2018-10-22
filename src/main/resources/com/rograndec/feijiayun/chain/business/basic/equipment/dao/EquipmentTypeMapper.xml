@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.equipment.dao.EquipmentTypeMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentType">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_type_code" jdbcType="VARCHAR" property="parentTypeCode" />
+    <result column="parent_type_name" jdbcType="VARCHAR" property="parentTypeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, name, parent_type_code, parent_type_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_equipment_type
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_equipment_type
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentType">
+    insert into saas_equipment_type (id, enterprise_id, parent_id, 
+      code, name, parent_type_code, 
+      parent_type_name)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentTypeCode,jdbcType=VARCHAR}, 
+      #{parentTypeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentType">
+    insert into saas_equipment_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentTypeCode != null">
+        parent_type_code,
+      </if>
+      <if test="parentTypeName != null">
+        parent_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeCode != null">
+        #{parentTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeName != null">
+        #{parentTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentType">
+    update saas_equipment_type
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeCode != null">
+        parent_type_code = #{parentTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentTypeName != null">
+        parent_type_name = #{parentTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentType">
+    update saas_equipment_type
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      parent_type_code = #{parentTypeCode,jdbcType=VARCHAR},
+      parent_type_name = #{parentTypeName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getParentEquipmentTypeData" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_equipment_type
+    where parent_type_code = 0
+  </select>
+  <select id="selectByParent" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from saas_equipment_type
+    where parent_type_code =#{code}
+  </select>
+</mapper>

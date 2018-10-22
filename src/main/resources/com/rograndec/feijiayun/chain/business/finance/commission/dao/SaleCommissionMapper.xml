@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.commission.dao.SaleCommissionMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.commission.entity.SaleCommission">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="commission_date" jdbcType="TIMESTAMP" property="commissionDate" />
+    <result column="commission_man_id" jdbcType="BIGINT" property="commissionManId" />
+    <result column="commission_man_code" jdbcType="VARCHAR" property="commissionManCode" />
+    <result column="commission_man_name" jdbcType="VARCHAR" property="commissionManName" />
+    <result column="clerk_id" jdbcType="BIGINT" property="clerkId" />
+    <result column="clerk_code" jdbcType="VARCHAR" property="clerkCode" />
+    <result column="clerk_name" jdbcType="VARCHAR" property="clerkName" />
+    <result column="sale_date_from" jdbcType="TIMESTAMP" property="saleDateFrom" />
+    <result column="sale_date_to" jdbcType="TIMESTAMP" property="saleDateTo" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="diff_amount_total" jdbcType="DECIMAL" property="diffAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="branch_id" jdbcType="BIGINT" property="branchId" />
+    <result column="branch_code" jdbcType="VARCHAR" property="branchCode" />
+    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, commission_date, commission_man_id, 
+    commission_man_code, commission_man_name, clerk_id, clerk_code, clerk_name, sale_date_from, 
+    sale_date_to, amount_total, real_amount_total, diff_amount_total, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time,branch_id,branch_code,branch_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale_commission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectSumByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale_commission
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+      and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="commissionManName != null">
+      and commission_man_name = #{commissionManName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="clerkName != null">
+      and clerk_name = #{clerkName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="status != null">
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+
+    <if test="branchCode != null">
+      and branch_code = #{branchCode,jdbcType=VARCHAR}
+    </if>
+
+    <if test="branchName != null">
+      and INSTR(branch_name,#{branchName,jdbcType=VARCHAR})
+    </if>
+
+    <if test="startDate != null and endDate != null">
+      and bill_date >= #{startDate,jdbcType=TIMESTAMP}
+      and bill_date &lt;= #{endDate,jdbcType=TIMESTAMP}
+    </if>
+    <choose>
+      <when test="orderName != null and orderType != null">
+        order by ${orderName} ${orderType}
+      </when>
+      <otherwise>
+        order by id desc
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id="selectByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale_commission
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+      and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="commissionManName != null">
+      and commission_man_name = #{commissionManName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="clerkName != null">
+      and clerk_name = #{clerkName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="status != null">
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+
+    <if test="branchCode != null">
+      and branch_code = #{branchCode,jdbcType=VARCHAR}
+    </if>
+
+    <if test="branchName != null">
+      and INSTR(branch_name,#{branchName,jdbcType=VARCHAR})
+    </if>
+
+    <if test="startDate != null and endDate != null">
+      and commission_date >= #{startDate,jdbcType=TIMESTAMP}
+      and commission_date &lt;= #{endDate,jdbcType=TIMESTAMP}
+    </if>
+    <choose>
+      <when test="orderName != null and orderType != null">
+        order by ${orderName} ${orderType}
+      </when>
+      <otherwise>
+        order by id desc
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id="selectByParamSum" resultType="com.rograndec.feijiayun.chain.business.finance.commission.vo.CommissionResponseTotalVO">
+    select
+
+      sum(amount_total) amountTotal,
+      sum(real_amount_total) royaltyAmount,
+      sum(diff_amount_total) diffAmountTotal
+
+    from saas_sale_commission
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+      and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="commissionManName != null">
+      and commission_man_name = #{commissionManName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="clerkName != null">
+      and clerk_name = #{clerkName,jdbcType=VARCHAR}
+    </if>
+
+    <if test="list != null">
+      and status
+      in
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+
+    <if test="branchCode != null">
+      and branch_code = #{branchCode,jdbcType=VARCHAR}
+    </if>
+
+    <if test="branchName != null">
+      and INSTR(branch_name,#{branchName,jdbcType=VARCHAR})
+    </if>
+
+    <if test="startDate != null and endDate != null">
+      and commission_date >= #{startDate,jdbcType=TIMESTAMP}
+      and commission_date &lt;= #{endDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sale_commission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.commission.entity.SaleCommission" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sale_commission (id, enterprise_id, parent_id, 
+      order_type, code, commission_date, 
+      commission_man_id, commission_man_code, commission_man_name, 
+      clerk_id, clerk_code, clerk_name, 
+      sale_date_from, sale_date_to, amount_total, 
+      real_amount_total, diff_amount_total, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,branch_id,branch_code,branch_name
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{commissionDate,jdbcType=TIMESTAMP}, 
+      #{commissionManId,jdbcType=BIGINT}, #{commissionManCode,jdbcType=VARCHAR}, #{commissionManName,jdbcType=VARCHAR}, 
+      #{clerkId,jdbcType=BIGINT}, #{clerkCode,jdbcType=VARCHAR}, #{clerkName,jdbcType=VARCHAR}, 
+      #{saleDateFrom,jdbcType=TIMESTAMP}, #{saleDateTo,jdbcType=TIMESTAMP}, #{amountTotal,jdbcType=DECIMAL}, 
+      #{realAmountTotal,jdbcType=DECIMAL}, #{diffAmountTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      , #{branchId,jdbcType=BIGINT}
+      , #{branchCode,jdbcType=VARCHAR}
+      , #{branchName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.commission.entity.SaleCommission" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sale_commission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="commissionDate != null">
+        commission_date,
+      </if>
+      <if test="commissionManId != null">
+        commission_man_id,
+      </if>
+      <if test="commissionManCode != null">
+        commission_man_code,
+      </if>
+      <if test="commissionManName != null">
+        commission_man_name,
+      </if>
+      <if test="clerkId != null">
+        clerk_id,
+      </if>
+      <if test="clerkCode != null">
+        clerk_code,
+      </if>
+      <if test="clerkName != null">
+        clerk_name,
+      </if>
+      <if test="saleDateFrom != null">
+        sale_date_from,
+      </if>
+      <if test="saleDateTo != null">
+        sale_date_to,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total,
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+
+      <if test="branchId != null">
+        branch_id,
+      </if>
+      <if test="branchCode != null">
+        branch_code,
+      </if>
+      <if test="branchName != null">
+        branch_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionDate != null">
+        #{commissionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commissionManId != null">
+        #{commissionManId,jdbcType=BIGINT},
+      </if>
+      <if test="commissionManCode != null">
+        #{commissionManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionManName != null">
+        #{commissionManName,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkId != null">
+        #{clerkId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkCode != null">
+        #{clerkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkName != null">
+        #{clerkName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDateFrom != null">
+        #{saleDateFrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleDateTo != null">
+        #{saleDateTo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+
+      <if test="branchId != null">
+        #{branchId,jdbcType=BIGINT},
+      </if>
+      <if test="branchCode != null">
+        #{branchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.commission.entity.SaleCommission">
+    update saas_sale_commission
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionDate != null">
+        commission_date = #{commissionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commissionManId != null">
+        commission_man_id = #{commissionManId,jdbcType=BIGINT},
+      </if>
+      <if test="commissionManCode != null">
+        commission_man_code = #{commissionManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionManName != null">
+        commission_man_name = #{commissionManName,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkId != null">
+        clerk_id = #{clerkId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkCode != null">
+        clerk_code = #{clerkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkName != null">
+        clerk_name = #{clerkName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDateFrom != null">
+        sale_date_from = #{saleDateFrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleDateTo != null">
+        sale_date_to = #{saleDateTo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+
+      <if test="branchId != null">
+        branch_id = #{branchId,jdbcType=BIGINT},
+      </if>
+      <if test="branchCode != null">
+        branch_code = #{branchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        branch_name = #{branchName,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.commission.entity.SaleCommission">
+    update saas_sale_commission
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      commission_date = #{commissionDate,jdbcType=TIMESTAMP},
+      commission_man_id = #{commissionManId,jdbcType=BIGINT},
+      commission_man_code = #{commissionManCode,jdbcType=VARCHAR},
+      commission_man_name = #{commissionManName,jdbcType=VARCHAR},
+      clerk_id = #{clerkId,jdbcType=BIGINT},
+      clerk_code = #{clerkCode,jdbcType=VARCHAR},
+      clerk_name = #{clerkName,jdbcType=VARCHAR},
+      sale_date_from = #{saleDateFrom,jdbcType=TIMESTAMP},
+      sale_date_to = #{saleDateTo,jdbcType=TIMESTAMP},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      branch_id = #{branchId,jdbcType=BIGINT},
+      branch_code = #{branchCode,jdbcType=VARCHAR},
+      branch_name = #{branchName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectNoCommissionsByParam" resultType="com.rograndec.feijiayun.chain.business.finance.commission.vo.NoSaleCommissionDetailResponseVO">
+
+    select
+    a.goods_id as goodsId, -- 商品ID
+    a.goods_code as goodsCode, -- 商品编码
+    a.goods_generic_name as goodsGenericName, -- 商品名称
+    a.dosage_id as dosageId, -- 剂型ID
+    a.dosage_name as dosageName, -- 剂型名称
+    a.goods_specification goodsSpecification, -- 规格
+    a.unit_id as unitId, -- 单位ID
+    a.unit_name as unitName, -- 单位名称
+    a.manufacturer_id as manufacturerId, -- 生产厂家ID
+    a.manufacturer, -- 生产厂家
+    a.quantity quantity, -- 数量
+    a.real_amount as amount, -- 销售总额
+    -- sum(a.quantity) quantity,  -- 数量
+    -- sum(a.real_amount) as realAmount, -- 销售总额
+    e.cost_amount as costAmount, -- 成本总额
+    -- sum(e.cost_amount) as costAmount, -- 成本总额
+    a.real_amount-e.cost_amount, -- 利润总额
+    (a.real_amount - e.cost_amount) / a.real_amount as profitRate, -- 利润率
+    -- (sum(a.real_amount) - sum(e.cost_amount)) as profit, -- 利润总额
+    -- (sum(a.real_amount) - sum(e.cost_amount)) / sum(a.real_amount) as profitRate, -- 利润率
+
+    c.strategy_id as strategyId, -- 策略ID
+    c.stragegy_name as commissionStrategy, -- 策略名称
+    b.id as saleId, -- 基础单据ID
+    a.id as saleDtlId, -- 基础单据明细ID
+    a.clerk_id as clerkId,
+    a.clerk_code as clerkCode,
+    a.clerk_name as clerkName
+    from saas_sale_detail as a
+    inner join saas_sale b on a.enterprise_id = b.enterprise_id and a.sale_id = b.id AND b.sale_type= #{saleType,jdbcType=INTEGER}
+    <choose>
+      <when test="parentId != null">
+        inner join saas_commission_goods c on c.enterprise_id = a.parent_id and a.goods_id = c.goods_id
+      </when>
+      <otherwise>
+        <if test="royaltyRule != null">
+          inner join saas_commission_goods c on c.enterprise_id = a.enterprise_id and a.goods_id = c.goods_id
+        </if>
+        <if test="royaltyRule == null">
+          inner join saas_commission_goods c on c.enterprise_id = a.parent_id and a.goods_id = c.goods_id
+        </if>
+      </otherwise>
+    </choose>
+    inner join saas_in_out_record d on d.direction =  #{direction,jdbcType=INTEGER} and d.enterprise_id = a.enterprise_id and b.id = d.order_id AND d.order_type = #{orderType,jdbcType=INTEGER}
+    inner join saas_in_out_record_detail e on e.direction = #{direction,jdbcType=INTEGER} and e.in_out_id = d.id and e.enterprise_id = a.enterprise_id and e.order_dtl_id = a.id and e.order_id = a.sale_id
+    inner join saas_enterprise p on p.id=a.enterprise_id
+    <if test="parentId != null">
+      inner join saas_enterprise_business business on business.enterprise_id = p.id
+    </if>
+    WHERE a.royalty_flag = 0
+    AND a.enterprise_id = #{branchId,jdbcType=BIGINT}  and  a.clerk_id is not null
+    <if test="chainType != null">
+      AND p.chain_type = #{chainType,jdbcType=INTEGER}
+    </if>
+    <if test="code != null">
+      AND INSTR(p.code,#{code})
+    </if>
+    <if test="name != null">
+      AND INSTR(p.name,#{name})
+    </if>
+    <if test="clerkId != null">
+      AND a.clerk_id = #{clerkId,jdbcType=BIGINT}
+    </if>
+    <if test="startTime != null &amp;&amp; endTime != null">
+      AND a.sale_date >= #{startTime,jdbcType=TIMESTAMP}
+      AND a.sale_date &lt;= #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    order by a.enterprise_id,a.goods_id desc
+  </select>
+</mapper>

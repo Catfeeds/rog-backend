@@ -1,0 +1,1486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.quality.storage.dao.GoodsStorageReportMapper">
+
+   <!--批号调整-->
+    <select id="selectLotAdjustList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LotAdjustReportVO">
+    select 
+    enterprise.code as enterpriseCode,
+    enterprise.name as enterpriseName,
+    adjust.adjust_man_name as adjustManName,
+    adjust.adjust_date as adjustDate,
+    adjust.code as code,
+    adjust.adjust_reason as adjustReason,
+    goods.code as goodsCode,
+    goods.barcode as barcode,
+    goods.generic_name as goodsGenericName,
+    goods.name as goodsName,
+    goods.dosage_name as dosageName,
+    goods.specification as goodsSpecification,
+    goods.unit_name as unitName,
+    goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,
+    goods.approval_number as approvalNumber,
+    goods.business_variety as businessVariety,
+    category.name as categoryName,
+    goods.goods_attribute as goodsAttribute,
+    goods.domestic_import as domesticImport,
+    goods.management_scope_name as managementScopeName,
+    goods.special_drug as specialDrug,
+    goods.in_charge_drug as inChargeDrug,
+    goods.spirit_drug_type as spiritDrugType,
+    goods.formulation_type as formulationType,
+    goods.limit_quantity as limitQuantity,
+    goods.storage_temp as storageTemp,
+    goods.storage_condition_name as storageConditionName,
+    goods.quality_period as qualityPeriod,
+    goods.quality_period_unit as qualityPeriodUnit,
+    detail.lot_num as lotNum,
+    detail.new_lot_num as newLotNum,
+    detail.product_date as productDate,
+    detail.new_product_date as newProductDate,
+    detail.valid_until as validUntil,
+    detail.new_valid_until as newValidUntil
+    from saas_lot_adjust adjust
+    LEFT JOIN saas_lot_adjust_detail detail ON detail.adjust_id=adjust.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id 
+    where adjust.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and adjust.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustManName != null and adjustManName != ''">
+    	and adjust.adjust_man_name = #{adjustManName,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustReason != null and adjustReason != ''">
+    	and adjust.adjust_reason = #{adjustReason,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and adjust.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+      <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+    <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and adjust.adjust_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and adjust.adjust_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+	<if test="sortField != null and sortField != '' and sort != null and sort !=''"> 
+	   order by adjust.${sortField}  ${sort}
+	</if>
+	<if test="pageNo != null and pageNo != '' and pageSize != null and pageSize != '' or pageNo == 0"> 
+	     limit ${pageNo},${pageSize}
+	</if>
+  </select>
+  
+   <select id="selectLotAdjustCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+        from saas_lot_adjust adjust
+    LEFT JOIN saas_lot_adjust_detail detail ON detail.adjust_id=adjust.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    where adjust.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and adjust.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustManName != null and adjustManName != ''">
+    	and adjust.adjust_man_name = #{adjustManName,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustReason != null and adjustReason != ''">
+    	and adjust.adjust_reason = #{adjustReason,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and adjust.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+      <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and adjust.adjust_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and adjust.adjust_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+  <!-- 药品与养护 -->
+    <select id="selectGoodsMaintanceList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsMaintanceReportVO">
+    select
+    enterprise.code as enterpriseCode,
+    enterprise.name as enterpriseName,
+    maintance.maintance_date as maintanceDate,
+    maintance.code, 
+    maintance.maintance_man_name as maintanceManName,
+    maintance.warehouse_area_name as warehouseAreaName,
+    maintance.maintance_type as maintanceType,
+    maintance.goods_type as goodsType,
+    goods.code as goodsCode,
+    goods.barcode as barcode,
+    goods.generic_name as goodsGenericName,
+    goods.name as goodsName,
+    goods.dosage_name as dosageName,
+    goods.specification as goodsSpecification,
+    goods.unit_name as unitName,
+    goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,
+    goods.approval_number as approvalNumber,
+    goods.business_variety as businessVariety,
+    category.name as categoryName,
+    goods.goods_attribute as goodsAttribute,
+    goods.domestic_import as domesticImport,
+    goods.management_scope_name as managementScopeName,
+    goods.special_drug as specialDrug,
+    goods.in_charge_drug as inChargeDrug,
+    goods.spirit_drug_type as spiritDrugType,
+    goods.formulation_type as formulationType,
+    goods.limit_quantity as limitQuantity,
+    goods.storage_temp as storageTemp,
+    goods.storage_condition_name as storageConditionName,
+    goods.quality_period as qualityPeriod,
+    goods.quality_period_unit as qualityPeriodUnit,
+    detail.lot_number as lotNumber,
+    detail.product_date as productDate,
+    detail.valid_date as validDate,
+    detail.shelf_name as shelfName,
+    detail.shelf_status_desc as shelfStatusDesc,
+    detail.measures_ids as measuresIds,
+    detail.qualified_quantity as qualifiedQuantity,
+    detail.unqualified_quantity as unqualifiedQuantity,
+    detail.reason_ids as reasonIds,
+    detail.conclusion_id as conclusionId,
+    detail.handle_measures_ids as handleMeasuresIds,
+    detail.status
+    from saas_goods_maintance maintance
+    LEFT JOIN saas_goods_maintance_detail detail ON detail.maintance_id=maintance.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where maintance.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and maintance.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceManName != null and maintanceManName != ''">
+    	and maintance.maintance_man_name = #{maintanceManName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and maintance.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and maintance.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and maintance.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and maintance.maintance_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and maintance.maintance_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+	<if test="sortField != null and sortField != '' and sort != null and sort !=''"> 
+	   order by maintance.${sortField}  ${sort}
+	</if>
+	<if test="pageNo != null and pageSize != null and pageNo!='' and pageSize != '' or pageNo == 0"> 
+	     limit ${pageNo},${pageSize}
+	</if>
+
+  </select>
+      <select id="selectGoodsMaintanceCountTotal" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsMaintanceCountReportVO">
+    select
+    sum(detail.qualified_quantity) as qualifiedTotal,
+    sum(detail.unqualified_quantity) as unQualifiedTotal
+    from saas_goods_maintance maintance
+    LEFT JOIN saas_goods_maintance_detail detail ON detail.maintance_id=maintance.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where maintance.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and maintance.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceManName != null and maintanceManName != ''">
+    	and maintance.maintance_man_name = #{maintanceManName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and maintance.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and maintance.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and maintance.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and maintance.maintance_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and maintance.maintance_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+     <select id="selectGoodsMaintanceCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+        from saas_goods_maintance maintance
+    LEFT JOIN saas_goods_maintance_detail detail ON detail.maintance_id=maintance.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where maintance.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and maintance.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceManName != null and maintanceManName != ''">
+    	and maintance.maintance_man_name = #{maintanceManName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and maintance.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and maintance.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and maintance.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+     <if test="storageConditionName != null and storageConditionName != ''">
+         and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+     </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and maintance.maintance_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and maintance.maintance_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+  <!-- 陈列检查 -->
+    <select id="selectGoodsDisplayCheckList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsDisplayCheckReportVO">
+    select
+    enterprise.code as enterpriseCode,
+    enterprise.name as enterpriseName,
+    ck.check_date as checkDate,
+    ck.code, 
+    ck.checker_name as checkerName,
+    ck.warehouse_area_name as warehouseAreaName,
+    ck.maintance_type as maintanceType,
+    ck.goods_type as goodsType,
+    goods.code as goodsCode,
+    goods.barcode as barcode,
+    goods.generic_name as goodsGenericName,
+    goods.name as goodsName,
+    goods.business_variety as businessVariety,
+    goods.dosage_name as dosageName,
+    goods.specification as goodsSpecification,
+    goods.unit_name as unitName,
+    goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,
+    goods.approval_number as approvalNumber,
+    category.name as categoryName,
+    goods.goods_attribute as goodsAttribute,
+    goods.domestic_import as domesticImport,
+    goods.management_scope_name as managementScopeName,
+    goods.special_drug as specialDrug,
+    goods.in_charge_drug as inChargeDrug,
+    goods.limit_quantity as limitQuantity,
+    goods.storage_temp as storageTemp,
+    goods.storage_condition_name as storageConditionName,
+    goods.quality_period as qualityPeriod,
+    goods.quality_period_unit as qualityPeriodUnit,
+    detail.lot_number as lotNumber,
+    detail.product_date as productDate,
+    detail.valid_date as validDate,
+    detail.shelf_name as shelfName,
+    detail.shelf_status_desc as shelfStatusDesc,
+    detail.qualified_quantity as qualifiedQuantity,
+    detail.conclusion_id as conclusionId,
+    detail.unqualified_quantity as unqualifiedQuantity,
+    detail.reason_ids as reasonIds,
+    detail.handle_measures_ids as handleMeasuresIds,
+    detail.status,
+        goods.spirit_drug_type AS spiritDrugType,
+        goods.formulation_type AS formulationType,
+
+    detail.measures_ids as measuresIds
+    from saas_goods_display_check ck
+    LEFT JOIN saas_goods_display_check_detail detail ON detail.check_id=ck.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where ck.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and ck.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="checkerName != null and checkerName != ''">
+    	and ck.checker_name = #{checkerName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and ck.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and ck.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and ck.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+        <if test="storageConditionName != null and storageConditionName != ''">
+            and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+        </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and ck.check_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and ck.check_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+	<if test="sortField != null and sortField != '' and sort != null and sort !=''"> 
+	   order by ck.${sortField}  ${sort}
+	</if>
+    <if test="pageNo != null and pageNo != '' and pageSize != null and pageSize != '' or pageNo == 0"> 
+	     limit ${pageNo},${pageSize}
+	</if>
+  </select>
+       <select id="selectGoodsDisplayCheckCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+        from saas_goods_display_check ck
+    LEFT JOIN saas_goods_display_check_detail detail ON detail.check_id=ck.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where ck.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and ck.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="checkerName != null and checkerName != ''">
+    	and ck.checker_name = #{checkerName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and ck.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and ck.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and ck.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+           <if test="storageConditionName != null and storageConditionName != ''">
+               and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+           </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and ck.check_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and ck.check_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+    </select>
+        <select id="selectGoodsDisplayCheckCountTotal" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsDisplayCheckCountReportVO">
+    select
+    sum(detail.qualified_quantity) as qualifiedTotal,
+    sum(detail.unqualified_quantity) as unQualifiedTotal
+    from saas_goods_display_check ck
+    LEFT JOIN saas_goods_display_check_detail detail ON detail.check_id=ck.id and detail.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=detail.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    where ck.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code !=''">
+        and ck.code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="checkerName != null and checkerName != ''">
+    	and ck.checker_name = #{checkerName,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsType != null and goodsType != ''">
+    	and ck.goods_type = #{goodsType,jdbcType=VARCHAR}
+    </if>
+    <if test="maintanceType != null and maintanceType != ''">
+    	and ck.maintance_type = #{maintanceType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null and status != ''">
+    	and ck.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+            <if test="storageConditionName != null and storageConditionName != ''">
+                and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+            </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate != ''" > 
+	    and ck.check_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and ck.check_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+  <!-- 不合格商品 -->
+    <select id="selectGoodsUnqualifiedList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsUnqualifiedReportVO">
+    select
+    enterprise.code as enterpriseCode,
+    enterprise.name as enterpriseName,
+    stock.quantity,
+    stock.shelf_name as shelfName,
+    stock.shelf_status_desc as shelfStatusDesc,
+    lot.lot_num as lotNumber,
+    lot.product_date as productDate,
+    lot.valid_until as validDate,
+    goods.code as goodsCode,
+    goods.barcode as barcode,
+        goods.spirit_drug_type AS spiritDrugType,
+        goods.formulation_type AS formulationType,
+    goods.generic_name as goodsGenericName,
+    goods.name as goodsName,
+    goods.dosage_name as dosageName,
+    goods.specification as goodsSpecification,
+    goods.unit_name as unitName,
+    goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,
+    goods.approval_number as approvalNumber,
+    category.name as categoryName,
+    goods.business_variety as businessVariety,
+    goods.goods_attribute as goodsAttribute,
+    goods.domestic_import as domesticImport,
+    goods.management_scope_name as managementScopeName,
+    goods.special_drug as specialDrug,
+    goods.in_charge_drug as inChargeDrug,
+    goods.limit_quantity as limitQuantity,
+    goods.storage_temp as storageTemp,
+    goods.storage_condition_name as storageConditionName,
+    goods.quality_period as qualityPeriod,
+    goods.quality_period_unit as qualityPeriodUnit
+    from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    RIGHT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and area.job_type = 0 and area.job_area = 2
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+        <if test="storageConditionName != null and storageConditionName != ''">
+            and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+        </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+     <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+	<if test="pageNo != null and pageNo != '' and pageSize != null and pageSize != '' or pageNo == 0"> 
+	     limit ${pageNo},${pageSize}
+	</if>
+  </select>
+         <select id="selectGoodsUnqualifiedCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+        from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    RIGHT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and area.job_type = 0 and area.job_area = 2
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+        <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+             <if test="storageConditionName != null and storageConditionName != ''">
+                 and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+             </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+    </select>
+        <select id="selectGoodsUnqualifiedCountTotal" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsUnqualifiedCountReportVO">
+    select
+    sum(stock.quantity) as quantityTotal
+    from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    RIGHT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and area.job_type = 0 and area.job_area = 2
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+        LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+            <if test="storageConditionName != null and storageConditionName != ''">
+                and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+            </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+     <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+    <!-- 过期商品 -->
+    <select id="selectGoodsExpireList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsExpireReportVO">
+    select
+    enterprise.code as enterpriseCode,
+    enterprise.name as enterpriseName,
+    stock.quantity,
+    stock.shelf_name as shelfName,
+    stock.shelf_status_desc as shelfStatusDesc,
+    lot.lot_num as lotNumber,
+    lot.product_date as productDate,
+    lot.valid_until as validDate,
+    goods.code as goodsCode,
+    goods.barcode as barcode,
+    goods.generic_name as goodsGenericName,
+    goods.name as goodsName,
+    goods.dosage_name as dosageName,
+    goods.specification as goodsSpecification,
+    goods.unit_name as unitName,
+    goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,
+    goods.approval_number as approvalNumber,
+    category.name as categoryName,
+    goods.business_variety as businessVariety,
+    goods.goods_attribute as goodsAttribute,
+        goods.spirit_drug_type AS spiritDrugType,
+        goods.formulation_type AS formulationType,
+    goods.domestic_import as domesticImport,
+    goods.management_scope_name as managementScopeName,
+    goods.special_drug as specialDrug,
+    goods.in_charge_drug as inChargeDrug,
+    goods.limit_quantity as limitQuantity,
+    goods.storage_temp as storageTemp,
+    goods.storage_condition_name as storageConditionName,
+    goods.quality_period as qualityPeriod,
+    goods.quality_period_unit as qualityPeriodUnit
+    from saas_stock stock
+    RIGHT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and now() &gt;= lot.valid_until
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+        LEFT JOIN saas_goods_category category ON category.id=goods.category_id
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+	<if test="pageNo != null and pageNo != '' and pageSize != null and pageSize != '' or pageNo == 0"> 
+	     limit ${pageNo},${pageSize}
+	</if>
+
+  </select>
+    <select id="selectGoodsExpireCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+        from saas_stock stock
+    RIGHT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and now() &gt;= lot.valid_until
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+        LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+    </select>
+        <select id="selectGoodsExpireCountTotal" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsExpireCountReportVO">
+    select
+    sum(stock.quantity) as quantityTotal
+    from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id and lot.enterprise_id=#{enterpriseId,jdbcType=BIGINT} and now() &gt;= lot.valid_until
+    LEFT JOIN saas_goods goods ON goods.id=stock.goods_id and goods.enterprise_id=#{parentId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = stock.shelf_id and shelf.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    LEFT JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId,jdbcType=BIGINT}
+        LEFT JOIN saas_goods_category category ON category.id=goods.category_id and category.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    where stock.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+        <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+      <if test="chainType != null and chainType !=''">
+        and enterprise.chain_type = #{chainType,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseCode != null and enterpriseCode !=''">
+        and enterprise.code = #{enterpriseCode,jdbcType=VARCHAR}
+    </if>
+    <if test="enterpriseName != null and enterpriseName !=''">
+        and enterprise.name = #{enterpriseName,jdbcType=VARCHAR}
+    </if>
+     <if test="categoryId != null and categoryId != ''">
+    	and category.id = #{categoryId,jdbcType=VARCHAR}
+    </if>
+    <if test="domesticImport != null and domesticImport != ''">
+    	and goods.domestic_import = #{domesticImport,jdbcType=VARCHAR}
+    </if>
+        <if test="storageTemp != null and storageTemp != ''">
+    	and goods.storage_temp = #{storageTemp,jdbcType=VARCHAR}
+    </if>
+    <if test="storageConditionName != null and storageConditionName != ''">
+    	and goods.storage_condition_name = #{storageConditionName,jdbcType=VARCHAR}
+    </if>
+    <if test="registeredTrademark != null and registeredTrademark != ''">
+    	and goods.registered_trademark = #{registeredTrademark,jdbcType=VARCHAR}
+    </if>
+    <if test="brand != null and brand != ''">
+    	and goods.brand = #{brand,jdbcType=VARCHAR}
+    </if>
+    <if test="goodsAttribute != null and goodsAttribute != ''">
+    	and goods.goods_attribute = #{goodsAttribute,jdbcType=VARCHAR}
+    </if>
+        <if test="otcType != null and otcType != ''">
+    	and goods.otc_type = #{otcType,jdbcType=VARCHAR}
+    </if>
+    <if test="prescriptionDrug != null and prescriptionDrug != ''">
+    	and goods.prescription_drug = #{prescriptionDrug,jdbcType=VARCHAR}
+    </if>
+    <if test="managementScopeId != null and managementScopeId != ''">
+    	and goods.management_scope_id = #{managementScopeId,jdbcType=VARCHAR}
+    </if>
+    <if test="specialDrug != null and specialDrug != ''">
+    	and goods.special_drug = #{specialDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="spiritDrugType != null and spiritDrugType != ''">
+    	and goods.spirit_drug_type = #{spiritDrugType,jdbcType=VARCHAR}
+    </if>
+    <if test="inChargeDrug != null and inChargeDrug != ''">
+    	and goods.inCharge_drug = #{inChargeDrug,jdbcType=VARCHAR}
+    </if>
+        <if test="formulationType != null and formulationType != ''">
+    	and goods.formulation_type = #{formulationType,jdbcType=VARCHAR}
+    </if>
+    <if test="param != null and param != ''">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	</if>
+  </select>
+  <!-- 温湿度 -->
+  <resultMap type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.TemperatureHumidityReportVO" id="ResponseTempHumVOMap">  
+        <id column="aId" property="recordId"/>  
+        <result column="record_date" property="recordDate"/>  
+        <result column="record_man_name" property="recordManName"/>  
+        <result column="warehouse_name" property="warehouseName"/> 
+        <result column="warehouse_area_name" property="warehouseAreaName"/> 
+        <result column="temp_low_limit" property="tempLowLimit"/> 
+        <result column="temp_high_limit" property="tempHighLimit"/> 
+        <result column="humidity_low_limit" property="humidityLowLimit"/> 
+        <result column="humidity_high_limit" property="humidityHighLimit"/> 
+        <result column="file_id" property="fileId"/> 
+        <result column="file_key" property="fileKey"/>
+        <collection property="temperatureHumidityDetailReportVOList" ofType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.TemperatureHumidityDetailReportVO">  
+            <id column="cId" property="detailId"/>  
+            <result column="am_time" property="amTime"/>  
+            <result column="am_temp_a" property="amTempA"/>
+            <result column="am_humidity_a" property="amHumidityA"/>
+            <result column="am_measure" property="amMeasure"/>
+            <result column="am_temp_b" property="amTempB"/>
+            <result column="am_humidity_b" property="amHumidityB"/>
+            <result column="pm_time" property="pmTime"/>
+            <result column="pm_temp_a" property="pmTempA"/>
+            <result column="pm_humidity_a" property="pmHumidityA"/>
+            <result column="pm_measure" property="pmMeasure"/>
+            <result column="pm_temp_b" property="pmTempB"/>
+            <result column="pm_humidity_b" property="pmHumidityB"/>
+            <result column="line_num" property="lineNum"/>
+        </collection>  
+    </resultMap>  
+  <select id="selectTemperatureHumidityList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.TemperatureHumidityReportVO">
+SELECT 
+      enterprise.code as enterpriseCode,
+      enterprise.name as enterpriseName,
+	  a.id AS recordId,
+	  a.record_date AS recordDate,
+	  a.record_man_name AS recordManName,
+	  a.warehouse_name AS warehouseName,
+	  a.warehouse_area_name AS warehouseAreaName,
+	  b.temp_low_limit AS tempLowLimit,
+	  b.temp_high_limit AS tempHighLimit,
+	  b.humidity_low_limit AS humidityLowLimit,
+	  b.humidity_high_limit AS humidityHighLimit,
+	  a.file_id AS fileId 
+	FROM
+	  saas_temperature_humidity a 
+	  LEFT JOIN saas_warehouse_area AS b 
+	    ON b.id = a.warehouse_area_id
+	  LEFT JOIN saas_enterprise enterprise ON enterprise.id=a.enterprise_id
+	WHERE a.enterprise_id = #{enterpriseId} 
+	<if test="chainType!=null and chainType!=''">
+	AND enterprise.chain_type=#{chainType}
+	</if>
+    <if test="enterpriseCode!=null and enterpriseCode!=''">
+	AND enterprise.code=#{enterpriseCode}
+	</if>
+	<if test="enterpriseCode!=null and enterpriseCode!=''">
+	AND enterprise.name=#{enterpriseCode}
+	</if>
+	<if test="startDate != null and startDate != ''" > 
+	    and a.record_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and a.record_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+	LIMIT #{pageNo},#{pageSize}
+  </select>
+      <select id="selectTemperatureHumidityCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    	FROM
+	  saas_temperature_humidity AS a 
+	  LEFT JOIN saas_warehouse_area AS b 
+	    ON b.id = a.warehouse_area_id 
+	  LEFT JOIN saas_enterprise enterprise
+	   ON enterprise.id=a.enterprise_id
+	WHERE a.enterprise_id = #{enterpriseId} 
+	<if test="chainType!=null and chainType!=''">
+	AND enterprise.chain_type=#{chainType}
+	</if>
+    <if test="enterpriseCode!=null and enterpriseCode!=''">
+	AND enterprise.code=#{enterpriseCode}
+	</if>
+	<if test="enterpriseCode!=null and enterpriseCode!=''">
+	AND enterprise.name=#{enterpriseCode}
+	</if>
+    <if test="startDate != null and startDate != ''" > 
+	    and a.record_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate != ''"> 
+	    and a.record_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    </select>
+   <select id="selectTempHumidityRecordDtlList" resultMap="ResponseTempHumVOMap">
+	  SELECT 
+	  a.`id` AS aId, a.`record_date`, `record_man_name`, `warehouse_name`,a.`warehouse_id` AS warehouseId,a.`warehouse_area_id` AS warehouseAreaId,
+	  `warehouse_area_name`, `temp_low_limit`, `temp_high_limit`,`humidity_low_limit`,`humidity_high_limit`,
+	  `file_id`,c.`id` AS cId,`record_man_id`,
+	  `am_time`, `am_temp_a`,`am_humidity_a`, `am_measure`, `am_temp_b`, `am_humidity_b`,
+	  `pm_time`, `pm_temp_a`, `pm_humidity_a`, `pm_measure`, `pm_temp_b`, `pm_humidity_b`,`line_num` 
+	FROM
+	  `saas_temperature_humidity` AS a 
+	  LEFT JOIN `saas_warehouse_area` AS b 
+	    ON b.`id` = a.`warehouse_area_id` 
+	  LEFT JOIN `saas_file` AS d ON d.`id`=a.`file_id`
+	  LEFT JOIN `saas_temperature_humidity_detail` c 
+	    ON c.`record_id` = a.`id` 
+	WHERE a.`id` =#{id}
+  </select>
+</mapper>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.aftersale.recall.dao.RecallRecordMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.aftersale.recall.entity.RecallRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="recall_date" jdbcType="TIMESTAMP" property="recallDate" />
+    <result column="return_unit_id" jdbcType="BIGINT" property="returnUnitId" />
+    <result column="return_unit_code" jdbcType="VARCHAR" property="returnUnitCode" />
+    <result column="return_unit_name" jdbcType="VARCHAR" property="returnUnitName" />
+    <result column="recall_man_id" jdbcType="BIGINT" property="recallManId" />
+    <result column="recall_man_code" jdbcType="VARCHAR" property="recallManCode" />
+    <result column="recall_man_name" jdbcType="VARCHAR" property="recallManName" />
+    <result column="handle_measures" jdbcType="INTEGER" property="handleMeasures" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="RecallRecordVO" type="com.rograndec.feijiayun.chain.business.aftersale.recall.vo.RecallRecordVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="recall_date" jdbcType="TIMESTAMP" property="recallDate" />
+    <result column="return_unit_id" jdbcType="BIGINT" property="returnUnitId" />
+    <result column="return_unit_code" jdbcType="VARCHAR" property="returnUnitCode" />
+    <result column="return_unit_name" jdbcType="VARCHAR" property="returnUnitName" />
+    <result column="recall_man_id" jdbcType="BIGINT" property="recallManId" />
+    <result column="recall_man_code" jdbcType="VARCHAR" property="recallManCode" />
+    <result column="recall_man_name" jdbcType="VARCHAR" property="recallManName" />
+    <result column="handle_measures" jdbcType="INTEGER" property="handleMeasures" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, base_order_id, base_order_type, base_order_code, base_order_date,
+    recall_date, return_unit_id,
+    return_unit_code, return_unit_name, recall_man_id, recall_man_code,
+    recall_man_name, handle_measures, quantity_total, varieties_quantity, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_recall_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByRecallPlanId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_recall_record
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and base_order_id = #{baseOrderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseId" resultMap="RecallRecordVO">
+    select
+    <include refid="Base_Column_List" />
+    from saas_recall_record
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="param.startDate != null and param.endDate != null">
+      and recall_date between #{param.startDate} and #{param.endDate}
+    </if>
+    <if test="param.code != null">
+      and code = #{param.code}
+    </if>
+    <if test="param.recallManName != null">
+      and recall_man_name like CONCAT('%',#{param.recallManName},'%')
+    </if>
+    <if test="param.handleMeasures != null">
+      and handle_measures = #{param.handleMeasures}
+    </if>
+    <if test="param.orderName != null and param.orderType != null">
+      order by ${param.orderName} ${param.orderType}
+    </if>
+    <if test="param.orderName == null and param.orderType == null">
+      order by id desc
+    </if>
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_recall_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.aftersale.recall.entity.RecallRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_recall_record (enterprise_id, parent_id,
+      order_type, code, base_order_id, base_order_type, base_order_code, base_order_date, recall_date,
+      return_unit_id, return_unit_code, return_unit_name,
+      recall_man_id, recall_man_code, recall_man_name, 
+      handle_measures, quantity_total, varieties_quantity, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{baseOrderId,jdbcType=BIGINT},
+      #{baseOrderType,jdbcType=INTEGER},  #{baseOrderCode,jdbcType=VARCHAR},  #{baseOrderDate,jdbcType=TIMESTAMP}, #{recallDate,jdbcType=TIMESTAMP},
+      #{returnUnitId,jdbcType=BIGINT}, #{returnUnitCode,jdbcType=VARCHAR},#{returnUnitName,jdbcType=VARCHAR},
+      #{recallManId,jdbcType=BIGINT}, #{recallManCode,jdbcType=VARCHAR}, #{recallManName,jdbcType=VARCHAR}, 
+      #{handleMeasures,jdbcType=INTEGER}, #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.aftersale.recall.entity.RecallRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_recall_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="recallDate != null">
+        recall_date,
+      </if>
+      <if test="returnUnitId != null">
+        return_unit_id,
+      </if>
+      <if test="returnUnitCode != null">
+        return_unit_code,
+      </if>
+      <if test="returnUnitName != null">
+        return_unit_name,
+      </if>
+      <if test="recallManId != null">
+        recall_man_id,
+      </if>
+      <if test="recallManCode != null">
+        recall_man_code,
+      </if>
+      <if test="recallManName != null">
+        recall_man_name,
+      </if>
+      <if test="handleMeasures != null">
+        handle_measures,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recallDate != null">
+        #{recallDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnUnitId != null">
+        #{returnUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="returnUnitCode != null">
+        #{returnUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnUnitName != null">
+        #{returnUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="recallManId != null">
+        #{recallManId,jdbcType=BIGINT},
+      </if>
+      <if test="recallManCode != null">
+        #{recallManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recallManName != null">
+        #{recallManName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleMeasures != null">
+        #{handleMeasures,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.aftersale.recall.entity.RecallRecord">
+    update saas_recall_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recallDate != null">
+        recall_date = #{recallDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnUnitId != null">
+        return_unit_id = #{returnUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="returnUnitCode != null">
+        return_unit_code = #{returnUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnUnitName != null">
+        return_unit_name = #{returnUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="recallManId != null">
+        recall_man_id = #{recallManId,jdbcType=BIGINT},
+      </if>
+      <if test="recallManCode != null">
+        recall_man_code = #{recallManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="recallManName != null">
+        recall_man_name = #{recallManName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleMeasures != null">
+        handle_measures = #{handleMeasures,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.aftersale.recall.entity.RecallRecord">
+    update saas_recall_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      recall_date = #{recallDate,jdbcType=TIMESTAMP},
+      return_unit_id = #{returnUnitId,jdbcType=BIGINT},
+      return_unit_code = #{returnUnitCode,jdbcType=VARCHAR},
+      return_unit_name = #{returnUnitName,jdbcType=VARCHAR},
+      recall_man_id = #{recallManId,jdbcType=BIGINT},
+      recall_man_code = #{recallManCode,jdbcType=VARCHAR},
+      recall_man_name = #{recallManName,jdbcType=VARCHAR},
+      handle_measures = #{handleMeasures,jdbcType=INTEGER},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.manage.dao.SafetyStockMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="default_shelf_id" jdbcType="BIGINT" property="defaultShelfId" />
+    <result column="default_shelf_name" jdbcType="VARCHAR" property="defaultShelfName" />
+    <result column="inventory_up" jdbcType="DECIMAL" property="inventoryUp" />
+    <result column="inventory_down" jdbcType="DECIMAL" property="inventoryDown" />
+    <result column="safety_stock" jdbcType="DECIMAL" property="safetyStock" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, chain_type, goods_id, default_shelf_id, default_shelf_name, 
+    inventory_up, inventory_down, safety_stock, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_safety_stock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_safety_stock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+    insert into saas_safety_stock (id, enterprise_id, parent_id, 
+      chain_type, goods_id, default_shelf_id, 
+      default_shelf_name, inventory_up, inventory_down, 
+      safety_stock, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{chainType,jdbcType=INTEGER}, #{goodsId,jdbcType=BIGINT}, #{defaultShelfId,jdbcType=BIGINT}, 
+      #{defaultShelfName,jdbcType=VARCHAR}, #{inventoryUp,jdbcType=DECIMAL}, #{inventoryDown,jdbcType=DECIMAL}, 
+      #{safetyStock,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+    insert into saas_safety_stock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="chainType != null">
+        chain_type,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="defaultShelfId != null">
+        default_shelf_id,
+      </if>
+      <if test="defaultShelfName != null">
+        default_shelf_name,
+      </if>
+      <if test="inventoryUp != null">
+        inventory_up,
+      </if>
+      <if test="inventoryDown != null">
+        inventory_down,
+      </if>
+      <if test="safetyStock != null">
+        safety_stock,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="defaultShelfId != null">
+        #{defaultShelfId,jdbcType=BIGINT},
+      </if>
+      <if test="defaultShelfName != null">
+        #{defaultShelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryUp != null">
+        #{inventoryUp,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryDown != null">
+        #{inventoryDown,jdbcType=DECIMAL},
+      </if>
+      <if test="safetyStock != null">
+        #{safetyStock,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+    update saas_safety_stock
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        chain_type = #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="defaultShelfId != null">
+        default_shelf_id = #{defaultShelfId,jdbcType=BIGINT},
+      </if>
+      <if test="defaultShelfName != null">
+        default_shelf_name = #{defaultShelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryUp != null">
+        inventory_up = #{inventoryUp,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryDown != null">
+        inventory_down = #{inventoryDown,jdbcType=DECIMAL},
+      </if>
+      <if test="safetyStock != null">
+        safety_stock = #{safetyStock,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+    update saas_safety_stock
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      chain_type = #{chainType,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      default_shelf_id = #{defaultShelfId,jdbcType=BIGINT},
+      default_shelf_name = #{defaultShelfName,jdbcType=VARCHAR},
+      inventory_up = #{inventoryUp,jdbcType=DECIMAL},
+      inventory_down = #{inventoryDown,jdbcType=DECIMAL},
+      safety_stock = #{safetyStock,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectSafetyStockByGoodsIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_safety_stock
+    where goods_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+  <select id="selectSafetyStockByIds" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_safety_stock
+    where id in 
+		<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+  <select id="selectByGoodsIdsAndEnterpriseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_safety_stock
+    where enterprise_id = #{enterpriseId}
+    	and goods_id in 
+		<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+  <select id="selectByGoodsIdAndEnterpriseId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_safety_stock
+      where enterprise_id = #{enterpriseId}
+      and goods_id =#{goodsId}
+  </select>
+
+    <update id="batchUpdate"  parameterType="java.util.List">
+      <foreach collection="list" item="item" index="index" open="" close="">  
+      			update saas_safety_stock 
+             <set>  
+               	default_shelf_id=#{item.defaultShelfId},
+               	default_shelf_name=#{item.defaultShelfName},
+               	inventory_up=#{item.inventoryUp},
+               	inventory_down=#{item.inventoryDown},
+               	safety_stock=#{item.safetyStock},
+               	modifier_id=#{item.modifierId},
+               	modifier_code=#{item.modifierCode},
+               	modifier_name=#{item.modifierName},
+               	update_time=now()
+             </set>  	
+             where id = #{item.id};  
+      </foreach>  
+  </update>
+  
+  <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    insert into saas_safety_stock (enterprise_id, parent_id,
+    chain_type, goods_id, status,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code, modifier_name, update_time)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.enterpriseId,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT},
+      #{item.chainType,jdbcType=INTEGER}, #{item.goodsId,jdbcType=BIGINT},#{item.status,jdbcType=INTEGER},
+      #{item.createrId,jdbcType=BIGINT}, #{item.createrCode,jdbcType=VARCHAR}, #{item.createrName,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.modifierId,jdbcType=BIGINT}, #{item.modifierCode,jdbcType=VARCHAR}, #{item.modifierName,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+
+  <update id="updateDefaultShelfByGoodsId" parameterType="com.rograndec.feijiayun.chain.business.goods.manage.entity.SafetyStock">
+      UPDATE saas_safety_stock
+      SET
+       default_shelf_id = #{defaultShelfId,jdbcType=BIGINT},
+       default_shelf_name = #{defaultShelfName,jdbcType=VARCHAR},
+       modifier_id = #{modifierId,jdbcType=BIGINT},
+       modifier_code = #{modifierCode,jdbcType=VARCHAR},
+       modifier_name = #{modifierName,jdbcType=VARCHAR},
+       update_time = now()
+      WHERE
+       goods_id = #{goodsId}
+       and enterprise_id = #{enterpriseId}
+       and parent_id = #{parentId}
+  </update>
+  
+</mapper>

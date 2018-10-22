@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.quality.file.dao.QualityManageSystemFileMapper">
+    <resultMap id="BaseResultMap"
+               type="com.rograndec.feijiayun.chain.business.quality.file.entity.QualityManageSystemFile">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="file_type" jdbcType="INTEGER" property="fileType"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="purpose" jdbcType="VARCHAR" property="purpose"/>
+        <result column="draft_man" jdbcType="VARCHAR" property="draftMan"/>
+        <result column="audit_man" jdbcType="VARCHAR" property="auditMan"/>
+        <result column="approval_man" jdbcType="VARCHAR" property="approvalMan"/>
+        <result column="draft_date" jdbcType="TIMESTAMP" property="draftDate"/>
+        <result column="approval_date" jdbcType="TIMESTAMP" property="approvalDate"/>
+        <result column="execute_date" jdbcType="TIMESTAMP" property="executeDate"/>
+        <result column="change_time" jdbcType="TIMESTAMP" property="changeTime"/>
+        <result column="version_code" jdbcType="VARCHAR" property="versionCode"/>
+        <result column="confer_dept_id" jdbcType="BIGINT" property="conferDeptId"/>
+        <result column="confer_dept_code" jdbcType="VARCHAR" property="conferDeptCode"/>
+        <result column="confer_dept_name" jdbcType="VARCHAR" property="conferDeptName"/>
+        <result column="store_man" jdbcType="VARCHAR" property="storeMan"/>
+        <result column="receive_dept_ids" jdbcType="VARCHAR" property="receiveDeptIds"/>
+        <result column="file_id" jdbcType="BIGINT" property="fileId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="creater_code" jdbcType="VARCHAR" property="createrCode"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId"/>
+        <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode"/>
+        <result column="modifier_name" jdbcType="VARCHAR" property="modifierName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="operate_date" jdbcType="TIMESTAMP" property="operateDate"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operate_remark" jdbcType="VARCHAR" property="operateRemark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, file_type, file_code, file_name, type, purpose, draft_man, 
+    audit_man, approval_man, draft_date, approval_date, execute_date, change_time, version_code, 
+    confer_dept_id, confer_dept_code, confer_dept_name, store_man, receive_dept_ids, 
+    file_id, status, remark, creater_id, creater_code,
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time,operate_date,operator,operate_remark
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_quality_manage_system_file
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_quality_manage_system_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert"
+            parameterType="com.rograndec.feijiayun.chain.business.quality.file.entity.QualityManageSystemFile"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into saas_quality_manage_system_file (id, enterprise_id, parent_id, 
+      file_type, file_code, file_name, 
+      type, purpose, draft_man, 
+      audit_man, approval_man, draft_date, 
+      approval_date, execute_date, change_time, 
+      version_code, confer_dept_id, confer_dept_code, 
+      confer_dept_name, store_man, receive_dept_ids,
+      file_id, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time, operate_date,operator,operate_remark)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{fileType,jdbcType=INTEGER}, #{fileCode,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{purpose,jdbcType=VARCHAR}, #{draftMan,jdbcType=VARCHAR}, 
+      #{auditMan,jdbcType=VARCHAR}, #{approvalMan,jdbcType=VARCHAR}, #{draftDate,jdbcType=TIMESTAMP}, 
+      #{approvalDate,jdbcType=TIMESTAMP}, #{executeDate,jdbcType=TIMESTAMP}, #{changeTime,jdbcType=TIMESTAMP}, 
+      #{versionCode,jdbcType=VARCHAR}, #{conferDeptId,jdbcType=BIGINT}, #{conferDeptCode,jdbcType=VARCHAR}, 
+      #{conferDeptName,jdbcType=VARCHAR}, #{storeMan,jdbcType=VARCHAR}, #{receiveDeptIds,jdbcType=VARCHAR},
+      #{fileId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+      #{operateDate,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, #{operateRemark,jdbcType=VARCHAR} )
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.rograndec.feijiayun.chain.business.quality.file.entity.QualityManageSystemFile"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into saas_quality_manage_system_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="fileType != null">
+                file_type,
+            </if>
+            <if test="fileCode != null">
+                file_code,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="purpose != null">
+                purpose,
+            </if>
+            <if test="draftMan != null">
+                draft_man,
+            </if>
+            <if test="auditMan != null">
+                audit_man,
+            </if>
+            <if test="approvalMan != null">
+                approval_man,
+            </if>
+            <if test="draftDate != null">
+                draft_date,
+            </if>
+            <if test="approvalDate != null">
+                approval_date,
+            </if>
+            <if test="executeDate != null">
+                execute_date,
+            </if>
+            <if test="changeTime != null">
+                change_time,
+            </if>
+            <if test="versionCode != null">
+                version_code,
+            </if>
+            <if test="conferDeptId != null">
+                confer_dept_id,
+            </if>
+            <if test="conferDeptCode != null">
+                confer_dept_code,
+            </if>
+            <if test="conferDeptName != null">
+                confer_dept_name,
+            </if>
+            <if test="storeMan != null">
+                store_man,
+            </if>
+            <if test="receiveDeptIds != null">
+                receive_dept_ids,
+            </if>
+            <if test="fileId != null">
+                file_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createrCode != null">
+                creater_code,
+            </if>
+            <if test="createrName != null">
+                creater_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifierId != null">
+                modifier_id,
+            </if>
+            <if test="modifierCode != null">
+                modifier_code,
+            </if>
+            <if test="modifierName != null">
+                modifier_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="operateDate != null">
+                operate_date,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="operateRemark != null">
+                operate_remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="fileType != null">
+                #{fileType,jdbcType=INTEGER},
+            </if>
+            <if test="fileCode != null">
+                #{fileCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="purpose != null">
+                #{purpose,jdbcType=VARCHAR},
+            </if>
+            <if test="draftMan != null">
+                #{draftMan,jdbcType=VARCHAR},
+            </if>
+            <if test="auditMan != null">
+                #{auditMan,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalMan != null">
+                #{approvalMan,jdbcType=VARCHAR},
+            </if>
+            <if test="draftDate != null">
+                #{draftDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="approvalDate != null">
+                #{approvalDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="executeDate != null">
+                #{executeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="changeTime != null">
+                #{changeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="versionCode != null">
+                #{versionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="conferDeptId != null">
+                #{conferDeptId,jdbcType=BIGINT},
+            </if>
+            <if test="conferDeptCode != null">
+                #{conferDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="conferDeptName != null">
+                #{conferDeptName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeMan != null">
+                #{storeMan,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveDeptIds != null">
+                #{receiveDeptIds,jdbcType=VARCHAR},
+            </if>
+            <if test="fileId != null">
+                #{fileId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateDate != null">
+                #{operateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operateRemark != null">
+                #{operateRemark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.rograndec.feijiayun.chain.business.quality.file.entity.QualityManageSystemFile">
+        update saas_quality_manage_system_file
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="fileType != null">
+                file_type = #{fileType,jdbcType=INTEGER},
+            </if>
+            <if test="fileCode != null">
+                file_code = #{fileCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="purpose != null">
+                purpose = #{purpose,jdbcType=VARCHAR},
+            </if>
+            <if test="draftMan != null">
+                draft_man = #{draftMan,jdbcType=VARCHAR},
+            </if>
+            <if test="auditMan != null">
+                audit_man = #{auditMan,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalMan != null">
+                approval_man = #{approvalMan,jdbcType=VARCHAR},
+            </if>
+            <if test="draftDate != null">
+                draft_date = #{draftDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="approvalDate != null">
+                approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="executeDate != null">
+                execute_date = #{executeDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="changeTime != null">
+                change_time = #{changeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="versionCode != null">
+                version_code = #{versionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="conferDeptId != null">
+                confer_dept_id = #{conferDeptId,jdbcType=BIGINT},
+            </if>
+            <if test="conferDeptCode != null">
+                confer_dept_code = #{conferDeptCode,jdbcType=VARCHAR},
+            </if>
+            <if test="conferDeptName != null">
+                confer_dept_name = #{conferDeptName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeMan != null">
+                store_man = #{storeMan,jdbcType=VARCHAR},
+            </if>
+            <if test="receiveDeptIds != null">
+                receive_dept_ids = #{receiveDeptIds,jdbcType=VARCHAR},
+            </if>
+            <if test="fileId != null">
+                file_id = #{fileId,jdbcType=BIGINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operateDate != null">
+                operate_date = #{operateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operateRemark != null">
+                operate_remark = #{operateRemark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.rograndec.feijiayun.chain.business.quality.file.entity.QualityManageSystemFile">
+    update saas_quality_manage_system_file
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      file_type = #{fileType,jdbcType=INTEGER},
+      file_code = #{fileCode,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      draft_man = #{draftMan,jdbcType=VARCHAR},
+      audit_man = #{auditMan,jdbcType=VARCHAR},
+      approval_man = #{approvalMan,jdbcType=VARCHAR},
+      draft_date = #{draftDate,jdbcType=TIMESTAMP},
+      approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+      execute_date = #{executeDate,jdbcType=TIMESTAMP},
+      change_time = #{changeTime,jdbcType=TIMESTAMP},
+      version_code = #{versionCode,jdbcType=VARCHAR},
+      confer_dept_id = #{conferDeptId,jdbcType=BIGINT},
+      confer_dept_code = #{conferDeptCode,jdbcType=VARCHAR},
+      confer_dept_name = #{conferDeptName,jdbcType=VARCHAR},
+      store_man = #{storeMan,jdbcType=VARCHAR},
+      receive_dept_ids = #{receiveDeptIds,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operate_date = #{operateDate,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      operate_remark = #{operateRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="queryCountByStatusAndTypePage" resultType="java.lang.Long">
+        select
+        count(1)
+        from saas_quality_manage_system_file
+        where enterprise_id = #{enterpriseId}
+        <if test="(type != 7 or type != 6) and type != null and type != ''">
+            AND ( file_type = #{type})
+        </if>
+        <if test="types != null and types != ''">
+            AND file_type IN
+            <foreach item="item" index="index" collection="types"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="status != 6 and status != null and status != ''">
+            AND ( status = #{status})
+        </if>
+        <if test="statuss != null and statuss != ''">
+            AND status IN
+            <foreach item="item" index="index" collection="statuss"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="key != null and key != ''">
+            AND (
+            INSTR(file_code , #{key})
+            OR INSTR(file_name , #{key})
+            )
+        </if>
+    </select>
+    <select id="selectByStatusAndType"
+            resultType="com.rograndec.feijiayun.chain.business.quality.file.vo.QualityManageSystemFilePageVO">
+        SELECT
+        sqmsf.id,
+        sqmsf.file_type AS fileType,
+        sqmsf.file_code AS fileCode,
+        sqmsf.file_name AS fileName,
+        sqmsf.type,
+        sqmsf.purpose,
+        sqmsf.draft_man AS draftMan,
+        sqmsf.audit_man AS auditMan,
+        sqmsf.approval_man AS approvalMan,
+        sqmsf.draft_date AS draftDate,
+        sqmsf.approval_date AS approvalDate,
+        sqmsf.execute_date AS executeDate,
+        sqmsf.change_time AS changeTime,
+        sqmsf.version_code AS versionCode,
+        sqmsf.confer_dept_name AS conferDeptName,
+        sqmsf.store_man AS storeMan,
+        sqmsf.receive_dept_ids AS receiveDeptIds,
+        sqmsf.file_id AS fileId,
+        sf.file_name AS fileIdName,
+        sqmsf.status
+        FROM
+        saas_quality_manage_system_file sqmsf
+        LEFT JOIN saas_file sf ON sf.id = sqmsf.file_id
+        WHERE
+        sqmsf.enterprise_id = #{enterpriseId}
+        <if test="(type != 7 or type != 6) and type != null and type != ''">
+            AND ( sqmsf.file_type = #{type})
+        </if>
+        <if test="types != null and types != ''">
+            AND sqmsf.file_type IN
+            <foreach item="item" index="index" collection="types"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="status != 6 and status != null and status != ''">
+            AND ( sqmsf.status = #{status})
+        </if>
+        <if test="statuss != null and statuss != ''">
+            AND sqmsf.status IN
+            <foreach item="item" index="index" collection="statuss"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="key != null and key != ''">
+            AND (
+            INSTR(sqmsf.file_code , #{key})
+            OR INSTR(sqmsf.file_name , #{key})
+            )
+        </if>
+        <if test="orderName != null and orderType!=null ">
+            ORDER BY ${orderName} ${orderType}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="selectByDeptIds"
+            resultType="com.rograndec.feijiayun.chain.business.quality.file.vo.QualityManageSystemFilePageVO">
+        SELECT
+        GROUP_CONCAT(name) AS receiveDeptIdsName
+        FROM saas_department
+        where 1 = 1
+        <if test="deptId != null and deptId != ''">
+            AND id IN
+            <foreach item="item" index="index" collection="deptId"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectByIdAndEnterpriseId"
+            resultType="com.rograndec.feijiayun.chain.business.quality.file.vo.GetQualityManageSystemFileVO">
+      SELECT
+        sqmsf.id,
+        sqmsf.file_type AS fileType,
+        sqmsf.file_code AS fileCode,
+        sqmsf.file_name AS fileName,
+        sqmsf.type,
+        sqmsf.purpose,
+        sqmsf.draft_man AS draftMan,
+        sqmsf.audit_man AS auditMan,
+        sqmsf.approval_man AS approvalMan,
+        sqmsf.draft_date AS draftDate,
+        sqmsf.approval_date AS approvalDate,
+        sqmsf.execute_date AS executeDate,
+        sqmsf.change_time AS changeTime,
+        sqmsf.version_code AS versionCode,
+        sqmsf.confer_dept_id AS conferDeptIdTwo,
+        sqmsf.confer_dept_code AS conferDeptCode,
+        sqmsf.confer_dept_name AS conferDeptName,
+        sqmsf.store_man AS storeMan,
+        sqmsf.receive_dept_ids AS receiveDeptIdsTwo,
+        sqmsf.operate_date AS operateDate,
+        sqmsf.operator AS operator,
+        sqmsf.operate_remark AS operateRemark,
+        sqmsf.file_id AS fileId,
+        sf.file_name AS fileIdName,
+        sqmsf.status,
+        sqmsf.remark
+        FROM
+        saas_quality_manage_system_file sqmsf
+        LEFT JOIN saas_file sf ON sf.id = sqmsf.file_id
+        WHERE
+        sqmsf.enterprise_id = #{enterpriseId}
+        AND sqmsf.id = #{id}
+    </select>
+    <update id="updateData"
+            parameterType="com.rograndec.feijiayun.chain.business.quality.file.vo.UpdateQualityManageSystemFileVO">
+        update saas_quality_manage_system_file
+        SET
+          operate_date = #{operateDate},
+          operator = #{operator},
+          operate_remark = #{operateRemark},
+          status = #{status}
+        WHERE id = #{id}
+        AND enterprise_id = #{enterpriseId}
+    </update>
+</mapper>

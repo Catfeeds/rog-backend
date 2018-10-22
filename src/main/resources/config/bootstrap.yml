@@ -1,0 +1,104 @@
+spring:
+  application.name: chain-backend
+  profiles.active: test
+  cloud.config.discovery.enabled: true
+  cloud.config.discovery.serviceId: config-server
+  eureka.client.serviceUrl.defaultZone: http://192.168.20.3:9991/eureka
+  rocketmq.name-server: 192.168.20.3:9876;192.168.20.4:9876
+  rocketmq.producer.group: saaschaingroup
+management.security.enabled: false
+logging:
+  level:
+    root: INFO
+  file: ${spring.application.name}.log
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/javascript,text/css,text/xml,text/plain
+    min-response-size: 2048
+  servlet-path: /api
+
+eureka:
+    instance:
+        preferIpAddress: true
+    client:
+        registerWithEureka: true
+        fetchRegistry: true
+
+---
+spring:
+  profiles: dev_local
+  rocketmq:
+    name-server: nexus.feijiayun.com:9876
+    producer:
+      group: saaschaingroup
+server:
+    port: 9999
+
+eureka:
+      client:
+          serviceUrl:
+              defaultZone: http://nexus.feijiayun.com:9991/eureka
+
+
+---
+spring:
+  profiles: dev
+server:
+    port: 9999
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://192.168.20.3:9991/eureka
+
+---
+spring:
+  profiles: test_jc
+server:
+    port: 9981
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://172.26.10.147:7104/eureka
+
+---
+spring:
+  profiles: test
+server:
+    port: 9999
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://192.168.20.3:9991/eureka
+
+---
+spring:
+  profiles: prod
+server:
+    port: 9999
+
+eureka:
+    client:
+        serviceUrl: 
+            defaultZone: http://192.168.20.3:9991/eureka
+
+---
+spring:
+  profiles: prd_ali
+logging:
+  level:
+    root: INFO
+  path: /rgec/log/autodeploy/java/prd-ali-feijiayun-chain-backend/
+server:
+    port: 7413
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://172.18.110.238:7404/eureka

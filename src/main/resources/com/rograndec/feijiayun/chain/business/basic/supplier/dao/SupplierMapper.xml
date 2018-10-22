@@ -1,0 +1,1501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.supplier.dao.SupplierMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="standard_library_id" jdbcType="BIGINT" property="standardLibraryId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nature" jdbcType="INTEGER" property="nature" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="group_id" jdbcType="BIGINT" property="groupId" />
+    <result column="economic_type" jdbcType="INTEGER" property="economicType" />
+    <result column="business_mode" jdbcType="INTEGER" property="businessMode" />
+    <result column="registered_capital" jdbcType="DECIMAL" property="registeredCapital" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="taxpayer_code" jdbcType="VARCHAR" property="taxpayerCode" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
+    <result column="storage_address" jdbcType="VARCHAR" property="storageAddress" />
+    <result column="postcode" jdbcType="VARCHAR" property="postcode" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="fax" jdbcType="VARCHAR" property="fax" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="site" jdbcType="VARCHAR" property="site" />
+    <result column="sale_man_id" jdbcType="BIGINT" property="saleManId" />
+    <result column="sale_man_code" jdbcType="VARCHAR" property="saleManCode" />
+    <result column="sale_man_name" jdbcType="VARCHAR" property="saleManName" />
+    <result column="business_man_id" jdbcType="BIGINT" property="businessManId" />
+    <result column="business_man_code" jdbcType="VARCHAR" property="businessManCode" />
+    <result column="business_man_name" jdbcType="VARCHAR" property="businessManName" />
+    <result column="legal_man_id" jdbcType="BIGINT" property="legalManId" />
+    <result column="legal_man_code" jdbcType="VARCHAR" property="legalManCode" />
+    <result column="legal_man_name" jdbcType="VARCHAR" property="legalManName" />
+    <result column="quality_officer_id" jdbcType="BIGINT" property="qualityOfficerId" />
+    <result column="quality_officer_code" jdbcType="VARCHAR" property="qualityOfficerCode" />
+    <result column="quality_officer_name" jdbcType="VARCHAR" property="qualityOfficerName" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="bank_account" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="bank_account_name" jdbcType="VARCHAR" property="bankAccountName" />
+    <result column="business_variety" jdbcType="VARCHAR" property="businessVariety" />
+    <result column="business_scope_id" jdbcType="VARCHAR" property="businessScopeId" />
+    <result column="supplier_about" jdbcType="VARCHAR" property="supplierAbout" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="valid_flag" jdbcType="INTEGER" property="validFlag" />
+    <result column="approve_status" jdbcType="INTEGER" property="approveStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, standard_library_id, enterprise_id, chain_type,owner_id, code, name, nature, pinyin, group_id, economic_type, business_mode,
+    registered_capital, province_id, province_name, city_id, city_name, taxpayer_code, area_id, area_name,
+    company_address, storage_address, postcode, tel, fax, email, site, sale_man_id, sale_man_code,
+    sale_man_name, business_man_id, business_man_code, business_man_name, legal_man_id,
+    legal_man_code, legal_man_name, quality_officer_id, quality_officer_code, quality_officer_name,
+    bank_name, bank_account, bank_account_name, business_variety, business_scope_id,
+    supplier_about, status, valid_flag,approve_status, remark, creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and owner_id = #{enterpriseId}
+    and status = '1'
+    and valid_flag = '1'
+    and approve_status = '1'
+  </select>
+
+
+  <select id="selectSupplier" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.purchase.plan.vo.SupplierVO">
+    SELECT ss.id as id,
+    ss.code as code,
+    ss.name as name
+    FROM saas_supplier ss
+    <where>
+      ss.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      and ss.owner_id =  #{ownerId,jdbcType=BIGINT}
+      and ss.valid_flag = 1
+      <if test="approveStatus != null">
+      and ss.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      and ss.status = #{status,jdbcType=INTEGER}
+      <if test="param != null">
+        and (
+        INSTR(ss.name,#{param})
+        or INSTR(ss.code,#{param})
+        or INSTR(ss.pinyin,#{param})
+        )
+      </if>
+    </where>
+    order by id desc
+  </select>
+
+  <select id="selectByEnterpriseIdAndOwnerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="list != null">
+      and owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    and status = '1'
+    and valid_flag = '1'
+    <if test="approveStatus != null">
+     and approve_status = #{approveStatus,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
+  <select id="selectIdNameByEnterpriseId" parameterType="java.lang.Long" resultType="java.util.HashMap">
+    select
+    id,name
+    from saas_supplier
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+    <select id="selectByOwnerIdAndStatusAndApproveStatus" resultType="com.rograndec.feijiayun.chain.business.system.opening.vo.OpeningPaymentReceivableDetailVO">
+        select id as id ,code as code,name as name,'0.00' AS amount,3 as financeAccountType from saas_supplier where
+        status=#{status} and approve_status=#{approveStatus} and owner_id =#{ownerId}
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_supplier
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_supplier (id, enterprise_id, code,
+    name, nature, pinyin,
+    group_id, economic_type, business_mode,
+    registered_capital, province_id, province_name,
+    city_id, city_name, taxpayer_code, area_id,
+    area_name, company_address, storage_address,
+    postcode, tel, fax,
+    email, site, sale_man_id,
+    sale_man_code, sale_man_name, business_man_id,
+    business_man_code, business_man_name, legal_man_id,
+    legal_man_code, legal_man_name, quality_officer_id,
+    quality_officer_code, quality_officer_name,
+    bank_name, bank_account, bank_account_name,
+    business_variety, business_scope_id, supplier_about,
+    status, valid_flag, remark, approve_status,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code
+    modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR}, #{nature,jdbcType=INTEGER}, #{pinyin,jdbcType=VARCHAR},
+    #{groupId,jdbcType=BIGINT}, #{economicType,jdbcType=INTEGER}, #{businessMode,jdbcType=INTEGER},
+    #{registeredCapital,jdbcType=DECIMAL}, #{provinceId,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR},
+    #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{taxpayerCode,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER},
+    #{areaName,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR}, #{storageAddress,jdbcType=VARCHAR},
+    #{postcode,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{saleManId,jdbcType=BIGINT},
+    #{saleManCode,jdbcType=VARCHAR}, #{saleManName,jdbcType=VARCHAR}, #{businessManId,jdbcType=BIGINT},
+    #{businessManCode,jdbcType=VARCHAR}, #{businessManName,jdbcType=VARCHAR}, #{legalManId,jdbcType=BIGINT},
+    #{legalManCode,jdbcType=VARCHAR}, #{legalManName,jdbcType=VARCHAR}, #{qualityOfficerId,jdbcType=BIGINT},
+    #{qualityOfficerCode,jdbcType=VARCHAR}, #{qualityOfficerName,jdbcType=VARCHAR},
+    #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, #{bankAccountName,jdbcType=VARCHAR},
+    #{businessVariety,jdbcType=VARCHAR}, #{businessScopeId,jdbcType=VARCHAR}, #{supplierAbout,jdbcType=VARCHAR},
+    #{status,jdbcType=INTEGER}, #{validFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{approveStatus,jdbcType=INTEGER},
+    #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR},
+    #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_supplier
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="standardLibraryId != null">
+        standard_library_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="chainType != null">
+        chain_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="nature != null">
+        nature,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="economicType != null">
+        economic_type,
+      </if>
+      <if test="businessMode != null">
+        business_mode,
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="taxpayerCode != null">
+        taxpayer_code,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="companyAddress != null">
+        company_address,
+      </if>
+      <if test="storageAddress != null">
+        storage_address,
+      </if>
+      <if test="postcode != null">
+        postcode,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="fax != null">
+        fax,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="site != null">
+        site,
+      </if>
+      <if test="saleManId != null">
+        sale_man_id,
+      </if>
+      <if test="saleManCode != null">
+        sale_man_code,
+      </if>
+      <if test="saleManName != null">
+        sale_man_name,
+      </if>
+      <if test="businessManId != null">
+        business_man_id,
+      </if>
+      <if test="businessManCode != null">
+        business_man_code,
+      </if>
+      <if test="businessManName != null">
+        business_man_name,
+      </if>
+      <if test="legalManId != null">
+        legal_man_id,
+      </if>
+      <if test="legalManCode != null">
+        legal_man_code,
+      </if>
+      <if test="legalManName != null">
+        legal_man_name,
+      </if>
+      <if test="qualityOfficerId != null">
+        quality_officer_id,
+      </if>
+      <if test="qualityOfficerCode != null">
+        quality_officer_code,
+      </if>
+      <if test="qualityOfficerName != null">
+        quality_officer_name,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="bankAccount != null">
+        bank_account,
+      </if>
+      <if test="bankAccountName != null">
+        bank_account_name,
+      </if>
+      <if test="businessVariety != null">
+        business_variety,
+      </if>
+      <if test="businessScopeId != null">
+        business_scope_id,
+      </if>
+      <if test="supplierAbout != null">
+        supplier_about,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="validFlag != null">
+        valid_flag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="approveStatus != null">
+        approve_status,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="standardLibraryId != null">
+        #{standardLibraryId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nature != null">
+        #{nature,jdbcType=INTEGER},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="economicType != null">
+        #{economicType,jdbcType=INTEGER},
+      </if>
+      <if test="businessMode != null">
+        #{businessMode,jdbcType=INTEGER},
+      </if>
+      <if test="registeredCapital != null">
+        #{registeredCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerCode != null">
+        #{taxpayerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storageAddress != null">
+        #{storageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="saleManId != null">
+        #{saleManId,jdbcType=BIGINT},
+      </if>
+      <if test="saleManCode != null">
+        #{saleManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleManName != null">
+        #{saleManName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessManId != null">
+        #{businessManId,jdbcType=BIGINT},
+      </if>
+      <if test="businessManCode != null">
+        #{businessManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessManName != null">
+        #{businessManName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManId != null">
+        #{legalManId,jdbcType=BIGINT},
+      </if>
+      <if test="legalManCode != null">
+        #{legalManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManName != null">
+        #{legalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficerId != null">
+        #{qualityOfficerId,jdbcType=BIGINT},
+      </if>
+      <if test="qualityOfficerCode != null">
+        #{qualityOfficerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficerName != null">
+        #{qualityOfficerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null">
+        #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessVariety != null">
+        #{businessVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScopeId != null">
+        #{businessScopeId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAbout != null">
+        #{supplierAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="validFlag != null">
+        #{validFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveStatus != null">
+        #{approveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier">
+    update saas_supplier
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        chain_type = #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nature != null">
+        nature = #{nature,jdbcType=INTEGER},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=BIGINT},
+      </if>
+      <if test="economicType != null">
+        economic_type = #{economicType,jdbcType=INTEGER},
+      </if>
+      <if test="businessMode != null">
+        business_mode = #{businessMode,jdbcType=INTEGER},
+      </if>
+      <if test="registeredCapital != null">
+        registered_capital = #{registeredCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerCode != null">
+        taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="storageAddress != null">
+        storage_address = #{storageAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="saleManId != null">
+        sale_man_id = #{saleManId,jdbcType=BIGINT},
+      </if>
+      <if test="saleManCode != null">
+        sale_man_code = #{saleManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="saleManName != null">
+        sale_man_name = #{saleManName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessManId != null">
+        business_man_id = #{businessManId,jdbcType=BIGINT},
+      </if>
+      <if test="businessManCode != null">
+        business_man_code = #{businessManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessManName != null">
+        business_man_name = #{businessManName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManId != null">
+        legal_man_id = #{legalManId,jdbcType=BIGINT},
+      </if>
+      <if test="legalManCode != null">
+        legal_man_code = #{legalManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManName != null">
+        legal_man_name = #{legalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficerId != null">
+        quality_officer_id = #{qualityOfficerId,jdbcType=BIGINT},
+      </if>
+      <if test="qualityOfficerCode != null">
+        quality_officer_code = #{qualityOfficerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficerName != null">
+        quality_officer_name = #{qualityOfficerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        bank_account = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountName != null">
+        bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessVariety != null">
+        business_variety = #{businessVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="businessScopeId != null">
+        business_scope_id = #{businessScopeId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAbout != null">
+        supplier_about = #{supplierAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="validFlag != null">
+        valid_flag = #{validFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="approveStatus != null">
+        approve_status = #{approveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier">
+    update saas_supplier
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+    code = #{code,jdbcType=VARCHAR},
+    name = #{name,jdbcType=VARCHAR},
+    nature = #{nature,jdbcType=INTEGER},
+    pinyin = #{pinyin,jdbcType=VARCHAR},
+    group_id = #{groupId,jdbcType=BIGINT},
+    economic_type = #{economicType,jdbcType=INTEGER},
+    business_mode = #{businessMode,jdbcType=INTEGER},
+    registered_capital = #{registeredCapital,jdbcType=DECIMAL},
+    province_id = #{provinceId,jdbcType=INTEGER},
+    province_name = #{provinceName,jdbcType=VARCHAR},
+    city_id = #{cityId,jdbcType=INTEGER},
+    city_name = #{cityName,jdbcType=VARCHAR},
+    taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR},
+    area_id = #{areaId,jdbcType=INTEGER},
+    area_name = #{areaName,jdbcType=VARCHAR},
+    company_address = #{companyAddress,jdbcType=VARCHAR},
+    storage_address = #{storageAddress,jdbcType=VARCHAR},
+    postcode = #{postcode,jdbcType=VARCHAR},
+    tel = #{tel,jdbcType=VARCHAR},
+    fax = #{fax,jdbcType=VARCHAR},
+    email = #{email,jdbcType=VARCHAR},
+    site = #{site,jdbcType=VARCHAR},
+    sale_man_id = #{saleManId,jdbcType=BIGINT},
+    sale_man_code = #{saleManCode,jdbcType=VARCHAR},
+    sale_man_name = #{saleManName,jdbcType=VARCHAR},
+    business_man_id = #{businessManId,jdbcType=BIGINT},
+    business_man_code = #{businessManCode,jdbcType=VARCHAR},
+    business_man_name = #{businessManName,jdbcType=VARCHAR},
+    legal_man_id = #{legalManId,jdbcType=BIGINT},
+    legal_man_code = #{legalManCode,jdbcType=VARCHAR},
+    legal_man_name = #{legalManName,jdbcType=VARCHAR},
+    quality_officer_id = #{qualityOfficerId,jdbcType=BIGINT},
+    quality_officer_code = #{qualityOfficerCode,jdbcType=VARCHAR},
+    quality_officer_name = #{qualityOfficerName,jdbcType=VARCHAR},
+    bank_name = #{bankName,jdbcType=VARCHAR},
+    bank_account = #{bankAccount,jdbcType=VARCHAR},
+    bank_account_name = #{bankAccountName,jdbcType=VARCHAR},
+    business_variety = #{businessVariety,jdbcType=VARCHAR},
+    business_scope_id = #{businessScopeId,jdbcType=VARCHAR},
+    supplier_about = #{supplierAbout,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    valid_flag = #{validFlag,jdbcType=INTEGER},
+    approve_status = #{approveStatus,jdbcType=INTEGER},
+    remark = #{remark,jdbcType=VARCHAR},
+    creater_id = #{createrId,jdbcType=BIGINT},
+    creater_code = #{createrCode,jdbcType=VARCHAR},
+    creater_name = #{createrName,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    modifier_id = #{modifierId,jdbcType=BIGINT},
+    modifier_code = #{modifierCode,jdbcType=VARCHAR},
+    modifier_name = #{modifierName,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getSupplierByCode"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM saas_supplier WHERE
+    code = #{code} and enterprise_id = #{enterpriseId}
+  </select>
+
+  <select id="getSupplierByCode2"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM saas_supplier supplier WHERE
+    code = #{code}
+    <choose>
+      <when test="paramVO.chainType == 1">
+        <if test="paramVO.enterpriseId != null">
+          and supplier.enterprise_id = #{paramVO.enterpriseId}
+          and supplier.owner_id = #{paramVO.enterpriseId}
+        </if>
+      </when>
+      <when test="paramVO.chainType == 2">
+        <if test="paramVO.enterpriseId != null and paramVO.parentId != null">
+          and supplier.enterprise_id = #{paramVO.parentId}
+          and supplier.owner_id in (#{paramVO.enterpriseId})
+        </if>
+      </when>
+      <otherwise>
+        <if test="paramVO.enterpriseId != null">
+          and supplier.enterprise_id = #{paramVO.enterpriseId}
+        </if>
+      </otherwise>
+    </choose>
+  </select>
+
+
+
+  <select id="getSupplierByLikeCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM saas_supplier WHERE
+    code like concat('%', #{code},'%')
+  </select>
+  <select id="getSupplierByLikeName"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM saas_supplier WHERE enterprise_id = #{enterpriseId} AND
+    name like concat('%', #{name},'%')
+  </select>
+  <select id="getSupplierByLikePinyin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM saas_supplier WHERE enterprise_id = #{enterpriseId} AND
+    pinyin like concat('%', #{pinyin},'%')
+  </select>
+
+  <select id="getBasicSupplier" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierBasicVO">
+    SELECT ss.id as id,
+    ss.enterprise_id as enterpriseId,
+    ss.owner_id as ownerId,
+    ss.chain_type as ownerChainType,
+    ss.code as code,
+    ss.name as name,
+    ss.nature as nature,
+    ss.business_man_name as businessManName,
+    ss.tel as tel,
+    ss.fax as fax,
+    ss.company_address as companyAddress,
+    ss.status as status,
+    ss.approve_status as approveStatus
+    FROM saas_supplier ss,
+    saas_supplier_business sb,
+    saas_enterprise en
+    WHERE
+    ss.enterprise_id = sb.enterprise_id and
+    sb.supplier_id = ss.id
+    
+    and ss.owner_id = en.id
+    
+    and ss.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="list != null">
+      and ss.owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="param != null">
+      and (
+      INSTR(ss.code,#{param})
+      or INSTR(ss.name,#{param})
+      or INSTR(ss.pinyin,#{param})
+      )
+    </if>
+    <if test="nature != null">
+      and ss.nature = #{nature}
+    </if>
+    <if test="groupId != null">
+      and ss.group_id = #{groupId}
+    </if>
+    <if test="businessName != null">
+      and INSTR(ss.business_man_name,#{businessName})
+    </if>
+    <if test="purchaseName != null">
+      and INSTR(sb.purchaser_name,#{purchaseName})
+    </if>
+    
+    <if test="ownerChainType != null">
+      and ss.chain_type = #{ownerChainType}
+    </if>
+    <if test="ownerCode != null and ownerCode !=''">
+      and INSTR(en.code,#{ownerCode})
+    </if>
+    <if test="purchaseName != null and ownerName != ''">
+      and INSTR(en.name,#{ownerName})
+    </if>
+    
+    <if test="approveStatus != null and approveStatus == 0">
+      and  (ss.approve_status = 0 or ss.approve_status = -1)
+    </if>
+    <if test="approveStatus != null and approveStatus != 0">
+      and ss.approve_status = #{approveStatus,jdbcType=INTEGER}
+    </if>
+    order by ss.id desc
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+
+  <select id = "getDetailSupplier" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierDetailVO">
+    select
+    s.id as id,
+    s.enterprise_id as enterpriseId,
+    s.code as code,
+    s.name as name,
+    s.nature as nature,
+    s.pinyin as pinyin,
+    s.group_id as groupId,
+    s.taxpayer_code as taxpayerCode,
+    sm.quality_control as qualityControl,
+    g.name as groupName,
+    s.economic_type as economicType,
+    s.business_mode as businessMode,
+    s.registered_capital as registeredCapital,
+    s.province_id as provinceId,
+    s.province_name as provinceName,
+    s.city_id as cityId,
+    s.city_name as cityName,
+    s.area_id as areaId,
+    s.area_name as areaName,
+    s.company_address as companyAddress,
+    s.storage_address as storageAddress,
+    s.postcode as postcode,
+    s.tel as tel,
+    s.fax as fax,
+    s.email as email,
+    s.site as site,
+    s.sale_man_id as saleManId,
+    s.sale_man_code as saleManCode,
+    s.sale_man_name as saleManName,
+    s.business_man_id as businessManId,
+    s.business_man_code as businessManCode,
+    s.business_man_name as businessManName,
+    s.legal_man_id as legalManId,
+    s.legal_man_code as legalManCode,
+    s.legal_man_name as legalManName,
+    s.quality_officer_id as qualityOfficerId,
+    s.quality_officer_code as qualityOfficerCode,
+    s.quality_officer_name as qualityOfficerName,
+    s.bank_name as bankName,
+    s.bank_account as bankAccount,
+    s.bank_account_name as bankAccountName,
+    s.business_variety as businessVariety,
+    s.business_scope_id as businessScopeId,
+    s.supplier_about as supplierAbout,
+    s.status as status,
+    s.valid_flag as validFlag,
+    s.remark as remark
+    from saas_supplier s
+    left join
+    saas_supplier_group g
+    on s.group_id = g.id
+    left join saas_manage_config sm
+    on sm.enterprise_id = s.enterprise_id
+    where
+    s.id = #{id}
+  </select>
+  <select id="getSupplierById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where id = #{id}
+  </select>
+  <select id="getBusiness" resultType = "com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierBusinessVO">
+    select
+    id as id,
+    supplier_id as supplierId,
+    enterprise_id as enterpriseId,
+    purchaser_id as purchaserId,
+    purchaser_code as purchaserCode,
+    purchaser_name as purchaserName ,
+    payment_provision as paymentProvision,
+    payment_period as paymentPeriod,
+    payment_period_unit as paymentPeriodUnit,
+    payment_time_unit as paymentTimeUnit,
+    payment_time as paymentTime,
+    delivery_time_unit as deliveryTimeUnit,
+    delivery_time as deliveryTime ,
+    delivery_phone as deliveryPhone,
+    send_time_unit as sendTimeUnit,
+    send_time as sendTime,
+    service_circle as serviceCircle,
+    service_circle_unit as serviceCircleUnit,
+    transport_mode as transportMode,
+    send_place as sendPlace,
+    account_time_unit as accountTimeUnit,
+    account_time as accountTime,
+    first as first,
+    first_code as firstCode,
+    applicant_id as applicantId,
+    applicant_code as applicantCode,
+    applicant_name as applicantName,
+    application_time as applicationTime,
+    quality_manage_sys as qualityManageSys,
+    delivery_mode as deliveryMode,
+    management_mode as managementMode
+    from saas_supplier_business where supplier_id = #{supplierId}
+  </select>
+
+  <select id="getQulification" resultType = "com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierQulificationVO">
+    select
+    s.id as id,
+    s.supplier_id as supplierId,
+    s.enterprise_id as enterpriseId,
+    s.qualification_id as qualificationId,
+    s.qualification_code as qualificationCode,
+    s.valid_until as validUntil,
+    s.start_date as startDate,
+    s.file_id as fileId,
+    f.File_name as fileName,
+    b.id as bucketId,
+    b.scheme as scheme,
+    e.sys_type as sysType,
+    e.type_must as typeMust,
+    e.name as qulificationDes,
+    e.control_type as controlType,
+    e.code_must as codeMust,
+    e.valid_until_must as validUntilMust,
+    e.file_must as fileMust
+    from saas_supplier_qualification_config s
+    left join
+    saas_file f
+    on f.id = s.file_id
+    left join
+    saas_bucket b
+    on b.id = f.bucket_id
+    left join saas_enterprise_qualification e
+    on e.id = s.qualification_id
+    where
+    s.supplier_id = #{supplierId}
+  </select>
+  <insert id = "saveDetailSupplier" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_supplier (enterprise_id, code,
+    name, nature, pinyin,
+    group_id, economic_type, business_mode,
+    registered_capital, province_id, province_name,
+    city_id, city_name, area_id,
+    area_name, company_address, storage_address,
+    postcode, tel, fax,
+    email, site, sale_man_id,
+    sale_man_code, sale_man_name, business_man_id,
+    business_man_code, business_man_name, legal_man_id,
+    legal_man_code, legal_man_name, quality_officer_id,
+    quality_officer_code, quality_officer_name,
+    bank_name, bank_account, bank_account_name,
+    business_variety, business_scope_id, supplier_about,
+    status, valid_flag, remark,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code,
+    modifier_name, update_time)
+    values (#{user.enterpriseId,jdbcType=BIGINT},
+    #{supplierDetailVO.code,jdbcType=VARCHAR},
+    #{supplierDetailVO.name,jdbcType=VARCHAR},
+    #{supplierDetailVO.nature,jdbcType=INTEGER},
+    #{supplierDetailVO.pinyin,jdbcType=VARCHAR},
+    #{supplierDetailVO.groupId,jdbcType=BIGINT},
+    #{supplierDetailVO.economicType,jdbcType=INTEGER},
+    #{supplierDetailVO.businessMode,jdbcType=INTEGER},
+    #{supplierDetailVO.registeredCapital,jdbcType=DECIMAL},
+    #{supplierDetailVO.provinceId,jdbcType=INTEGER},
+    #{supplierDetailVO.provinceName,jdbcType=VARCHAR},
+    #{supplierDetailVO.cityId,jdbcType=INTEGER},
+    #{supplierDetailVO.cityName,jdbcType=VARCHAR},
+    #{supplierDetailVO.areaId,jdbcType=INTEGER},
+    #{supplierDetailVO.areaName,jdbcType=VARCHAR},
+    #{supplierDetailVO.companyAddress,jdbcType=VARCHAR},
+    #{supplierDetailVO.storageAddress,jdbcType=VARCHAR},
+    #{supplierDetailVO.postcode,jdbcType=VARCHAR},
+    #{supplierDetailVO.tel,jdbcType=VARCHAR},
+    #{supplierDetailVO.fax,jdbcType=VARCHAR},
+    #{supplierDetailVO.email,jdbcType=VARCHAR},
+    #{supplierDetailVO.site,jdbcType=VARCHAR},
+    #{supplierDetailVO.saleManId,jdbcType=BIGINT},
+    #{supplierDetailVO.saleManCode,jdbcType=VARCHAR},
+    #{supplierDetailVO.saleManName,jdbcType=VARCHAR},
+    #{supplierDetailVO.businessManId,jdbcType=BIGINT},
+    #{supplierDetailVO.businessManCode,jdbcType=VARCHAR},
+    #{supplierDetailVO.businessManName,jdbcType=VARCHAR},
+    #{supplierDetailVO.legalManId,jdbcType=BIGINT},
+    #{supplierDetailVO.legalManCode,jdbcType=VARCHAR},
+    #{supplierDetailVO.legalManName,jdbcType=VARCHAR},
+    #{supplierDetailVO.qualityOfficerId,jdbcType=BIGINT},
+    #{supplierDetailVO.qualityOfficerCode,jdbcType=VARCHAR},
+    #{supplierDetailVO.qualityOfficerName,jdbcType=VARCHAR},
+    #{supplierDetailVO.bankName,jdbcType=VARCHAR},
+    #{supplierDetailVO.bankAccount,jdbcType=VARCHAR},
+    #{supplierDetailVO.bankAccountName,jdbcType=VARCHAR},
+    #{supplierDetailVO.businessVariety,jdbcType=VARCHAR},
+    #{supplierDetailVO.businessScopeId,jdbcType=VARCHAR},
+    #{supplierDetailVO.supplierAbout,jdbcType=VARCHAR},
+    #{supplierDetailVO.status,jdbcType=INTEGER},
+    #{supplierDetailVO.validFlag,jdbcType=INTEGER},
+    #{supplierDetailVO.remark,jdbcType=VARCHAR},
+    #{user.userId,jdbcType=BIGINT},
+    #{user.userCode,jdbcType=VARCHAR},
+    #{user.userName,jdbcType=VARCHAR},
+    NOW(),
+    #{user.userId,jdbcType=BIGINT},
+    #{user.userCode,jdbcType=VARCHAR},
+    #{user.userName,jdbcType=VARCHAR},
+    NOW())
+  </insert>
+  <select id="selectSupplierExcel" resultType ="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierBasicExcelVO">
+    select
+    s.code as code,
+    s.name as name,
+    s.economic_type as economicType,
+    s.tel as tel,
+    s.fax as fax,
+    s.company_address as companyAddress,
+    s.status as status,
+    s.valid_flag as validFlag,
+    s.business_mode as businessMode,
+    s.registered_capital as registeredCapital,
+    s.postcode as postcode,
+    s.email as email,
+    s.site as site,
+    s.storage_address as storageAddress,
+    s.sale_man_name as saleManName,
+    s.business_man_name as businessManName,
+    s.legal_man_name as legalManName,
+    s.quality_officer_name as qualityOfficerName,
+    s.bank_name as bankName,
+    s.bank_account as bankAccount,
+    s.bank_account_name as bankAccountName,
+    s.business_variety as businessVariety,
+    s.business_scope_id as businessScopeId
+    from saas_supplier s
+    ,
+    saas_supplier_business sb
+    WHERE
+    s.enterprise_id = sb.enterprise_id and
+    sb.supplier_id = s.id
+    and s.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="list != null">
+      and s.owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+      <if test="param != null">
+        and (
+        INSTR(s.code,#{param})
+        or INSTR(s.name,#{param})
+        or INSTR(s.pinyin,#{param})
+        )
+      </if>
+      <if test="nature != null">
+        and s.nature = #{nature}
+      </if>
+      <if test="groupId != null">
+        and s.group_id = #{groupId}
+      </if>
+      <if test="businessName != null">
+        and INSTR(s.business_man_name,#{businessName})
+      </if>
+      <if test="purchaseName != null">
+        and INSTR(sb.purchaser_name,#{purchaseName})
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and  (s.approve_status = 0 or s.approve_status = -1)
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and s.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+    order by s.id desc
+  </select>
+
+  <select id="getCurrentGroupSupplier" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierBasicVO">
+    SELECT ss.id as id,
+    ss.group_id as groupId,
+    ss.enterprise_id as enterpriseId,
+    ss.code as code,ss.name as name,
+    ss.nature as nature,
+    ss.business_man_name as businessManName,
+    ss.tel as tel,
+    ss.fax as fax,
+    ss.company_address as companyAddress,
+    ss.status as status,
+    ss.chain_type AS chainType,
+    ss.owner_id AS ownerId
+    FROM saas_supplier ss
+    where
+    ss.enterprise_id = #{enterpriseId}
+    and
+    ss.group_id = #{id}
+  </select>
+  <select id="selectConnectSupplier" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierGroupConnectVO">
+    SELECT ss.id as id,
+    ss.code as code,ss.name as name,
+    ss.group_id as groupId,
+    ss.enterprise_id as enterpriseId
+    FROM saas_supplier ss
+    where
+    ss.enterprise_id = #{enterpriseId} and ss.group_id is null
+    and ss.nature = (SELECT ssg.enterprise_type from saas_supplier_group ssg where ssg.id = #{id})
+    and ss.status = '1'
+    and ss.valid_flag = '1'
+  </select>
+  <update id= "updateSupplier">
+    update saas_supplier
+    set group_id = #{type} where id = #{sg.id} and enterprise_id = #{enterpriseId}
+  </update>
+  <update id="updateSupplierByGroupId">
+    update saas_supplier
+    set group_id = null
+    where group_id = #{id}
+  </update>
+  <update id="RemoveSupplier">
+    update saas_supplier
+    set group_id = null
+    where id = #{id}
+  </update>
+  <update id="updateSupplierStatus">
+    update saas_supplier
+    set approve_status = #{approvalStatus}
+    where id = #{id}
+  </update>
+  <select id="ExportGroupSupplier" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierGroupExcelVO">
+    select s.id as id,
+    s.enterprise_id as enterpriseId,
+    s.code as 'groupCode',
+    s.name as 'groupName',
+    g.code as `code`,
+    g.name as `name`,
+    s.enterprise_type as 'nature'
+    from saas_supplier_group s
+    LEFT JOIN saas_supplier g
+    on g.group_id = s.id and
+    s.enterprise_id = g.enterprise_id and s.enterprise_type = g.nature
+    where s.enterprise_id = #{enterpriseId}
+  </select>
+  <select id = "checkSupplier" resultType="java.lang.String">
+    select quality_control from saas_manage_config
+    where enterprise_id = #{enterpriseId}
+  </select>
+
+
+  <select id="getSupplierQualificationReportExcelList" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.supplier.SupplierQualificationReport2ExcelVO">
+    SELECT
+    e.id, e.nature ,e.code, e.name,
+    con.qualification_id as qualificationId,con.qualification_code as qualificationCode,con.valid_until as validDate,con.file_id as fileId,qua.name as qualificationName
+    FROM
+    saas_supplier e
+    INNER JOIN saas_supplier_qualification_config con ON con.supplier_id= e.id
+    LEFT JOIN saas_enterprise_qualification qua ON con.qualification_id = qua.id
+    where
+    <choose>
+      <when test="supplierReportVO.chainType == 1">
+        <if test="supplierReportVO.enterpriseId != null">
+          and e.enterprise_id = #{supplierReportVO.enterpriseId}
+          and e.owner_id = #{supplierReportVO.enterpriseId}
+        </if>
+      </when>
+      <when test="supplierReportVO.chainType == 2">
+        <if test="supplierReportVO.enterpriseId != null and supplierReportVO.parentId != null">
+          and e.enterprise_id = #{supplierReportVO.parentId}
+          and e.owner_id in ( #{supplierReportVO.parentId},#{supplierReportVO.enterpriseId})
+        </if>
+      </when>
+      <otherwise>
+        <if test="supplierReportVO.enterpriseId != null">
+          and e.enterprise_id = #{supplierReportVO.enterpriseId}
+        </if>
+      </otherwise>
+    </choose>
+    and
+    e.status = #{status} and e.valid_flag = 1
+    <if test="supplierReportVO.param != null and supplierReportVO.param !=''">
+      and (
+      INSTR(e.`code`,#{supplierReportVO.param})
+      or INSTR(e.`name`,#{supplierReportVO.param})
+      or INSTR(e.pinyin ,#{supplierReportVO.param})
+      )
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature desc, e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature , e.code
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature , e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature  desc , e.code desc
+    </if>
+
+  </select>
+
+  <select id="getSupplierQualificationReportList2WarnSet" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.supplier.SupplierQualificationReportVO">
+    SELECT
+    e.id, e.nature ,e.code, e.name
+    FROM
+    saas_supplier e
+    where
+    e.status = #{status} and e.valid_flag = 1
+    and e.enterprise_id = #{supplierReportVO.enterpriseId}
+    and e.owner_id = #{supplierReportVO.ownerId}
+    <if test="supplierReportVO.param != null and supplierReportVO.param !=''">
+      <if test="supplierReportVO.param != null">
+        and (
+        INSTR(e.`code`,#{supplierReportVO.param})
+        or INSTR(e.`name`,#{supplierReportVO.param})
+        or INSTR(e.pinyin ,#{supplierReportVO.param})
+        )
+      </if>
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature desc, e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature , e.code
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature , e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature  desc , e.code desc
+    </if>
+
+  </select>
+
+  <select id="getSupplierQualificationReportList" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.supplier.SupplierQualificationReportVO">
+    SELECT
+    e.id, e.nature ,e.code, e.name
+    FROM
+    saas_supplier e
+    where
+    e.status = #{status} and e.valid_flag = 1
+    <choose>
+      <when test="supplierReportVO.chainType == 1">
+        <if test="supplierReportVO.enterpriseId != null">
+          and e.enterprise_id = #{supplierReportVO.enterpriseId}
+          and e.owner_id = #{supplierReportVO.enterpriseId}
+        </if>
+      </when>
+      <when test="supplierReportVO.chainType == 2">
+        <if test="supplierReportVO.enterpriseId != null and supplierReportVO.parentId != null">
+          and e.enterprise_id = #{supplierReportVO.parentId}
+          and e.owner_id in ( #{supplierReportVO.parentId},#{supplierReportVO.enterpriseId})
+        </if>
+      </when>
+      <otherwise>
+        <if test="supplierReportVO.enterpriseId != null">
+          and e.enterprise_id = #{supplierReportVO.enterpriseId}
+        </if>
+      </otherwise>
+    </choose>
+    <if test="supplierReportVO.param != null and supplierReportVO.param !=''">
+      <if test="supplierReportVO.param != null">
+        and (
+        INSTR(e.`code`,#{supplierReportVO.param})
+        or INSTR(e.`name`,#{supplierReportVO.param})
+        or INSTR(e.pinyin ,#{supplierReportVO.param})
+        )
+      </if>
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature desc, e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature , e.code
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 0">
+      order by e.nature , e.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 1">
+      order by e.nature  desc , e.code desc
+    </if>
+
+  </select>
+  <select id="selectExisitSupplier"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+  </select>
+  <select id="hasSupplierCode"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    WHERE enterprise_id = #{enterpriseId}
+    AND code = #{code}
+  </select>
+  <select id="hasSupplierName"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    WHERE enterprise_id = #{enterpriseId}
+    AND name = #{name}
+  </select>
+  <select id="queryCountByGroupId" resultType ="java.lang.Long" parameterType="java.util.Map">
+    select
+    count(1)
+    from saas_supplier
+    where group_id = #{groupId,jdbcType=BIGINT}
+  </select>
+  <select id="getCountSupplier" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM saas_supplier ss,
+    saas_supplier_business sb
+    WHERE
+    ss.enterprise_id = sb.enterprise_id and
+    sb.supplier_id = ss.id
+    and ss.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="list != null">
+      and ss.owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="param != null">
+      and (
+      INSTR(ss.code,#{param})
+      or INSTR(ss.name,#{param})
+      or INSTR(ss.pinyin,#{param})
+      )
+    </if>
+    <if test="nature != null">
+      and ss.nature = #{nature}
+    </if>
+    <if test="groupId != null">
+      and ss.group_id = #{groupId}
+    </if>
+    <if test="businessName != null">
+      and INSTR(ss.business_man_name,#{businessName})
+    </if>
+    <if test="purchaseName != null">
+      and INSTR(sb.purchaser_name,#{purchaseName})
+    </if>
+    <if test="approveStatus != null and approveStatus == 0">
+      and  (ss.approve_status = 0 or ss.approve_status = -1)
+    </if>
+    <if test="approveStatus != null and approveStatus != 0">
+      and ss.approve_status = #{approveStatus,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectHeadquartersAndDivisionByHeadquartersIdWithParam"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where owner_id = #{enterpriseId}
+    and chain_type = '2'
+    and status = '1'
+    and valid_flag = '1'
+    and approve_status = '1'
+    <if test="param != null">
+      and (
+      INSTR(code,#{param})
+      or
+      INSTR(pinyin,#{param})
+      or
+      INSTR(name,#{param})
+      )
+    </if>
+  </select>
+  <select id="selectByEnterpriseIdWithParam"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and owner_id = #{enterpriseId}
+    and status = '1'
+    and valid_flag = '1'
+    and approve_status = '1'
+    <if test="param != null">
+      and (
+        INSTR(code,#{param})
+        or
+        INSTR(pinyin,#{param})
+        or
+        INSTR(name,#{param})
+      )
+    </if>
+
+  </select>
+
+  <!-- 获取企业的实销实结的供货单位             -->
+  <select id="getActualSalesSettlementSuppliers" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier
+    where owner_id = #{ownerId}
+    and id in (select  ssb.supplier_id from saas_supplier_business ssb  where ssb.management_mode=1)
+  </select>
+
+  <select id="getSupplierByIdAndOwnerId" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM
+      saas_supplier
+    WHERE
+      id = #{id}
+    and owner_id = #{ownerId}
+    and status = 1
+    and approve_status = 1
+    and valid_flag = 1
+  </select>
+
+</mapper>

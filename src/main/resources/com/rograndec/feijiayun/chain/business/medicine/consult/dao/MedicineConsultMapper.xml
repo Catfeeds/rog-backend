@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.medicine.consult.dao.MedicineConsultMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsult">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_man_id" jdbcType="BIGINT" property="registerManId" />
+    <result column="register_man_code" jdbcType="VARCHAR" property="registerManCode" />
+    <result column="register_man_name" jdbcType="VARCHAR" property="registerManName" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="nation_id" jdbcType="BIGINT" property="nationId" />
+    <result column="nation_name" jdbcType="VARCHAR" property="nationName" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="blood_type" jdbcType="VARCHAR" property="bloodType" />
+    <result column="blood_pressure" jdbcType="DECIMAL" property="bloodPressure" />
+    <result column="bad_habit" jdbcType="VARCHAR" property="badHabit" />
+    <result column="complaint_disease_history" jdbcType="VARCHAR" property="complaintDiseaseHistory" />
+    <result column="disease_history" jdbcType="VARCHAR" property="diseaseHistory" />
+    <result column="medicine_history" jdbcType="VARCHAR" property="medicineHistory" />
+    <result column="family_history" jdbcType="VARCHAR" property="familyHistory" />
+    <result column="allergy_history" jdbcType="VARCHAR" property="allergyHistory" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+    <resultMap id="MedicineConsultVO" type="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineConsultVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_man_id" jdbcType="BIGINT" property="registerManId" />
+    <result column="register_man_code" jdbcType="VARCHAR" property="registerManCode" />
+    <result column="register_man_name" jdbcType="VARCHAR" property="registerManName" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="nation_id" jdbcType="BIGINT" property="nationId" />
+    <result column="nation_name" jdbcType="VARCHAR" property="nationName" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="blood_type" jdbcType="VARCHAR" property="bloodType" />
+    <result column="blood_pressure" jdbcType="DECIMAL" property="bloodPressure" />
+    <result column="bad_habit" jdbcType="VARCHAR" property="badHabit" />
+    <result column="complaint_disease_history" jdbcType="VARCHAR" property="complaintDiseaseHistory" />
+    <result column="disease_history" jdbcType="VARCHAR" property="diseaseHistory" />
+    <result column="medicine_history" jdbcType="VARCHAR" property="medicineHistory" />
+    <result column="family_history" jdbcType="VARCHAR" property="familyHistory" />
+    <result column="allergy_history" jdbcType="VARCHAR" property="allergyHistory" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <collection property="medicineConsultGoodsVOList" ofType="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineConsultGoodsVO">
+     <id column="gd_id" jdbcType="BIGINT" property="id" />
+    <result column="gd_consult_id" jdbcType="BIGINT" property="consultId" />
+    <result column="gd_goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="gd_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="gd_barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="gd_goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="gd_goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="gd_dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="gd_dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="gd_unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="gd_unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="gd_goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="gd_manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="gd_manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="gd_goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="gd_approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="gd_unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="gd_limit_quantity" jdbcType="DECIMAL" property="limitQuantity" />
+    <result column="gd_usage_dosage" jdbcType="VARCHAR" property="usageDosage" />
+    <result column="gd_taboo_symptom" jdbcType="VARCHAR" property="tabooSymptom" />
+    <result column="gd_attention_matter" jdbcType="VARCHAR" property="attentionMatter" />
+    <result column="gd_remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gd_standard_library_id" jdbcType="BIGINT" property="standardLibraryId" />
+    </collection>
+    <collection property="medicineConsultCheckVOList" ofType="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineConsultCheckVO">
+    <id column="ck_id" jdbcType="BIGINT" property="id" />
+    <result column="ck_consult_id" jdbcType="BIGINT" property="consultId" />
+    <result column="ck_goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="ck_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="ck_goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="ck_goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="ck_alarm_name" jdbcType="VARCHAR" property="alarmName" />
+    <result column="ck_simple_desc" jdbcType="VARCHAR" property="simpleDesc" />
+    <result column="ck_complex_desc" jdbcType="VARCHAR" property="complexDesc" />
+    <result column="ck_remark" jdbcType="VARCHAR" property="remark" />
+    </collection>
+  </resultMap>
+   <resultMap id="selectList" type="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineConsultVO">
+     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_man_id" jdbcType="BIGINT" property="registerManId" />
+    <result column="register_man_code" jdbcType="VARCHAR" property="registerManCode" />
+    <result column="register_man_name" jdbcType="VARCHAR" property="registerManName" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="nation_id" jdbcType="BIGINT" property="nationId" />
+    <result column="nation_name" jdbcType="VARCHAR" property="nationName" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="blood_type" jdbcType="VARCHAR" property="bloodType" />
+    <result column="blood_pressure" jdbcType="DECIMAL" property="bloodPressure" />
+    <result column="bad_habit" jdbcType="VARCHAR" property="badHabit" />
+    <result column="complaint_disease_history" jdbcType="VARCHAR" property="complaintDiseaseHistory" />
+    <result column="disease_history" jdbcType="VARCHAR" property="diseaseHistory" />
+    <result column="medicine_history" jdbcType="VARCHAR" property="medicineHistory" />
+    <result column="family_history" jdbcType="VARCHAR" property="familyHistory" />
+    <result column="allergy_history" jdbcType="VARCHAR" property="allergyHistory" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+    <select id="selectById" parameterType="java.lang.Long" resultMap="MedicineConsultVO">
+    select 
+    consult.id, consult.code,consult.order_type, consult.register_date, consult.register_man_id, consult.register_man_code, 
+    consult.register_man_name, consult.member_card_code, consult.name, consult.sex, consult.age, consult.id_num, 
+    consult.birth_date,consult.nation_id, consult.nation_name, 
+    consult.mobile_phone, consult.address, consult.height, consult.weight, consult.blood_type, consult.blood_pressure,
+    consult.bad_habit, consult.complaint_disease_history,consult.disease_history, consult.medicine_history, consult.family_history, 
+    consult.allergy_history, consult.status, consult.remark, 
+    gd.id as gd_id, gd.consult_id as gd_consult_id, gd.goods_id as gd_goods_id, gd.goods_code as gd_goods_code,
+    gd.barcode as gd_barcode, gd.goods_name as gd_goods_name, 
+    gd.goods_generic_name as gd_goods_generic_name, gd.dosage_id as gd_dosage_id, gd.dosage_name as gd_dosage_name,
+    gd.unit_id as gd_unit_id, gd.unit_name as gd_unit_name,
+    gd.goods_specification as gd_goods_specification, 
+    gd.manufacturer_id as gd_manufacturer_id, gd.manufacturer as gd_manufacturer, gd.goods_place as gd_goods_place,
+    gd.approval_number as gd_approval_number, gd.unit_price as gd_unit_price, gd.limit_quantity as gd_limit_quantity, 
+    gd.usage_dosage as gd_usage_dosage, gd.taboo_symptom as gd_taboo_symptom, gd.attention_matter as gd_attention_matter,
+    gd.remark as gd_remark,gd.standard_library_id as gd_standard_library_id,
+    ck.id as ck_id,ck.consult_id as ck_consult_id,ck.goods_id as ck_goods_id, ck.goods_code as ck_goods_code,
+    ck.goods_name as ck_goods_name, ck.goods_generic_name as ck_goods_generic_name, 
+    ck.alarm_name as ck_alarm_name, ck.simple_desc as ck_simple_desc, ck.complex_desc as ck_complex_desc, ck.remark as ck_remark
+    from saas_medicine_consult consult
+    LEFT JOIN saas_medicine_consult_goods gd ON gd.consult_id = consult.id
+    LEFT JOIN saas_medicine_consult_check ck ON ck.consult_id=consult.id
+    where consult.id = #{id,jdbcType=BIGINT}
+   </select>
+   <select id="selectList" parameterType="java.util.Map" resultMap="selectList">
+    select id, code, order_type, register_date, register_man_id, register_man_code, 
+    register_man_name, member_card_code, name, sex, age, id_num, birth_date, nation_id, nation_name, 
+    mobile_phone, address, height, weight, blood_type, blood_pressure, bad_habit, complaint_disease_history, 
+    disease_history, medicine_history, family_history, allergy_history, status, remark, 
+    case
+    when sex = 0 then '男' 
+    when sex = 1 then '女'
+    else '其他'
+    end as sexDesc
+    from saas_medicine_consult
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null and code!=''"> 
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="registerManName != null and registerManName!=''">
+    	and register_man_name = #{registerManName,jdbcType=VARCHAR}
+    </if>
+     <if test="memberCardCode != null and memberCardCode!=''">
+    	and member_card_code = #{memberCardCode,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null and name!=''">
+    	and name = #{name,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate!=''" > 
+	    and register_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate!=''" > 
+	    and register_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+	<choose>
+        <when test="sortField != null and sortField!='' and sort != null and sort!=''">
+             order by ${sortField}  ${sort}
+        </when>
+        <otherwise>
+            order by create_time desc
+        </otherwise>
+    </choose>
+	    limit ${pageNo},${pageSize}
+  </select>
+  
+   <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_medicine_consult
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+     <if test="code != null and code!=''"> 
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="registerManName != null and registerManName!=''">
+    	and register_man_name = #{registerManName,jdbcType=VARCHAR}
+    </if>
+     <if test="memberCardCode != null and memberCardCode!=''">
+    	and member_card_code = #{memberCardCode,jdbcType=VARCHAR}
+    </if>
+    <if test="name != null and name!=''">
+    	and name = #{name,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate!=''" > 
+	    and plan_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate!=''" > 
+	    and plan_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+  </select>
+  <!-- 商品查询 -->
+    <select id="selectGoods" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineGoodsVO">
+        SELECT goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,goods.dosage_name as dosageName,
+        goods.place as goodsPlace,goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,
+        goods.manufacturer as manufacturer,goods.limit_quantity as limitQuantity,
+        goods.standard_library_id as standardLibraryId,
+        varieties.last_cost_price as unitPrice,
+        instructions.usage_dosage as usageDosage,instructions.notice as attentionMatter,instructions.taboo as tabooSymptom
+        FROM saas_goods goods 
+        LEFT JOIN saas_supplier_business_varieties varieties on goods.id=varieties.goods_id and varieties.enterprise_id=#{enterpriseId}
+        LEFT JOIN saas_goods_instructions instructions ON instructions.goods_id=goods.id and instructions.enterprise_id=#{enterpriseId}
+        where goods.enterprise_id=#{enterpriseId} and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+        and goods.standard_library_id is not null
+        <if test="param != null">
+	      and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	    </if>
+  </select>
+  <!-- 会员查询 -->
+  <select id="selectMembers" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineMemberVO">
+        SELECT card_code as memberCardCode, member_name as name, sex as sex, id_num as idNum,birth_date as birthDate, mobile_phone as mobilePhone, adderss as address from saas_member_info
+        where enterprise_id=#{enterpriseId}
+        and member_name like concat('%', #{param},'%') or card_code like concat('%', #{param},'%') or mobile_phone like concat('%', #{param},'%')
+  </select>
+  
+  <select id="selectMember" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.medicine.consult.vo.MedicineMemberVO">
+        SELECT card_code as memberCardCode, member_name as name, sex as sex, id_num as idNum,birth_date as birthDate, mobile_phone as mobilePhone, adderss as address from saas_member_info
+        where enterprise_id=#{enterpriseId}
+        and card_code=#{cardCode}
+  </select>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, order_type, register_date, register_man_id, register_man_code, 
+    register_man_name, member_card_code, name, sex, age, id_num, nation_id, nation_name, 
+    mobile_phone, address, height, weight, blood_type, blood_pressure, bad_habit, complaint_disease_history, 
+    disease_history, medicine_history, family_history, allergy_history, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_medicine_consult
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_medicine_consult
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsult" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_medicine_consult (id, enterprise_id, parent_id, code,
+      order_type, register_date, register_man_id, 
+      register_man_code, register_man_name, member_card_code, 
+      name, sex, age, id_num, birth_date,
+      nation_id, nation_name, mobile_phone, 
+      address, height, weight, 
+      blood_type, blood_pressure, bad_habit, 
+      complaint_disease_history, disease_history, 
+      medicine_history, family_history, allergy_history, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR},
+      #{orderType,jdbcType=INTEGER}, #{registerDate,jdbcType=TIMESTAMP}, #{registerManId,jdbcType=BIGINT}, 
+      #{registerManCode,jdbcType=VARCHAR}, #{registerManName,jdbcType=VARCHAR}, #{memberCardCode,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{idNum,jdbcType=VARCHAR}, #{birthDate,jdbcType=TIMESTAMP}, 
+      #{nationId,jdbcType=BIGINT}, #{nationName,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{bloodType,jdbcType=VARCHAR}, #{bloodPressure,jdbcType=DECIMAL}, #{badHabit,jdbcType=VARCHAR}, 
+      #{complaintDiseaseHistory,jdbcType=VARCHAR}, #{diseaseHistory,jdbcType=VARCHAR}, 
+      #{medicineHistory,jdbcType=VARCHAR}, #{familyHistory,jdbcType=VARCHAR}, #{allergyHistory,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsult">
+    insert into saas_medicine_consult
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="registerDate != null">
+        register_date,
+      </if>
+      <if test="registerManId != null">
+        register_man_id,
+      </if>
+      <if test="registerManCode != null">
+        register_man_code,
+      </if>
+      <if test="registerManName != null">
+        register_man_name,
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="nationId != null">
+        nation_id,
+      </if>
+      <if test="nationName != null">
+        nation_name,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="bloodType != null">
+        blood_type,
+      </if>
+      <if test="bloodPressure != null">
+        blood_pressure,
+      </if>
+      <if test="badHabit != null">
+        bad_habit,
+      </if>
+      <if test="complaintDiseaseHistory != null">
+        complaint_disease_history,
+      </if>
+      <if test="diseaseHistory != null">
+        disease_history,
+      </if>
+      <if test="medicineHistory != null">
+        medicine_history,
+      </if>
+      <if test="familyHistory != null">
+        family_history,
+      </if>
+      <if test="allergyHistory != null">
+        allergy_history,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerManId != null">
+        #{registerManId,jdbcType=BIGINT},
+      </if>
+      <if test="registerManCode != null">
+        #{registerManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerManName != null">
+        #{registerManName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardCode != null">
+        #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nationId != null">
+        #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="nationName != null">
+        #{nationName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="bloodType != null">
+        #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null">
+        #{bloodPressure,jdbcType=DECIMAL},
+      </if>
+      <if test="badHabit != null">
+        #{badHabit,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintDiseaseHistory != null">
+        #{complaintDiseaseHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="diseaseHistory != null">
+        #{diseaseHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineHistory != null">
+        #{medicineHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="familyHistory != null">
+        #{familyHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyHistory != null">
+        #{allergyHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsult">
+    update saas_medicine_consult
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+       <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null">
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerManId != null">
+        register_man_id = #{registerManId,jdbcType=BIGINT},
+      </if>
+      <if test="registerManCode != null">
+        register_man_code = #{registerManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerManName != null">
+        register_man_name = #{registerManName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nationId != null">
+        nation_id = #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="nationName != null">
+        nation_name = #{nationName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="bloodType != null">
+        blood_type = #{bloodType,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null">
+        blood_pressure = #{bloodPressure,jdbcType=DECIMAL},
+      </if>
+      <if test="badHabit != null">
+        bad_habit = #{badHabit,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintDiseaseHistory != null">
+        complaint_disease_history = #{complaintDiseaseHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="diseaseHistory != null">
+        disease_history = #{diseaseHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineHistory != null">
+        medicine_history = #{medicineHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="familyHistory != null">
+        family_history = #{familyHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyHistory != null">
+        allergy_history = #{allergyHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsult">
+    update saas_medicine_consult
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      register_date = #{registerDate,jdbcType=TIMESTAMP},
+      register_man_id = #{registerManId,jdbcType=BIGINT},
+      register_man_code = #{registerManCode,jdbcType=VARCHAR},
+      register_man_name = #{registerManName,jdbcType=VARCHAR},
+      member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      nation_id = #{nationId,jdbcType=BIGINT},
+      nation_name = #{nationName,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      height = #{height,jdbcType=DECIMAL},
+      weight = #{weight,jdbcType=DECIMAL},
+      blood_type = #{bloodType,jdbcType=VARCHAR},
+      blood_pressure = #{bloodPressure,jdbcType=DECIMAL},
+      bad_habit = #{badHabit,jdbcType=VARCHAR},
+      complaint_disease_history = #{complaintDiseaseHistory,jdbcType=VARCHAR},
+      disease_history = #{diseaseHistory,jdbcType=VARCHAR},
+      medicine_history = #{medicineHistory,jdbcType=VARCHAR},
+      family_history = #{familyHistory,jdbcType=VARCHAR},
+      allergy_history = #{allergyHistory,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

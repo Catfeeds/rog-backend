@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.UserAdministrationMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="login_account" jdbcType="VARCHAR" property="loginAccount" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="password_confirm" jdbcType="VARCHAR" property="passwordConfirm" />
+    <result column="dept_ids" jdbcType="VARCHAR" property="deptIds" />
+    <result column="position_ids" jdbcType="VARCHAR" property="positionIds" />
+    <result column="role_ids" jdbcType="VARCHAR" property="roleIds" />
+    <result column="limit_variety" jdbcType="VARCHAR" property="limitVariety" />
+    <result column="graduation_time" jdbcType="TIMESTAMP" property="graduationTime" />
+    <result column="graduation_university" jdbcType="VARCHAR" property="graduationUniversity" />
+    <result column="education_id" jdbcType="BIGINT" property="educationId" />
+    <result column="major_id" jdbcType="BIGINT" property="majorId" />
+    <result column="working_hours" jdbcType="TIMESTAMP" property="workingHours" />
+    <result column="induction_time" jdbcType="TIMESTAMP" property="inductionTime" />
+    <result column="full_time" jdbcType="TIMESTAMP" property="fullTime" />
+    <result column="certificate_num" jdbcType="VARCHAR" property="certificateNum" />
+    <result column="use_nature" jdbcType="INTEGER" property="useNature" />
+    <result column="user_about" jdbcType="VARCHAR" property="userAbout" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    <result column="limit_variety_range" jdbcType="LONGVARCHAR" property="limitVarietyRange" />
+    <result column="cargo_area_ids" jdbcType="LONGVARCHAR" property="cargoAreaIds" />
+    <result column="team_id" jdbcType="BIGINT" property="teamId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, enterprise_id, parent_id, user_type, login_account, password, password_confirm, 
+    dept_ids, position_ids, role_ids, limit_variety, graduation_time, graduation_university, 
+    education_id, major_id, working_hours, induction_time, full_time, certificate_num, 
+    use_nature, user_about, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    limit_variety_range
+  </sql>
+  <sql id="Cargo_Column_List">
+    `cargo_area_ids`,`team_id`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Cargo_Column_List"/>
+    from saas_user_administration
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectUserAdministrationByUserId" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Cargo_Column_List" />
+    from saas_user_administration
+    where user_id = #{adminId}
+  </select>
+
+  <select id="selectUserAdministrationByAccountAndPwd" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_user_administration
+    where login_account = #{loginAccount,jdbcType=VARCHAR}
+     and password = #{password,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectUserAdministrationByAccount" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_user_administration
+    where login_account = #{loginAccount,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectUserAdministrationByUserIds" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_user_administration
+    where user_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_user_administration
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    insert into saas_user_administration (id, user_id, enterprise_id, 
+      parent_id, user_type, login_account, 
+      password, password_confirm, dept_ids, 
+      position_ids, role_ids, limit_variety, 
+      graduation_time, graduation_university, 
+      education_id, major_id, working_hours, 
+      induction_time, full_time, certificate_num, 
+      use_nature, user_about, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time, 
+      limit_variety_range)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT}, #{userType,jdbcType=VARCHAR}, #{loginAccount,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{passwordConfirm,jdbcType=VARCHAR}, #{deptIds,jdbcType=VARCHAR}, 
+      #{positionIds,jdbcType=VARCHAR}, #{roleIds,jdbcType=VARCHAR}, #{limitVariety,jdbcType=VARCHAR}, 
+      #{graduationTime,jdbcType=TIMESTAMP}, #{graduationUniversity,jdbcType=VARCHAR}, 
+      #{educationId,jdbcType=BIGINT}, #{majorId,jdbcType=BIGINT}, #{workingHours,jdbcType=TIMESTAMP}, 
+      #{inductionTime,jdbcType=TIMESTAMP}, #{fullTime,jdbcType=TIMESTAMP}, #{certificateNum,jdbcType=VARCHAR}, 
+      #{useNature,jdbcType=INTEGER}, #{userAbout,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{limitVarietyRange,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into saas_user_administration
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="loginAccount != null">
+        login_account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm,
+      </if>
+      <if test="deptIds != null">
+        dept_ids,
+      </if>
+      <if test="positionIds != null">
+        position_ids,
+      </if>
+      <if test="roleIds != null">
+        role_ids,
+      </if>
+      <if test="limitVariety != null">
+        limit_variety,
+      </if>
+      <if test="graduationTime != null">
+        graduation_time,
+      </if>
+      <if test="graduationUniversity != null">
+        graduation_university,
+      </if>
+      <if test="educationId != null">
+        education_id,
+      </if>
+      <if test="majorId != null">
+        major_id,
+      </if>
+      <if test="workingHours != null">
+        working_hours,
+      </if>
+      <if test="inductionTime != null">
+        induction_time,
+      </if>
+      <if test="fullTime != null">
+        full_time,
+      </if>
+      <if test="certificateNum != null">
+        certificate_num,
+      </if>
+      <if test="useNature != null">
+        use_nature,
+      </if>
+      <if test="userAbout != null">
+        user_about,
+      </if>
+      <if test="cargoAreaIds != null">
+        cargo_area_ids,
+      </if>
+      <if test="teamId != null">
+        team_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="limitVarietyRange != null">
+        limit_variety_range,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginAccount != null">
+        #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="deptIds != null">
+        #{deptIds,jdbcType=VARCHAR},
+      </if>
+      <if test="positionIds != null">
+        #{positionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="roleIds != null">
+        #{roleIds,jdbcType=VARCHAR},
+      </if>
+      <if test="limitVariety != null">
+        #{limitVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null">
+        #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="graduationUniversity != null">
+        #{graduationUniversity,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        #{educationId,jdbcType=BIGINT},
+      </if>
+      <if test="majorId != null">
+        #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="workingHours != null">
+        #{workingHours,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inductionTime != null">
+        #{inductionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fullTime != null">
+        #{fullTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateNum != null">
+        #{certificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="useNature != null">
+        #{useNature,jdbcType=INTEGER},
+      </if>
+      <if test="userAbout != null">
+        #{userAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaIds != null">
+         #{cargoAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+         #{teamId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitVarietyRange != null">
+        #{limitVarietyRange,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    update saas_user_administration
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginAccount != null">
+        login_account = #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="deptIds != null">
+        dept_ids = #{deptIds,jdbcType=VARCHAR},
+      </if>
+      <if test="positionIds != null">
+        position_ids = #{positionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="roleIds != null">
+        role_ids = #{roleIds,jdbcType=VARCHAR},
+      </if>
+      <if test="limitVariety != null">
+        limit_variety = #{limitVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null">
+        graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="graduationUniversity != null">
+        graduation_university = #{graduationUniversity,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        education_id = #{educationId,jdbcType=BIGINT},
+      </if>
+      <if test="majorId != null">
+        major_id = #{majorId,jdbcType=BIGINT},
+      </if>
+      <if test="workingHours != null">
+        working_hours = #{workingHours,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inductionTime != null">
+        induction_time = #{inductionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fullTime != null">
+        full_time = #{fullTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateNum != null">
+        certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="useNature != null">
+        use_nature = #{useNature,jdbcType=INTEGER},
+      </if>
+      <if test="userAbout != null">
+        user_about = #{userAbout,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaIds != null">
+         cargo_area_ids = #{cargoAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        team_id = #{teamId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitVarietyRange != null">
+        limit_variety_range = #{limitVarietyRange,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--使用前请注意查看！！！：毕业时间 graduation_time 参加工作时间 working_hours， 入职时间 induction_time， 转正时间 full_time，
+    柜组 cargo_area_ids， 班组 team_id  可修改为null-->
+    <update id="updateByPrimaryKeyPartSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+        update saas_user_administration
+        <set>
+            graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+            working_hours = #{workingHours,jdbcType=TIMESTAMP},
+            induction_time = #{inductionTime,jdbcType=TIMESTAMP},
+            full_time = #{fullTime,jdbcType=TIMESTAMP},
+            cargo_area_ids = #{cargoAreaIds,jdbcType=VARCHAR},
+            team_id = #{teamId,jdbcType=BIGINT},
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="loginAccount != null">
+                login_account = #{loginAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="passwordConfirm != null">
+                password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+            </if>
+            <if test="deptIds != null">
+                dept_ids = #{deptIds,jdbcType=VARCHAR},
+            </if>
+            <if test="positionIds != null">
+                position_ids = #{positionIds,jdbcType=VARCHAR},
+            </if>
+            <if test="roleIds != null">
+                role_ids = #{roleIds,jdbcType=VARCHAR},
+            </if>
+            <if test="limitVariety != null">
+                limit_variety = #{limitVariety,jdbcType=VARCHAR},
+            </if>
+            <if test="graduationUniversity != null">
+                graduation_university = #{graduationUniversity,jdbcType=VARCHAR},
+            </if>
+            <if test="educationId != null">
+                education_id = #{educationId,jdbcType=BIGINT},
+            </if>
+            <if test="majorId != null">
+                major_id = #{majorId,jdbcType=BIGINT},
+            </if>
+            <if test="certificateNum != null">
+                certificate_num = #{certificateNum,jdbcType=VARCHAR},
+            </if>
+            <if test="useNature != null">
+                use_nature = #{useNature,jdbcType=INTEGER},
+            </if>
+            <if test="userAbout != null">
+                user_about = #{userAbout,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="limitVarietyRange != null">
+                limit_variety_range = #{limitVarietyRange,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    update saas_user_administration
+    set user_id = #{userId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      user_type = #{userType,jdbcType=VARCHAR},
+      login_account = #{loginAccount,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      dept_ids = #{deptIds,jdbcType=VARCHAR},
+      position_ids = #{positionIds,jdbcType=VARCHAR},
+      role_ids = #{roleIds,jdbcType=VARCHAR},
+      limit_variety = #{limitVariety,jdbcType=VARCHAR},
+      graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      graduation_university = #{graduationUniversity,jdbcType=VARCHAR},
+      education_id = #{educationId,jdbcType=BIGINT},
+      major_id = #{majorId,jdbcType=BIGINT},
+      working_hours = #{workingHours,jdbcType=TIMESTAMP},
+      induction_time = #{inductionTime,jdbcType=TIMESTAMP},
+      full_time = #{fullTime,jdbcType=TIMESTAMP},
+      certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      use_nature = #{useNature,jdbcType=INTEGER},
+      user_about = #{userAbout,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      limit_variety_range = #{limitVarietyRange,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+    update saas_user_administration
+    set user_id = #{userId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      user_type = #{userType,jdbcType=VARCHAR},
+      login_account = #{loginAccount,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      dept_ids = #{deptIds,jdbcType=VARCHAR},
+      position_ids = #{positionIds,jdbcType=VARCHAR},
+      role_ids = #{roleIds,jdbcType=VARCHAR},
+      limit_variety = #{limitVariety,jdbcType=VARCHAR},
+      graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      graduation_university = #{graduationUniversity,jdbcType=VARCHAR},
+      education_id = #{educationId,jdbcType=BIGINT},
+      major_id = #{majorId,jdbcType=BIGINT},
+      working_hours = #{workingHours,jdbcType=TIMESTAMP},
+      induction_time = #{inductionTime,jdbcType=TIMESTAMP},
+      full_time = #{fullTime,jdbcType=TIMESTAMP},
+      certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      use_nature = #{useNature,jdbcType=INTEGER},
+      user_about = #{userAbout,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updatePwd" parameterType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserPwdVO" >
+    UPDATE saas_user_administration SET password = #{newPassword},password_confirm = #{affirmPassword} WHERE  user_id = #{userId}
+  </update>
+
+  <select id="getUserCountByUIDPwd" resultType="java.lang.Integer" parameterType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserPwdVO">
+      SELECT count(*) FROM saas_user_administration WHERE  user_id = #{userId} AND password = #{password}
+  </select>
+
+  <select id="getUserAccount" resultType="map">
+      SELECT login_account,user_id FROM saas_user_administration WHERE  user_id = #{userId}
+  </select>
+
+  <select id="queryCountUserAdministrationByAccount" resultType="java.lang.Long">
+      SELECT count(1) 
+      	  from saas_user_administration
+      where login_account = #{loginAccount,jdbcType=VARCHAR}
+  </select>
+    <select id="selectUserHasDepartment" resultType="java.lang.Integer">
+      SELECT COUNT(id)
+           FROM saas_user_administration
+      WHERE find_in_set(#{id},dept_ids)
+    </select>
+  <select id="selectUserHasPosition" resultType="java.lang.Integer">
+    SELECT COUNT(id)
+           FROM saas_user_administration
+      WHERE find_in_set(#{id},position_ids)
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="Cargo_Column_List" />
+    from saas_user_administration
+    where user_id = #{id,jdbcType=BIGINT}
+    LIMIT 1
+  </select>
+</mapper>

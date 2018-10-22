@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.other.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.other.entity.SysLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="employee_code" jdbcType="VARCHAR" property="employeeCode" />
+    <result column="employee_name" jdbcType="VARCHAR" property="employeeName" />
+    <result column="login_place" jdbcType="VARCHAR" property="loginPlace" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="action_name" jdbcType="VARCHAR" property="actionName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, login_time, account, employee_id, employee_code, employee_name,
+    login_place, ip,  action_name, remark, creater_id, creater_code, creater_name,
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sys_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.SysLog">
+    insert into saas_sys_log (id, enterprise_id, parent_id,
+      login_time, account, employee_id, 
+      employee_code, employee_name, login_place, 
+      ip,  action_name,
+      remark, creater_id, creater_code, 
+      creater_name, create_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{loginTime,jdbcType=TIMESTAMP}, #{account,jdbcType=VARCHAR}, #{employeeId,jdbcType=BIGINT}, 
+      #{employeeCode,jdbcType=VARCHAR}, #{employeeName,jdbcType=VARCHAR}, #{loginPlace,jdbcType=VARCHAR},
+      #{ip,jdbcType=VARCHAR}, #{actionName,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.SysLog">
+    insert into saas_sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="employeeCode != null">
+        employee_code,
+      </if>
+      <if test="employeeName != null">
+        employee_name,
+      </if>
+      <if test="loginPlace != null">
+        login_place,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="actionName != null">
+        action_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="employeeCode != null">
+        #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeName != null">
+        #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPlace != null">
+        #{loginPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+
+      <if test="actionName != null">
+        #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.SysLog">
+    update saas_sys_log
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeId != null">
+        employee_id = #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="employeeCode != null">
+        employee_code = #{employeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeName != null">
+        employee_name = #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPlace != null">
+        login_place = #{loginPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+
+      <if test="actionName != null">
+        action_name = #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.SysLog">
+    update saas_sys_log
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      account = #{account,jdbcType=VARCHAR},
+      employee_id = #{employeeId,jdbcType=BIGINT},
+      employee_code = #{employeeCode,jdbcType=VARCHAR},
+      employee_name = #{employeeName,jdbcType=VARCHAR},
+      login_place = #{loginPlace,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      action_name = #{actionName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getSysLogListByParam" parameterType="com.rograndec.feijiayun.chain.business.system.other.vo.SysLogParamVO" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM  saas_sys_log
+    WHERE
+      enterprise_id = #{enterpriseId}
+    <if test="startDate != null and endDate != null">
+      and login_time between #{startDate} and #{endDate}
+    </if>
+    order by  ${order}  ${sort}
+
+  </select>
+</mapper>

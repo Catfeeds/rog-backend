@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.receive.dao.PurchaseReceiveOtherMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceiveOther">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="receive_id" jdbcType="BIGINT" property="receiveId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="transport_mode" jdbcType="INTEGER" property="transportMode" />
+    <result column="temp_control_mode" jdbcType="INTEGER" property="tempControlMode" />
+    <result column="carriage_mode" jdbcType="INTEGER" property="carriageMode" />
+    <result column="carriage_unit" jdbcType="VARCHAR" property="carriageUnit" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="freight_pass" jdbcType="VARCHAR" property="freightPass" />
+    <result column="send_address" jdbcType="VARCHAR" property="sendAddress" />
+    <result column="sender" jdbcType="VARCHAR" property="sender" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+    <result column="driver" jdbcType="VARCHAR" property="driver" />
+    <result column="driver_license_code" jdbcType="VARCHAR" property="driverLicenseCode" />
+    <result column="limit_time" jdbcType="INTEGER" property="limitTime" />
+    <result column="limit_time_unit" jdbcType="INTEGER" property="limitTimeUnit" />
+    <result column="shipment_time" jdbcType="TIMESTAMP" property="shipmentTime" />
+    <result column="shipment_temp" jdbcType="INTEGER" property="shipmentTemp" />
+    <result column="shipment_humidity" jdbcType="INTEGER" property="shipmentHumidity" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="transit_temp_start" jdbcType="INTEGER" property="transitTempStart" />
+    <result column="transit_temp_end" jdbcType="INTEGER" property="transitTempEnd" />
+    <result column="transit_humidity_start" jdbcType="INTEGER" property="transitHumidityStart" />
+    <result column="transit_humidity_end" jdbcType="INTEGER" property="transitHumidityEnd" />
+    <result column="arrival_temp" jdbcType="INTEGER" property="arrivalTemp" />
+    <result column="arrival_humidity" jdbcType="INTEGER" property="arrivalHumidity" />
+    <result column="receive_unit" jdbcType="VARCHAR" property="receiveUnit" />
+    <result column="receive_address" jdbcType="VARCHAR" property="receiveAddress" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="check_flag" jdbcType="INTEGER" property="checkFlag" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, receive_id, order_id, order_code, transport_mode, temp_control_mode, 
+    carriage_mode, carriage_unit, agent, freight_pass, send_address, sender, number, 
+    car_number, driver, driver_license_code, limit_time, limit_time_unit, shipment_time, 
+    shipment_temp, shipment_humidity, arrival_time, transit_temp_start, transit_temp_end, 
+    transit_humidity_start, transit_humidity_end, arrival_temp, arrival_humidity,
+    receive_unit, receive_address, file_id, check_flag, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_receive_other
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseIdByReceiveId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_receive_other
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and receive_id = #{receiveId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_receive_other
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceiveOther" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_receive_other (id, enterprise_id, parent_id, 
+      receive_id, order_id, order_code, 
+      transport_mode, temp_control_mode, carriage_mode, 
+      carriage_unit, agent, freight_pass, 
+      send_address, sender, number, 
+      car_number, driver, driver_license_code, 
+      limit_time, limit_time_unit, shipment_time, 
+      shipment_temp, shipment_humidity, arrival_time, 
+      transit_temp_start, transit_temp_end, transit_humidity_start, 
+      transit_humidity_end, arrival_temp, "arrival_humidity",
+      receive_unit, receive_address, file_id, 
+      check_flag, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{receiveId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, 
+      #{transportMode,jdbcType=INTEGER}, #{tempControlMode,jdbcType=INTEGER}, #{carriageMode,jdbcType=INTEGER}, 
+      #{carriageUnit,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{freightPass,jdbcType=VARCHAR}, 
+      #{sendAddress,jdbcType=VARCHAR}, #{sender,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{carNumber,jdbcType=VARCHAR}, #{driver,jdbcType=VARCHAR}, #{driverLicenseCode,jdbcType=VARCHAR}, 
+      #{limitTime,jdbcType=INTEGER}, #{limitTimeUnit,jdbcType=INTEGER}, #{shipmentTime,jdbcType=TIMESTAMP}, 
+      #{shipmentTemp,jdbcType=INTEGER}, #{shipmentHumidity,jdbcType=INTEGER}, #{arrivalTime,jdbcType=TIMESTAMP}, 
+      #{transitTempStart,jdbcType=INTEGER}, #{transitTempEnd,jdbcType=INTEGER}, #{transitHumidityStart,jdbcType=INTEGER}, 
+      #{transitHumidityEnd,jdbcType=INTEGER}, #{arrivalTemp,jdbcType=INTEGER}, #{arrivalHumidity,jdbcType=INTEGER}, 
+      #{receiveUnit,jdbcType=VARCHAR}, #{receiveAddress,jdbcType=VARCHAR}, #{fileId,jdbcType=BIGINT}, 
+      #{checkFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      now(), #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR},
+      #{modifierName,jdbcType=VARCHAR}, now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceiveOther" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_receive_other
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="receiveId != null">
+        receive_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="transportMode != null">
+        transport_mode,
+      </if>
+      <if test="tempControlMode != null">
+        temp_control_mode,
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode,
+      </if>
+      <if test="carriageUnit != null">
+        carriage_unit,
+      </if>
+      <if test="agent != null">
+        agent,
+      </if>
+      <if test="freightPass != null">
+        freight_pass,
+      </if>
+      <if test="sendAddress != null">
+        send_address,
+      </if>
+      <if test="sender != null">
+        sender,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="carNumber != null">
+        car_number,
+      </if>
+      <if test="driver != null">
+        driver,
+      </if>
+      <if test="driverLicenseCode != null">
+        driver_license_code,
+      </if>
+      <if test="limitTime != null">
+        limit_time,
+      </if>
+      <if test="limitTimeUnit != null">
+        limit_time_unit,
+      </if>
+      <if test="shipmentTime != null">
+        shipment_time,
+      </if>
+      <if test="shipmentTemp != null">
+        shipment_temp,
+      </if>
+      <if test="shipmentHumidity != null">
+        shipment_humidity,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+      <if test="transitTempStart != null">
+        transit_temp_start,
+      </if>
+      <if test="transitTempEnd != null">
+        transit_temp_end,
+      </if>
+      <if test="transitHumidityStart != null">
+        transit_humidity_start,
+      </if>
+      <if test="transitHumidityEnd != null">
+        transit_humidity_end,
+      </if>
+      <if test="arrivalTemp != null">
+        arrival_temp,
+      </if>
+      <if test="arrivalHumidity != null">
+        arrival_humidity,
+      </if>
+      <if test="receiveUnit != null">
+        receive_unit,
+      </if>
+      <if test="receiveAddress != null">
+        receive_address,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="checkFlag != null">
+        check_flag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+        create_time,
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveId != null">
+        #{receiveId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null">
+        #{transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="tempControlMode != null">
+        #{tempControlMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageMode != null">
+        #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageUnit != null">
+        #{carriageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="freightPass != null">
+        #{freightPass,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddress != null">
+        #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null">
+        #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicenseCode != null">
+        #{driverLicenseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null">
+        #{limitTime,jdbcType=INTEGER},
+      </if>
+      <if test="limitTimeUnit != null">
+        #{limitTimeUnit,jdbcType=INTEGER},
+      </if>
+      <if test="shipmentTime != null">
+        #{shipmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipmentTemp != null">
+        #{shipmentTemp,jdbcType=INTEGER},
+      </if>
+      <if test="shipmentHumidity != null">
+        #{shipmentHumidity,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transitTempStart != null">
+        #{transitTempStart,jdbcType=INTEGER},
+      </if>
+      <if test="transitTempEnd != null">
+        #{transitTempEnd,jdbcType=INTEGER},
+      </if>
+      <if test="transitHumidityStart != null">
+        #{transitHumidityStart,jdbcType=INTEGER},
+      </if>
+      <if test="transitHumidityEnd != null">
+        #{transitHumidityEnd,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalTemp != null">
+        #{arrivalTemp,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalHumidity != null">
+        #{arrivalHumidity,jdbcType=INTEGER},
+      </if>
+      <if test="receiveUnit != null">
+        #{receiveUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null">
+        #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="checkFlag != null">
+        #{checkFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceiveOther">
+    update saas_purchase_receive_other
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveId != null">
+        receive_id = #{receiveId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null">
+        transport_mode = #{transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="tempControlMode != null">
+        temp_control_mode = #{tempControlMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageUnit != null">
+        carriage_unit = #{carriageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null">
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="freightPass != null">
+        freight_pass = #{freightPass,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddress != null">
+        send_address = #{sendAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        sender = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="driver != null">
+        driver = #{driver,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicenseCode != null">
+        driver_license_code = #{driverLicenseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null">
+        limit_time = #{limitTime,jdbcType=INTEGER},
+      </if>
+      <if test="limitTimeUnit != null">
+        limit_time_unit = #{limitTimeUnit,jdbcType=INTEGER},
+      </if>
+      <if test="shipmentTime != null">
+        shipment_time = #{shipmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipmentTemp != null">
+        shipment_temp = #{shipmentTemp,jdbcType=INTEGER},
+      </if>
+      <if test="shipmentHumidity != null">
+        shipment_humidity = #{shipmentHumidity,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transitTempStart != null">
+        transit_temp_start = #{transitTempStart,jdbcType=INTEGER},
+      </if>
+      <if test="transitTempEnd != null">
+        transit_temp_end = #{transitTempEnd,jdbcType=INTEGER},
+      </if>
+      <if test="transitHumidityStart != null">
+        transit_humidity_start = #{transitHumidityStart,jdbcType=INTEGER},
+      </if>
+      <if test="transitHumidityEnd != null">
+        transit_humidity_end = #{transitHumidityEnd,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalTemp != null">
+        arrival_temp = #{arrivalTemp,jdbcType=INTEGER},
+      </if>
+      <if test="arrivalHumidity != null">
+        arrival_humidity = #{arrivalHumidity,jdbcType=INTEGER},
+      </if>
+      <if test="receiveUnit != null">
+        receive_unit = #{receiveUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null">
+        receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="checkFlag != null">
+        check_flag = #{checkFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+        update_time = now(),
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceiveOther">
+    update saas_purchase_receive_other
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      receive_id = #{receiveId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=BIGINT},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      transport_mode = #{transportMode,jdbcType=INTEGER},
+      temp_control_mode = #{tempControlMode,jdbcType=INTEGER},
+      carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      carriage_unit = #{carriageUnit,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      freight_pass = #{freightPass,jdbcType=VARCHAR},
+      send_address = #{sendAddress,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      car_number = #{carNumber,jdbcType=VARCHAR},
+      driver = #{driver,jdbcType=VARCHAR},
+      driver_license_code = #{driverLicenseCode,jdbcType=VARCHAR},
+      limit_time = #{limitTime,jdbcType=INTEGER},
+      limit_time_unit = #{limitTimeUnit,jdbcType=INTEGER},
+      shipment_time = #{shipmentTime,jdbcType=TIMESTAMP},
+      shipment_temp = #{shipmentTemp,jdbcType=INTEGER},
+      shipment_humidity = #{shipmentHumidity,jdbcType=INTEGER},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      transit_temp_start = #{transitTempStart,jdbcType=INTEGER},
+      transit_temp_end = #{transitTempEnd,jdbcType=INTEGER},
+      transit_humidity_start = #{transitHumidityStart,jdbcType=INTEGER},
+      transit_humidity_end = #{transitHumidityEnd,jdbcType=INTEGER},
+      arrival_temp = #{arrivalTemp,jdbcType=INTEGER},
+      arrival_humidity = #{arrivalHumidity,jdbcType=INTEGER},
+      receive_unit = #{receiveUnit,jdbcType=VARCHAR},
+      receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      check_flag = #{checkFlag,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateStatusFinishedByReceiveId">
+    update saas_purchase_receive_other
+    set 
+      status = #{status,jdbcType=INTEGER}
+    where receive_id = #{receiveId,jdbcType=BIGINT}
+  </update>
+</mapper>

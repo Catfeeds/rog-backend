@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.split.dao.SplitSetMapper">
+    <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="split_goods_id" jdbcType="BIGINT" property="splitGoodsId"/>
+        <result column="split_specification" jdbcType="VARCHAR" property="splitSpecification"/>
+        <result column="split_unit_id" jdbcType="BIGINT" property="splitUnitId"/>
+        <result column="split_unit_name" jdbcType="VARCHAR" property="splitUnitName"/>
+        <result column="split_shelf_id" jdbcType="BIGINT" property="splitShelfId"/>
+        <result column="split_shelf_name" jdbcType="VARCHAR" property="splitShelfName"/>
+        <result column="split_quantity" jdbcType="DECIMAL" property="splitQuantity"/>
+        <result column="split_member_price" jdbcType="DECIMAL" property="splitMemberPrice"/>
+        <result column="split_retail_price" jdbcType="DECIMAL" property="splitRetailPrice"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="creater_code" jdbcType="VARCHAR" property="createrCode"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId"/>
+        <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode"/>
+        <result column="modifier_name" jdbcType="VARCHAR" property="modifierName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, goods_id,split_goods_id, split_specification, split_unit_id, split_unit_name,
+    split_shelf_id, split_shelf_name, split_quantity, split_member_price, split_retail_price, 
+    status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_split_set
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_split_set
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet">
+    insert into saas_split_set (id, enterprise_id, parent_id, 
+      goods_id,split_goods_id, split_specification, split_unit_id,
+      split_unit_name, split_shelf_id, split_shelf_name, 
+      split_quantity, split_member_price, split_retail_price, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{goodsId,jdbcType=BIGINT}, #{splitGoodsId,jdbcType=BIGINT},#{splitSpecification,jdbcType=VARCHAR}, #{splitUnitId,jdbcType=BIGINT},
+      #{splitUnitName,jdbcType=VARCHAR}, #{splitShelfId,jdbcType=BIGINT}, #{splitShelfName,jdbcType=VARCHAR}, 
+      #{splitQuantity,jdbcType=DECIMAL}, #{splitMemberPrice,jdbcType=DECIMAL}, #{splitRetailPrice,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet">
+        insert into saas_split_set
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="splitGoodsId != null">
+                split_goods_id,
+            </if>
+            <if test="splitSpecification != null">
+                split_specification,
+            </if>
+            <if test="splitUnitId != null">
+                split_unit_id,
+            </if>
+            <if test="splitUnitName != null">
+                split_unit_name,
+            </if>
+            <if test="splitShelfId != null">
+                split_shelf_id,
+            </if>
+            <if test="splitShelfName != null">
+                split_shelf_name,
+            </if>
+            <if test="splitQuantity != null">
+                split_quantity,
+            </if>
+            <if test="splitMemberPrice != null">
+                split_member_price,
+            </if>
+            <if test="splitRetailPrice != null">
+                split_retail_price,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createrCode != null">
+                creater_code,
+            </if>
+            <if test="createrName != null">
+                creater_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifierId != null">
+                modifier_id,
+            </if>
+            <if test="modifierCode != null">
+                modifier_code,
+            </if>
+            <if test="modifierName != null">
+                modifier_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="splitGoodsId != null">
+                #{splitGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="splitSpecification != null">
+                #{splitSpecification,jdbcType=VARCHAR},
+            </if>
+            <if test="splitUnitId != null">
+                #{splitUnitId,jdbcType=BIGINT},
+            </if>
+            <if test="splitUnitName != null">
+                #{splitUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="splitShelfId != null">
+                #{splitShelfId,jdbcType=BIGINT},
+            </if>
+            <if test="splitShelfName != null">
+                #{splitShelfName,jdbcType=VARCHAR},
+            </if>
+            <if test="splitQuantity != null">
+                #{splitQuantity,jdbcType=DECIMAL},
+            </if>
+            <if test="splitMemberPrice != null">
+                #{splitMemberPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="splitRetailPrice != null">
+                #{splitRetailPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet">
+        update saas_split_set
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="splitGoodsId != null">
+                split_goods_id = #{splitGoodsId,jdbcType=BIGINT},
+            </if>
+            <if test="splitSpecification != null">
+                split_specification = #{splitSpecification,jdbcType=VARCHAR},
+            </if>
+            <if test="splitUnitId != null">
+                split_unit_id = #{splitUnitId,jdbcType=BIGINT},
+            </if>
+            <if test="splitUnitName != null">
+                split_unit_name = #{splitUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="splitShelfId != null">
+                split_shelf_id = #{splitShelfId,jdbcType=BIGINT},
+            </if>
+            <if test="splitShelfName != null">
+                split_shelf_name = #{splitShelfName,jdbcType=VARCHAR},
+            </if>
+            <if test="splitQuantity != null">
+                split_quantity = #{splitQuantity,jdbcType=DECIMAL},
+            </if>
+            <if test="splitMemberPrice != null">
+                split_member_price = #{splitMemberPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="splitRetailPrice != null">
+                split_retail_price = #{splitRetailPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet">
+    update saas_split_set
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      split_goods_id = #{splitGoodsId,jdbcType=BIGINT},
+      split_specification = #{splitSpecification,jdbcType=VARCHAR},
+      split_unit_id = #{splitUnitId,jdbcType=BIGINT},
+      split_unit_name = #{splitUnitName,jdbcType=VARCHAR},
+      split_shelf_id = #{splitShelfId,jdbcType=BIGINT},
+      split_shelf_name = #{splitShelfName,jdbcType=VARCHAR},
+      split_quantity = #{splitQuantity,jdbcType=DECIMAL},
+      split_member_price = #{splitMemberPrice,jdbcType=DECIMAL},
+      split_retail_price = #{splitRetailPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--获取拆零设置单据信息缺：1、原商品货位；2、原商品零售价、会员价；3、拆零商品编码；4、拆零商品零售价、会员价；5、启用状态；6、拆零商品货位-->
+    <select id="getSplitSetPage" resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.SplitSetPageVO">
+     SELECT
+      sp.id AS id,
+        sp.parent_id AS  parentId,
+      goo.id AS goodsId,
+      goo.code AS goodsCode,
+      goo.generic_name AS genericName,
+      goo.name AS name,
+      goo.dosage_name AS dosageName,
+      goo.specification AS specification,
+      goo.unit_name AS unitName,
+      goo.manufacturer_id AS manufacturerId,
+      goo.manufacturer AS manufacturer,
+      goo.place AS place,
+      goo.approval_number AS approvalNumber,
+      goo.barcode AS barcode,
+      sp.split_goods_id AS splitGoodsId,
+      sp.split_specification AS splitSpecification,
+      sp.split_unit_id AS splitUnitId,
+      sp.split_unit_name AS splitUnitName,
+      sp.split_shelf_id AS splitShelfId,
+      sp.split_shelf_name AS splitShelfName,
+      sp.split_quantity AS splitQuantity,
+        sp.split_member_price AS splitMemberPrice,
+        sp.split_retail_price AS splitRetailPrice,
+        sp.status
+     FROM
+      saas_split_set sp
+     LEFT JOIN saas_goods goo
+     ON sp.goods_id = goo.id
+     WHERE
+        1 = 1
+        <if test="chainType == 0">
+            AND sp.enterprise_id = #{enterpriseId}
+        </if>
+        <if test="chainType == 1">
+            AND sp.enterprise_id = #{parentId}
+        </if>
+        <if test="chainType == 2">
+            AND (sp.enterprise_id = #{enterpriseId} or sp.enterprise_id = #{parentId})
+        </if>
+     <if test="param != null and param != ''">
+            and (
+            goo.code like concat('%', #{param},'%')
+            or
+            goo.barcode like concat('%', #{param},'%')
+            or
+            goo.pinyin_code like concat('%', #{param},'%')
+            or
+            goo.name like concat('%', #{param},'%')
+            or
+            goo.generic_name like concat('%', #{param},'%')
+            or
+            goo.approval_number like concat('%', #{param},'%')
+            )
+     </if>
+     ORDER BY goo.code ${sort}
+        limit #{start},#{pageSize}
+  </select>
+    <select id="getSplitSetPageCount" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        saas_split_set sp
+        LEFT JOIN saas_goods goo
+        ON sp.goods_id = goo.id
+        WHERE
+        1 = 1
+        <if test="chainType == 0">
+            AND sp.enterprise_id = #{enterpriseId}
+        </if>
+        <if test="chainType == 1">
+            AND sp.enterprise_id = #{parentId}
+        </if>
+        <if test="chainType == 2">
+            AND (sp.enterprise_id = #{enterpriseId} or sp.enterprise_id = #{parentId})
+        </if>
+        <if test="param != null and param != ''">
+            and (
+            goo.code like concat('%', #{param},'%')
+            or
+            goo.barcode like concat('%', #{param},'%')
+            or
+            goo.pinyin_code like concat('%', #{param},'%')
+            or
+            goo.name like concat('%', #{param},'%')
+            or
+            goo.generic_name like concat('%', #{param},'%')
+            or
+            goo.approval_number like concat('%', #{param},'%')
+            )
+        </if>
+        ORDER BY goo.code ${sort}
+    </select>
+
+    <!--查询某个商品下有多少个拆零商品-->
+    <select id="countSplitGoods" resultType="java.lang.Integer">
+      SELECT
+        COUNT(*)
+      FROM saas_split_set
+      WHERE enterprise_id = #{enterpriseId}
+      AND goods_id = #{goodsId}
+  </select>
+
+    <!--储存管理-拆零设置，查询所有可进行拆零的商品 :1、商品性质为 0-普通商品；2、为启用状态；3、审核状态正常；4、不存在正常的拆零商品-->
+    <select id="getCanSplitGoods" resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.CanSpitGoodVO">
+        SELECT
+        goo.id as id,
+        goo.code as code,
+        goo.generic_name as genericName,
+        goo.name as name,
+        goo.dosage_name as dosageName,
+        goo.specification as specification,
+        goo.unit_name as unitName,
+        goo.manufacturer_id as manufacturerId,
+        goo.manufacturer as manufacturer,
+        goo.place as place,
+        goo.approval_number as approvalNumber,
+        goo.barcode as barcode
+        FROM
+        saas_goods goo
+        WHERE
+        goo.enterprise_id = #{enterpriseId} and  goo.owner_id = #{ownerId}
+        AND goo.goods_nature = 0
+        AND goo.status = 1
+        AND goo.approve_status = 1
+        AND goo.id not in
+        (select
+        DISTINCT goods_id
+        from saas_split_set
+        LEFT JOIN saas_goods sg
+        ON sg.id = split_goods_id
+        WHERE sg.status = 1)
+        <if test="param != null and param != ''">
+            and (
+            goo.code like concat('%', #{param},'%')
+            or
+            goo.barcode like concat('%', #{param},'%')
+            or
+            goo.pinyin_code like concat('%', #{param},'%')
+            or
+            goo.name like concat('%', #{param},'%')
+            or
+            goo.generic_name like concat('%', #{param},'%')
+            or
+            goo.approval_number like concat('%', #{param},'%')
+            )
+        </if>
+        limit 100
+    </select>
+
+    <select id="getSplitSetById" resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.SplitSetPageVO">
+      SELECT
+      sp.id AS id,
+      goo.id AS goodsId,
+      goo.code AS goodsCode,
+      goo.generic_name AS genericName,
+      goo.name AS name,
+      goo.dosage_name AS dosageName,
+      goo.specification AS specification,
+      goo.unit_name AS unitName,
+      goo.manufacturer_id AS manufacturerId,
+      goo.manufacturer AS manufacturer,
+      goo.place AS place,
+      goo.approval_number AS approvalNumber,
+      goo.barcode AS barcode,
+      sp.split_goods_id AS splitGoodsId,
+      sp.split_specification AS splitSpecification,
+      sp.split_unit_id AS splitUnitId,
+      sp.split_unit_name AS splitUnitName,
+      sp.split_shelf_id AS splitShelfId,
+      sp.split_shelf_name AS splitShelfName,
+      sp.split_quantity AS splitQuantity
+     FROM
+      saas_split_set sp
+     LEFT JOIN saas_goods goo
+     ON sp.goods_id = goo.id
+     WHERE
+      sp.id = #{id}
+    </select>
+
+  <update id="updateSplitGoodsStatus">
+    UPDATE
+    saas_goods goo
+    LEFT JOIN saas_split_set sp
+    ON sp.split_goods_id = goo.id
+    SET goo.status = 0
+    WHERE
+    goo.enterprise_id = #{enterpriseId}
+    AND
+    goo.status = 1
+    AND
+    sp.split_goods_id
+      IN (SELECT
+        IFNULL(split_goods_id,'')
+        from saas_split_set
+        WHERE goods_id = #{goodsId}
+        AND split_goods_id != #{splitGoodsId})
+  </update>
+
+  <update id="updateShelfAndPrice" parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.SplitSet" >
+    UPDATE saas_split_set
+    SET
+      split_shelf_id = #{splitShelfId,jdbcType=BIGINT},
+      split_shelf_name = #{splitShelfName,jdbcType=VARCHAR},
+      split_member_price = #{splitMemberPrice,jdbcType=DECIMAL},
+      split_retail_price = #{splitRetailPrice,jdbcType=DECIMAL},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = now()
+    WHERE id = #{id}
+  </update>
+
+  <select id="getSplitGoodsIdsWithGoodsId" resultType="java.lang.Long">
+      SELECT
+        goo.id
+      FROM saas_goods goo
+      LEFT JOIN saas_split_set ss ON ss.split_goods_id = goo.id
+      WHERE ss.goods_id = #{goodsId}
+      <if test="status != null">
+        goo.status = #{status}
+      </if>
+  </select>
+</mapper>

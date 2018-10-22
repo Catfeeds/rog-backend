@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.price.dao.PriceModifyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="column_en_name" jdbcType="VARCHAR" property="columnEnName" />
+    <result column="column_ch_name" jdbcType="VARCHAR" property="columnChName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="key_id" jdbcType="BIGINT" property="keyId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecordWithBLOBs">
+    <result column="old_content" jdbcType="LONGVARCHAR" property="oldContent" />
+    <result column="new_content" jdbcType="LONGVARCHAR" property="newContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, goods_id, goods_code, goods_name, table_name, column_en_name, 
+    column_ch_name, update_time, remark, creater_id, creater_code, creater_name, create_time,key_id
+  </sql>
+  <sql id="Blob_Column_List">
+    old_content, new_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_price_modify_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByParam" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select
+     <include refid="Base_Column_List"/>,
+     <include refid="Blob_Column_List"/>
+    from saas_price_modify_record
+    where key_id = #{priceOrderId,jdbcType=BIGINT}
+    order by create_time desc
+  </select>
+
+
+  <select id="selectByParamCount" parameterType="java.util.Map" resultType="java.lang.Long">
+
+    SELECT SUM(t.c1) as c2
+    FROM (
+
+      select
+      COUNT(1) as c1
+      from saas_price_modify_record rc, saas_goods sg
+      where rc.parent_id = #{eId,jdbcType=BIGINT} AND sg.id = rc.goods_id and key_id = #{priceOrderId,jdbcType=BIGINT}
+      <if test="queryStr != null">
+        and (
+        sg.code like concat('%',#{queryStr},'%')
+        or sg.barcode like concat('%',#{queryStr},'%')
+        or sg.pinyin_code like concat('%',#{queryStr},'%')
+        or sg.generic_name like concat('%',#{queryStr},'%')
+        or sg.name like concat('%',#{queryStr},'%')
+        or sg.approval_number like concat('%',#{queryStr},'%')
+        )
+      </if>
+      UNION
+
+      select
+      COUNT(1) as c1
+      from saas_price_modify_record rc, saas_goods sg
+      where rc.parent_id = #{pId,jdbcType=BIGINT} AND sg.id = rc.goods_id and key_id = #{priceOrderId,jdbcType=BIGINT}
+      <if test="queryStr != null">
+        and (
+        sg.code like concat('%',#{queryStr},'%')
+        or sg.barcode like concat('%',#{queryStr},'%')
+        or sg.pinyin_code like concat('%',#{queryStr},'%')
+        or sg.generic_name like concat('%',#{queryStr},'%')
+        or sg.name like concat('%',#{queryStr},'%')
+        or sg.approval_number like concat('%',#{queryStr},'%')
+        )
+      </if>
+    ) t
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_price_modify_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecordWithBLOBs">
+    insert into saas_price_modify_record (id, enterprise_id, parent_id, 
+      goods_id, goods_code, goods_name, 
+      table_name, column_en_name, column_ch_name, 
+      update_time, remark, creater_id, 
+      creater_code, creater_name, create_time, key_id,
+      old_content, new_content)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
+      #{tableName,jdbcType=VARCHAR}, #{columnEnName,jdbcType=VARCHAR}, #{columnChName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{keyId,jdbcType=BIGINT},
+      #{oldContent,jdbcType=LONGVARCHAR}, #{newContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecordWithBLOBs"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_price_modify_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="columnEnName != null">
+        column_en_name,
+      </if>
+      <if test="columnChName != null">
+        column_ch_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="keyId != null">
+        key_id,
+      </if>
+      <if test="oldContent != null">
+        old_content,
+      </if>
+      <if test="newContent != null">
+        new_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnEnName != null">
+        #{columnEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnChName != null">
+        #{columnChName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyId != null">
+        #{keyId,jdbcType=BIGINT},
+      </if>
+      <if test="oldContent != null">
+        #{oldContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newContent != null">
+        #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecordWithBLOBs">
+    update saas_price_modify_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnEnName != null">
+        column_en_name = #{columnEnName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnChName != null">
+        column_ch_name = #{columnChName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyId != null">
+        key_id = #{keyId,jdbcType=BIGINT},
+      </if>
+      <if test="oldContent != null">
+        old_content = #{oldContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newContent != null">
+        new_content = #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecordWithBLOBs">
+    update saas_price_modify_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      column_en_name = #{columnEnName,jdbcType=VARCHAR},
+      column_ch_name = #{columnChName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      key_id = #{keyId,jdbcType=BIGINT},
+      old_content = #{oldContent,jdbcType=LONGVARCHAR},
+      new_content = #{newContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceModifyRecord">
+    update saas_price_modify_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      column_en_name = #{columnEnName,jdbcType=VARCHAR},
+      column_ch_name = #{columnChName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      key_id = #{keyId,jdbcType=BIGINT},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

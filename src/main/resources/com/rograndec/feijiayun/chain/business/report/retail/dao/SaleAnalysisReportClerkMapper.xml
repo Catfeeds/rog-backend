@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.retail.dao.SaleAnalysisReportClerkMapper">
+	<select id="selectBranchClerkSaleListByDailyTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkResultBranchVO">
+    SELECT
+    	tab1.enterprise_id as enterpriseId,
+    	tab1.code as storeCode,
+    	tab1.name as storeName,
+		tab1.clerk_id as clerkId, 
+	  	tab1.clerk_name as clerkName, 
+		tab2.real_amount as realAmount, 
+		tab3.real_amount as returnRealAmount,
+		IFNULL(tab2.real_amount,0) + IFNULL(tab3.real_amount,0) as realAmountTotal,
+	    IFNULL(tab2.notax_real_amount,0) + IFNULL(tab3.notax_real_amount,0) as notaxRealAmountTotal,
+	    IFNULL(tab2.tax_amount,0) + IFNULL(tab3.tax_amount,0) as taxAmountTotal
+	FROM
+		(
+	select d.enterprise_id, e.code, e.name, d.clerk_id, d.clerk_name
+	from saas_sale_detail d LEFT JOIN saas_sale s
+		on d.sale_id = s.id
+			left join saas_enterprise e
+		on d.enterprise_id = e.id
+	where
+		 s.daily_settlement_flag = '1'
+	<if test="enterpriseId != null">
+		and d.enterprise_id = #{enterpriseId}
+	</if>
+	<if test="parentId != null">
+		and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+	</if>
+	<if test="vo.chainType != null">  
+    	and e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode !=''">  
+    	and (
+		    	INSTR(e.code, #{vo.storeCode})
+		    	or INSTR(e.pinyin, #{vo.storeCode})
+	    	)
+    </if>
+    <if test="vo.storeName != null and vo.storeName !=''">  
+    	and e.name like '%${vo.storeName}%'
+    </if>
+	<if test="vo.startDate != null">  
+    	and s.daily_time >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>	
+    <if test="vo.clerkName != null and vo.clerkName !=''">
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab1
+	left join (
+		select d.enterprise_id, d.clerk_id, d.clerk_name, 
+		sum(d.real_amount) as real_amount, 
+		sum(d.notax_real_amount) as notax_real_amount, 
+		sum(d.tax_amount)as tax_amount
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id
+		where
+		 	s.sale_type = 0
+			and s.daily_settlement_flag = '1'
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode !=''">  
+	    	and (
+		    	INSTR(e.code, #{vo.storeCode})
+		    	or INSTR(e.pinyin, #{vo.storeCode})
+	    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and s.daily_time >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab2 
+			on tab1.enterprise_id = tab2.enterprise_id and tab1.clerk_id = tab2.clerk_id
+	LEFT JOIN (
+		select d.enterprise_id, d.clerk_id, d.clerk_name, 
+		sum(-1*d.real_amount) as real_amount, 
+		sum(-1*d.notax_real_amount) as notax_real_amount, 
+		sum(-1*d.tax_amount)as tax_amount
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id
+		where
+			s.sale_type = 1
+			and s.daily_settlement_flag = '1'
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode !=''">  
+	    	and (
+		    	INSTR(e.code, #{vo.storeCode})
+		    	or INSTR(e.pinyin, #{vo.storeCode})
+	    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and s.daily_time >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab3 
+			on tab1.enterprise_id = tab3.enterprise_id and tab1.clerk_id = tab3.clerk_id
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountBranchClerkSaleListByDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select d.enterprise_id, d.clerk_id, d.clerk_name
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+				 s.daily_settlement_flag = '1'
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode!=''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName!=''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.daily_time >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+				GROUP BY d.enterprise_id, d.clerk_id
+	    )tab1	
+  </select>
+  
+  <select id="querySaleAnalysisReportClerkDailyTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkResultBranchTotalVO">
+	 select
+	 	sum(realAmount)	as realAmount,
+	 	sum(returnRealAmount) as returnRealAmount,
+	 	sum(realAmountTotal) as realAmountTotal,
+	 	sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+	 	sum(taxAmountTotal)	as taxAmountTotal
+	 from (
+	    SELECT
+			tab2.real_amount as realAmount, 
+			tab3.real_amount as returnRealAmount,
+			IFNULL(tab2.real_amount,0) + IFNULL(tab3.real_amount,0) as realAmountTotal,
+		    IFNULL(tab2.notax_real_amount,0) + IFNULL(tab3.notax_real_amount,0) as notaxRealAmountTotal,
+		    IFNULL(tab2.tax_amount,0) + IFNULL(tab3.tax_amount,0) as taxAmountTotal
+		FROM
+			(
+		select d.enterprise_id, d.clerk_id, d.clerk_name
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id	
+		where
+			 s.daily_settlement_flag = '1'
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode!=''">  
+	    	and (
+		    	INSTR(e.code, #{vo.storeCode})
+		    	or INSTR(e.pinyin, #{vo.storeCode})
+	    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName!=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and s.daily_time >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab1
+		left join (
+			select d.enterprise_id, d.clerk_id, d.clerk_name, 
+			sum(d.real_amount) as real_amount, 
+			sum(d.notax_real_amount) as notax_real_amount, 
+			sum(d.tax_amount)as tax_amount
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+			 	s.sale_type = 0
+				and s.daily_settlement_flag = '1'
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.daily_time >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab2 
+				on tab1.clerk_id = tab2.clerk_id
+		LEFT JOIN (
+			select d.clerk_id, d.clerk_name, 
+			sum(-1*d.real_amount) as real_amount, 
+			sum(-1*d.notax_real_amount) as notax_real_amount, 
+			sum(-1*d.tax_amount)as tax_amount
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+				s.sale_type = 1
+				and s.daily_settlement_flag = '1'
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.daily_time >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab3 
+				on tab1.clerk_id = tab3.clerk_id
+		)tab1		
+  </select>
+  
+  <select id="querySaleAllQuantityByClerkNameAndDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			left join saas_enterprise e
+				on d.enterprise_id = e.id	
+			where
+				 s.daily_settlement_flag = '1'
+				 and s.sale_type = #{saleType}
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.daily_time >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+	    )tab1	
+  </select>
+  
+  <select id="querySaleQuantityByClerkNameAndDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				 s.daily_settlement_flag = '1'
+				 and s.sale_type = #{saleType}
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="startDate != null">  
+		    	and s.daily_time >= #{startDate}
+		    </if>
+		    <if test="endDate != null">
+		    	AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{endDate}
+		    </if>	
+		    <if test="clerkId != null">
+		    	and d.clerk_id = #{clerkId}
+		    </if>
+	    )tab1	
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectBranchClerkSaleListBySaleTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkResultBranchVO">
+    SELECT
+    	tab1.enterprise_id as enterpriseId,
+    	tab1.code as storeCode,
+    	tab1.name as storeName,
+		tab1.clerk_id as clerkId, 
+	  	tab1.clerk_name as clerkName, 
+		tab2.real_amount as realAmount, 
+		tab3.real_amount as returnRealAmount,
+		IFNULL(tab2.real_amount,0) + IFNULL(tab3.real_amount,0) as realAmountTotal,
+	    IFNULL(tab2.notax_real_amount,0) + IFNULL(tab3.notax_real_amount,0) as notaxRealAmountTotal,
+	    IFNULL(tab2.tax_amount,0) + IFNULL(tab3.tax_amount,0) as taxAmountTotal
+	FROM
+		(
+	select d.enterprise_id, e.code, e.name, d.clerk_id, d.clerk_name
+	from saas_sale_detail d LEFT JOIN saas_sale s
+		on d.sale_id = s.id
+			left join saas_enterprise e
+		on d.enterprise_id = e.id	
+	where
+		1=1
+	<if test="enterpriseId != null">
+		and d.enterprise_id = #{enterpriseId}
+	</if>
+	<if test="parentId != null">
+		and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+	</if>
+	<if test="vo.chainType != null">  
+    	and e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode != ''">  
+    	and (
+	    	INSTR(e.code, #{vo.storeCode})
+	    	or INSTR(e.pinyin, #{vo.storeCode})
+    	)
+    </if>
+    <if test="vo.storeName != null and vo.storeName != ''">  
+    	and e.name like '%${vo.storeName}%'
+    </if>
+	<if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>	
+    <if test="vo.clerkName != null and vo.clerkName !=''">
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab1
+	left join (
+		select d.enterprise_id, d.clerk_id, d.clerk_name, 
+		sum(d.real_amount) as real_amount, 
+		sum(d.notax_real_amount) as notax_real_amount, 
+		sum(d.tax_amount)as tax_amount
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id
+		where
+		 	s.sale_type = 0
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">  
+	    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab2 
+			on tab1.enterprise_id = tab2.enterprise_id and tab1.clerk_id = tab2.clerk_id
+	LEFT JOIN (
+		select d.enterprise_id, d.clerk_id, d.clerk_name, 
+		sum(-1*d.real_amount) as real_amount, 
+		sum(-1*d.notax_real_amount) as notax_real_amount, 
+		sum(-1*d.tax_amount)as tax_amount
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id
+		where
+			s.sale_type = 1
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">  
+	    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+		GROUP BY d.enterprise_id, d.clerk_id) tab3 
+			on tab1.enterprise_id = tab3.enterprise_id and tab1.clerk_id = tab3.clerk_id
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountBranchClerkSaleListBySaleTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select d.enterprise_id, d.clerk_id, d.clerk_name
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+			1=1
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.sale_date >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+				GROUP BY d.enterprise_id, d.clerk_id
+	    )tab1	
+  </select>
+  
+  <select id="querysaleAnalysisReportClerkSaleTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkResultBranchTotalVO">
+	 select
+	 	sum(realAmount)	as realAmount,
+	 	sum(returnRealAmount) as returnRealAmount,
+	 	sum(realAmountTotal) as realAmountTotal,
+	 	sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+	 	sum(taxAmountTotal)	as taxAmountTotal
+	 from (
+	    SELECT
+			tab2.real_amount as realAmount, 
+			tab3.real_amount as returnRealAmount,
+			IFNULL(tab2.real_amount,0) + IFNULL(tab3.real_amount,0) as realAmountTotal,
+		    IFNULL(tab2.notax_real_amount,0) + IFNULL(tab3.notax_real_amount,0) as notaxRealAmountTotal,
+		    IFNULL(tab2.tax_amount,0) + IFNULL(tab3.tax_amount,0) as taxAmountTotal
+		FROM
+			(
+		select d.enterprise_id, d.clerk_id, d.clerk_name
+		from saas_sale_detail d LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+				left join saas_enterprise e
+			on d.enterprise_id = e.id	
+		where
+			 1=1
+		<if test="enterpriseId != null">
+			and d.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+		</if>
+		<if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.chainType != null">  
+	    	and e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">  
+	    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    <if test="vo.clerkName != null and vo.clerkName !=''">
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab1
+		left join (
+			select d.enterprise_id, d.clerk_id, d.clerk_name, 
+			sum(d.real_amount) as real_amount, 
+			sum(d.notax_real_amount) as notax_real_amount, 
+			sum(d.tax_amount)as tax_amount
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+			 	s.sale_type = 0
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.sale_date >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab2 
+				on tab1.clerk_id = tab2.clerk_id
+		LEFT JOIN (
+			select d.clerk_id, d.clerk_name, 
+			sum(-1*d.real_amount) as real_amount, 
+			sum(-1*d.notax_real_amount) as notax_real_amount, 
+			sum(-1*d.tax_amount)as tax_amount
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+					left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+				s.sale_type = 1
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.sale_date >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+			GROUP BY d.enterprise_id, d.clerk_id) tab3 
+				on tab1.clerk_id = tab3.clerk_id
+		)tab1		
+  </select>
+  
+  <select id="querySaleQuantityByClerkNameAndSaleTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				 s.sale_type = #{saleType}
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="startDate != null">  
+		    	and s.sale_date >= #{startDate}
+		    </if>
+		    <if test="endDate != null">
+		    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{endDate}
+		    </if>	
+		    <if test="clerkId != null">
+		    	and d.clerk_id = #{clerkId}
+		    </if>
+	    )tab1	
+  </select>
+  
+  <select id="querySaleAllQuantityByClerkNameAndSaleTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			left join saas_enterprise e
+				on d.enterprise_id = e.id
+			where
+				 s.sale_type = #{saleType}
+			<if test="enterpriseId != null">
+				and d.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (d.enterprise_id = #{parentId} or d.parent_id = #{parentId})
+			</if>
+			<if test="vo.chainType != null">  
+		    	and e.chain_type = #{vo.chainType}
+		    </if>
+		    <if test="vo.storeCode != null and vo.storeCode != ''">  
+		    	and (
+			    	INSTR(e.code, #{vo.storeCode})
+			    	or INSTR(e.pinyin, #{vo.storeCode})
+		    	)
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName != ''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+			<if test="vo.startDate != null">  
+		    	and s.sale_date >= #{vo.startDate}
+		    </if>
+		    <if test="vo.endDate != null">
+		    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		    </if>	
+		    <if test="vo.clerkName != null and vo.clerkName !=''">
+		    	and d.clerk_name like '%${vo.clerkName}%'
+		    </if>
+	    )tab1	
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectDoubleClickClerkSaleListByDailyTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkBranchDoubleClickResultVO">
+	  select 
+	  	enterprise_id as enterpriseId,
+	  	code as storeCode,
+	  	name as storeName,
+	  	date_format(daily_time, '%Y-%m-%d') as dailyTime,
+	  	clerk_id as clerkId,
+	  	clerk_name as clerkName,
+	  	IFNULL(sum(real_amount),0) as realAmount,
+	  	IFNULL(sum(return_real_amount),0) as returnRealAmount,
+	  	IFNULL(sum(real_amount),0) + IFNULL(sum(return_real_amount),0) as realAmountTotal,
+	    IFNULL(sum(notax_real_amount),0) + IFNULL(sum(return_notax_real_amount),0) as notaxRealAmountTotal,
+	    IFNULL(sum(tax_amount),0) + IFNULL(sum(return_tax_amount),0) as taxAmountTotal
+	  from(
+	    select 
+			d.enterprise_id,
+			e.code,
+			e.name,
+			s.daily_time,
+			d.clerk_id,
+			d.clerk_name,
+			(CASE when s.sale_type = 0 then d.real_amount end) as real_amount ,
+		    (CASE when s.sale_type = 0 then d.notax_real_amount end) as notax_real_amount ,
+		    (CASE when s.sale_type = 0 then d.tax_amount end) as tax_amount ,
+			(CASE when s.sale_type = 1 then -1*d.real_amount end) as return_real_amount ,
+			(CASE when s.sale_type = 1 then -1*d.notax_real_amount end) as return_notax_real_amount ,
+		    (CASE when s.sale_type = 1 then -1*d.tax_amount end) as return_tax_amount
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and s.daily_settlement_flag = '1'
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.daily_time >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>	
+	) tab1 group by date_format(daily_time, '%Y-%m-%d')
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <!-- 默认按：门店编码-顺序、日期-倒序排序   -->
+    <if test="order == null or order == ''">
+        order by code asc,dailyTime desc
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="querySaleQuantityByClerkIdAndDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				d.enterprise_id = #{enterpriseId}
+				and s.daily_settlement_flag = '1'
+				and s.sale_type = #{saleType}
+		    	AND date_format(s.daily_time, '%Y-%m-%d') = date_format(#{dailyTime}, '%Y-%m-%d')
+		    	and d.clerk_id = #{clerkId}
+	    )tab1	
+  </select>
+  
+  <select id="queryCountDoubleClickClerkSaleListByDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			s.daily_time
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and s.daily_settlement_flag = '1'
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.daily_time >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>
+		group by date_format(s.daily_time, '%Y-%m-%d')
+    )tab1	
+  </select>
+  
+  <select id="queryDoubleClickClerkSaleListByDailyTime" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkBranchDoubleClickResultTotalVO">
+	  select 
+	  	enterprise_id as enterpriseId,
+	  	code as storeCode,
+	  	name as storeName,
+	  	date_format(daily_time, '%Y-%m-%d') as dailyTime,
+	  	clerk_id as clerkId,
+	  	clerk_name as clerkName,
+	  	IFNULL(sum(real_amount),0) as realAmount,
+	  	IFNULL(sum(return_real_amount),0) as returnRealAmount,
+	  	IFNULL(sum(real_amount),0) + IFNULL(sum(return_real_amount),0) as realAmountTotal,
+	    IFNULL(sum(notax_real_amount),0) + IFNULL(sum(return_notax_real_amount),0) as notaxRealAmountTotal,
+	    IFNULL(sum(tax_amount),0) + IFNULL(sum(return_tax_amount),0) as taxAmountTotal
+	  from(
+	    select 
+			d.enterprise_id,
+			e.code,
+			e.name,
+			s.daily_time,
+			d.clerk_id,
+			d.clerk_name,
+			(CASE when s.sale_type = 0 then d.real_amount end) as real_amount ,
+		    (CASE when s.sale_type = 0 then d.notax_real_amount end) as notax_real_amount ,
+		    (CASE when s.sale_type = 0 then d.tax_amount end) as tax_amount ,
+			(CASE when s.sale_type = 1 then -1*d.real_amount end) as return_real_amount ,
+			(CASE when s.sale_type = 1 then -1*d.notax_real_amount end) as return_notax_real_amount ,
+		    (CASE when s.sale_type = 1 then -1*d.tax_amount end) as return_tax_amount
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and s.daily_settlement_flag = '1'
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.daily_time >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>	
+	) tab1 
+  </select>
+  
+  <select id="queryDoubleClickAllQuantityByDailyTime" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				d.enterprise_id = #{enterpriseId}
+				and s.daily_settlement_flag = '1'
+				and s.sale_type = #{saleType}
+		    	and d.clerk_id = #{clerkId}
+		    	<if test="vo.startDate != null">
+					and s.daily_time >= #{vo.startDate}
+				</if>	
+				<if test="vo.endDate != null">
+					AND date_format(s.daily_time, '%Y-%m-%d') &lt;= #{vo.endDate}
+				</if>
+	    )tab1	
+  </select>
+  
+  
+  <select id="selectDoubleClickClerkSaleListBySaleDate" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkBranchDoubleClickResultVO">
+	  select 
+	  	enterprise_id as enterpriseId,
+	  	code as storeCode,
+	  	name as storeName,
+	  	date_format(sale_date, '%Y-%m-%d') as dailyTime,
+	  	clerk_id as clerkId,
+	  	clerk_name as clerkName,
+	  	IFNULL(sum(real_amount),0) as realAmount,
+	  	IFNULL(sum(return_real_amount),0) as returnRealAmount,
+	  	IFNULL(sum(real_amount),0) + IFNULL(sum(return_real_amount),0) as realAmountTotal,
+	    IFNULL(sum(notax_real_amount),0) + IFNULL(sum(return_notax_real_amount),0) as notaxRealAmountTotal,
+	    IFNULL(sum(tax_amount),0) + IFNULL(sum(return_tax_amount),0) as taxAmountTotal
+	  from(
+	    select 
+			d.enterprise_id,
+			e.code,
+			e.name,
+			s.sale_date,
+			d.clerk_id,
+			d.clerk_name,
+			(CASE when s.sale_type = 0 then d.real_amount end) as real_amount ,
+		    (CASE when s.sale_type = 0 then d.notax_real_amount end) as notax_real_amount ,
+		    (CASE when s.sale_type = 0 then d.tax_amount end) as tax_amount ,
+			(CASE when s.sale_type = 1 then -1*d.real_amount end) as return_real_amount ,
+			(CASE when s.sale_type = 1 then -1*d.notax_real_amount end) as return_notax_real_amount ,
+		    (CASE when s.sale_type = 1 then -1*d.tax_amount end) as return_tax_amount
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.sale_date >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>	
+	) tab1 group by date_format(sale_date, '%Y-%m-%d')
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="order == null or order == ''">
+        order by code asc , dailyTime desc
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="querySaleQuantityByClerkIdAndSaleDate" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				d.enterprise_id = #{enterpriseId}
+				and s.sale_type = #{saleType}
+		    	AND date_format(s.sale_date, '%Y-%m-%d') = date_format(#{saleDate}, '%Y-%m-%d')
+		    	and d.clerk_id = #{clerkId}
+	    )tab1	
+  </select>
+  
+  <select id="queryCountDoubleClickClerkSaleListBySaleDate" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			s.sale_date
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.sale_date >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>
+		group by date_format(s.sale_date, '%Y-%m-%d')
+    )tab1	
+  </select>
+  
+  <select id="queryDoubleClickClerkSaleListBySaleDate" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleAnalyClerkBranchDoubleClickResultTotalVO">
+	  select 
+	  	enterprise_id as enterpriseId,
+	  	code as storeCode,
+	  	name as storeName,
+	  	date_format(sale_date, '%Y-%m-%d') as dailyTime,
+	  	clerk_id as clerkId,
+	  	clerk_name as clerkName,
+	  	IFNULL(sum(real_amount),0) as realAmount,
+	  	IFNULL(sum(return_real_amount),0) as returnRealAmount,
+	  	IFNULL(sum(real_amount),0) + IFNULL(sum(return_real_amount),0) as realAmountTotal,
+	    IFNULL(sum(notax_real_amount),0) + IFNULL(sum(return_notax_real_amount),0) as notaxRealAmountTotal,
+	    IFNULL(sum(tax_amount),0) + IFNULL(sum(return_tax_amount),0) as taxAmountTotal
+	  from(
+	    select 
+			d.enterprise_id,
+			e.code,
+			e.name,
+			s.sale_date,
+			d.clerk_id,
+			d.clerk_name,
+			(CASE when s.sale_type = 0 then d.real_amount end) as real_amount ,
+		    (CASE when s.sale_type = 0 then d.notax_real_amount end) as notax_real_amount ,
+		    (CASE when s.sale_type = 0 then d.tax_amount end) as tax_amount ,
+			(CASE when s.sale_type = 1 then -1*d.real_amount end) as return_real_amount ,
+			(CASE when s.sale_type = 1 then -1*d.notax_real_amount end) as return_notax_real_amount ,
+		    (CASE when s.sale_type = 1 then -1*d.tax_amount end) as return_tax_amount
+		FROM
+			saas_sale_detail d 
+		LEFT JOIN saas_sale s
+			on d.sale_id = s.id
+		LEFT JOIN saas_enterprise e
+			on d.enterprise_id = e.id
+		where d.enterprise_id = #{enterpriseId}
+			and d.clerk_id = #{clerkId}
+		<if test="vo.startDate != null">
+			and s.sale_date >= #{vo.startDate}
+		</if>	
+		<if test="vo.endDate != null">
+			AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+		</if>	
+	) tab1 
+  </select>
+  
+  <select id="queryDoubleClickAllQuantityBySaleDate" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select DISTINCT(d.sale_id)
+			from saas_sale_detail d LEFT JOIN saas_sale s
+				on d.sale_id = s.id
+			where
+				d.enterprise_id = #{enterpriseId}
+				and s.sale_type = #{saleType}
+		    	and d.clerk_id = #{clerkId}
+		    	<if test="vo.startDate != null">
+					and s.sale_date >= #{vo.startDate}
+				</if>	
+				<if test="vo.endDate != null">
+					AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+				</if>
+	    )tab1	
+  </select>
+</mapper>

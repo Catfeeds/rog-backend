@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.medicine.consult.dao.MedicineConsultGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsultGoods">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="consult_id" jdbcType="BIGINT" property="consultId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity" />
+    <result column="usage_dosage" jdbcType="VARCHAR" property="usageDosage" />
+    <result column="taboo_symptom" jdbcType="VARCHAR" property="tabooSymptom" />
+    <result column="attention_matter" jdbcType="VARCHAR" property="attentionMatter" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="standard_library_id" jdbcType="BIGINT" property="standardLibraryId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, consult_id, goods_id, goods_code, barcode, goods_name, 
+    goods_generic_name, dosage_id, dosage_name, unit_id, unit_name, goods_specification, 
+    manufacturer_id, manufacturer, goods_place, approval_number, unit_price, limit_quantity, 
+    usage_dosage, taboo_symptom, attention_matter, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time, standard_library_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_medicine_consult_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_medicine_consult_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsultGoods">
+    insert into saas_medicine_consult_goods (id, enterprise_id, parent_id, 
+      consult_id, goods_id, goods_code, 
+      barcode, goods_name, goods_generic_name, 
+      dosage_id, dosage_name, unit_id, 
+      unit_name, goods_specification, manufacturer_id, 
+      manufacturer, goods_place, approval_number, 
+      unit_price, limit_quantity, usage_dosage, 
+      taboo_symptom, attention_matter, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time ,standard_library_id)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{consultId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsGenericName,jdbcType=VARCHAR}, 
+      #{dosageId,jdbcType=BIGINT}, #{dosageName,jdbcType=VARCHAR}, #{unitId,jdbcType=BIGINT}, 
+      #{unitName,jdbcType=VARCHAR}, #{goodsSpecification,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{goodsPlace,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{limitQuantity,jdbcType=DECIMAL}, #{usageDosage,jdbcType=VARCHAR}, 
+      #{tabooSymptom,jdbcType=VARCHAR}, #{attentionMatter,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{standardLibraryId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsultGoods">
+    insert into saas_medicine_consult_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="consultId != null">
+        consult_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="goodsPlace != null">
+        goods_place,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity,
+      </if>
+      <if test="usageDosage != null">
+        usage_dosage,
+      </if>
+      <if test="tabooSymptom != null">
+        taboo_symptom,
+      </if>
+      <if test="attentionMatter != null">
+        attention_matter,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="standardLibraryId != null">
+        standard_library_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="consultId != null">
+        #{consultId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="limitQuantity != null">
+        #{limitQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="usageDosage != null">
+        #{usageDosage,jdbcType=VARCHAR},
+      </if>
+      <if test="tabooSymptom != null">
+        #{tabooSymptom,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionMatter != null">
+        #{attentionMatter,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="standardLibraryId != null">
+        #{standardLibraryId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsultGoods">
+    update saas_medicine_consult_goods
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="consultId != null">
+        consult_id = #{consultId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity = #{limitQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="usageDosage != null">
+        usage_dosage = #{usageDosage,jdbcType=VARCHAR},
+      </if>
+      <if test="tabooSymptom != null">
+        taboo_symptom = #{tabooSymptom,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionMatter != null">
+        attention_matter = #{attentionMatter,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="standardLibraryId != null">
+        #{standard_library_id,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.medicine.consult.entity.MedicineConsultGoods">
+    update saas_medicine_consult_goods
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      consult_id = #{consultId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=BIGINT},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=BIGINT},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      limit_quantity = #{limitQuantity,jdbcType=DECIMAL},
+      usage_dosage = #{usageDosage,jdbcType=VARCHAR},
+      taboo_symptom = #{tabooSymptom,jdbcType=VARCHAR},
+      attention_matter = #{attentionMatter,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      standard_library_id= #{standardLibraryId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByConsultId" parameterType="java.lang.Long">
+    delete from saas_medicine_consult_goods
+    where consult_id = #{consultId,jdbcType=BIGINT}
+  </delete>
+</mapper>

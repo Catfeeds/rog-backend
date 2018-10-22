@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.goodshandle.dao.StartSaleMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.StartSale">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="start_man_id" jdbcType="BIGINT" property="startManId" />
+    <result column="start_man_code" jdbcType="VARCHAR" property="startManCode" />
+    <result column="start_man_name" jdbcType="VARCHAR" property="startManName" />
+    <result column="start_from" jdbcType="INTEGER" property="startFrom" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+
+  <resultMap id="StartSaleReturnVOResultMap" type="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StartSaleReturnVO">
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="start_man_id" jdbcType="BIGINT" property="startManId" />
+    <result column="start_man_name" jdbcType="VARCHAR" property="startManName" />
+    <result column="start_from" jdbcType="INTEGER" property="startFrom" />
+
+    <collection property="startSaleDetailReturnVOList" ofType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StartSaleDetailReturnVO">
+
+      <id column="dtl_id" jdbcType="BIGINT" property="id" />
+      <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+      <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+      <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+      <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+      <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+      <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+      <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+      <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+      <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+      <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+      <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+      <result column="start_reason" jdbcType="VARCHAR" property="startReason" />
+      <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+      <collection property="startSaleShelfReturnVOList" ofType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StartSaleShelfReturnVO">
+
+        <id column="shelf_id" jdbcType="BIGINT" property="id" />
+        <result column="dtl_id" jdbcType="BIGINT" property="dtlId" />
+        <result column="start_id" jdbcType="BIGINT" property="startId" />
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+        <result column="lot_id" jdbcType="BIGINT" property="lotId" />
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId" />
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc" />
+        <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+        <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+
+      </collection>
+
+    </collection>
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, start_date, code, base_order_id, base_order_type, 
+    base_order_code, base_order_date, start_man_id, start_man_code, start_man_name, start_from, 
+    quantity_total, varieties_quantity, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_start_sale
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_start_sale
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.StartSale" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_start_sale (id, enterprise_id, parent_id, 
+      order_type, start_date, code, 
+      base_order_id, base_order_type, base_order_code, 
+      base_order_date, start_man_id, start_man_code, 
+      start_man_name, start_from, quantity_total, 
+      varieties_quantity, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR}, 
+      #{baseOrderDate,jdbcType=TIMESTAMP}, #{startManId,jdbcType=BIGINT}, #{startManCode,jdbcType=VARCHAR}, 
+      #{startManName,jdbcType=VARCHAR}, #{startFrom,jdbcType=INTEGER}, #{quantityTotal,jdbcType=DECIMAL}, 
+      #{varietiesQuantity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.StartSale" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_start_sale
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="startManId != null">
+        start_man_id,
+      </if>
+      <if test="startManCode != null">
+        start_man_code,
+      </if>
+      <if test="startManName != null">
+        start_man_name,
+      </if>
+      <if test="startFrom != null">
+        start_from,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startManId != null">
+        #{startManId,jdbcType=BIGINT},
+      </if>
+      <if test="startManCode != null">
+        #{startManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startManName != null">
+        #{startManName,jdbcType=VARCHAR},
+      </if>
+      <if test="startFrom != null">
+        #{startFrom,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.StartSale">
+    update saas_start_sale
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startManId != null">
+        start_man_id = #{startManId,jdbcType=BIGINT},
+      </if>
+      <if test="startManCode != null">
+        start_man_code = #{startManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startManName != null">
+        start_man_name = #{startManName,jdbcType=VARCHAR},
+      </if>
+      <if test="startFrom != null">
+        start_from = #{startFrom,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.StartSale">
+    update saas_start_sale
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      start_man_id = #{startManId,jdbcType=BIGINT},
+      start_man_code = #{startManCode,jdbcType=VARCHAR},
+      start_man_name = #{startManName,jdbcType=VARCHAR},
+      start_from = #{startFrom,jdbcType=INTEGER},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+  <select id="selectStartSalePage" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StartSalePageVO">
+
+    SELECT
+    id,
+    start_date AS startDate,
+    code,
+    start_man_id AS startManId,
+    start_man_name  AS startManName,
+    start_from AS startFrom,
+    base_order_code AS baseOrderCode
+    FROM
+    saas_start_sale
+
+    <include refid="whereSql"></include>
+
+    order by ${order}  ${sort}
+    limit #{pageStart}, #{pageSize}
+
+  </select>
+
+  <select id="selectStartSalePageCount" resultType="java.lang.Integer">
+
+    SELECT
+    count(*)
+    FROM
+    saas_start_sale
+    <include refid="whereSql"></include>
+
+  </select>
+
+  <sql id="whereSql">
+    <where>
+    enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="manName != null  and manName != '' ">
+      and start_man_name LIKE concat('%', #{manName},'%')
+    </if>
+
+    <if test="orderFrom != null  ">
+      and start_from= #{orderFrom,jdbcType=VARCHAR}
+    </if>
+    <if test="code != null and code != ''">
+      and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test ="start != null " >
+      and start_date &gt;=  #{start,jdbcType=TIMESTAMP}
+    </if>
+    <if test ="end != null " >
+      and start_date &lt;=  #{end,jdbcType=TIMESTAMP}
+    </if>
+  </where>
+  </sql>
+
+
+  <select id="selectDetailById" parameterType="java.lang.Long" resultMap="StartSaleReturnVOResultMap">
+
+      SELECT
+          s.id ,
+          s.start_date ,
+          s. CODE ,
+          s.base_order_code ,
+          s.start_man_id ,
+          s.start_man_name ,
+          s.start_from ,
+          dtl.id AS dtl_id ,
+          dtl.goods_id ,
+          dtl.goods_code ,
+          dtl.barcode ,
+          dtl.goods_name ,
+          dtl.goods_generic_name ,
+          dtl.dosage_id ,
+          dtl.dosage_name ,
+          dtl.unit_id ,
+          dtl.unit_name ,
+          dtl.goods_specification ,
+          dtl.manufacturer_id ,
+          dtl.manufacturer ,
+          dtl.goods_place ,
+          dtl.quantity ,
+          dtl.start_reason ,
+          dtl.line_num ,
+          shelf.id AS shelf_id ,
+          shelf.dtl_id ,
+          shelf.start_id ,
+          shelf.goods_id ,
+          shelf.lot_id ,
+          shelf.lot_number ,
+          shelf.product_date ,
+          shelf.valid_date ,
+          shelf.shelf_id ,
+          shelf.shelf_name ,
+          shelf.shelf_status_desc ,
+          shelf.quantity
+      FROM
+          saas_start_sale s
+      JOIN saas_start_sale_detail dtl ON dtl.start_id = s.id JOIN saas_start_sale_shelf shelf ON shelf.dtl_id = dtl.id
+
+      WHERE s.id = #{id}
+
+  </select>
+  <select id="getLockStockList"
+          resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StockDestroyVO">
+
+
+    select
+
+    lockrecord.shelf_id as shelfId,lockrecord.shelf_name as shelfName,
+    lockrecord.lock_quantity as lockQuantity, lockshelf.shelf_status_desc as shelfStatusDesc
+
+    from saas_stock_lock_record lockrecord
+    left join saas_goods_lock_shelf lockshelf
+    on lockrecord.enterprise_id = lockshelf.enterprise_id
+    and lockrecord.base_order_id = lockshelf.lock_id
+    <where>
+      <if test="enterpriseId != null">
+        lockrecord.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      </if>
+      <if test="parentId != null">
+        AND lockrecord.parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderId != null">
+        AND lockrecord.base_order_id = #{baseOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderType != null">
+        AND lockrecord.base_order_type = #{baseOrderType,jdbcType=INTEGER}
+      </if>
+      <if test="goodsId != null">
+        AND lockrecord.goods_id = #{goodsId,jdbcType=BIGINT}
+      </if>
+      <if test="lotId != null">
+        AND lockrecord.lot_id = #{lotId,jdbcType=BIGINT}
+      </if>
+      <if test="shelfId != null">
+        AND lockrecord.shelf_id = #{shelfId,jdbcType=VARCHAR}
+      </if>
+    </where>
+
+
+
+  </select>
+
+
+
+</mapper>

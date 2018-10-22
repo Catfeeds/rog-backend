@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.tax.dao.FinanceReportMapper">
+	<select id="selectHeadquartersFinanceBalanceList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceBalanceResultVO">
+		select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate,
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			max(id) as endBalanceId,
+			balance
+		from saas_finance_balance
+		where (enterprise_id = #{enterpriseId}
+		or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+		<!-- <if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if> -->
+	    group by account_code, sub_account_id
+	    ORDER BY account_code asc, sub_account_name asc 	
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	</select>
+	
+	<select id="queryCountHeadquartersFinanceBalance" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate
+		from saas_finance_balance
+		where (enterprise_id = #{enterpriseId}
+		or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+	    group by account_code, sub_account_id
+	 )tab1	
+    </select>	
+	
+	
+	<select id="selectDivisionFinanceBalanceList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceBalanceResultVO">
+		select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate,
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			max(id) as endBalanceId,
+			balance
+		from saas_finance_balance
+		where enterprise_id = #{enterpriseId}
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+		<!-- <if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if> -->
+	    group by account_code, sub_account_id
+	    
+	    ORDER BY account_code asc, sub_account_name asc 	
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	</select>
+	
+	<select id="queryCountDivisionFinanceBalance" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate
+		from saas_finance_balance
+		where enterprise_id = #{enterpriseId}
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+	    group by account_code, sub_account_id
+	 )tab1	
+  </select>
+  
+  
+  <resultMap id="GeneralLedgerVO" type="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.GeneralLedgerResultVO">
+    <result column="years" jdbcType="VARCHAR" property="years" />
+    <collection property="detailList" ofType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.GeneralLedgerDeatilResultVO">
+      <result column="taxType" jdbcType="VARCHAR" property="taxType" />
+      <result column="taxTypeName" jdbcType="VARCHAR" property="taxTypeName" />
+      <result column="taxId" jdbcType="BIGINT" property="taxId" />
+      <result column="taxRate" jdbcType="VARCHAR" property="taxRate" />
+      
+      <result column="debitAmount" jdbcType="DECIMAL" property="debitAmount" />
+      <result column="creditAmount" jdbcType="DECIMAL" property="creditAmount" />
+      <result column="beginBalanceId" jdbcType="BIGINT" property="beginBalanceId" />
+      <result column="endBalanceId" jdbcType="BIGINT" property="endBalanceId" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectHeadquartersGeneralLedgerList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.GeneralLedgerDeatilResultVO">
+		select 
+			DATE_FORMAT(r.order_date,'%Y年%m月') as years,
+			r.account_code as taxType,
+			r.account_name as taxTypeName,
+			r.sub_account_id as taxId,
+			r.sub_account_name as taxRate,
+			<!-- ((select balance from saas_finance_voucher where id = min(r.id)) + credit_amount - debit_amount) as beginBalance, -->
+			sum(r.debit_amount) as debitAmount,
+			sum(r.credit_amount) as creditAmount,
+			min(r.id) as beginBalanceId,
+			max(r.id) as endBalanceId
+			<!-- (select balance from saas_finance_voucher where id = max(r.id)) as endBalance -->
+		from saas_finance_voucher r
+		where (r.enterprise_id = #{enterpriseId}
+		or (r.parent_id = #{enterpriseId} and r.chain_type = #{chainType}))
+		and r.account_code in (${accountCode})
+		and r.sub_account_type = 5
+		<if test="startDate != null">  
+	    	and r.order_date >= #{startDate}
+	    </if>
+	    <if test="endDate != null">
+	    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{endDate}
+	    </if>
+	    
+	    group by r.account_code, r.sub_account_id
+	    
+	    ORDER BY account_code asc, sub_account_name asc 
+	    
+	</select>
+	
+	
+	<select id="queryCountHeadquartersGeneralLedger" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+	    	DATE_FORMAT(order_date,'%Y年%m月') as years,
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate
+		from saas_finance_voucher
+		where (enterprise_id = #{enterpriseId}
+		or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    group by DATE_FORMAT(order_date,'%Y-%m'), account_code, sub_account_id
+	 )tab1	
+    </select>	
+	
+	<select id="selectDivisionGeneralLedgerList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.GeneralLedgerDeatilResultVO">
+		select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate,
+			<!-- ((select balance from saas_finance_voucher where id = min(r.id)) + credit_amount - debit_amount) as beginBalance, -->
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			min(id) as beginBalanceId,
+			max(id) as endBalanceId
+			<!-- (select balance from saas_finance_voucher where id = max(r.id)) as endBalance -->
+		from saas_finance_voucher
+		where enterprise_id = #{enterpriseId}
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+		<if test="startDate != null">  
+	    	and order_date >= #{startDate}
+	    </if>
+	    <if test="endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{endDate}
+	    </if>
+	    group by account_code, sub_account_id
+	    
+	    ORDER BY account_code asc, sub_account_name asc	
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	</select>
+	
+	<select id="queryCountDivisionGeneralLedger" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+	    	DATE_FORMAT(order_date,'%Y年%m月'), 
+			account_code as taxType,
+			account_name as taxTypeName,
+			tax_id as taxId,
+			tax_rate as taxRate,
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			sum(balance) as balance
+		from saas_finance_voucher
+		where enterprise_id = #{enterpriseId}
+		and account_code in (${accountCode})
+		and sub_account_type = 5
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    group by DATE_FORMAT(order_date,'%Y-%m'), account_code, sub_account_id
+	 )tab1	
+  </select>
+  
+  
+  <!-- 税总账SQL -->
+	
+	<select id="selectHeadquartersAccountSubList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceBalanceResultVO">
+		select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate,
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			min(id) as beginBalanceId
+		from saas_finance_voucher
+		where (enterprise_id = #{enterpriseId}
+		or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+		and sub_account_type = 5
+		<choose>
+	          <when test="vo.taxType != null and vo.taxType !=''">
+	              and account_code = #{vo.taxType}
+	          </when>
+	          <otherwise>
+	              and account_code in (${accountCode})
+	          </otherwise>
+	    </choose>
+	    <if test="vo.taxId != null">
+            and sub_account_id = #{vo.taxId}
+        </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    group by account_code, sub_account_id
+	    
+	    ORDER BY account_code asc, sub_account_name asc 
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	</select>
+	
+	<select id="selectDivisionAccountSubList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceBalanceResultVO">
+		select 
+			account_code as taxType,
+			account_name as taxTypeName,
+			sub_account_id as taxId,
+			sub_account_name as taxRate,
+			sum(debit_amount) as debitAmount,
+			sum(credit_amount) as creditAmount,
+			min(id) as beginBalanceId
+		from saas_finance_voucher
+		where enterprise_id = #{enterpriseId}
+		and sub_account_type = 5
+		<choose>
+           <when test="vo.taxType != null and vo.taxType !=''">
+               and account_code = #{vo.taxType}
+           </when>
+           <otherwise>
+               and account_code in (${accountCode})
+           </otherwise>
+        </choose>
+		<if test="vo.taxId != null">
+            and sub_account_id = #{vo.taxId}
+        </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    group by account_code, sub_account_id
+	    
+	    ORDER BY account_code asc, sub_account_name asc 
+	    
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	</select>
+	
+  <select id="selectHeadquartersFinanceDetailList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceDetailDtlResultVO">
+		select 
+			r.account_code as taxType,
+			r.account_name as taxTypeName,
+			r.sub_account_id as taxId,
+			r.sub_account_name as taxRate,
+			DATE_FORMAT(r.order_date,'%Y-%m-%d') as orderDate,
+			r.order_code as orderCode,
+			r.base_order_type as baseOrderType,
+			r.base_operator_name as baseOperatorName,
+			r.remark as remark,
+			r.debit_amount as debitAmount,
+			r.credit_amount as creditAmount,
+			r.balance as balance
+		from saas_finance_voucher r
+		where (r.enterprise_id = #{enterpriseId}
+		or (r.parent_id = #{enterpriseId} and r.chain_type = #{chainType}))
+		and r.account_code = #{accountCode}
+		and r.sub_account_id = #{subAccountId}
+		and r.sub_account_type = 5
+		<if test="vo.startDate != null">  
+	    	and r.order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+		
+	    order by id asc
+				    
+	</select>
+	
+	
+	<select id="selectDivisionFinanceDetailList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceDetailDtlResultVO">
+		select 
+			r.account_code as taxType,
+			r.account_name as taxTypeName,
+			r.sub_account_id as taxId,
+			r.sub_account_name as taxRate,
+			DATE_FORMAT(r.order_date,'%Y-%m-%d') as orderDate,
+			r.order_code as orderCode,
+			r.base_order_type as baseOrderType,
+			r.base_operator_name as baseOperatorName,
+			r.remark as remark,
+			r.debit_amount as debitAmount,
+			r.credit_amount as creditAmount,
+			r.balance as balance
+		from saas_finance_voucher r
+		where r.enterprise_id = #{enterpriseId}
+		and r.account_code = #{accountCode}
+		and r.sub_account_id = #{subAccountId}
+		and r.sub_account_type = 5
+		<if test="vo.startDate != null">  
+	    	and r.order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+		
+	    order by id asc
+				    
+	</select>
+	
+  <resultMap id="FinanceVoucherDetailVO" type="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceVoucherResultVO">
+    <result column="order_date" jdbcType="VARCHAR" property="orderDate" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_operator_name" jdbcType="VARCHAR" property="baseOperatorName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <collection property="detailList" ofType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceVoucherDetailResultVO">
+      <result column="account_code" jdbcType="VARCHAR" property="accountCode" />
+      <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+      <result column="sub_account_type" jdbcType="INTEGER" property="subAccountType" />
+      <result column="sub_account_code" jdbcType="VARCHAR" property="subAccountCode" />
+      <result column="sub_account_name" jdbcType="VARCHAR" property="subAccountName" />
+      <result column="debit_amount" jdbcType="DECIMAL" property="debitAmount" />
+      <result column="credit_amount" jdbcType="DECIMAL" property="creditAmount" />
+    </collection>
+  </resultMap>
+  
+  <select id="selectHeadquartersFinanceVoucherList" resultMap="FinanceVoucherDetailVO">
+		select 
+			date_format(order_date, '%Y-%m-%d') as order_date,
+			order_code,
+			base_order_type,
+			base_order_code,
+			base_operator_name,
+			remark,
+			account_code,
+			account_name,
+			sub_account_type,
+			sub_account_code,
+			sub_account_name,
+			debit_amount,
+			credit_amount
+		from saas_finance_voucher
+		where (enterprise_id = #{enterpriseId}
+			or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+		and order_code in (select order_code from (
+			select DISTINCT order_code from saas_finance_voucher
+			where (enterprise_id = #{enterpriseId}
+			or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+	    <if test="vo.baseOrderType != null and vo.baseOrderType !=''">  
+		    and base_order_type = #{vo.baseOrderType}
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.orderCode != null and vo.orderCode !=''">  
+		    <!-- and INSTR(order_code, #{vo.orderCode}) -->
+		    and order_code = #{vo.orderCode}
+	    </if>
+	    <if test="vo.baseOrderCode != null and vo.baseOrderCode !=''">  
+		    <!-- and INSTR(base_order_code, #{vo.baseOrderCode}) -->
+		    and base_order_code = #{vo.baseOrderCode}
+	    </if>
+	    <if test="vo.baseOperatorName != null and vo.baseOperatorName !=''">  
+		    <!-- and INSTR(base_operator_name, #{vo.baseOperatorName}) -->
+		    and base_operator_name = #{vo.baseOperatorName}
+	    </if>
+	    <if test="vo.accountCode != null and vo.accountCode !=''">  
+		    <!-- and INSTR(account_code, #{vo.accountCode}) -->
+		    and account_code = #{vo.accountCode}
+	    </if>
+	    <if test="vo.accountName != null and vo.accountName !=''">  
+		    and INSTR(account_name, #{vo.accountName})
+	    </if>
+	    <if test="vo.subAccountCode != null and vo.subAccountCode !=''">  
+		    <!-- and INSTR(sub_account_code, #{vo.subAccountCode}) -->
+		    and sub_account_code = #{vo.subAccountCode}
+	    </if>
+	    <if test="vo.subAccountName != null and vo.subAccountName !=''">  
+		    and INSTR(sub_account_name, #{vo.subAccountName})
+	    </if>
+	    ORDER BY id asc
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	    )tab1
+	    ) ORDER BY id asc 	
+	</select>
+	
+	<select id="queryCountHeadquartersFinanceVoucher" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			DISTINCT order_code
+		from saas_finance_voucher
+		where (enterprise_id = #{enterpriseId}
+		or (parent_id = #{enterpriseId} and chain_type = #{chainType}))
+	    <if test="vo.baseOrderType != null and vo.baseOrderType !=''">  
+		    and base_order_type = #{vo.baseOrderType}
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.orderCode != null and vo.orderCode !=''">  
+		    <!-- and INSTR(order_code, #{vo.orderCode}) -->
+		    and order_code = #{vo.orderCode}
+	    </if>
+	    <if test="vo.baseOrderCode != null and vo.baseOrderCode !=''">  
+		    <!-- and INSTR(base_order_code, #{vo.baseOrderCode}) -->
+		    and base_order_code = #{vo.baseOrderCode}
+	    </if>
+	    <if test="vo.baseOperatorName != null and vo.baseOperatorName !=''">  
+		    <!-- and INSTR(base_operator_name, #{vo.baseOperatorName}) -->
+		    and base_operator_name = #{vo.baseOperatorName}
+	    </if>
+	    <if test="vo.accountCode != null and vo.accountCode !=''">  
+		    <!-- and INSTR(account_code, #{vo.accountCode}) -->
+		    and account_code = #{vo.accountCode}
+	    </if>
+	    <if test="vo.accountName != null and vo.accountName !=''">  
+		    and INSTR(account_name, #{vo.accountName})
+	    </if>
+	    <if test="vo.subAccountCode != null and vo.subAccountCode !=''">  
+		    <!-- and INSTR(sub_account_code, #{vo.subAccountCode}) -->
+		    and sub_account_code = #{vo.subAccountCode}
+	    </if>
+	    <if test="vo.subAccountName != null and vo.subAccountName !=''">  
+		    and INSTR(sub_account_name, #{vo.subAccountName})
+	    </if>
+	 )tab1	
+   </select>
+  
+	  
+   <select id="selectDivisionFinanceVoucherList" resultMap="FinanceVoucherDetailVO">
+		select 
+			date_format(order_date, '%Y-%m-%d') as order_date,
+			order_code,
+			base_order_type,
+			base_order_code,
+			base_operator_name,
+			remark,
+			account_code,
+			account_name,
+			sub_account_type,
+			sub_account_code,
+			sub_account_name,
+			debit_amount,
+			credit_amount
+		from saas_finance_voucher
+		where enterprise_id = #{enterpriseId}
+		and order_code in (select order_code from (
+			select DISTINCT order_code from saas_finance_voucher
+			where enterprise_id = #{enterpriseId}
+	    <if test="vo.baseOrderType != null and vo.baseOrderType !=''">  
+		    and base_order_type = #{vo.baseOrderType}
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.orderCode != null and vo.orderCode !=''">  
+		    <!-- and INSTR(order_code, #{vo.orderCode}) -->
+		    and order_code = #{vo.orderCode}
+	    </if>
+	    <if test="vo.baseOrderCode != null and vo.baseOrderCode !=''">  
+		    <!-- and INSTR(base_order_code, #{vo.baseOrderCode}) -->
+		    and base_order_code = #{vo.baseOrderCode}
+	    </if>
+	    <if test="vo.baseOperatorName != null and vo.baseOperatorName !=''">  
+		    <!-- and INSTR(base_operator_name, #{vo.baseOperatorName}) -->
+		    and base_operator_name = #{vo.baseOperatorName}
+	    </if>
+	    <if test="vo.accountCode != null and vo.accountCode !=''">  
+		    <!-- and INSTR(account_code, #{vo.accountCode}) -->
+		    and account_code = #{vo.accountCode}
+	    </if>
+	    <if test="vo.accountName != null and vo.accountName !=''">  
+		    and INSTR(account_name, #{vo.accountName})
+	    </if>
+	    <if test="vo.subAccountCode != null and vo.subAccountCode !=''">  
+		    <!-- and INSTR(sub_account_code, #{vo.subAccountCode}) -->
+		    and sub_account_code = #{vo.subAccountCode}
+	    </if>
+	    <if test="vo.subAccountName != null and vo.subAccountName !=''">  
+		    and INSTR(sub_account_name, #{vo.subAccountName})
+	    </if>
+	    ORDER BY id asc
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>
+	    )tab1
+	    ) ORDER BY id asc 
+	</select>
+	
+	<select id="queryCountDivisionFinanceVoucher" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			DISTINCT order_code
+		from saas_finance_voucher
+		where enterprise_id = #{enterpriseId}
+	    <if test="vo.baseOrderType != null and vo.baseOrderType !=''">  
+		    and base_order_type = #{vo.baseOrderType}
+	    </if>
+		<if test="vo.startDate != null">  
+	    	and order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.orderCode != null and vo.orderCode !=''">  
+		    <!-- and INSTR(order_code, #{vo.orderCode}) -->
+		    and order_code = #{vo.orderCode}
+	    </if>
+	    <if test="vo.baseOrderCode != null and vo.baseOrderCode !=''">  
+		    <!-- and INSTR(base_order_code, #{vo.baseOrderCode}) -->
+		    and base_order_code = #{vo.baseOrderCode}
+	    </if>
+	    <if test="vo.baseOperatorName != null and vo.baseOperatorName !=''">  
+		    <!-- and INSTR(base_operator_name, #{vo.baseOperatorName}) -->
+		    and base_operator_name = #{vo.baseOperatorName}
+	    </if>
+	    <if test="vo.accountCode != null and vo.accountCode !=''">  
+		    <!-- and INSTR(account_code, #{vo.accountCode}) -->
+		    and account_code = #{vo.accountCode}
+	    </if>
+	    <if test="vo.accountName != null and vo.accountName !=''">  
+		    and INSTR(account_name, #{vo.accountName})
+	    </if>
+	    <if test="vo.subAccountCode != null and vo.subAccountCode !=''">  
+		    <!-- and INSTR(sub_account_code, #{vo.subAccountCode}) -->
+		    and sub_account_code = #{vo.subAccountCode}
+	    </if>
+	    <if test="vo.subAccountName != null and vo.subAccountName !=''">  
+		    and INSTR(sub_account_name, #{vo.subAccountName})
+	    </if>
+	 )tab1	
+    </select>
+    
+    
+    <!-- new税明细 -->
+    <select id="selectHeadquartersFinanceDetaiNewlList" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceDetailDtlResultVO">
+		select 
+			r.account_code as taxType,
+			r.account_name as taxTypeName,
+			r.sub_account_id as taxId,
+			r.sub_account_name as taxRate,
+			DATE_FORMAT(r.order_date,'%Y-%m-%d') as orderDate,
+			r.order_code as orderCode,
+			r.base_order_type as baseOrderType,
+			r.base_operator_name as baseOperatorName,
+			r.remark as remark,
+			r.debit_amount as debitAmount,
+			r.credit_amount as creditAmount,
+			r.balance as balance,
+			b.year as periodYear,
+			b.month as periodMonth
+		from saas_finance_voucher r 
+			LEFT JOIN (
+			  SELECT
+			  d.enterprise_id,
+			  d.parent_id,
+			  d.year,
+			  d.month,
+			  d.start_date,
+			  d.end_date,
+			  d.status 
+			FROM
+			  saas_accounting_period_detail d 
+			  WHERE d.enterprise_id = #{enterpriseId}
+		) b
+		  ON r.enterprise_id = b.enterprise_id
+		  AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(r.order_date, '%Y-%m-%d') 
+		  AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(r.order_date, '%Y-%m-%d') 
+		where 1=1
+		<choose>
+	          <when test="chainType == 0">
+	              and (r.enterprise_id = #{enterpriseId}
+						or (r.parent_id = #{enterpriseId} and r.chain_type = #{chainType}))
+	          </when>
+	          <otherwise>
+	              and r.enterprise_id = #{enterpriseId}
+	          </otherwise>
+	    </choose>
+		and r.sub_account_type = 5
+		<choose>
+	          <when test="vo.taxType != null and vo.taxType !=''">
+	              and r.account_code = #{vo.taxType}
+	          </when>
+	          <otherwise>
+	              and r.account_code in (${accountCode})
+	          </otherwise>
+	    </choose>
+	    <if test="vo.taxId != null">
+            and r.sub_account_id = #{vo.taxId}
+        </if>
+	    and b.year is NOT null
+		and b.month is NOT null
+		<if test="vo.startDate != null">  
+	    	and r.order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    order by r.account_code asc, r.sub_account_name asc, b.year asc, b.month asc, r.id asc
+		<if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>		    
+	</select>
+	
+	<select id="queryCountHeadquartersFinanceDetaiNewlList" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			r.account_code as taxType,
+			r.account_name as taxTypeName,
+			r.sub_account_id as taxId,
+			r.sub_account_name as taxRate,
+			DATE_FORMAT(r.order_date,'%Y-%m-%d') as orderDate,
+			r.order_code as orderCode,
+			r.base_order_type as baseOrderType,
+			r.base_operator_name as baseOperatorName,
+			r.remark as remark,
+			r.debit_amount as debitAmount,
+			r.credit_amount as creditAmount,
+			r.balance as balance,
+			b.year as periodYear,
+			b.month as periodMonth
+		from saas_finance_voucher r 
+			LEFT JOIN (
+			  SELECT
+			  d.enterprise_id,
+			  d.parent_id,
+			  d.year,
+			  d.month,
+			  d.start_date,
+			  d.end_date,
+			  d.status 
+			FROM
+			  saas_accounting_period_detail d 
+			  WHERE d.enterprise_id = #{enterpriseId}
+		) b
+		  ON r.enterprise_id = b.enterprise_id
+		  AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(r.order_date, '%Y-%m-%d') 
+		  AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(r.order_date, '%Y-%m-%d') 
+		where 1=1
+		<choose>
+	          <when test="chainType == 0">
+	              and (r.enterprise_id = #{enterpriseId}
+						or (r.parent_id = #{enterpriseId} and r.chain_type = #{chainType}))
+	          </when>
+	          <otherwise>
+	              and r.enterprise_id = #{enterpriseId}
+	          </otherwise>
+	    </choose>
+		and r.sub_account_type = 5
+		<choose>
+	          <when test="vo.taxType != null and vo.taxType !=''">
+	              and account_code = #{vo.taxType}
+	          </when>
+	          <otherwise>
+	              and account_code in (${accountCode})
+	          </otherwise>
+	    </choose>
+	    <if test="vo.taxId != null">
+            and r.sub_account_id = #{vo.taxId}
+        </if>
+	    and b.year is NOT null
+		and b.month is NOT null
+		<if test="vo.startDate != null">  
+	    	and r.order_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	 )tab1	
+  </select>
+  
+  <select id="getSumAmount" resultType="com.rograndec.feijiayun.chain.business.report.finance.tax.vo.FinanceDetailDtlResultVO">
+		select 
+			sum(r.debit_amount) as debitAmount,
+			sum(r.credit_amount) as creditAmount
+		from saas_finance_voucher r 
+		where 1=1
+		<choose>
+	          <when test="chainType == 0">
+	              and (r.enterprise_id = #{enterpriseId}
+						or (r.parent_id = #{enterpriseId} and r.chain_type = #{chainType}))
+	          </when>
+	          <otherwise>
+	              and r.enterprise_id = #{enterpriseId}
+	          </otherwise>
+	    </choose>
+		and r.sub_account_type = 5
+		<choose>
+	          <when test="vo.taxType != null and vo.taxType !=''">
+	              and r.account_code = #{vo.taxType}
+	          </when>
+	          <otherwise>
+	              and r.account_code in (${accountCode})
+	          </otherwise>
+	    </choose>
+	    <if test="vo.taxId != null">
+            and r.sub_account_id = #{vo.taxId}
+        </if>
+	    and r.account_code = #{result.taxType}
+	    and r.sub_account_id = #{result.taxId}
+    	and r.order_date >= #{startDate}
+    	AND date_format(r.order_date, '%Y-%m-%d') &lt;= #{endDate}
+	</select>
+	
+</mapper>

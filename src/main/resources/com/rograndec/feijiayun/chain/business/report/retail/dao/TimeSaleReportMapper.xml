@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.retail.dao.TimeSaleReportMapper">
+
+	<select id="getSalePrice" resultType="java.math.BigDecimal" parameterType="com.rograndec.feijiayun.chain.business.report.retail.vo.RequestRetailTimeSale">
+		select IFNULL(sum(a.real_amount_total),0) from saas_sale a where
+		a.enterprise_id=#{enterpriseId}
+		and sale_type=0
+		and date_format(a.sale_date,'%H:%i')>=#{startDate}
+		and #{endDate}>=date_format(a.sale_date,'%H:%i')
+		<if test="saleDate!=null and saleDate!='' ">
+			and a.sale_date like CONCAT(#{saleDate},'%')
+		</if>
+	</select>
+
+	<select id="getSaleCount" resultType="java.math.BigDecimal" parameterType="com.rograndec.feijiayun.chain.business.report.retail.vo.RequestRetailTimeSale">
+		select IFNULL(count(1),0) from saas_sale a where
+		a.enterprise_id=#{enterpriseId}
+		and sale_type=0
+		and date_format(a.sale_date,'%H:%i')>=#{startDate}
+		and #{endDate}>=date_format(a.sale_date,'%H:%i')
+		<if test="saleDate!=null and saleDate!='' ">
+			and a.sale_date like CONCAT(#{saleDate},'%')
+		</if>
+	</select>
+
+	<select id="getGoodsCategorySaleVos" parameterType="com.rograndec.feijiayun.chain.business.report.retail.vo.RequestGoodsCategorySaleVo" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.GoodsCategorySaleVo" >
+		select
+			IFNULL(sum(b.real_amount),0) realAmountTotal,
+			IFNULL(sum(b.notax_real_amount),0) notaxRealAmountTotal,
+			IFNULL(sum(b.tax_amount),0) taxAmountTotal,
+			d.name,
+			d.id,
+			d.parent_category_id parentId
+		from saas_sale a
+		inner join saas_sale_detail b on b.sale_id=a.id
+		inner join saas_goods c on c.id=b.goods_id
+		inner join saas_goods_category d on d.id=c.category_id
+		inner join saas_enterprise e on e.id=a.enterprise_id
+		where
+		d.id=#{id}
+		<if test="parent==1"> and a.enterprise_id=#{eid}</if>
+		<if test="parent==2"> and a.parent_id=#{eid}</if>
+		<if test="type==1">
+			<if test="startDate != null and endDate != null">
+				and a.daily_time between #{startDate} and #{endDate}
+			</if>
+		</if>
+		<if test="type==2">
+			<if test="startDate != null and endDate != null">
+				and a.sale_date between #{startDate} and #{endDate}
+			</if>
+		</if>
+		<if test="chainType!=null">and e.chain_type=#{chainType}</if>
+		<if test="code!=null and code!=''">and e.code like CONCAT('%',#{code},'%')</if>
+		<if test="name!=null and name!=''">and e.name like CONCAT('%',#{name},'%')</if>
+	</select>
+
+	<select id="getParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.GoodsCategorySaleVo" >
+		select
+			0 realAmountTotal,
+			0 notaxRealAmountTotal,
+			0 taxAmountTotal,
+			name,
+			id,
+			parent_category_id parentId
+		from saas_goods_category
+		where parent_category_id=#{parentId}
+		and enterprise_id=#{enterpriseId}
+	</select>
+	<select id="selectQuerySaleY" resultType ="java.math.BigDecimal">
+		SELECT
+		<if test="saleType == 2">
+			count(1)
+		</if>
+		<if test="saleType == 1">
+			sum(real_amount_total)
+		</if>
+		FROM saas_sale
+		WHERE enterprise_id = #{enterpriseId} and sale_type = 0
+		AND sale_date BETWEEN #{startTimeNow} AND #{endTimeNow}
+	</select>
+</mapper>

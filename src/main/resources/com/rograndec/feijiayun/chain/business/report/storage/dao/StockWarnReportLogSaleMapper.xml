@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.storage.dao.StockWarnReportLogSaleMapper">
+
+	<select id="selectLogSaleGoods2WarnSet" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnLagSaleGoodsVO">
+		SELECT
+		g.business_variety as businessVariety,
+		e.code as storeCode,
+		e.name as storeName,
+		s.goods_code as code,
+		g.generic_name as genericName,
+		g.dosage_name as dosageName,
+		g.specification as specification,
+		g.manufacturer as manufacturer,
+		g.unit_name as unitName,
+		g.place as place,
+		sum(s.quantity) as stockQuantity,
+		sum(s.usable_quantity) as usableQuantity,
+		max(sd.sale_date) as lastSaleDate,
+		case when 0 = gs.unsalable_cycle_unit
+		then (ifnull(gs.unsalable_cycle, 0))
+		when 1 = gs.unsalable_cycle_unit
+		then (ifnull(gs.unsalable_cycle, 0) * 30)
+		when 2 = gs.unsalable_cycle_unit
+		then (ifnull(gs.unsalable_cycle, 0) * 365)
+		END AS lagSaleCycle,
+		case when 0 = gs.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0))
+		when 1 = gs.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 30)
+		when 2 = gs.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 365)
+		END AS lagSaleDays
+		FROM
+		saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		left join saas_sale_detail sd on s.enterprise_id = sd.enterprise_id and s.goods_id = sd.goods_id
+		where s.quantity > 0 and g.enterprise_id = #{enterpriseId} and g.owner_id = #{ownerId}
+		group by s.enterprise_id, s.goods_id
+		HAVING lagSaleDays - #{warnDays} > 0
+	</select>
+
+
+
+  <select id="selectLogSaleGoodsList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnLagSaleGoodsVO">
+	  	SELECT
+	  		g.business_variety as businessVariety,
+			e.code as storeCode,
+			e.name as storeName,
+			s.goods_code as code,
+			g.generic_name as genericName,
+			g.dosage_name as dosageName,
+			g.specification as specification,
+			g.manufacturer as manufacturer,
+			g.unit_name as unitName,
+			g.place as place,
+			sum(s.quantity) as stockQuantity,
+			sum(s.usable_quantity) as usableQuantity,
+			max(sd.sale_date) as lastSaleDate,
+			case when 0 = gs.unsalable_cycle_unit
+				then (ifnull(gs.unsalable_cycle, 0))
+			when 1 = gs.unsalable_cycle_unit
+				then (ifnull(gs.unsalable_cycle, 0) * 30)
+			when 2 = gs.unsalable_cycle_unit
+				then (ifnull(gs.unsalable_cycle, 0) * 365)
+			END AS lagSaleCycle,	
+			case when 0 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0))
+			when 1 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 30)
+			when 2 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 365)	
+			END AS lagSaleDays
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		left join saas_sale_detail sd on s.enterprise_id = sd.enterprise_id and s.goods_id = sd.goods_id
+		where s.quantity > 0
+		<if test="enterpriseId != null">
+			and s.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id
+		HAVING lagSaleDays > 0
+	<if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountLogSaleGoodsList" resultType ="java.lang.Long">
+	 select count(1) from(   
+		SELECT
+			case when 0 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0))
+			when 1 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 30)
+			when 2 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 365)	
+			END AS lagSaleDays
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		left join saas_sale_detail sd on s.enterprise_id = sd.enterprise_id and s.goods_id = sd.goods_id
+		where s.quantity > 0
+		<if test="enterpriseId != null">
+			and s.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id
+		HAVING lagSaleDays > 0	
+	    )tab1	
+  </select>
+  
+  <select id="queryLogSaleGoodsList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnLagSaleGoodsTotalVO">
+    select 
+    	sum(stockQuantity) as stockQuantity,
+    	sum(usableQuantity) as usableQuantity
+	from(
+	    SELECT
+			sum(s.quantity) as stockQuantity,
+			sum(s.usable_quantity) as usableQuantity,
+			case when 0 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0))
+			when 1 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 30)
+			when 2 = gs.unsalable_cycle_unit
+				then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gs.unsalable_cycle, 0) * 365)	
+			END AS lagSaleDays
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		left join saas_sale_detail sd on s.enterprise_id = sd.enterprise_id and s.goods_id = sd.goods_id
+		where s.quantity > 0
+		<if test="enterpriseId != null">
+			and s.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id
+		HAVING lagSaleDays > 0	
+	  )tab1	
+  </select>
+  
+</mapper>

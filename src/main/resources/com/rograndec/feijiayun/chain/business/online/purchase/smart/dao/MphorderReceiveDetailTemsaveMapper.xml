@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.online.purchase.smart.dao.MphorderReceiveDetailTemsaveMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveDetailTemsave">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="receive_temsave_id" jdbcType="BIGINT" property="receiveTemsaveId" />
+    <result column="mph_goods_id" jdbcType="BIGINT" property="mphGoodsId" />
+    <result column="mph_goods_name" jdbcType="VARCHAR" property="mphGoodsName" />
+    <result column="mph_manufacturer" jdbcType="VARCHAR" property="mphManufacturer" />
+    <result column="mph_specification" jdbcType="VARCHAR" property="mphSpecification" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="purchase_quantity" jdbcType="DECIMAL" property="purchaseQuantity" />
+    <result column="send_quantity" jdbcType="DECIMAL" property="sendQuantity" />
+    <result column="send_amount" jdbcType="DECIMAL" property="sendAmount" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice" />
+    <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount" />
+    <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+      <result column="order_detail_id" jdbcType="BIGINT" property="orderDetailId"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, receive_temsave_id, mph_goods_id, mph_goods_name, mph_manufacturer, 
+    mph_specification, unit_price, purchase_quantity, send_quantity, send_amount, goods_id, 
+    goods_name, manufacturer_id, manufacturer, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time, notax_real_price, 
+    notax_real_amount, tax_rate_id, tax_rate, order_detail_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_mphorder_receive_detail_temsave
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByReceiveTemsaveId"
+            resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_mphorder_receive_detail_temsave
+      where receive_temsave_id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_mphorder_receive_detail_temsave
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveDetailTemsave">
+    insert into saas_mphorder_receive_detail_temsave (id, enterprise_id, parent_id, 
+      receive_temsave_id, mph_goods_id, mph_goods_name, 
+      mph_manufacturer, mph_specification, unit_price, 
+      purchase_quantity, send_quantity, send_amount, 
+      goods_id, goods_name, manufacturer_id, 
+      manufacturer, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time, 
+      notax_real_price, notax_real_amount, tax_rate_id, 
+      tax_rate,order_detail_id)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{receiveTemsaveId,jdbcType=BIGINT}, #{mphGoodsId,jdbcType=BIGINT}, #{mphGoodsName,jdbcType=VARCHAR}, 
+      #{mphManufacturer,jdbcType=VARCHAR}, #{mphSpecification,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{purchaseQuantity,jdbcType=DECIMAL}, #{sendQuantity,jdbcType=DECIMAL}, #{sendAmount,jdbcType=DECIMAL}, 
+      #{goodsId,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{notaxRealPrice,jdbcType=DECIMAL}, #{notaxRealAmount,jdbcType=DECIMAL}, #{taxRateId,jdbcType=BIGINT}, 
+      #{taxRate,jdbcType=DECIMAL},#{orderDetailId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveDetailTemsave" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_mphorder_receive_detail_temsave
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="receiveTemsaveId != null">
+        receive_temsave_id,
+      </if>
+      <if test="mphGoodsId != null">
+        mph_goods_id,
+      </if>
+      <if test="mphGoodsName != null">
+        mph_goods_name,
+      </if>
+      <if test="mphManufacturer != null">
+        mph_manufacturer,
+      </if>
+      <if test="mphSpecification != null">
+        mph_specification,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="purchaseQuantity != null">
+        purchase_quantity,
+      </if>
+      <if test="sendQuantity != null">
+        send_quantity,
+      </if>
+      <if test="sendAmount != null">
+        send_amount,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price,
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount,
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="orderDetailId != null">
+        order_detail_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveTemsaveId != null">
+        #{receiveTemsaveId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsId != null">
+        #{mphGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsName != null">
+        #{mphGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="mphManufacturer != null">
+        #{mphManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSpecification != null">
+        #{mphSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseQuantity != null">
+        #{purchaseQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="sendQuantity != null">
+        #{sendQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="sendAmount != null">
+        #{sendAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notaxRealPrice != null">
+        #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDetailId != null">
+        #{orderDetailId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveDetailTemsave">
+    update saas_mphorder_receive_detail_temsave
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveTemsaveId != null">
+        receive_temsave_id = #{receiveTemsaveId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsId != null">
+        mph_goods_id = #{mphGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsName != null">
+        mph_goods_name = #{mphGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="mphManufacturer != null">
+        mph_manufacturer = #{mphManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSpecification != null">
+        mph_specification = #{mphSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseQuantity != null">
+        purchase_quantity = #{purchaseQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="sendQuantity != null">
+        send_quantity = #{sendQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="sendAmount != null">
+        send_amount = #{sendAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDetailId != null">
+        order_detail_id = #{orderDetailId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveDetailTemsave">
+    update saas_mphorder_receive_detail_temsave
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      receive_temsave_id = #{receiveTemsaveId,jdbcType=BIGINT},
+      mph_goods_id = #{mphGoodsId,jdbcType=BIGINT},
+      mph_goods_name = #{mphGoodsName,jdbcType=VARCHAR},
+      mph_manufacturer = #{mphManufacturer,jdbcType=VARCHAR},
+      mph_specification = #{mphSpecification,jdbcType=VARCHAR},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      purchase_quantity = #{purchaseQuantity,jdbcType=DECIMAL},
+      send_quantity = #{sendQuantity,jdbcType=DECIMAL},
+      send_amount = #{sendAmount,jdbcType=DECIMAL},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      tax_rate = #{taxRate,jdbcType=DECIMAL},
+      order_detail_id = #{orderDetailId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByTemsaveId" parameterType="java.lang.Long">
+    delete from saas_mphorder_receive_detail_temsave
+    where receive_temsave_id = #{id,jdbcType=BIGINT}
+  </delete>
+</mapper>

@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.aftersale.adverse.dao.AdverseReactionReportMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.aftersale.adverse.entity.AdverseReactionReport">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="report_date" jdbcType="TIMESTAMP" property="reportDate" />
+    <result column="first_report" jdbcType="INTEGER" property="firstReport" />
+    <result column="report_type" jdbcType="INTEGER" property="reportType" />
+    <result column="report_unit_type" jdbcType="INTEGER" property="reportUnitType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="report_code" jdbcType="VARCHAR" property="reportCode" />
+
+    <result column="patient_name" jdbcType="VARCHAR" property="patientName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="nation_id" jdbcType="BIGINT" property="nationId" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="primary_disease" jdbcType="VARCHAR" property="primaryDisease" />
+    <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+    <result column="outpatient_code" jdbcType="VARCHAR" property="outpatientCode" />
+    <result column="history_adverse_reaction" jdbcType="INTEGER" property="historyAdverseReaction" />
+    <result column="family_adverse_reaction" jdbcType="INTEGER" property="familyAdverseReaction" />
+    <result column="important_info" jdbcType="INTEGER" property="importantInfo" />
+    <result column="adverse_reaction_name" jdbcType="VARCHAR" property="adverseReactionName" />
+    <result column="adverse_reaction_time" jdbcType="TIMESTAMP" property="adverseReactionTime" />
+    <result column="adverse_reaction_result" jdbcType="INTEGER" property="adverseReactionResult" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="sequelae_performance" jdbcType="VARCHAR" property="sequelaePerformance" />
+    <result column="direct_death_reason" jdbcType="VARCHAR" property="directDeathReason" />
+    <result column="death_time" jdbcType="TIMESTAMP" property="deathTime" />
+    <result column="medicine_start_time" jdbcType="TIMESTAMP" property="medicineStartTime" />
+    <result column="medicine_stop_time" jdbcType="TIMESTAMP" property="medicineStopTime" />
+    <result column="medicine_reason" jdbcType="VARCHAR" property="medicineReason" />
+    <result column="reaction_reduce" jdbcType="VARCHAR" property="reactionReduce" />
+    <result column="again_same_reaction" jdbcType="VARCHAR" property="againSameReaction" />
+    <result column="effect_primary_disease" jdbcType="VARCHAR" property="effectPrimaryDisease" />
+    <result column="report_man_evaluate" jdbcType="VARCHAR" property="reportManEvaluate" />
+    <result column="report_man_phone" jdbcType="VARCHAR" property="reportManPhone" />
+    <result column="report_man_vocation" jdbcType="VARCHAR" property="reportManVocation" />
+    <result column="report_man_email" jdbcType="VARCHAR" property="reportManEmail" />
+    <result column="report_man_name" jdbcType="VARCHAR" property="reportManName" />
+    <result column="report_unit_evaluate" jdbcType="VARCHAR" property="reportUnitEvaluate" />
+    <result column="report_unit_name" jdbcType="VARCHAR" property="reportUnitName" />
+    <result column="report_unit_man" jdbcType="VARCHAR" property="reportUnitMan" />
+    <result column="report_unit_phone" jdbcType="VARCHAR" property="reportUnitPhone" />
+    <result column="info_src" jdbcType="VARCHAR" property="infoSrc" />
+    <result column="adverse_reaction_desc" jdbcType="VARCHAR" property="adverseReactionDesc" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, report_date, first_report, report_type, 
+    report_unit_type, code,report_code, patient_name, sex, birthday, age, nation_id, weight, telephone,
+    primary_disease, hospital_name, outpatient_code, history_adverse_reaction, family_adverse_reaction, 
+    important_info, adverse_reaction_name, adverse_reaction_time, adverse_reaction_result, 
+    report_time, sequelae_performance, direct_death_reason, death_time, medicine_start_time, 
+    medicine_stop_time, medicine_reason, reaction_reduce, again_same_reaction, effect_primary_disease, 
+    report_man_evaluate, report_man_phone, report_man_vocation, report_man_email, report_man_name, 
+    report_unit_evaluate, report_unit_name, report_unit_man, report_unit_phone, info_src, 
+    adverse_reaction_desc, file_id, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_adverse_reaction_report
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_adverse_reaction_report
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.aftersale.adverse.entity.AdverseReactionReport" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_adverse_reaction_report (id, enterprise_id, parent_id, 
+      order_type, report_date, first_report, 
+      report_type, report_unit_type, code,report_code,
+      patient_name, sex, birthday, 
+      age, nation_id, weight, 
+      telephone, primary_disease, hospital_name, 
+      outpatient_code, history_adverse_reaction, 
+      family_adverse_reaction, important_info, adverse_reaction_name, 
+      adverse_reaction_time, adverse_reaction_result, 
+      report_time, sequelae_performance, direct_death_reason, 
+      death_time, medicine_start_time, medicine_stop_time, 
+      medicine_reason, reaction_reduce, again_same_reaction, 
+      effect_primary_disease, report_man_evaluate, 
+      report_man_phone, report_man_vocation, report_man_email, 
+      report_man_name, report_unit_evaluate, report_unit_name, 
+      report_unit_man, report_unit_phone, info_src, 
+      adverse_reaction_desc, file_id, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{reportDate,jdbcType=TIMESTAMP}, #{firstReport,jdbcType=INTEGER}, 
+      #{reportType,jdbcType=INTEGER}, #{reportUnitType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},  #{reportCode,jdbcType=VARCHAR},
+      #{patientName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{age,jdbcType=INTEGER}, #{nationId,jdbcType=BIGINT}, #{weight,jdbcType=DECIMAL}, 
+      #{telephone,jdbcType=VARCHAR}, #{primaryDisease,jdbcType=VARCHAR}, #{hospitalName,jdbcType=VARCHAR}, 
+      #{outpatientCode,jdbcType=VARCHAR}, #{historyAdverseReaction,jdbcType=INTEGER}, 
+      #{familyAdverseReaction,jdbcType=INTEGER}, #{importantInfo,jdbcType=INTEGER}, #{adverseReactionName,jdbcType=VARCHAR}, 
+      #{adverseReactionTime,jdbcType=TIMESTAMP}, #{adverseReactionResult,jdbcType=INTEGER}, 
+      #{reportTime,jdbcType=TIMESTAMP}, #{sequelaePerformance,jdbcType=VARCHAR}, #{directDeathReason,jdbcType=VARCHAR}, 
+      #{deathTime,jdbcType=TIMESTAMP}, #{medicineStartTime,jdbcType=TIMESTAMP}, #{medicineStopTime,jdbcType=TIMESTAMP}, 
+      #{medicineReason,jdbcType=VARCHAR}, #{reactionReduce,jdbcType=VARCHAR}, #{againSameReaction,jdbcType=VARCHAR}, 
+      #{effectPrimaryDisease,jdbcType=VARCHAR}, #{reportManEvaluate,jdbcType=VARCHAR}, 
+      #{reportManPhone,jdbcType=VARCHAR}, #{reportManVocation,jdbcType=VARCHAR}, #{reportManEmail,jdbcType=VARCHAR}, 
+      #{reportManName,jdbcType=VARCHAR}, #{reportUnitEvaluate,jdbcType=VARCHAR}, #{reportUnitName,jdbcType=VARCHAR}, 
+      #{reportUnitMan,jdbcType=VARCHAR}, #{reportUnitPhone,jdbcType=VARCHAR}, #{infoSrc,jdbcType=VARCHAR}, 
+      #{adverseReactionDesc,jdbcType=VARCHAR}, #{fileId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.aftersale.adverse.entity.AdverseReactionReport" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_adverse_reaction_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="reportDate != null">
+        report_date,
+      </if>
+      <if test="firstReport != null">
+        first_report,
+      </if>
+      <if test="reportType != null">
+        report_type,
+      </if>
+      <if test="reportUnitType != null">
+        report_unit_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="reportCode != null">
+        report_code,
+      </if>
+      <if test="patientName != null">
+        patient_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="nationId != null">
+        nation_id,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="primaryDisease != null">
+        primary_disease,
+      </if>
+      <if test="hospitalName != null">
+        hospital_name,
+      </if>
+      <if test="outpatientCode != null">
+        outpatient_code,
+      </if>
+      <if test="historyAdverseReaction != null">
+        history_adverse_reaction,
+      </if>
+      <if test="familyAdverseReaction != null">
+        family_adverse_reaction,
+      </if>
+      <if test="importantInfo != null">
+        important_info,
+      </if>
+      <if test="adverseReactionName != null">
+        adverse_reaction_name,
+      </if>
+      <if test="adverseReactionTime != null">
+        adverse_reaction_time,
+      </if>
+      <if test="adverseReactionResult != null">
+        adverse_reaction_result,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+      <if test="sequelaePerformance != null">
+        sequelae_performance,
+      </if>
+      <if test="directDeathReason != null">
+        direct_death_reason,
+      </if>
+      <if test="deathTime != null">
+        death_time,
+      </if>
+      <if test="medicineStartTime != null">
+        medicine_start_time,
+      </if>
+      <if test="medicineStopTime != null">
+        medicine_stop_time,
+      </if>
+      <if test="medicineReason != null">
+        medicine_reason,
+      </if>
+      <if test="reactionReduce != null">
+        reaction_reduce,
+      </if>
+      <if test="againSameReaction != null">
+        again_same_reaction,
+      </if>
+      <if test="effectPrimaryDisease != null">
+        effect_primary_disease,
+      </if>
+      <if test="reportManEvaluate != null">
+        report_man_evaluate,
+      </if>
+      <if test="reportManPhone != null">
+        report_man_phone,
+      </if>
+      <if test="reportManVocation != null">
+        report_man_vocation,
+      </if>
+      <if test="reportManEmail != null">
+        report_man_email,
+      </if>
+      <if test="reportManName != null">
+        report_man_name,
+      </if>
+      <if test="reportUnitEvaluate != null">
+        report_unit_evaluate,
+      </if>
+      <if test="reportUnitName != null">
+        report_unit_name,
+      </if>
+      <if test="reportUnitMan != null">
+        report_unit_man,
+      </if>
+      <if test="reportUnitPhone != null">
+        report_unit_phone,
+      </if>
+      <if test="infoSrc != null">
+        info_src,
+      </if>
+      <if test="adverseReactionDesc != null">
+        adverse_reaction_desc,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="reportDate != null">
+        #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstReport != null">
+        #{firstReport,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null">
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="reportUnitType != null">
+        #{reportUnitType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCode != null">
+        #{reportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="patientName != null">
+        #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nationId != null">
+        #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryDisease != null">
+        #{primaryDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalName != null">
+        #{hospitalName,jdbcType=VARCHAR},
+      </if>
+      <if test="outpatientCode != null">
+        #{outpatientCode,jdbcType=VARCHAR},
+      </if>
+      <if test="historyAdverseReaction != null">
+        #{historyAdverseReaction,jdbcType=INTEGER},
+      </if>
+      <if test="familyAdverseReaction != null">
+        #{familyAdverseReaction,jdbcType=INTEGER},
+      </if>
+      <if test="importantInfo != null">
+        #{importantInfo,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionName != null">
+        #{adverseReactionName,jdbcType=VARCHAR},
+      </if>
+      <if test="adverseReactionTime != null">
+        #{adverseReactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adverseReactionResult != null">
+        #{adverseReactionResult,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequelaePerformance != null">
+        #{sequelaePerformance,jdbcType=VARCHAR},
+      </if>
+      <if test="directDeathReason != null">
+        #{directDeathReason,jdbcType=VARCHAR},
+      </if>
+      <if test="deathTime != null">
+        #{deathTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineStartTime != null">
+        #{medicineStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineStopTime != null">
+        #{medicineStopTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineReason != null">
+        #{medicineReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reactionReduce != null">
+        #{reactionReduce,jdbcType=VARCHAR},
+      </if>
+      <if test="againSameReaction != null">
+        #{againSameReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="effectPrimaryDisease != null">
+        #{effectPrimaryDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManEvaluate != null">
+        #{reportManEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManPhone != null">
+        #{reportManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManVocation != null">
+        #{reportManVocation,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManEmail != null">
+        #{reportManEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManName != null">
+        #{reportManName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitEvaluate != null">
+        #{reportUnitEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitName != null">
+        #{reportUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitMan != null">
+        #{reportUnitMan,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitPhone != null">
+        #{reportUnitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSrc != null">
+        #{infoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="adverseReactionDesc != null">
+        #{adverseReactionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.aftersale.adverse.entity.AdverseReactionReport">
+    update saas_adverse_reaction_report
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="reportDate != null">
+        report_date = #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstReport != null">
+        first_report = #{firstReport,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null">
+        report_type = #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="reportUnitType != null">
+        report_unit_type = #{reportUnitType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCode != null">
+        report_code = #{reportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="patientName != null">
+        patient_name = #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="nationId != null">
+        nation_id = #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryDisease != null">
+        primary_disease = #{primaryDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalName != null">
+        hospital_name = #{hospitalName,jdbcType=VARCHAR},
+      </if>
+      <if test="outpatientCode != null">
+        outpatient_code = #{outpatientCode,jdbcType=VARCHAR},
+      </if>
+      <if test="historyAdverseReaction != null">
+        history_adverse_reaction = #{historyAdverseReaction,jdbcType=INTEGER},
+      </if>
+      <if test="familyAdverseReaction != null">
+        family_adverse_reaction = #{familyAdverseReaction,jdbcType=INTEGER},
+      </if>
+      <if test="importantInfo != null">
+        important_info = #{importantInfo,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionName != null">
+        adverse_reaction_name = #{adverseReactionName,jdbcType=VARCHAR},
+      </if>
+      <if test="adverseReactionTime != null">
+        adverse_reaction_time = #{adverseReactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adverseReactionResult != null">
+        adverse_reaction_result = #{adverseReactionResult,jdbcType=INTEGER},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequelaePerformance != null">
+        sequelae_performance = #{sequelaePerformance,jdbcType=VARCHAR},
+      </if>
+      <if test="directDeathReason != null">
+        direct_death_reason = #{directDeathReason,jdbcType=VARCHAR},
+      </if>
+      <if test="deathTime != null">
+        death_time = #{deathTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineStartTime != null">
+        medicine_start_time = #{medicineStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineStopTime != null">
+        medicine_stop_time = #{medicineStopTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="medicineReason != null">
+        medicine_reason = #{medicineReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reactionReduce != null">
+        reaction_reduce = #{reactionReduce,jdbcType=VARCHAR},
+      </if>
+      <if test="againSameReaction != null">
+        again_same_reaction = #{againSameReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="effectPrimaryDisease != null">
+        effect_primary_disease = #{effectPrimaryDisease,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManEvaluate != null">
+        report_man_evaluate = #{reportManEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManPhone != null">
+        report_man_phone = #{reportManPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManVocation != null">
+        report_man_vocation = #{reportManVocation,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManEmail != null">
+        report_man_email = #{reportManEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="reportManName != null">
+        report_man_name = #{reportManName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitEvaluate != null">
+        report_unit_evaluate = #{reportUnitEvaluate,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitName != null">
+        report_unit_name = #{reportUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitMan != null">
+        report_unit_man = #{reportUnitMan,jdbcType=VARCHAR},
+      </if>
+      <if test="reportUnitPhone != null">
+        report_unit_phone = #{reportUnitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSrc != null">
+        info_src = #{infoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="adverseReactionDesc != null">
+        adverse_reaction_desc = #{adverseReactionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.aftersale.adverse.entity.AdverseReactionReport">
+    update saas_adverse_reaction_report
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      report_date = #{reportDate,jdbcType=TIMESTAMP},
+      first_report = #{firstReport,jdbcType=INTEGER},
+      report_type = #{reportType,jdbcType=INTEGER},
+      report_unit_type = #{reportUnitType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      report_code = #{reportCode,jdbcType=VARCHAR},
+      patient_name = #{patientName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      age = #{age,jdbcType=INTEGER},
+      nation_id = #{nationId,jdbcType=BIGINT},
+      weight = #{weight,jdbcType=DECIMAL},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      primary_disease = #{primaryDisease,jdbcType=VARCHAR},
+      hospital_name = #{hospitalName,jdbcType=VARCHAR},
+      outpatient_code = #{outpatientCode,jdbcType=VARCHAR},
+      history_adverse_reaction = #{historyAdverseReaction,jdbcType=INTEGER},
+      family_adverse_reaction = #{familyAdverseReaction,jdbcType=INTEGER},
+      important_info = #{importantInfo,jdbcType=INTEGER},
+      adverse_reaction_name = #{adverseReactionName,jdbcType=VARCHAR},
+      adverse_reaction_time = #{adverseReactionTime,jdbcType=TIMESTAMP},
+      adverse_reaction_result = #{adverseReactionResult,jdbcType=INTEGER},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      sequelae_performance = #{sequelaePerformance,jdbcType=VARCHAR},
+      direct_death_reason = #{directDeathReason,jdbcType=VARCHAR},
+      death_time = #{deathTime,jdbcType=TIMESTAMP},
+      medicine_start_time = #{medicineStartTime,jdbcType=TIMESTAMP},
+      medicine_stop_time = #{medicineStopTime,jdbcType=TIMESTAMP},
+      medicine_reason = #{medicineReason,jdbcType=VARCHAR},
+      reaction_reduce = #{reactionReduce,jdbcType=VARCHAR},
+      again_same_reaction = #{againSameReaction,jdbcType=VARCHAR},
+      effect_primary_disease = #{effectPrimaryDisease,jdbcType=VARCHAR},
+      report_man_evaluate = #{reportManEvaluate,jdbcType=VARCHAR},
+      report_man_phone = #{reportManPhone,jdbcType=VARCHAR},
+      report_man_vocation = #{reportManVocation,jdbcType=VARCHAR},
+      report_man_email = #{reportManEmail,jdbcType=VARCHAR},
+      report_man_name = #{reportManName,jdbcType=VARCHAR},
+      report_unit_evaluate = #{reportUnitEvaluate,jdbcType=VARCHAR},
+      report_unit_name = #{reportUnitName,jdbcType=VARCHAR},
+      report_unit_man = #{reportUnitMan,jdbcType=VARCHAR},
+      report_unit_phone = #{reportUnitPhone,jdbcType=VARCHAR},
+      info_src = #{infoSrc,jdbcType=VARCHAR},
+      adverse_reaction_desc = #{adverseReactionDesc,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+ <select id="selectReportPage" resultType="com.rograndec.feijiayun.chain.business.aftersale.adverse.vo.ReportPageVO">
+
+   SELECT id,report_time as reportTime,code,report_man_name as reportManName,first_report as firstReport,
+   report_type as reportType ,report_unit_type as reportUnitType,report_unit_name as reportUnitName
+   FROM saas_adverse_reaction_report
+   <include refid="whereSql"></include>
+   limit #{pageStart},#{pageSize}
+
+ </select>
+
+
+  <select id="selectReportPageCount" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    FROM saas_adverse_reaction_report
+
+    <include refid="whereSql"></include>
+  </select>
+
+
+  <sql id="whereSql">
+
+    <where>
+      enterprise_id = #{enterpriseId}
+      <if test="code != null and code != '' ">
+        and code = #{code}
+      </if>
+      <if test="reportManName != null and reportManName != ''">
+        and report_man_name = #{reportManName}
+      </if>
+      <if test="firstReport != null">
+        and first_report = #{firstReport}
+      </if>
+      <if test="reportType != null" >
+        and  report_type = #{reportType}
+      </if>
+
+      <if test ="start != null" >
+        and report_time &gt;=  #{start,jdbcType=TIMESTAMP}
+      </if>
+      <if test ="end != null" >
+        and report_time &lt;=  #{end,jdbcType=TIMESTAMP}
+      </if>
+
+      <if test="sort == null and order == null">
+        order by id desc,report_time desc,code desc
+      </if>
+      <if test="order != null and sort != null">
+        order by ${order}  ${sort}
+      </if>
+
+    </where>
+
+  </sql>
+
+  <select id="selectGoods"  resultType="com.rograndec.feijiayun.chain.business.aftersale.adverse.vo.GoodsReportVO">
+
+    SELECT goods.id as id,goods.code as code,goods.name as name,goods.generic_name as genericName,goods.place as place,
+    goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+    goods.dosage_name as dosageName ,goods.approval_number  as approvalNumber, goods.unit_name as unitName
+    FROM saas_goods goods
+    where goods.enterprise_id=#{enterpriseId}
+    <if test="param != null and param != ''">
+      and (
+      INSTR(goods.name,#{param})
+      or INSTR(goods.code,#{param})
+      or INSTR(goods.pinyin_code,#{param})
+      or INSTR(goods.approval_number,#{param})
+      or INSTR(goods.barcode,#{param})
+      or INSTR(goods.generic_name,#{param}))
+    </if>
+    limit 100
+  </select>
+
+  <select id="selectReportReportPage" resultType="com.rograndec.feijiayun.chain.business.aftersale.adverse.vo.ReportPageVO">
+
+
+    select enterprise.`code` as enterpriseCode, enterprise.`name` as enterpriseName,
+    report.id,report.report_time as reportTime,report.code,report.report_man_name as reportManName,
+    report.first_report as firstReport,
+    report.report_type as reportType ,report.report_unit_type as reportUnitType,report.report_unit_name as reportUnitName
+    FROM saas_adverse_reaction_report report
+    join saas_enterprise enterprise on report.enterprise_id = enterprise.id
+    <include refid="reportWhereSql"></include>
+    <if test="pageStart != null">
+      limit #{pageStart},#{pageSize}
+    </if>
+  </select>
+
+
+
+  <select id="selectReportReportCount" resultType="java.lang.Integer">
+
+    SELECT
+    count(*)
+    FROM saas_adverse_reaction_report report
+
+    join saas_enterprise enterprise on report.enterprise_id = enterprise.id
+
+    <include refid="reportWhereSql"></include>
+
+  </select>
+  <sql id="reportWhereSql">
+    <where>
+
+      1= 1
+      <choose>
+        <when test="type == 1">
+          and (report.enterprise_id = #{enterpriseId} OR report.parent_id = #{enterpriseId})
+        </when>
+        <otherwise>
+          and report.enterprise_id = #{enterpriseId}
+        </otherwise>
+      </choose>
+      <if test="enterpriseCode != null and enterpriseCode!= ''">
+        and enterprise.code = #{enterpriseCode}
+      </if>
+      <if test="chainType != null">
+        and enterprise.chain_type = #{chainType}
+      </if>
+      <if test="enterpriseName != null and enterpriseName != ''">
+
+        and enterprise.name  like concat('%', #{enterpriseName}, '%')
+      </if>
+      <if test="code != null and code != '' ">
+        and report.code = #{code}
+      </if>
+      <if test="reportManName != null and reportManName != ''">
+        and report.report_man_name = #{reportManName}
+      </if>
+      <if test="firstReport != null">
+        and report.first_report = #{firstReport}
+      </if>
+      <if test="reportType != null" >
+        and  report.report_type = #{reportType}
+      </if>
+
+      <if test="start != null and end != null">
+        and report.report_time between #{start} and #{end}
+      </if>
+
+      <if test="sort == null  and order == null ">
+        order by report.id desc,report.report_time desc,report.code desc
+      </if>
+      <if test="order != null and order !='' and sort!=null and sort != ''">
+        order by report.${order}  ${sort}
+      </if>
+
+    </where>
+  </sql>
+
+
+</mapper>

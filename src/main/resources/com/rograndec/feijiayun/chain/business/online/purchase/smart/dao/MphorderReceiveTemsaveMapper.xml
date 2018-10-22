@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.online.purchase.smart.dao.MphorderReceiveTemsaveMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveTemsave">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="mph_supplier_id" jdbcType="BIGINT" property="mphSupplierId" />
+    <result column="mph_supplier_name" jdbcType="VARCHAR" property="mphSupplierName" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="purchase_date" jdbcType="TIMESTAMP" property="purchaseDate" />
+    <result column="receive_date" jdbcType="TIMESTAMP" property="receiveDate" />
+    <result column="check_date" jdbcType="TIMESTAMP" property="checkDate" />
+    <result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
+    <result column="purchase_man_id" jdbcType="BIGINT" property="purchaseManId" />
+    <result column="purchase_man_code" jdbcType="VARCHAR" property="purchaseManCode" />
+    <result column="purchase_man_name" jdbcType="VARCHAR" property="purchaseManName" />
+    <result column="receive_man_id" jdbcType="BIGINT" property="receiveManId" />
+    <result column="receive_man_code" jdbcType="VARCHAR" property="receiveManCode" />
+    <result column="receive_man_name" jdbcType="VARCHAR" property="receiveManName" />
+    <result column="second_receive_man_id" jdbcType="BIGINT" property="secondReceiveManId" />
+    <result column="second_receive_man_code" jdbcType="VARCHAR" property="secondReceiveManCode" />
+    <result column="second_receive_man_name" jdbcType="VARCHAR" property="secondReceiveManName" />
+    <result column="check_man_id" jdbcType="BIGINT" property="checkManId" />
+    <result column="check_man_code" jdbcType="VARCHAR" property="checkManCode" />
+    <result column="second_check_man_id" jdbcType="BIGINT" property="secondCheckManId" />
+    <result column="check_man_name" jdbcType="VARCHAR" property="checkManName" />
+    <result column="second_check_man_code" jdbcType="VARCHAR" property="secondCheckManCode" />
+    <result column="second_check_man_name" jdbcType="VARCHAR" property="secondCheckManName" />
+    <result column="in_man_id" jdbcType="BIGINT" property="inManId" />
+    <result column="in_man_code" jdbcType="VARCHAR" property="inManCode" />
+    <result column="in_man_name" jdbcType="VARCHAR" property="inManName" />
+    <result column="flow_code" jdbcType="VARCHAR" property="flowCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_id, order_code, mph_supplier_id, mph_supplier_name, 
+    supplier_id, supplier_name, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time, purchase_date, receive_date, 
+    check_date, in_date, purchase_man_id, purchase_man_code, purchase_man_name, receive_man_id, 
+    receive_man_code, receive_man_name, second_receive_man_id, second_receive_man_code, 
+    second_receive_man_name, check_man_id, check_man_code, second_check_man_id, check_man_name, 
+    second_check_man_code, second_check_man_name, in_man_id, in_man_code, in_man_name, 
+    flow_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_mphorder_receive_temsave
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByEnterpriseIdAndOrderIdAndOrderCode"
+            resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+      from saas_mphorder_receive_temsave
+      WHERE enterprise_id = #{enterpriseId}
+      AND order_id = #{orderId}
+      AND order_code = #{orderCode}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_mphorder_receive_temsave
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveTemsave">
+    insert into saas_mphorder_receive_temsave (id, enterprise_id, parent_id, 
+      order_id, order_code, mph_supplier_id, 
+      mph_supplier_name, supplier_id, supplier_name, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time, purchase_date, 
+      receive_date, check_date, in_date, 
+      purchase_man_id, purchase_man_code, purchase_man_name, 
+      receive_man_id, receive_man_code, receive_man_name, 
+      second_receive_man_id, second_receive_man_code, 
+      second_receive_man_name, check_man_id, check_man_code, 
+      second_check_man_id, check_man_name, second_check_man_code, 
+      second_check_man_name, in_man_id, in_man_code, 
+      in_man_name, flow_code)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, #{mphSupplierId,jdbcType=BIGINT}, 
+      #{mphSupplierName,jdbcType=VARCHAR}, #{supplierId,jdbcType=BIGINT}, #{supplierName,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{purchaseDate,jdbcType=TIMESTAMP}, 
+      #{receiveDate,jdbcType=TIMESTAMP}, #{checkDate,jdbcType=TIMESTAMP}, #{inDate,jdbcType=TIMESTAMP}, 
+      #{purchaseManId,jdbcType=BIGINT}, #{purchaseManCode,jdbcType=VARCHAR}, #{purchaseManName,jdbcType=VARCHAR}, 
+      #{receiveManId,jdbcType=BIGINT}, #{receiveManCode,jdbcType=VARCHAR}, #{receiveManName,jdbcType=VARCHAR}, 
+      #{secondReceiveManId,jdbcType=BIGINT}, #{secondReceiveManCode,jdbcType=VARCHAR}, 
+      #{secondReceiveManName,jdbcType=VARCHAR}, #{checkManId,jdbcType=BIGINT}, #{checkManCode,jdbcType=VARCHAR}, 
+      #{secondCheckManId,jdbcType=BIGINT}, #{checkManName,jdbcType=VARCHAR}, #{secondCheckManCode,jdbcType=VARCHAR}, 
+      #{secondCheckManName,jdbcType=VARCHAR}, #{inManId,jdbcType=BIGINT}, #{inManCode,jdbcType=VARCHAR}, 
+      #{inManName,jdbcType=VARCHAR}, #{flowCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveTemsave" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_mphorder_receive_temsave
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id,
+      </if>
+      <if test="mphSupplierName != null">
+        mph_supplier_name,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="purchaseDate != null">
+        purchase_date,
+      </if>
+      <if test="receiveDate != null">
+        receive_date,
+      </if>
+      <if test="checkDate != null">
+        check_date,
+      </if>
+      <if test="inDate != null">
+        in_date,
+      </if>
+      <if test="purchaseManId != null">
+        purchase_man_id,
+      </if>
+      <if test="purchaseManCode != null">
+        purchase_man_code,
+      </if>
+      <if test="purchaseManName != null">
+        purchase_man_name,
+      </if>
+      <if test="receiveManId != null">
+        receive_man_id,
+      </if>
+      <if test="receiveManCode != null">
+        receive_man_code,
+      </if>
+      <if test="receiveManName != null">
+        receive_man_name,
+      </if>
+      <if test="secondReceiveManId != null">
+        second_receive_man_id,
+      </if>
+      <if test="secondReceiveManCode != null">
+        second_receive_man_code,
+      </if>
+      <if test="secondReceiveManName != null">
+        second_receive_man_name,
+      </if>
+      <if test="checkManId != null">
+        check_man_id,
+      </if>
+      <if test="checkManCode != null">
+        check_man_code,
+      </if>
+      <if test="secondCheckManId != null">
+        second_check_man_id,
+      </if>
+      <if test="checkManName != null">
+        check_man_name,
+      </if>
+      <if test="secondCheckManCode != null">
+        second_check_man_code,
+      </if>
+      <if test="secondCheckManName != null">
+        second_check_man_name,
+      </if>
+      <if test="inManId != null">
+        in_man_id,
+      </if>
+      <if test="inManCode != null">
+        in_man_code,
+      </if>
+      <if test="inManName != null">
+        in_man_name,
+      </if>
+      <if test="flowCode != null">
+        flow_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSupplierId != null">
+        #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="mphSupplierName != null">
+        #{mphSupplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseDate != null">
+        #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveDate != null">
+        #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inDate != null">
+        #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseManId != null">
+        #{purchaseManId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseManCode != null">
+        #{purchaseManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseManName != null">
+        #{purchaseManName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveManId != null">
+        #{receiveManId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveManCode != null">
+        #{receiveManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveManName != null">
+        #{receiveManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiveManId != null">
+        #{secondReceiveManId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiveManCode != null">
+        #{secondReceiveManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiveManName != null">
+        #{secondReceiveManName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkManId != null">
+        #{checkManId,jdbcType=BIGINT},
+      </if>
+      <if test="checkManCode != null">
+        #{checkManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManId != null">
+        #{secondCheckManId,jdbcType=BIGINT},
+      </if>
+      <if test="checkManName != null">
+        #{checkManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManCode != null">
+        #{secondCheckManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManName != null">
+        #{secondCheckManName,jdbcType=VARCHAR},
+      </if>
+      <if test="inManId != null">
+        #{inManId,jdbcType=BIGINT},
+      </if>
+      <if test="inManCode != null">
+        #{inManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inManName != null">
+        #{inManName,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null">
+        #{flowCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveTemsave">
+    update saas_mphorder_receive_temsave
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="mphSupplierName != null">
+        mph_supplier_name = #{mphSupplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseDate != null">
+        purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveDate != null">
+        receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkDate != null">
+        check_date = #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inDate != null">
+        in_date = #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseManId != null">
+        purchase_man_id = #{purchaseManId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseManCode != null">
+        purchase_man_code = #{purchaseManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseManName != null">
+        purchase_man_name = #{purchaseManName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveManId != null">
+        receive_man_id = #{receiveManId,jdbcType=BIGINT},
+      </if>
+      <if test="receiveManCode != null">
+        receive_man_code = #{receiveManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveManName != null">
+        receive_man_name = #{receiveManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiveManId != null">
+        second_receive_man_id = #{secondReceiveManId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiveManCode != null">
+        second_receive_man_code = #{secondReceiveManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiveManName != null">
+        second_receive_man_name = #{secondReceiveManName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkManId != null">
+        check_man_id = #{checkManId,jdbcType=BIGINT},
+      </if>
+      <if test="checkManCode != null">
+        check_man_code = #{checkManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManId != null">
+        second_check_man_id = #{secondCheckManId,jdbcType=BIGINT},
+      </if>
+      <if test="checkManName != null">
+        check_man_name = #{checkManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManCode != null">
+        second_check_man_code = #{secondCheckManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckManName != null">
+        second_check_man_name = #{secondCheckManName,jdbcType=VARCHAR},
+      </if>
+      <if test="inManId != null">
+        in_man_id = #{inManId,jdbcType=BIGINT},
+      </if>
+      <if test="inManCode != null">
+        in_man_code = #{inManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inManName != null">
+        in_man_name = #{inManName,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null">
+        flow_code = #{flowCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.smart.entity.MphorderReceiveTemsave">
+    update saas_mphorder_receive_temsave
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=BIGINT},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      mph_supplier_name = #{mphSupplierName,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      check_date = #{checkDate,jdbcType=TIMESTAMP},
+      in_date = #{inDate,jdbcType=TIMESTAMP},
+      purchase_man_id = #{purchaseManId,jdbcType=BIGINT},
+      purchase_man_code = #{purchaseManCode,jdbcType=VARCHAR},
+      purchase_man_name = #{purchaseManName,jdbcType=VARCHAR},
+      receive_man_id = #{receiveManId,jdbcType=BIGINT},
+      receive_man_code = #{receiveManCode,jdbcType=VARCHAR},
+      receive_man_name = #{receiveManName,jdbcType=VARCHAR},
+      second_receive_man_id = #{secondReceiveManId,jdbcType=BIGINT},
+      second_receive_man_code = #{secondReceiveManCode,jdbcType=VARCHAR},
+      second_receive_man_name = #{secondReceiveManName,jdbcType=VARCHAR},
+      check_man_id = #{checkManId,jdbcType=BIGINT},
+      check_man_code = #{checkManCode,jdbcType=VARCHAR},
+      second_check_man_id = #{secondCheckManId,jdbcType=BIGINT},
+      check_man_name = #{checkManName,jdbcType=VARCHAR},
+      second_check_man_code = #{secondCheckManCode,jdbcType=VARCHAR},
+      second_check_man_name = #{secondCheckManName,jdbcType=VARCHAR},
+      in_man_id = #{inManId,jdbcType=BIGINT},
+      in_man_code = #{inManCode,jdbcType=VARCHAR},
+      in_man_name = #{inManName,jdbcType=VARCHAR},
+      flow_code = #{flowCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.goods.dao.POSGoodsMapper">
+  
+  <select id="selectGoods" resultType="com.rograndec.feijiayun.chain.inf.pos.goods.vo.SelectPOSGoodsVO">
+	  SELECT 
+	  goods.id AS goodsId,
+	  goods.code AS goodsCode,
+	  goods.name as goodsName,
+	  goods.barcode as barcode,
+	  goods.generic_name AS goodsGenericName,
+	  goods.specification AS goodsSpecification,
+	  goods.manufacturer_id AS manufacturerId,
+	  goods.manufacturer AS manufacturer,
+	  goods.place as goodsPlace,
+	  goods.unit_id as unitId,
+	  goods.unit_id as unitName,
+	  goods.approval_number as approvalNumber,
+	  goods.dosage_id as dosageId,
+	  goods.dosage_name as dosageName,
+	  goods.goods_attribute as goodsAttribute,
+	  goods.prescription_drug as prescriptionDrug,
+	  goods.otc_type as otcType,
+	  goods.medical_insurance as medicalInsurance,
+	  goods.first,
+	  goods.special_drug as specialDrug,
+	  goods.in_charge_drug as inChargeDrug,
+	  goods.limit_quantity as limitQuantity,
+	  pod.retail_price AS retailPrice,
+	  pod.member_price AS memberPrice,
+      pod.sale_tax_rate AS goodsTaxRate,
+      pod.sale_tax_rate_id as goodsTaxRateId
+	  
+	  FROM
+	  saas_goods goods
+	  JOIN saas_price_order_detail pod 
+	  ON goods.id = pod.goods_id AND pod.status = 1 
+	  AND goods.enterprise_id = pod.enterprise_id
+	  WHERE goods.enterprise_id =#{enterpriseId}
+	  AND goods.`status`=1 AND valid_flag=1	
+	  
+	  <if test="param != null and param != ''">
+        and (goods.name like concat('%', #{param},'%')
+        or goods.code like concat('%', #{param},'%')
+        or goods.pinyin_code like concat('%', #{param},'%')
+        or goods.approval_number like concat('%', #{param},'%')
+        or goods.barcode like concat('%', #{param},'%')
+        or goods.generic_name like concat('%', #{param},'%')
+        )
+      </if>
+      
+	  GROUP BY goods.id 
+	  ORDER BY goods.id DESC
+  </select>
+  
+  <!-- 选择中药 -->
+  <select id="selectGoodsAttribute" resultType="com.rograndec.feijiayun.chain.inf.pos.goods.vo.SelectPOSGoodsVO">
+	  SELECT 
+	  goods.id AS goodsId,
+	  goods.code AS goodsCode,
+	  goods.name as goodsName,
+	  goods.barcode as barcode,
+	  goods.generic_name AS goodsGenericName,
+	  goods.specification AS goodsSpecification,
+	  goods.manufacturer_id AS manufacturerId,
+	  goods.manufacturer AS manufacturer,
+	  goods.place as goodsPlace,
+	  goods.unit_id as unitId,
+	  goods.unit_id as unitName,
+	  goods.approval_number as approvalNumber,
+	  goods.dosage_id as dosageId,
+	  goods.dosage_name as dosageName,
+	  goods.goods_attribute as goodsAttribute,
+	  goods.prescription_drug as prescriptionDrug,
+	  goods.otc_type as otcType,
+	  goods.medical_insurance as medicalInsurance,
+	  goods.first,
+	  goods.special_drug as specialDrug,
+	  goods.in_charge_drug as inChargeDrug,
+	  goods.limit_quantity as limitQuantity,
+	  pod.retail_price AS retailPrice,
+	  pod.member_price AS memberPrice,
+      pod.sale_tax_rate AS goodsTaxRate,
+      pod.sale_tax_rate_id as goodsTaxRateId
+	  
+	  FROM
+	  saas_goods goods
+	  JOIN saas_price_order_detail pod 
+	  ON goods.id = pod.goods_id AND pod.status = 1 
+	  AND goods.enterprise_id = pod.enterprise_id
+	  WHERE goods.enterprise_id =#{enterpriseId}
+	  AND goods.`status`=1 AND valid_flag=1	
+	  AND goods.goods_attribute IN (1,2)
+	  
+	  <if test="param != null and param != ''">
+        and (goods.name like concat('%', #{param},'%')
+        or goods.code like concat('%', #{param},'%')
+        or goods.pinyin_code like concat('%', #{param},'%')
+        or goods.approval_number like concat('%', #{param},'%')
+        or goods.barcode like concat('%', #{param},'%')
+        or goods.generic_name like concat('%', #{param},'%')
+        )
+      </if>
+      
+	  GROUP BY goods.id 
+	  ORDER BY goods.id DESC
+  </select>
+  
+  
+  
+  <!-- 选择商品的批号 -->
+  <select id="selectGoodsLotNum" resultType="com.rograndec.feijiayun.chain.inf.pos.goods.vo.SelectPOSGoodsLotNumVO">
+	SELECT 
+	  lot.`goods_id` AS goodsId,
+	  lot.lot_num AS lotNumber,
+	  lot.id AS lotNumberId,
+	  lot.product_date AS productDate,
+	  lot.valid_until AS validUntil,
+	  stock.usable_quantity AS usableQuantity,
+	  stock.shelf_id AS shelfId,
+	  stock.shelf_name AS shelfName,
+	  stock.id AS stId,
+	  stock.shelf_status_desc shelfStatusDesc
+	FROM
+        saas_stock stock
+        left join saas_lot_number lot on lot.id=stock.lot_id
+        left join saas_warehouse_shelf ws on ws.id=stock.shelf_id
+        left join saas_warehouse_cargo_area wca on wca.id=ws.cargo_area_id
+        WHERE
+        stock.enterprise_id = #{enterpriseId}
+        AND stock.goods_id = lot.goods_id
+        AND stock.goods_id = #{goodsId}
+        <if test="usableQuantity == 0">
+        AND stock.usable_quantity>=0
+        </if>
+        <if test="usableQuantity > 0">
+        AND stock.usable_quantity>0
+        </if>
+        AND wca.job_type=0
+        and wca.job_area=0
+	ORDER BY lot.id DESC 
+  </select>
+  
+  <select id="countSelectGoods" resultType="java.lang.Integer">
+	  select count(1) from (
+	  	SELECT 
+		  goods.id
+		  FROM
+		  saas_goods goods 
+		  LEFT JOIN saas_stock st
+		  	ON goods.id = st.goods_id and goods.enterprise_id = st.enterprise_id
+		  LEFT JOIN saas_lot_number lot 
+		  	ON goods.id = lot.goods_id
+		  RIGHT JOIN saas_price_order_detail pod 
+			ON goods.id = pod.goods_id and pod.status = 1 AND goods.enterprise_id = pod.enterprise_id
+		  WHERE goods.enterprise_id =#{enterpriseId}
+		  
+		  <if test="param != null and param != ''">
+		    and (
+		    goods.name like concat('%', #{param},'%') 
+		    or goods.code like concat('%', #{param},'%')
+		    or goods.pinyin_code like concat('%', #{param},'%')
+		    or goods.approval_number like concat('%', #{param},'%')
+		    or goods.barcode like concat('%', #{param},'%')
+		    or goods.generic_name like concat('%', #{param},'%')
+		    )
+		  </if>
+		  
+		  GROUP BY st.goods_id,lot.id,st.shelf_id
+		  
+	  ) total
+  </select>
+  
+  
+  
+  
+</mapper>

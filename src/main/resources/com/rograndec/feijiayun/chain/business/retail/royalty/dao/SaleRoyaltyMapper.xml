@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.royalty.dao.SaleRoyaltyMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.royalty.entity.SaleRoyalty">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="royalty_date" jdbcType="TIMESTAMP" property="royaltyDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="royalty_man_id" jdbcType="BIGINT" property="royaltyManId" />
+    <result column="royalty_man_code" jdbcType="VARCHAR" property="royaltyManCode" />
+    <result column="royalty_man_name" jdbcType="VARCHAR" property="royaltyManName" />
+    <result column="sale_date_from" jdbcType="TIMESTAMP" property="saleDateFrom" />
+    <result column="sale_date_to" jdbcType="TIMESTAMP" property="saleDateTo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, royalty_date, code, royalty_man_id, royalty_man_code, 
+    royalty_man_name, sale_date_from, sale_date_to, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <sql id="Base_Column_GetList">
+    r.id, r.enterprise_id, r.parent_id, r.order_type, r.royalty_date, r.code, r.royalty_man_id, r.royalty_man_code, 
+    r.royalty_man_name, r.sale_date_from, r.sale_date_to, r.status, r.remark, r.creater_id, r.creater_code, 
+    r.creater_name, r.create_time, r.modifier_id, r.modifier_code, r.modifier_name, r.update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale_royalty
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEnterpriseId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale_royalty
+    where (enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="parentId != null">
+      or parent_id = #{parentId,jdbcType=BIGINT}
+    </if>
+    )
+    <if test="startTime != null and endTime != null">
+      and royalty_date >= #{startTime,jdbcType=TIMESTAMP}
+      and royalty_date &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+
+    <if test="id != null">
+      and id = #{id,jdbcType=BIGINT}
+    </if>
+  </select>
+  
+  <select id="queryByEnterpriseId" resultMap="BaseResultMap">
+   select
+    <include refid="Base_Column_GetList" />
+    from saas_sale_royalty r
+    <if test="parentId != null">
+      INNER JOIN `saas_enterprise_business` b ON b.`enterprise_id` = r.enterprise_id AND b.`royalty_rule` = 0
+    </if>
+    where 
+    <choose>
+    <when test="parentId == null">
+     r.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    </when>
+    <otherwise>
+     r.parent_id = #{parentId,jdbcType=BIGINT}
+    </otherwise>
+    </choose>
+    
+    <if test="startTime != null and endTime != null">
+      and r.royalty_date >= #{startTime,jdbcType=TIMESTAMP}
+      and r.royalty_date &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="id != null">
+      and r.royalty_man_id = #{id,jdbcType=BIGINT}
+    </if>
+    LIMIT #{start,jdbcType=INTEGER} ,#{pageSize,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectTotalRecordByEnterpriseId" resultType="java.lang.Integer">
+   select
+    COUNT(r.id)
+    from saas_sale_royalty r
+    <if test="parentId != null">
+      INNER JOIN `saas_enterprise_business` b ON b.`enterprise_id` = r.enterprise_id AND b.`royalty_rule` = 0
+    </if>
+    where 
+    <choose>
+    <when test="parentId == null">
+     r.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    </when>
+    <otherwise>
+     r.parent_id = #{parentId,jdbcType=BIGINT}
+    </otherwise>
+    </choose>
+    
+    <if test="startTime != null and endTime != null">
+      and r.royalty_date >= #{startTime,jdbcType=TIMESTAMP}
+      and r.royalty_date &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="id != null">
+      and r.royalty_man_id = #{id,jdbcType=BIGINT}
+    </if>
+  </select>
+
+<select id="selectNoRoyaltyDetailsByParam" resultType="com.rograndec.feijiayun.chain.business.retail.royalty.vo.ResponseNoSaleRoyaltyDetailVO">
+
+    select
+    a.goods_id as goodsId, -- 商品ID
+    a.goods_code as goodsCode, -- 商品编码
+    a.goods_generic_name as goodsGenericName, -- 商品名称
+    a.dosage_id as dosageId, -- 剂型ID
+    a.dosage_name as dosageName, -- 剂型名称
+    a.goods_specification goodsSpecification, -- 规格
+    a.unit_id as unitId, -- 单位ID
+    a.unit_name as unitName, -- 单位名称
+    a.manufacturer_id as manufacturerId, -- 生产厂家ID
+    a.manufacturer, -- 生产厂家
+    sum(a.quantity) quantity, -- 数量
+    sum(a.real_amount) as realAmount, -- 销售总额
+    a.clerk_id as clerkId, -- 营业员人员id
+    a.clerk_name as clerkName, -- 营业员name
+    a.clerk_code as clerkCode, -- 营业员code
+    sum(e.cost_amount) as costAmount, -- 成本总额
+    (sum(a.real_amount) - sum(e.cost_amount)) as profit, -- 利润总额
+    (sum(a.real_amount) - sum(e.cost_amount)) / sum(a.real_amount) as profitRate, -- 利润率
+    c.strategy_id as strategyId, -- 策略ID
+    c.stragegy_name as royaltyStrategy, -- 策略名称
+    p.id as enterpriseId, -- 门店id
+    p.name as enterpriseName, -- 门店名称
+    p.code as enterpriseCode, -- 门店名称
+    b.id as saleId, -- 基础单据ID
+    a.id as saleDtlId -- 基础单据明细ID
+    from saas_sale_detail as a
+    inner join saas_sale b on a.enterprise_id = b.enterprise_id and a.sale_id = b.id
+   <choose>
+        <when test="parentId != null">
+             inner join saas_royalty_goods c on c.enterprise_id = a.parent_id and a.goods_id = c.goods_id
+        </when>
+        <otherwise>
+        <if test="royaltyRule != null">
+             inner join saas_royalty_goods c on c.enterprise_id = a.enterprise_id and a.goods_id = c.goods_id
+        </if>
+         <if test="royaltyRule == null">
+             inner join saas_royalty_goods c on c.enterprise_id = a.parent_id and a.goods_id = c.goods_id
+        </if>
+        </otherwise>
+    </choose>
+    inner join saas_in_out_record d on d.direction = 1 and d.enterprise_id = a.enterprise_id and b.id = d.order_id
+    inner join saas_in_out_record_detail e on e.direction = 1 and e.in_out_id = d.id and e.enterprise_id = a.enterprise_id and e.order_dtl_id = a.id and e.order_id = a.sale_id
+    inner join saas_enterprise p on p.id=a.enterprise_id
+    <if test="parentId != null">
+    inner join saas_enterprise_business business on business.enterprise_id = p.id and business.royalty_rule = 0
+    </if>
+    WHERE a.royalty_flag = 0
+    AND (a.enterprise_id = #{enterpriseId,jdbcType=BIGINT}  or a.parent_id = #{enterpriseId,jdbcType=BIGINT}) and  a.clerk_id is not null
+    <if test="chainType != null">
+      AND p.chain_type = #{chainType,jdbcType=INTEGER}
+    </if>
+    <if test="code != null">
+     AND INSTR(p.code,#{code})
+    </if>
+    <if test="name != null">
+     AND INSTR(p.name,#{name})
+    </if>
+    <if test="clerkId != null">
+      AND a.clerk_id = #{clerkId,jdbcType=BIGINT}
+    </if>
+    <if test="startTime != null &amp;&amp; endTime != null">
+      AND a.sale_date >= #{startTime,jdbcType=TIMESTAMP}
+      AND a.sale_date &lt; #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    GROUP BY a.goods_id
+    order by a.enterprise_id,a.goods_id desc
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sale_royalty
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.royalty.entity.SaleRoyalty">
+    insert into saas_sale_royalty (id, enterprise_id, parent_id, 
+      order_type, royalty_date, code, 
+      royalty_man_id, royalty_man_code, royalty_man_name, 
+      sale_date_from, sale_date_to, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{royaltyDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{royaltyManId,jdbcType=BIGINT}, #{royaltyManCode,jdbcType=VARCHAR}, #{royaltyManName,jdbcType=VARCHAR}, 
+      #{saleDateFrom,jdbcType=TIMESTAMP}, #{saleDateTo,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.royalty.entity.SaleRoyalty"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sale_royalty
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="royaltyDate != null">
+        royalty_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="royaltyManId != null">
+        royalty_man_id,
+      </if>
+      <if test="royaltyManCode != null">
+        royalty_man_code,
+      </if>
+      <if test="royaltyManName != null">
+        royalty_man_name,
+      </if>
+      <if test="saleDateFrom != null">
+        sale_date_from,
+      </if>
+      <if test="saleDateTo != null">
+        sale_date_to,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyDate != null">
+        #{royaltyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="royaltyManId != null">
+        #{royaltyManId,jdbcType=BIGINT},
+      </if>
+      <if test="royaltyManCode != null">
+        #{royaltyManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="royaltyManName != null">
+        #{royaltyManName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDateFrom != null">
+        #{saleDateFrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleDateTo != null">
+        #{saleDateTo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.royalty.entity.SaleRoyalty">
+    update saas_sale_royalty
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyDate != null">
+        royalty_date = #{royaltyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="royaltyManId != null">
+        royalty_man_id = #{royaltyManId,jdbcType=BIGINT},
+      </if>
+      <if test="royaltyManCode != null">
+        royalty_man_code = #{royaltyManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="royaltyManName != null">
+        royalty_man_name = #{royaltyManName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDateFrom != null">
+        sale_date_from = #{saleDateFrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleDateTo != null">
+        sale_date_to = #{saleDateTo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.royalty.entity.SaleRoyalty">
+    update saas_sale_royalty
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      royalty_date = #{royaltyDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      royalty_man_id = #{royaltyManId,jdbcType=BIGINT},
+      royalty_man_code = #{royaltyManCode,jdbcType=VARCHAR},
+      royalty_man_name = #{royaltyManName,jdbcType=VARCHAR},
+      sale_date_from = #{saleDateFrom,jdbcType=TIMESTAMP},
+      sale_date_to = #{saleDateTo,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectEidByEnterpriseId" resultType="java.lang.Long">
+  	SELECT `enterprise_id` 
+  	FROM `saas_enterprise_business` 
+  	WHERE `enterprise_id` IN
+  	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+               #{item}       
+    </foreach>  
+	AND `royalty_rule`=0
+  </select>
+</mapper>

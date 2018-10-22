@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.maintance.dao.GoodsMaintanceDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.maintance.entity.GoodsMaintanceDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="maintance_id" jdbcType="BIGINT" property="maintanceId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="maintance_code" jdbcType="VARCHAR" property="maintanceCode" />
+    <result column="maintance_date" jdbcType="TIMESTAMP" property="maintanceDate" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="lot_id" jdbcType="BIGINT" property="lotId" />
+    <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="shelf_id" jdbcType="BIGINT" property="shelfId" />
+    <result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+    <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="measures_ids" jdbcType="VARCHAR" property="measuresIds" />
+    <result column="qualified_quantity" jdbcType="DECIMAL" property="qualifiedQuantity" />
+    <result column="conclusion_id" jdbcType="BIGINT" property="conclusionId" />
+    <result column="unqualified_quantity" jdbcType="DECIMAL" property="unqualifiedQuantity" />
+    <result column="reason_ids" jdbcType="VARCHAR" property="reasonIds" />
+    <result column="handle_measures_ids" jdbcType="VARCHAR" property="handleMeasuresIds" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, maintance_id, order_type, maintance_code, maintance_date, 
+    goods_id, goods_code, barcode, goods_name, goods_generic_name, dosage_id, dosage_name, 
+    unit_id, unit_name, goods_specification, manufacturer_id, manufacturer, goods_place, 
+    approval_number, lot_id, lot_number, product_date, valid_date, shelf_id, shelf_name,shelf_status_desc,
+    quantity, measures_ids, qualified_quantity, conclusion_id, unqualified_quantity, 
+    reason_ids, handle_measures_ids, line_num, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_maintance_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_maintance_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.maintance.entity.GoodsMaintanceDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_maintance_detail (enterprise_id, parent_id,
+      maintance_id, order_type, maintance_code, 
+      maintance_date, goods_id, goods_code, 
+      barcode, goods_name, goods_generic_name, 
+      dosage_id, dosage_name, unit_id, 
+      unit_name, goods_specification, manufacturer_id, 
+      manufacturer, goods_place, approval_number, 
+      lot_id, lot_number, product_date, 
+      valid_date, shelf_id, shelf_name, shelf_status_desc,
+      quantity, measures_ids, qualified_quantity, 
+      conclusion_id, unqualified_quantity, reason_ids, 
+      handle_measures_ids, line_num, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values ( #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{maintanceId,jdbcType=BIGINT}, #{orderType,jdbcType=INTEGER}, #{maintanceCode,jdbcType=VARCHAR}, 
+      #{maintanceDate,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsGenericName,jdbcType=VARCHAR}, 
+      #{dosageId,jdbcType=BIGINT}, #{dosageName,jdbcType=VARCHAR}, #{unitId,jdbcType=BIGINT}, 
+      #{unitName,jdbcType=VARCHAR}, #{goodsSpecification,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{goodsPlace,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{lotId,jdbcType=BIGINT}, #{lotNumber,jdbcType=VARCHAR}, #{productDate,jdbcType=TIMESTAMP}, 
+      #{validDate,jdbcType=TIMESTAMP}, #{shelfId,jdbcType=BIGINT}, #{shelfName,jdbcType=VARCHAR}, #{shelfStatusDesc,jdbcType=VARCHAR},
+      #{quantity,jdbcType=DECIMAL}, #{measuresIds,jdbcType=VARCHAR}, #{qualifiedQuantity,jdbcType=DECIMAL}, 
+      #{conclusionId,jdbcType=BIGINT}, #{unqualifiedQuantity,jdbcType=DECIMAL}, #{reasonIds,jdbcType=VARCHAR}, 
+      #{handleMeasuresIds,jdbcType=VARCHAR}, #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+  <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_maintance_detail (enterprise_id, parent_id,
+      maintance_id, order_type, maintance_code,
+      maintance_date, goods_id, goods_code,
+      barcode, goods_name, goods_generic_name,
+      dosage_id, dosage_name, unit_id,
+      unit_name, goods_specification, manufacturer_id,
+      manufacturer, goods_place, approval_number,
+      lot_id, lot_number, product_date,
+      valid_date, shelf_id, shelf_name, shelf_status_desc,
+      quantity, measures_ids, qualified_quantity,
+      conclusion_id, unqualified_quantity, reason_ids,
+      handle_measures_ids, line_num, status,
+      remark, creater_id, creater_code,
+      creater_name, create_time, modifier_id,
+      modifier_code, modifier_name, update_time
+      )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.enterpriseId,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT},
+      #{item.maintanceId,jdbcType=BIGINT}, #{item.orderType,jdbcType=INTEGER}, #{item.maintanceCode,jdbcType=VARCHAR},
+      #{item.maintanceDate,jdbcType=TIMESTAMP}, #{item.goodsId,jdbcType=BIGINT}, #{item.goodsCode,jdbcType=VARCHAR},
+      #{item.barcode,jdbcType=VARCHAR}, #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsGenericName,jdbcType=VARCHAR},
+      #{item.dosageId,jdbcType=BIGINT}, #{item.dosageName,jdbcType=VARCHAR}, #{item.unitId,jdbcType=BIGINT},
+      #{item.unitName,jdbcType=VARCHAR}, #{item.goodsSpecification,jdbcType=VARCHAR}, #{item.manufacturerId,jdbcType=BIGINT},
+      #{item.manufacturer,jdbcType=VARCHAR}, #{item.goodsPlace,jdbcType=VARCHAR}, #{item.approvalNumber,jdbcType=VARCHAR},
+      #{item.lotId,jdbcType=BIGINT}, #{item.lotNumber,jdbcType=VARCHAR}, #{item.productDate,jdbcType=TIMESTAMP},
+      #{item.validDate,jdbcType=TIMESTAMP}, #{item.shelfId,jdbcType=BIGINT}, #{item.shelfName,jdbcType=VARCHAR}, #{item.shelfStatusDesc,jdbcType=VARCHAR},
+      #{item.quantity,jdbcType=DECIMAL}, #{item.measuresIds,jdbcType=VARCHAR}, #{item.qualifiedQuantity,jdbcType=DECIMAL},
+      #{item.conclusionId,jdbcType=BIGINT}, #{item.unqualifiedQuantity,jdbcType=DECIMAL}, #{item.reasonIds,jdbcType=VARCHAR},
+      #{item.handleMeasuresIds,jdbcType=VARCHAR}, #{item.lineNum,jdbcType=INTEGER}, #{item.status,jdbcType=INTEGER},
+      #{item.remark,jdbcType=VARCHAR}, #{item.createrId,jdbcType=BIGINT}, #{item.createrCode,jdbcType=VARCHAR},
+      #{item.createrName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifierId,jdbcType=BIGINT},
+      #{item.modifierCode,jdbcType=VARCHAR}, #{item.modifierName,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.maintance.entity.GoodsMaintanceDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_maintance_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="maintanceId != null">
+        maintance_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="maintanceCode != null">
+        maintance_code,
+      </if>
+      <if test="maintanceDate != null">
+        maintance_date,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="goodsPlace != null">
+        goods_place,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="lotId != null">
+        lot_id,
+      </if>
+      <if test="lotNumber != null">
+        lot_number,
+      </if>
+      <if test="productDate != null">
+        product_date,
+      </if>
+      <if test="validDate != null">
+        valid_date,
+      </if>
+      <if test="shelfId != null">
+        shelf_id,
+      </if>
+      <if test="shelfName != null">
+        shelf_name,
+      </if>
+      <if test="shelfStatusDesc != null">
+        shelf_status_desc,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="measuresIds != null">
+        measures_ids,
+      </if>
+      <if test="qualifiedQuantity != null">
+        qualified_quantity,
+      </if>
+      <if test="conclusionId != null">
+        conclusion_id,
+      </if>
+      <if test="unqualifiedQuantity != null">
+        unqualified_quantity,
+      </if>
+      <if test="reasonIds != null">
+        reason_ids,
+      </if>
+      <if test="handleMeasuresIds != null">
+        handle_measures_ids,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="maintanceId != null">
+        #{maintanceId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="maintanceCode != null">
+        #{maintanceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="maintanceDate != null">
+        #{maintanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null">
+        #{lotId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNumber != null">
+        #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelfId != null">
+        #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfStatusDesc != null">
+        #{shelfStatusDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="measuresIds != null">
+        #{measuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifiedQuantity != null">
+        #{qualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="conclusionId != null">
+        #{conclusionId,jdbcType=BIGINT},
+      </if>
+      <if test="unqualifiedQuantity != null">
+        #{unqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="reasonIds != null">
+        #{reasonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="handleMeasuresIds != null">
+        #{handleMeasuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.maintance.entity.GoodsMaintanceDetail">
+    update saas_goods_maintance_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="maintanceId != null">
+        maintance_id = #{maintanceId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="maintanceCode != null">
+        maintance_code = #{maintanceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="maintanceDate != null">
+        maintance_date = #{maintanceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null">
+        lot_id = #{lotId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNumber != null">
+        lot_number = #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        product_date = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        valid_date = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelfId != null">
+        shelf_id = #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        shelf_name = #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfStatusDesc != null">
+        shelf_status_desc = #{shelfStatusDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="measuresIds != null">
+        measures_ids = #{measuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifiedQuantity != null">
+        qualified_quantity = #{qualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="conclusionId != null">
+        conclusion_id = #{conclusionId,jdbcType=BIGINT},
+      </if>
+      <if test="unqualifiedQuantity != null">
+        unqualified_quantity = #{unqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="reasonIds != null">
+        reason_ids = #{reasonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="handleMeasuresIds != null">
+        handle_measures_ids = #{handleMeasuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.maintance.entity.GoodsMaintanceDetail">
+    update saas_goods_maintance_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      maintance_id = #{maintanceId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      maintance_code = #{maintanceCode,jdbcType=VARCHAR},
+      maintance_date = #{maintanceDate,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=BIGINT},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=BIGINT},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      lot_id = #{lotId,jdbcType=BIGINT},
+      lot_number = #{lotNumber,jdbcType=VARCHAR},
+      product_date = #{productDate,jdbcType=TIMESTAMP},
+      valid_date = #{validDate,jdbcType=TIMESTAMP},
+      shelf_id = #{shelfId,jdbcType=BIGINT},
+      shelf_name = #{shelfName,jdbcType=VARCHAR},
+      shelf_status_desc = #{shelfStatusDesc,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=DECIMAL},
+      measures_ids = #{measuresIds,jdbcType=VARCHAR},
+      qualified_quantity = #{qualifiedQuantity,jdbcType=DECIMAL},
+      conclusion_id = #{conclusionId,jdbcType=BIGINT},
+      unqualified_quantity = #{unqualifiedQuantity,jdbcType=DECIMAL},
+      reason_ids = #{reasonIds,jdbcType=VARCHAR},
+      handle_measures_ids = #{handleMeasuresIds,jdbcType=VARCHAR},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectMaintanceGoodsVO" resultType="com.rograndec.feijiayun.chain.business.storage.maintance.vo.SelectMaintanceGoodsVO">
+    SELECT
+    goods.id AS goodsId,
+    goods.code AS goodsCode,
+    goods.name as goodsName,
+    goods.barcode as barcode,
+    goods.generic_name AS goodsGenericName,
+    goods.specification AS goodsSpecification,
+    goods.manufacturer_id AS manufacturerId,
+    goods.manufacturer AS manufacturer,
+    goods.place as goodsPlace,
+    goods.unit_id as unitId,
+    goods.unit_id as unitName,
+    goods.approval_number as approvalNumber,
+    goods.dosage_id as dosageId,
+    goods.dosage_name as dosageName,
+    lot.id as lotId,
+    lot.lot_num as lotNumber,
+    lot.product_date as productDate,
+    lot.valid_until as validUntil,
+    <!--st.usable_quantity as usableQuantity,-->
+    st.quantity as usableQuantity,
+    st.shelf_id as shelfId,
+    st.shelf_name as shelfName,
+    st.shelf_status_desc as shelfStatusDesc
+    <!--与养护跟检查有关的列-->
+    ,goods.goods_nature as goodsNature <!-- 商品性质 值为1 是拆零商品 -->
+    ,goods.goods_attribute as goodsAttribute <!-- 商品属性（0-成药；1-中药材；2-中药饮片-->
+    ,storage.maintenance_type as maintenanceType<!-- 养护类型（0-常规养护；1-重点养护） -->
+    ,storage.maintenance_cycle_unit as maintenanceCycleUnit
+    ,storage.maintenance_cycle as maintenanceCycle
+    <!--,CASE storage.maintenance_cycle_unit-->
+    <!--when 0-->
+    <!--then storage.maintenance_cycle-->
+    <!--when 1-->
+    <!--then storage.maintenance_cycle * 30-->
+    <!--WHEN 2-->
+    <!--then storage.maintenance_cycle * 365-->
+    <!--end as maintenanceCycle &lt;!&ndash; 养护周期(天数) &ndash;&gt;-->
+    ,storage.near_effect_period_unit as nearEffectPeriodUnit
+    ,storage.near_effect_period as nearEffectPeriod,
+    <!--,CASE storage.near_effect_period_unit-->
+    <!--when 0-->
+    <!--then storage.near_effect_period-->
+    <!--when 1-->
+    <!--then storage.near_effect_period * 30-->
+    <!--WHEN 2-->
+    <!--then storage.near_effect_period * 365-->
+    <!--end as nearEffectPeriod &lt;!&ndash; 商品设置的近效期天数 &ndash;&gt;-->
+    <!--,DATE_FORMAT(lot.valid_until,'%Y%m%d') - DATE_FORMAT(now(),'%Y%m%d') validDays,--><!-- 批号表里的失效日期距离当前日期的天数 -->
+    <!--,datediff(lot.valid_until,now()) validDays,&lt;!&ndash; 批号表里的失效日期距离当前日期的天数 &ndash;&gt;-->
+    shelf.warehouse_area_id AS warehouseAreaId,<!--库区id-->
+    st.last_maintain_time AS lastMaintainTime<!--上次养护时间-->
+    FROM
+    saas_stock st,
+    saas_goods goods,
+    saas_warehouse_shelf shelf,
+    saas_lot_number lot,
+    saas_goods_storage storage
+    WHERE
+    st.enterprise_id = #{enterpriseId}
+    AND goods.id = st.goods_id
+    AND st.shelf_id = shelf.id
+    AND st.lot_id = lot.id
+    AND goods.id = storage.goods_id
+    <!-- 检查跟养护只限于商品的品种类别是药品的(0)-->
+    and goods.business_variety = 0
+    <!-- 检查跟养护只限于库存数量大于0的 -->
+    and st.quantity > 0
+   <!--  and goods.status = 1 and goods.valid_flag = 1 -->
+    and DATE_FORMAT(lot.valid_until,'%Y%m%d') - DATE_FORMAT(now(),'%Y%m%d') > 0
+    <if test="warehouseAreaId != null">
+      and shelf.warehouse_area_id = #{warehouseAreaId}
+    </if>
+    <!--未养护完成的商品不能再次养护-->
+    <if test="type==0">
+      and not EXISTS
+      (SELECT
+      *
+      FROM
+      saas_goods_maintance_detail
+      WHERE
+      enterprise_id =#{enterpriseId}
+      AND STATUS = 32 and goods.id = goods_id and st.lot_id = lot_id and st.shelf_id = shelf_id)
+      <!--and goods.id not in (select goods_id from saas_goods_maintance_detail where enterprise_id=#{enterpriseId} and status =32)
+      and st.lot_id not in (select lot_id from saas_goods_maintance_detail where enterprise_id=#{enterpriseId} and status =32)
+      and st.shelf_id not in (select shelf_id from saas_goods_maintance_detail where enterprise_id=#{enterpriseId} and status =32)-->
+    </if>
+    <!--未检查完成的商品不能再次养护-->
+    <if test="type==1">
+      and not EXISTS
+      (SELECT
+      *
+      FROM
+      saas_goods_display_check_detail
+      WHERE
+      enterprise_id =#{enterpriseId}
+      AND STATUS = 32 and goods.id = goods_id and st.lot_id = lot_id and st.shelf_id = shelf_id)
+      <!--and goods.id not in (select goods_id from saas_goods_display_check_detail where enterprise_id=#{enterpriseId} and status =32)
+      and st.lot_id not in (select lot_id from saas_goods_display_check_detail where enterprise_id=#{enterpriseId} and status =32)
+      and st.shelf_id not in (select shelf_id from saas_goods_display_check_detail where enterprise_id=#{enterpriseId} and status =32)-->
+    </if>
+    <if test="param != null and param != ''">
+      and (
+      INSTR(goods.name, #{param})
+      or INSTR(goods.code, #{param})
+      or INSTR(goods.pinyin_code, #{param})
+      or INSTR(goods.approval_number, #{param})
+      or INSTR(goods.barcode, #{param})
+      or INSTR(goods.generic_name, #{param})
+      )
+    </if>
+    GROUP BY st.goods_id,lot.id,st.shelf_id
+  </select>
+
+  <select id="selectByMaintanceId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_goods_maintance_detail
+    where maintance_id = #{maintanceId,jdbcType=BIGINT}
+  </select>
+
+</mapper>

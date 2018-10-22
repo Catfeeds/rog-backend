@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.user.dao.POSUserMapper">
+
+  <!-- 获取款员信息 -->
+  <select id="findByEnterpriseId" resultType="com.rograndec.feijiayun.chain.inf.pos.user.vo.SelectPOSPayeeTeamVO">
+	  SELECT 
+	  sp.id,
+	  sp.payee_id as payeeId,
+	  sp.payee_code as payeeCode,
+	  sp.payee_name as payeeName,
+	  sud.login_account as loginAccount,
+	  st.name as teamName,
+	  st.`start_time` as startTime,
+	  st.`end_time` as endTime
+	  FROM
+	  saas_pos_payee sp JOIN saas_pos_team st 
+	  ON sp.team_id = st.id AND st.`status`=1
+	  JOIN saas_user_administration sud ON sp.payee_id = sud.user_id
+	  WHERE sp.`status`=1 
+	  AND sp.payee_id = #{userId}
+	  AND sp.enterprise_id=#{enterpriseId}
+  </select>
+  
+  <!-- 获取营业人员 -->
+  <select id="getClerkList" resultType="com.rograndec.feijiayun.chain.inf.pos.user.vo.SelectPOSclerkVO">
+  	select 
+   	id,
+   	clerk_id as clerkId,
+   	clerk_code as clerkCode,
+   	clerk_name as clerkName,
+   	cargo_area_id AS cargoAreaId,
+   	cargo_area_code AS cargoAreaCode,
+   	cargo_area_name AS cargoAreaName
+    from saas_pos_clerk
+    where enterprise_id = #{enterpriseId} 
+    and status=1
+    order by id desc
+  </select>
+  
+</mapper>

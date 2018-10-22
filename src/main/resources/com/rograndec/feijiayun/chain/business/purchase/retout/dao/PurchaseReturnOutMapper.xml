@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.retout.dao.PurchaseReturnOutMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.retout.entity.PurchaseReturnOut">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="return_type" jdbcType="INTEGER" property="returnType" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_saler_id" jdbcType="BIGINT" property="supplierSalerId" />
+    <result column="supplier_saler_code" jdbcType="VARCHAR" property="supplierSalerCode" />
+    <result column="supplier_saler_name" jdbcType="VARCHAR" property="supplierSalerName" />
+    <result column="supplier_saler_phone" jdbcType="VARCHAR" property="supplierSalerPhone" />
+    <result column="tel_phone" jdbcType="VARCHAR" property="telPhone" />
+    <result column="return_man_id" jdbcType="BIGINT" property="returnManId" />
+    <result column="return_man_code" jdbcType="VARCHAR" property="returnManCode" />
+    <result column="return_man_name" jdbcType="VARCHAR" property="returnManName" />
+    <result column="return_date" jdbcType="TIMESTAMP" property="returnDate" />
+    <result column="out_man_id" jdbcType="BIGINT" property="outManId" />
+    <result column="out_man_code" jdbcType="VARCHAR" property="outManCode" />
+    <result column="out_man_name" jdbcType="VARCHAR" property="outManName" />
+    <result column="checker_id" jdbcType="BIGINT" property="checkerId" />
+    <result column="checker_code" jdbcType="VARCHAR" property="checkerCode" />
+    <result column="checker_name" jdbcType="VARCHAR" property="checkerName" />
+    <result column="check_reason" jdbcType="VARCHAR" property="checkReason" />
+    <result column="check_date" jdbcType="TIMESTAMP" property="checkDate" />
+    <result column="flow_code" jdbcType="VARCHAR" property="flowCode" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+    <result column="whole_discount_amount" jdbcType="DECIMAL" property="wholeDiscountAmount" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="BaseResultMapVO" extends="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.retout.vo.ResponsePurchaseReturnOutVO">
+
+  </resultMap>
+
+
+
+  <resultMap id="BaseResultMapDetailVO"  type="com.rograndec.feijiayun.chain.business.purchase.retout.vo.ResponsePurchaseReturnOutDetailVO" >
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_saler_name" jdbcType="VARCHAR" property="supplierSalerName" />
+    <result column="supplier_saler_phone" jdbcType="VARCHAR" property="supplierSalerPhone" />
+    <result column="out_man_code" jdbcType="VARCHAR" property="outManCode" />
+    <result column="out_man_name" jdbcType="VARCHAR" property="outManName" />
+    <result column="checker_id" jdbcType="BIGINT" property="checkerId" />
+    <result column="checker_name" jdbcType="VARCHAR" property="checkerName" />
+    <result column="flow_code" jdbcType="VARCHAR" property="flowCode" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+    <result column="whole_discount_amount" jdbcType="DECIMAL" property="wholeDiscountAmount" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+
+    <association property="purchaseReturnOutOtherVO" javaType="com.rograndec.feijiayun.chain.business.purchase.retout.vo.PurchaseReturnOutOtherVO">
+      <id column="oid" jdbcType="BIGINT" property="id" />
+      <result column="settlement_type" jdbcType="INTEGER" property="settlementType" />
+      <result column="settlement_unit" jdbcType="VARCHAR" property="settlementUnit" />
+      <result column="settlement_unit_phone" jdbcType="VARCHAR" property="settlementUnitPhone" />
+      <result column="settlement_unit_address" jdbcType="VARCHAR" property="settlementUnitAddress" />
+      <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+      <result column="taxpayer_code" jdbcType="VARCHAR" property="taxpayerCode" />
+      <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+      <result column="account" jdbcType="VARCHAR" property="account" />
+      <result column="bank" jdbcType="VARCHAR" property="bank" />
+      <result column="order_id" jdbcType="BIGINT" property="orderId" />
+      <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+      <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+      <result column="transport_mode" jdbcType="INTEGER" property="transportMode" />
+      <result column="temp_control_mode" jdbcType="INTEGER" property="tempControlMode" />
+      <result column="carriage_mode" jdbcType="INTEGER" property="carriageMode" />
+      <result column="carriage_unit" jdbcType="VARCHAR" property="carriageUnit" />
+      <result column="agent" jdbcType="VARCHAR" property="agent" />
+      <result column="freight_pass" jdbcType="VARCHAR" property="freightPass" />
+      <result column="send_address" jdbcType="VARCHAR" property="sendAddress" />
+      <result column="sender" jdbcType="VARCHAR" property="sender" />
+      <result column="number" jdbcType="INTEGER" property="number" />
+      <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
+      <result column="driver" jdbcType="VARCHAR" property="driver" />
+      <result column="driver_license_code" jdbcType="VARCHAR" property="driverLicenseCode" />
+      <result column="limit_time" jdbcType="INTEGER" property="limitTime" />
+      <result column="limit_time_unit" jdbcType="INTEGER" property="limitTimeUnit" />
+      <result column="shipment_time" jdbcType="TIMESTAMP" property="shipmentTime" />
+      <result column="shipment_temp" jdbcType="INTEGER" property="shipmentTemp" />
+      <result column="shipment_humidity" jdbcType="INTEGER" property="shipmentHumidity" />
+      <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+      <result column="transit_temp_start" jdbcType="INTEGER" property="transitTempStart" />
+      <result column="transit_temp_end" jdbcType="INTEGER" property="transitTempEnd" />
+      <result column="transit_humidity_start" jdbcType="INTEGER" property="transitHumidityStart" />
+      <result column="transit_humidity_end" jdbcType="INTEGER" property="transitHumidityEnd" />
+      <result column="arrival_temp" jdbcType="INTEGER" property="arrivalTemp" />
+      <result column="arrival_humidity" jdbcType="INTEGER" property="arrivalHumidity" />
+      <result column="receive_address" jdbcType="VARCHAR" property="receiveAddress" />
+      <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+      <result column="receive_phone" jdbcType="VARCHAR" property="receivePhone" />
+      <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    </association>
+    <collection property="purchaseReturnDetailVOList" ofType="com.rograndec.feijiayun.chain.business.purchase.retout.vo.PurchaseReturnDetailVO2">
+      <id column="did" property="id"/>
+      <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+      <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+      <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+      <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+      <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+      <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+      <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount" />
+      <result column="amount" jdbcType="DECIMAL" property="amount" />
+      <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+      <result column="line_discount_amount" jdbcType="DECIMAL" property="lineDiscountAmount" />
+      <result column="real_price" jdbcType="DECIMAL" property="realPrice" />
+      <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+      <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+      <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+      <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice" />
+      <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount" />
+      <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+      <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, out_date, base_order_id, base_order_type, 
+    base_order_code, base_order_date, return_type, supplier_id, supplier_code, supplier_name, supplier_saler_id,
+    supplier_saler_code, supplier_saler_name, supplier_saler_phone,
+    tel_phone, return_man_id, return_man_code, return_man_name, return_date, out_man_id, 
+    out_man_code, out_man_name, checker_id, checker_code, checker_name,check_reason, check_date, flow_code,
+    quantity_total, varieties_quantity, amount_total, whole_discount, whole_discount_amount, 
+    real_amount_total, notax_real_amount_total, tax_amount_total, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_return_out
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectBaseOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_return_out
+    where base_order_id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_return_out
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.retout.entity.PurchaseReturnOut">
+    insert into saas_purchase_return_out (id, enterprise_id, parent_id, 
+      order_type, code, out_date, 
+      base_order_id, base_order_type, base_order_code, 
+      base_order_date, return_type, supplier_id, 
+      supplier_code, supplier_name,supplier_saler_id,
+    supplier_saler_code, supplier_saler_name, supplier_saler_phone, tel_phone,
+      return_man_id, return_man_code, return_man_name, 
+      return_date, out_man_id, out_man_code, 
+      out_man_name, checker_id, checker_code, 
+      checker_name, check_reason,check_date, flow_code,
+      quantity_total, varieties_quantity, amount_total, 
+      whole_discount, whole_discount_amount, real_amount_total, 
+      notax_real_amount_total, tax_amount_total,
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{outDate,jdbcType=TIMESTAMP}, 
+      #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR}, 
+      #{baseOrderDate,jdbcType=TIMESTAMP}, #{returnType,jdbcType=INTEGER}, #{supplierId,jdbcType=BIGINT},
+      #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierSalerId,jdbcType=BIGINT}, #{supplierSalerCode,jdbcType=VARCHAR},
+      #{supplierSalerName,jdbcType=VARCHAR}, #{supplierSalerPhone,jdbcType=VARCHAR},  #{telPhone,jdbcType=VARCHAR},
+      #{returnManId,jdbcType=BIGINT}, #{returnManCode,jdbcType=VARCHAR}, #{returnManName,jdbcType=VARCHAR}, 
+      #{returnDate,jdbcType=TIMESTAMP}, #{outManId,jdbcType=BIGINT}, #{outManCode,jdbcType=VARCHAR}, 
+      #{outManName,jdbcType=VARCHAR}, #{checkerId,jdbcType=BIGINT}, #{checkerCode,jdbcType=VARCHAR}, 
+      #{checkerName,jdbcType=VARCHAR},#{checkReason,jdbcType=VARCHAR}, #{checkDate,jdbcType=TIMESTAMP}, #{flowCode,jdbcType=VARCHAR},
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{amountTotal,jdbcType=DECIMAL}, 
+      #{wholeDiscount,jdbcType=DECIMAL}, #{wholeDiscountAmount,jdbcType=DECIMAL}, #{realAmountTotal,jdbcType=DECIMAL}, 
+      #{notaxRealAmountTotal,jdbcType=DECIMAL}, #{taxAmountTotal,jdbcType=DECIMAL},
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.retout.entity.PurchaseReturnOut" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_purchase_return_out
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="outDate != null">
+        out_date,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="returnType != null">
+        return_type,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="supplierSalerId != null">
+        supplier_saler_id,
+      </if>
+      <if test="supplierSalerCode != null">
+        supplier_saler_code,
+      </if>
+      <if test="supplierSalerName != null">
+        supplier_saler_name,
+      </if>
+      <if test="supplierSalerPhone != null">
+        supplier_saler_phone,
+      </if>
+      <if test="telPhone != null">
+        tel_phone,
+      </if>
+      <if test="returnManId != null">
+        return_man_id,
+      </if>
+      <if test="returnManCode != null">
+        return_man_code,
+      </if>
+      <if test="returnManName != null">
+        return_man_name,
+      </if>
+      <if test="returnDate != null">
+        return_date,
+      </if>
+      <if test="outManId != null">
+        out_man_id,
+      </if>
+      <if test="outManCode != null">
+        out_man_code,
+      </if>
+      <if test="outManName != null">
+        out_man_name,
+      </if>
+      <if test="checkerId != null">
+        checker_id,
+      </if>
+      <if test="checkerCode != null">
+        checker_code,
+      </if>
+      <if test="checkerName != null">
+        checker_name,
+      </if>
+      <if test="checkReason != null">
+        check_reason,
+      </if>
+      <if test="checkDate != null">
+        check_date,
+      </if>
+      <if test="flowCode != null">
+        flow_code,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount,
+      </if>
+      <if test="wholeDiscountAmount != null">
+        whole_discount_amount,
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total,
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        notax_real_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnType != null">
+        #{returnType,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerId != null">
+        #{supplierSalerId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierSalerCode != null">
+        #{supplierSalerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerName != null">
+        #{supplierSalerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerPhone != null">
+        #{supplierSalerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="telPhone != null">
+        #{telPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="returnManId != null">
+        #{returnManId,jdbcType=BIGINT},
+      </if>
+      <if test="returnManCode != null">
+        #{returnManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnManName != null">
+        #{returnManName,jdbcType=VARCHAR},
+      </if>
+      <if test="returnDate != null">
+        #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outManId != null">
+        #{outManId,jdbcType=BIGINT},
+      </if>
+      <if test="outManCode != null">
+        #{outManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outManName != null">
+        #{outManName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null">
+        #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerCode != null">
+        #{checkerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerName != null">
+        #{checkerName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkReason != null">
+        #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flowCode != null">
+        #{flowCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscountAmount != null">
+        #{wholeDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.retout.entity.PurchaseReturnOut">
+    update saas_purchase_return_out
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null">
+        out_date = #{outDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnType != null">
+        return_type = #{returnType,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerId != null">
+        supplier_saler_id = #{supplierSalerId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierSalerCode != null">
+        supplier_saler_code = #{supplierSalerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerName != null">
+        supplier_saler_name = #{supplierSalerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerPhone != null">
+        supplier_saler_phone = #{supplierSalerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="telPhone != null">
+        tel_phone = #{telPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="returnManId != null">
+        return_man_id = #{returnManId,jdbcType=BIGINT},
+      </if>
+      <if test="returnManCode != null">
+        return_man_code = #{returnManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnManName != null">
+        return_man_name = #{returnManName,jdbcType=VARCHAR},
+      </if>
+      <if test="returnDate != null">
+        return_date = #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outManId != null">
+        out_man_id = #{outManId,jdbcType=BIGINT},
+      </if>
+      <if test="outManCode != null">
+        out_man_code = #{outManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outManName != null">
+        out_man_name = #{outManName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null">
+        checker_id = #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerCode != null">
+        checker_code = #{checkerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerName != null">
+        checker_name = #{checkerName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkReason != null">
+        check_reason = #{checkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null">
+        check_date = #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flowCode != null">
+        flow_code = #{flowCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscountAmount != null">
+        whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.retout.entity.PurchaseReturnOut">
+    update saas_purchase_return_out
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      out_date = #{outDate,jdbcType=TIMESTAMP},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      return_type = #{returnType,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_saler_id = #{supplierSalerId,jdbcType=BIGINT},
+      supplier_saler_code = #{supplierSalerCode,jdbcType=VARCHAR},
+      supplier_saler_name = #{supplierSalerName,jdbcType=VARCHAR},
+      supplier_saler_phone = #{supplierSalerPhone,jdbcType=VARCHAR},
+      tel_phone = #{telPhone,jdbcType=VARCHAR},
+      return_man_id = #{returnManId,jdbcType=BIGINT},
+      return_man_code = #{returnManCode,jdbcType=VARCHAR},
+      return_man_name = #{returnManName,jdbcType=VARCHAR},
+      return_date = #{returnDate,jdbcType=TIMESTAMP},
+      out_man_id = #{outManId,jdbcType=BIGINT},
+      out_man_code = #{outManCode,jdbcType=VARCHAR},
+      out_man_name = #{outManName,jdbcType=VARCHAR},
+      checker_id = #{checkerId,jdbcType=BIGINT},
+      checker_code = #{checkerCode,jdbcType=VARCHAR},
+      checker_name = #{checkerName,jdbcType=VARCHAR},
+      check_reason = #{checkReason,jdbcType=VARCHAR},
+      check_date = #{checkDate,jdbcType=TIMESTAMP},
+      flow_code = #{flowCode,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+      real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="getPurchaseReturnOutByPage" parameterType="com.rograndec.feijiayun.chain.business.purchase.ret.vo.RequestPurchaseReturnParamVO" resultMap="BaseResultMapVO">
+    SELECT
+    id, enterprise_id, order_type, code, out_date,return_type, supplier_code, supplier_name,
+     return_man_id, return_man_code, return_man_name, return_date, checker_name,check_reason,  flow_code,
+    quantity_total, varieties_quantity, amount_total, whole_discount, whole_discount_amount,
+    real_amount_total, notax_real_amount_total, tax_amount_total, status
+
+    FROM  saas_purchase_return_out ret
+    WHERE  1=1
+    AND ret.enterprise_id = #{enterpriseId}
+    <if test="startDate !=null and endDate != null">
+      AND   <![CDATA[ ret.return_date >= #{startDate}]]>
+      AND <![CDATA[ ret.return_date <= #{endDate}]]>
+    </if>
+    <if test="supplierCode !=null and  supplierCode !=''">
+      AND  ret.supplier_code = #{supplierCode}
+    </if>
+    <if test="supplierName != null and supplierName !=''">
+      and ret.supplier_name  like concat('%',#{supplierName},'%')
+    </if>
+    <if test="returnManName != null and returnManName !=''">
+      and ret.return_man_name  like concat('%',#{returnManName},'%')
+    </if>
+    <if test="code != null and code !=''">
+      and ret.code = #{code}
+    </if>
+    <if test="statusList != null">
+      and ret.status in
+      <foreach collection="statusList" separator="," item="item" close=")" open="(" >
+        #{item}
+      </foreach>
+    </if>
+
+
+
+    <if test="dateOrder == 0 and codeOrder == 0">
+      order by ret.return_date desc,ret.code desc
+    </if>
+    <if test="dateOrder == 1 and codeOrder == 1">
+      order by ret.code ,ret.code
+    </if>
+    <if test="dateOrder == 0 and codeOrder == 1">
+      order by ret.return_date desc , ret.code
+    </if>
+    <if test="dateOrder == 1 and codeOrder == 0">
+      order by ret.return_date  , ret.code desc
+    </if>
+
+  </select>
+
+  <select id="getCountPurchaseReturnOutByPage" resultType="java.lang.Integer">
+    SELECT count(*)
+    FROM  saas_purchase_return_out ret
+    WHERE  1=1
+    AND ret.enterprise_id = #{enterpriseId}
+
+    <if test="startDate !=null and endDate != null">
+      AND   <![CDATA[ ret.return_date >= #{startDate}]]>
+      AND <![CDATA[ ret.return_date <= #{endDate}]]>
+    </if>
+    <if test="supplierCode !=null and supplierCode !=''">
+      AND  ret.supplier_code = #{supplierCode}
+    </if>
+    <if test="supplierName != null and supplierName !=''">
+      and ret.supplier_name  like concat('%',#{supplierName},'%')
+    </if>
+    <if test="returnManName != null and returnManName !=''">
+      and ret.return_man_name  like concat('%',#{returnManName},'%')
+    </if>
+    <if test="code != null and code !=''">
+      and ret.code = #{code}
+    </if>
+    <if test="statusList != null">
+      and ret.status in
+      <foreach collection="statusList" separator="," item="item" close=")" open="(" >
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
+
+  <select id="getPurchaseReturnOutDetail" parameterType="java.lang.Long" resultMap="BaseResultMapDetailVO">
+    SELECT
+
+    ret.id,
+	ret.code,
+	ret.supplier_code,
+	ret.supplier_name,
+	ret.supplier_saler_name,
+	ret.supplier_saler_phone,
+	ret.out_man_name,
+	ret.out_date,
+	ret.flow_code,
+	ret.quantity_total, ret.amount_total, ret.whole_discount, ret.whole_discount_amount,
+    ret.real_amount_total, ret.notax_real_amount_total, ret.tax_amount_total,ret.checker_id,ret.checker_code,ret.checker_name,
+
+
+	detail.id AS did,
+	detail.goods_id,
+	detail.goods_code,
+	detail.goods_generic_name,
+	detail.dosage_name,
+	detail.goods_specification,
+	detail.manufacturer,
+
+	detail.quantity,
+	detail.unit_price,
+	detail.unit_name,
+	detail.line_discount,
+	detail.amount,
+	detail.whole_discount,
+	detail.line_discount_amount,
+	detail.real_price,
+	detail.real_amount,
+	detail.tax_rate,
+	detail.notax_real_price,
+	detail.notax_real_amount,
+	detail.tax_amount,
+	detail.line_num,
+
+
+	other.id AS oid,
+	other.settlement_type,
+	other.settlement_unit,
+	other.settlement_unit_phone,
+	other.settlement_unit_address,
+	other.invoice_type,
+	other.taxpayer_code,
+	other.account_name,
+	other.account,
+	other.bank,
+	other.order_id,
+	other.order_code,
+	other.order_date,
+	other.transport_mode,
+	other.temp_control_mode,
+	other.carriage_mode,
+	other.carriage_unit,
+	other.agent,
+	other.freight_pass,
+	other.send_address,
+	other.sender,
+	other.number,
+	other.car_number,
+	other.driver,
+	other.driver_license_code,
+	other.limit_time,
+	other.limit_time_unit,
+	other.shipment_time,
+	other.shipment_temp,
+	other.shipment_humidity,
+	other.arrival_time,
+	other.transit_temp_start,
+	other.transit_temp_end,
+	other.transit_humidity_start,
+	other.transit_humidity_end,
+	other.arrival_temp,
+	other.arrival_humidity,
+	other.receive_address,
+	other.receiver,
+	other.receive_phone,
+	other.file_id
+
+
+
+    FROM
+    saas_purchase_return_out  ret LEFT JOIN saas_purchase_return_out_detail detail  on ret.id = detail.out_id
+    LEFT JOIN  saas_purchase_return_out_other other ON  ret.id = other.out_id
+    WHERE
+    ret.id = #{id}
+  </select>
+  
+  <select id="getPurReturnOutInfo" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.RequestPurDistrOutParamVO" resultType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.PurchaseAndDistrOutVO">
+    SELECT
+    out1.id ,
+    out1.order_type as orderType,
+    out1.code as code,
+    out1.out_date as outDate,
+    out1.supplier_id as supplierId,
+    out1.supplier_code as supplierCode,
+    out1.supplier_name as supplierName,
+    out1.out_man_id as outManId,
+    out1.out_man_code as outManCode,
+    out1.out_man_name as outManName,
+    out1.amount_total as amountTotal,
+    out1.real_amount_total as realAmountTotal,
+    out1.notax_real_amount_total as notaxRealAmountTotal,
+    out1.tax_amount_total as taxAmountTotal,
+    out1.status ,
+    out1.remark
+    FROM
+    saas_purchase_return_out out1
+    WHERE
+    out1.enterprise_id = #{enterpriseId}  and out1.status in (#{status},#{partBillStatus}) and out1.supplier_id = #{supplierId}
+    <if test="startDate != null and startDate != '' and endDate != null and endDate !=''">
+      <![CDATA[ and out1.out_date >= #{startDate} ]]>
+      <![CDATA[ and out1.out_date <= #{endDate} ]]>
+    </if>
+
+
+    <if test="dateOrder == 0 and codeOrder == 0">
+      order by out1.out_date desc,out1.code desc
+    </if>
+    <if test="dateOrder == 1 and codeOrder == 1">
+      order by out1.out_date ,out1.code
+    </if>
+    <if test="dateOrder == 0 and codeOrder == 1">
+      order by out1.out_date desc , out1.code
+    </if>
+    <if test="dateOrder == 1 and codeOrder == 0">
+      order by out1.out_date  , out1.code desc
+    </if>
+
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+  <select id="getPurReturnOutInfoCount" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.RequestPurDistrOutParamVO"
+          resultType="integer">
+    SELECT
+    count(1)
+    FROM
+    saas_purchase_return_out out1
+    WHERE
+    out1.enterprise_id = #{enterpriseId} and out1.status in (#{status},#{partBillStatus})  and out1.supplier_id = #{supplierId}
+    <if test="startDate != null and startDate != '' and endDate != null and endDate !=''">
+      <![CDATA[ and out1.out_date >= #{startDate} ]]>
+      <![CDATA[ and out1.out_date <= #{endDate} ]]>
+    </if>
+
+
+  </select>
+
+  <select id="getQuantityTotal" resultType="java.math.BigDecimal">
+    SELECT
+    sum(outShelf.quantity) as quantityTotal
+    FROM
+    saas_purchase_return return1 , saas_purchase_return_detail detail, saas_purchase_return_out out1,saas_purchase_return_out_shelf outShelf
+    WHERE
+    return1.id = detail.return_id
+    AND out1.base_order_id = return1.id
+    and out1.id = outShelf.out_id
+    and outShelf.shelf_id = #{shelfId}
+    AND detail.base_order_dtl_id = #{inStorageId}
+    and return1.enterprise_id = #{enterpriseId}
+    and out1.status = 83
+    <!--group by return1.base_order_id-->
+
+  </select>
+
+</mapper>

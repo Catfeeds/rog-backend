@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.common.file.dao.FileMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.common.file.entity.File">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="bucket_id" jdbcType="INTEGER" property="bucketId" />
+    <result column="file_key" jdbcType="VARCHAR" property="fileKey" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bucket_id, file_key, file_name, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_file
+    where id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.common.file.entity.File">
+    insert into saas_file (id, bucket_id, file_key, file_name,
+      status, create_time)
+    values (#{id,jdbcType=BIGINT}, #{bucketId,jdbcType=INTEGER}, #{fileKey,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.common.file.entity.File" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bucketId != null">
+        bucket_id,
+      </if>
+      <if test="fileKey != null">
+        file_key,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bucketId != null">
+        #{bucketId,jdbcType=INTEGER},
+      </if>
+      <if test="fileKey != null">
+        #{fileKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.common.file.entity.File">
+    update saas_file
+    <set>
+      <if test="bucketId != null">
+        bucket_id = #{bucketId,jdbcType=INTEGER},
+      </if>
+      <if test="fileKey != null">
+        file_key = #{fileKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.common.file.entity.File">
+    update saas_file
+    set bucket_id = #{bucketId,jdbcType=INTEGER},
+      file_key = #{fileKey,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findByFileIdIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_file
+    where id in 
+	<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  
+  <select id="findByFileKeyIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_file
+    where file_key in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  
+  <select id="findByIdInOrFileKeyIn" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_file
+    where id in 
+    <foreach item="item" index="index" collection="ids"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach> 
+    or file_key in 
+    <foreach item="item" index="index" collection="fileKeys"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="getNameByPrimaryKey" parameterType="java.lang.Long" resultType="java.lang.String">
+    select file_name
+    from saas_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

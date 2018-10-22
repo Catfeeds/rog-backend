@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.set.dao.WarnSetMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="qualification_id" jdbcType="BIGINT" property="qualificationId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="set_type" jdbcType="INTEGER" property="setType" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="warn_days" jdbcType="INTEGER" property="warnDays" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="SuperBaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.vo.WarnSetVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="qualification_id" jdbcType="BIGINT" property="qualificationId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="set_type" jdbcType="INTEGER" property="setType" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="warn_days" jdbcType="INTEGER" property="warnDays" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="role_names" jdbcType="LONGVARCHAR" property="roleNames" />
+    <result column="role_ids" jdbcType="LONGVARCHAR" property="roleIds" />
+  </resultMap>
+  <resultMap id="QualificationMap" type="com.rograndec.feijiayun.chain.business.system.set.vo.WarnSetVO">
+    <result column="qualification_id" jdbcType="BIGINT" property="qualificationId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    <result column="role_ids" jdbcType="LONGVARCHAR" property="roleIds" />
+  </resultMap>
+  <resultMap extends="SuperBaseResultMap" id="SuperResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.business.system.set.vo.WarnSetVO">
+    <result column="role_ids" jdbcType="LONGVARCHAR" property="roleIds" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, qualification_id,enterprise_id, parent_id, chain_type, set_type, content, warn_days, status,sys_type, remark,
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+
+  <sql id="Blob_Column_List">
+    role_ids
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_warn_set
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="checkValid" resultMap="SuperBaseResultMap">
+    select COUNT(id)
+    from saas_warn_set
+    where set_type = #{setType,jdbcType=INTEGER}
+    and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and parent_id = #{parentId,jdbcType=BIGINT}
+    and qualification_id = #{qualificationId,jdbcType=BIGINT}
+    and content = #{content,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectBySetTypeByEnterpriseId" parameterType="hashMap" resultMap="SuperBaseResultMap">
+    select
+    <include refid="Base_Column_List" />,<include refid="Blob_Column_List" />,
+    (select group_concat(name) from saas_sys_role where FIND_IN_SET(id,saas_warn_set.role_ids)) role_names
+    from saas_warn_set
+    where set_type = #{setType,jdbcType=INTEGER}
+    and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEnterpriseId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />,<include refid="Blob_Column_List" />
+    from saas_warn_set
+    WHERE
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEnterpriseQualification" parameterType="hashMap" resultMap="QualificationMap">
+    <if test="chainType==0">
+      select name as content,id as qualification_id from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=1) and enterprise_id = #{enterpriseId}
+    </if>
+    <if test="chainType==1">
+      select name as content,id as qualification_id from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=2) and enterprise_id = #{enterpriseId}
+    </if>
+  </select>
+  <select id="selectByUserQualification" parameterType="hashMap" resultMap="QualificationMap">
+    <if test="chainType==0">
+      select name as content,id as qualification_id from saas_user_qualification where (suitable_unit = 0 or suitable_unit=1) and enterprise_id = #{enterpriseId}
+    </if>
+    <if test="chainType==1">
+      select name as content,id as qualification_id from saas_user_qualification where (suitable_unit = 0 or suitable_unit=2) and enterprise_id = #{enterpriseId}
+    </if>
+  </select>
+  <select id="selectBySupplierQualification" parameterType="hashMap" resultMap="QualificationMap">
+      select name as content,id as qualification_id from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=3) and enterprise_id = #{enterpriseId}
+  </select>
+  <select id="selectByGoodsQualification" parameterType="hashMap" resultMap="QualificationMap">
+      select name as content,id as qualification_id from saas_goods_qualification where enterprise_id = #{enterpriseId}
+  </select>
+  <select id="selectByStorageQualification" resultMap="QualificationMap">
+      select content, qualification_id from saas_warn_set where enterprise_id = #{enterpriseId} and set_type = 4 and status = 1
+  </select>
+
+  <select id="selectByQualification" parameterType="hashMap" resultMap="BaseResultMap">
+    select
+    *
+    from
+    <if test="chainType==0">
+      (select name as content,0 set_type from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=1) and enterprise_id = #{enterpriseId})
+      UNION
+      select name as content,1 set_type from saas_user_qualification where (suitable_unit = 0 or suitable_unit=1) and enterprise_id = #{enterpriseId}
+      UNION
+      select name as content,2 set_type from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=3) and enterprise_id = #{enterpriseId}
+      UNION
+      select name as content,3 set_type from saas_goods_qualification where enterprise_id = #{enterpriseId}) as a
+    </if>
+    <if test="chainType==1">
+      (select name as content,0 set_type from saas_enterprise_qualification where (suitable_unit = 0 or suitable_unit=2) and enterprise_id = #{enterpriseId}
+      UNION
+      select name as content,1 set_type from saas_user_qualification where (suitable_unit = 0 or suitable_unit=2) and enterprise_id = #{enterpriseId}) as a
+    </if>
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_warn_set
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    insert into saas_warn_set (id,qualification_id enterprise_id, parent_id,
+      chain_type, set_type, content, 
+      warn_days, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time, role_ids,sys_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{qualificationId,jdbcType=BIGINT},#{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{chainType,jdbcType=INTEGER}, #{setType,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{warnDays,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{roleIds,jdbcType=LONGVARCHAR},#{sysType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    insert into saas_warn_set
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="qualificationId != null">
+        qualification_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="chainType != null">
+        chain_type,
+      </if>
+      <if test="setType != null">
+        set_type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="warnDays != null">
+        warn_days,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="roleIds != null">
+        role_ids,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationId != null">
+        #{qualificationId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="setType != null">
+        #{setType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="warnDays != null">
+        #{warnDays,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        now(),
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        now(),
+      </if>
+      <if test="roleIds != null">
+        #{roleIds,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    update saas_warn_set
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationId != null">
+        qualification_id = #{qualificationId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        chain_type = #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="setType != null">
+        set_type = #{setType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="warnDays != null">
+        warn_days = #{warnDays,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = now(),
+      </if>
+      <if test="roleIds != null">
+        role_ids = #{roleIds,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    update saas_warn_set
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      qualification_id = #{qualificationId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      chain_type = #{chainType,jdbcType=INTEGER},
+      set_type = #{setType,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      warn_days = #{warnDays,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      role_ids = #{roleIds,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.WarnSet">
+    update saas_warn_set
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      qualification_id = #{qualificationId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      chain_type = #{chainType,jdbcType=INTEGER},
+      set_type = #{setType,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      warn_days = #{warnDays,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      role_ids = #{roleIds,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getWarnSetByParentId" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>  FROM  saas_warn_set warnset
+    WHERE  warnset.parent_id = #{enterpriseId}
+  </select>
+<select id="getGoodsLicenseWarn" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.goods.GoodsLicenseWarnVO">
+    SELECT
+	goods.business_variety businessVariety,
+	goods.`code` goodsCode,
+	goods.`name` goodsName,
+	goods.id goodsId,
+	warn.content,
+	<!--datediff(now(), config.valid_until) - warn.warn_days warnDay,-->
+	datediff(now(), config.valid_until) warnDay,
+	qua.type_must typeMust,
+	qua.code_must codeMust,
+	qua.valid_until_must validUntilMust,
+	qua.file_must fileMust,
+	config.file_id fileId,
+	config.valid_until validUntil,
+	config.qualification_code qualificationCode
+FROM
+	saas_goods_qualification_config config,
+	saas_warn_set warn,
+	saas_goods goods,
+	saas_goods_qualification qua
+WHERE
+	config.id = warn.qualification_id
+AND goods.id = config.goods_id
+AND config.qualification_id = qua.id
+and goods.enterprise_id = #{enterpriseId}
+and warn.chain_type = 0
+and warn.set_type = 3
+<if test="param != null">
+  AND (INSTR(goods.code,#{param}) OR
+  INSTR(goods.barcode,#{param}) OR
+  INSTR(goods.pinyin_code,#{param}) OR
+  INSTR(goods.name,#{param}) OR
+  INSTR(goods.generic_name,#{param}) OR
+  INSTR(goods.code,#{param}))
+</if>
+<if test="orderName !=null and orderType != null">
+    <if test="orderName == 'businessVariety'">
+        order by goods.business_variety ${orderType}
+    </if>
+    <if test="orderName == 'goodsCode'">
+        order by goods.code ${orderType}
+    </if>
+</if>
+  <if test="start != null and pageSize != null">
+    limit ${start},${pageSize}
+  </if>
+</select>
+<select id="getCountGoodsLicenseWarn" resultType="java.lang.Integer">
+    SELECT
+	count(*)
+FROM
+	saas_goods_qualification_config config,
+	saas_warn_set warn,
+	saas_goods goods,
+	saas_goods_qualification qua
+WHERE
+	config.id = warn.qualification_id
+AND goods.id = config.goods_id
+AND config.qualification_id = qua.id
+and goods.enterprise_id = #{enterpriseId}
+and warn.chain_type = 0
+and warn.set_type = 3
+<if test="param != null">
+  AND (INSTR(goods.code,#{param}) OR
+  INSTR(goods.barcode,#{param}) OR
+  INSTR(goods.pinyin_code,#{param}) OR
+  INSTR(goods.name,#{param}) OR
+  INSTR(goods.generic_name,#{param}) OR
+  INSTR(goods.code,#{param}))
+</if>
+</select>
+    <select id="selectByEnterPriseId"
+            resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM  saas_warn_set warnset
+      WHERE  warnset.enterprise_id = #{enterpriseId} and sys_type != 1
+    </select>
+  <delete id="deleteByQualificationId" parameterType="java.lang.Long">
+    DELETE FROM saas_warn_set where qualification_id = #{id}
+  </delete>
+</mapper>

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.receive.dao.PurchaseReceiveMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceive">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="receive_date" jdbcType="TIMESTAMP" property="receiveDate" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_saler_id" jdbcType="BIGINT" property="supplierSalerId" />
+    <result column="supplier_saler_code" jdbcType="VARCHAR" property="supplierSalerCode" />
+    <result column="supplier_saler_name" jdbcType="VARCHAR" property="supplierSalerName" />
+    <result column="supplier_saler_phone" jdbcType="VARCHAR" property="supplierSalerPhone" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="receiver_code" jdbcType="VARCHAR" property="receiverCode" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="second_receiver_id" jdbcType="BIGINT" property="secondReceiverId" />
+    <result column="second_receiver_code" jdbcType="VARCHAR" property="secondReceiverCode" />
+    <result column="second_receiver_name" jdbcType="VARCHAR" property="secondReceiverName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, receive_date, base_order_id, base_order_type, 
+    base_order_code, base_order_date, supplier_id, supplier_code, supplier_name, supplier_saler_id, 
+    supplier_saler_code, supplier_saler_name, supplier_saler_phone, receiver_id, receiver_code, 
+    receiver_name, second_receiver_id, second_receiver_code, second_receiver_name, quantity_total, 
+    varieties_quantity, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_receive
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseIdBybaseOrderId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_receive
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and base_order_id = #{baseOrderId,jdbcType=BIGINT}
+  </select>
+    <select id="selectByEnterpriseId"
+            resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_purchase_receive
+      where enterprise_id = #{enterpriseId}
+      and base_order_id = #{purchaseOrderId}
+    </select>
+  <select id="getReceived" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_receive
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <!--and status = 61-->
+    <if test="startTime != null and endTime != null">
+      and receive_date between #{startTime} and #{endTime}
+    </if>
+    <if test="supplierCode != null">
+      and supplier_code = #{supplierCode}
+    </if>
+    <if test="supplierName != null">
+      and supplier_name like CONCAT('%',#{supplierName},'%')
+    </if>
+    <if test="code != null">
+      and code = #{code}
+    </if>
+    <if test="receiverName != null">
+      and receiver_name = #{receiverName}
+    </if>
+    <if test="orderName != null and orderType != null">
+      order by ${orderName} ${orderType}
+    </if>
+    <if test="orderName == null">
+      order by receive_date desc
+    </if>
+    <if test="start != null and pageSize != null">
+      limit ${start},${pageSize}
+    </if>
+  </select>
+  <select id="getReceivedCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select
+    count(*)
+    from saas_purchase_receive
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <!--and status = 61-->
+    <if test="startTime != null and endTime != null">
+      and receive_date between #{startTime} and #{endTime}
+    </if>
+    <if test="supplierCode != null">
+      and supplier_code = #{supplierCode}
+    </if>
+    <if test="supplierName != null">
+      and supplier_name like CONCAT('%',#{supplierName},'%')
+    </if>
+    <if test="code != null">
+      and code = #{code}
+    </if>
+    <if test="receiverName != null">
+      and receiver_name = #{receiverName}
+    </if>
+    <if test="orderName != null and orderType != null">
+      order by ${orderName} ${orderType}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_receive
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceive" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_receive (id, enterprise_id, parent_id, 
+      order_type, code, receive_date, 
+      base_order_id, base_order_type, base_order_code, 
+      base_order_date, supplier_id, supplier_code, 
+      supplier_name, supplier_saler_id, supplier_saler_code, 
+      supplier_saler_name, supplier_saler_phone, 
+      receiver_id, receiver_code, receiver_name, 
+      second_receiver_id, second_receiver_code, second_receiver_name, 
+      quantity_total, varieties_quantity, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{receiveDate,jdbcType=TIMESTAMP}, 
+      #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR}, 
+      #{baseOrderDate,jdbcType=TIMESTAMP}, #{supplierId,jdbcType=BIGINT}, #{supplierCode,jdbcType=VARCHAR},
+      #{supplierName,jdbcType=VARCHAR}, #{supplierSalerId,jdbcType=BIGINT}, #{supplierSalerCode,jdbcType=VARCHAR}, 
+      #{supplierSalerName,jdbcType=VARCHAR}, #{supplierSalerPhone,jdbcType=VARCHAR}, 
+      #{receiverId,jdbcType=BIGINT}, #{receiverCode,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
+      #{secondReceiverId,jdbcType=BIGINT}, #{secondReceiverCode,jdbcType=VARCHAR}, #{secondReceiverName,jdbcType=VARCHAR}, 
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, now(), #{modifierId,jdbcType=BIGINT},
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, now()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceive" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_receive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="receiveDate != null">
+        receive_date,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="supplierSalerId != null">
+        supplier_saler_id,
+      </if>
+      <if test="supplierSalerCode != null">
+        supplier_saler_code,
+      </if>
+      <if test="supplierSalerName != null">
+        supplier_saler_name,
+      </if>
+      <if test="supplierSalerPhone != null">
+        supplier_saler_phone,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="receiverCode != null">
+        receiver_code,
+      </if>
+      <if test="receiverName != null">
+        receiver_name,
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id,
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code,
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+        create_time,
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerId != null">
+        #{supplierSalerId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierSalerCode != null">
+        #{supplierSalerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerName != null">
+        #{supplierSalerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerPhone != null">
+        #{supplierSalerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceive">
+    update saas_purchase_receive
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerId != null">
+        supplier_saler_id = #{supplierSalerId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierSalerCode != null">
+        supplier_saler_code = #{supplierSalerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerName != null">
+        supplier_saler_name = #{supplierSalerName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierSalerPhone != null">
+        supplier_saler_phone = #{supplierSalerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+        update_time = now(),
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.receive.entity.PurchaseReceive">
+    update saas_purchase_receive
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_saler_id = #{supplierSalerId,jdbcType=BIGINT},
+      supplier_saler_code = #{supplierSalerCode,jdbcType=VARCHAR},
+      supplier_saler_name = #{supplierSalerName,jdbcType=VARCHAR},
+      supplier_saler_phone = #{supplierSalerPhone,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateStatusFinishedById">
+    update saas_purchase_receive
+    set 
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

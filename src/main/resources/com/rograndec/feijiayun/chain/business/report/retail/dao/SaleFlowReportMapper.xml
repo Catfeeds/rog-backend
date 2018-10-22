@@ -1,0 +1,1538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.retail.dao.SaleFlowReportMapper">
+  <resultMap id="SaleFlowListDateResultBranchVOBaseResultMap" type="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDateResultBranchVO">
+	<result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+	<result column="sale_date" jdbcType="TIMESTAMP" property="saleDate" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+  </resultMap>
+  
+  <resultMap id="SaleFlowListDateResultBranchTotalVOResultMap" type="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDateResultBranchTotalVO">
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+  </resultMap>
+  
+  <select id="selectSaleFlowListByDateForBranch" resultMap="SaleFlowListDateResultBranchVOBaseResultMap">
+  	select
+  		enterprise_id, 
+  		date_format(sale_date, '%Y-%m-%d') as sale_date,
+  		sum(real_amount_total) as real_amount_total, 
+    	sum(notax_real_amount_total) as notax_real_amount_total,
+    	sum(tax_amount_total) as tax_amount_total
+  	 from (
+	    select 
+	    	enterprise_id,
+	    	sale_date, 
+	    	real_amount_total, 
+	    	notax_real_amount_total,
+	    	tax_amount_total
+	    from saas_sale
+	    where enterprise_id = #{enterpriseId}
+	    	and sale_type = '0'
+	    	and daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	enterprise_id,
+	    	sale_date, 
+	    	(-1*real_amount_total) as real_amount_total, 
+	    	(-1*notax_real_amount_total) as notax_real_amount_total,
+	    	(-1*tax_amount_total) as tax_amount_total
+	    from saas_sale
+	    where enterprise_id = #{enterpriseId}
+	    	and sale_type = '1'
+	    	and daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	) tab1 group by date_format(sale_date, '%Y-%m-%d')
+    <if test="order != null and order != ''">
+      order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>
+  </select>	  
+  
+  <select id="querySaleFlowListByDateForBranch" resultMap="SaleFlowListDateResultBranchTotalVOResultMap">
+  	select
+  		sum(real_amount_total) as real_amount_total, 
+    	sum(notax_real_amount_total) as notax_real_amount_total,
+    	sum(tax_amount_total) as tax_amount_total
+    from(
+	    select 
+	    	sum(real_amount_total) as real_amount_total, 
+	    	sum(notax_real_amount_total) as notax_real_amount_total,
+	    	sum(tax_amount_total) as tax_amount_total
+	    from saas_sale
+	    where enterprise_id = #{enterpriseId}
+	    	and sale_type = '0'
+	    	and daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	sum(-1*real_amount_total) as real_amount_total, 
+	    	sum(-1*notax_real_amount_total) as notax_real_amount_total,
+	    	sum(-1*tax_amount_total) as tax_amount_total
+	    from saas_sale
+	    where enterprise_id = #{enterpriseId}
+	    	and sale_type = '1'
+	    	and daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	  )tab1  
+  </select>
+  
+  <select id="queryCountSaleFlowListByDateForBranch" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+	    	count(1)
+	    from saas_sale
+	    	where enterprise_id = #{enterpriseId}
+	    	and daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>	
+	    	group by date_format(sale_date, '%Y-%m-%d')
+	    )tab1	
+  </select>	
+  
+  <select id="selectSaleFlowListBySumForBranch" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchVO">
+    select 
+    	s.id,
+    	s.daily_time as dailyDate,
+    	s.sale_date as saleDate, 
+    	s.code as saleCode,
+    	s.sale_type as saleType,
+    	s.sale_mode as saleMode,
+    	s.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	s.member_card_code as memberCardCode,
+    	s.amount_total as amountTotal,
+    	s.whole_discount as wholeDiscount,
+    	s.whole_discount_amount as wholeDiscountAmount,
+    	s.real_amount_total as realAmountTotal,
+    	s.notax_real_amount_total as notaxRealAmountTotal,
+    	s.tax_amount_total as taxAmountTotal
+    from saas_sale s left join saas_pos_payee t
+    	on s.payee_id = t.payee_id
+    where s.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListBySumForBranch" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale s left join saas_pos_payee t
+    	on s.payee_id = t.payee_id
+    where s.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+  </select>
+  
+  <select id="querySaleFlowListBySumForBranch" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchTotalVO">
+	select
+	  sum(amountTotal) as amountTotal,
+      sum(wholeDiscountAmount) as wholeDiscountAmount,
+      sum(realAmountTotal) as realAmountTotal,
+      sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+      sum(taxAmountTotal) as taxAmountTotal
+    from(  	    
+	    select 
+	    	sum(s.amount_total) as amountTotal,
+	    	sum(s.whole_discount_amount) as wholeDiscountAmount,
+	    	sum(s.real_amount_total) as realAmountTotal,
+	    	sum(s.notax_real_amount_total) as notaxRealAmountTotal,
+	    	sum(s.tax_amount_total) as taxAmountTotal
+	    from saas_sale s left join saas_pos_payee t
+	    	on s.payee_id = t.payee_id
+	    where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	sum(-1*s.amount_total) as amountTotal,
+	    	sum(-1*s.whole_discount_amount) as wholeDiscountAmount,
+	    	sum(-1*s.real_amount_total) as realAmountTotal,
+	    	sum(-1*s.notax_real_amount_total) as notaxRealAmountTotal,
+	    	sum(-1*s.tax_amount_total) as taxAmountTotal
+	    from saas_sale s left join saas_pos_payee t
+	    	on s.payee_id = t.payee_id
+	    where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	 )tab1   
+  </select>
+  
+  <select id="selectSaleFlowListByDtlForBranch" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchVO">
+    select 
+    	s.daily_time as dailyDate,
+    	s.sale_date as saleDate,
+    	s.code as saleCode,
+    	s.sale_type as saleType,
+    	s.sale_mode as saleMode, 
+    	d.goods_code as goodsCode,
+    	d.goods_generic_name as goodsGenericName,
+    	d.dosage_name as dosageName,
+    	d.goods_specification as goodsSpecification,
+    	d.unit_name as unitName,
+    	d.manufacturer as manufacturer,
+    	d.quantity,
+    	d.unit_price as unitPrice,
+    	d.line_discount as lineDiscount,
+    	d.amount,
+    	d.whole_discount as wholeDiscount,
+    	d.line_discount_amount as lineDiscountAmount,
+    	d.real_price as realPrice,
+    	d.real_amount as realAmount,
+    	d.tax_rate as taxRate,
+    	d.notax_real_amount as notaxRealAmount,
+    	d.tax_amount as taxAmount,
+    	s.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	d.clerk_name as clerkName,
+    	s.member_card_code as memberCardCode,
+    	sh.lot_id as lotId,
+		sh.line_num as lotNumber,
+		sh.product_date as productDate,
+		sh.valid_date as validDate
+    from saas_sale_shelf sh
+		left join saas_sale_detail d 
+			on sh.sale_dtl_id = d.id
+    	left join saas_sale s
+    		on d.sale_id = s.id
+    	left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_goods g
+    		on d.goods_id = g.id	
+    where s.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.clerkName != null and vo.clerkName != ''">  
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+    	or INSTR(g.barcode, #{vo.goodsCode})
+    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+    	)
+    </if>
+    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+    	and (
+    	INSTR(d.goods_name, #{vo.goodsGenericName})
+    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+    	)
+    </if>
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListByDtlForBranch" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale_detail d 
+    	left join saas_sale s
+    		on d.sale_id = s.id
+    	left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_goods g
+    		on d.goods_id = g.id	
+    where d.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.clerkName != null and vo.clerkName != ''">  
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+    	or INSTR(g.barcode, #{vo.goodsCode})
+    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+    	)
+    </if>
+    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''"> 
+	    and (
+	    	INSTR(d.goods_name, #{vo.goodsGenericName})
+	    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+	    	) 
+    </if>
+  </select>
+  
+  <select id="querySaleFlowListByDtlForBranch" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchTotalVO">
+	select
+      sum(quantityTotal) as quantityTotal,
+      sum(amountTotal) as amountTotal,
+      sum(wholeDiscountAmount) as wholeDiscountAmount,
+      sum(realAmountTotal) as realAmountTotal,
+      sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+      sum(taxAmountTotal) as taxAmountTotal 
+    from(  
+	    select 
+	    	sum(d.quantity) as quantityTotal,
+	    	sum(d.amount) as amountTotal,
+	    	sum(d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(d.real_amount) as realAmountTotal,
+	    	sum(d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale s
+	    		on d.sale_id = s.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_goods g
+	    		on d.goods_id = g.id	
+	    where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+	    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+	    	or INSTR(g.barcode, #{vo.goodsCode})
+	    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+	    </if>
+	    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+	    	and (
+	    	INSTR(d.goods_name, #{vo.goodsGenericName})
+	    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+	    	) 
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	sum(d.quantity) as quantityTotal,
+	    	sum(-1*d.amount) as amountTotal,
+	    	sum(-1*d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(-1*d.real_amount) as realAmountTotal,
+	    	sum(-1*d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(-1*d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale s
+	    		on d.sale_id = s.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_goods g
+	    		on d.goods_id = g.id	
+	    where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+	    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+	    	or INSTR(g.barcode, #{vo.goodsCode})
+	    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+	    </if>
+	    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+	    	and (
+	    	INSTR(d.goods_name, #{vo.goodsGenericName})
+	    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+	    	) 
+	    </if>
+	 )tab1   
+  </select>
+  
+  <select id="selectSaleFlowListByDateForParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDateResultBranchVO">
+    select	
+    	enterprise_id as enterpriseId,
+     	storeCode,
+    	storeName,
+    	date_format(sale_date, '%Y-%m-%d') as saleDate, 
+    	sum(real_amount) as realAmountTotal, 
+    	sum(notax_real_amount) as notaxRealAmountTotal,
+    	sum(tax_amount) as taxAmountTotal
+    from(		    
+	    select 
+	    	d.enterprise_id,
+	    	e.code as storeCode,
+	    	e.name as storeName,
+	    	s.sale_date, 
+	    	d.real_amount, 
+	    	d.notax_real_amount,
+	    	d.tax_amount
+	    from saas_sale_detail d 
+	    	left join saas_sale s 
+	    		on d.sale_id = s.id
+	    	left join saas_enterprise e
+	    		on d.enterprise_id = e.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id 
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">
+	    	AND s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">
+	    	AND s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    	
+	    union all
+	    
+	    select 
+	    	d.enterprise_id,
+	    	e.code as storeCode,
+	    	e.name as storeName,
+	    	s.sale_date, 
+	    	(-1*d.real_amount) as real_amount_total, 
+	    	(-1*d.notax_real_amount) as notax_real_amount_total,
+	    	(-1*d.tax_amount) as tax_amount_total
+	    from saas_sale_detail d 
+	    	left join saas_sale s 
+	    		on d.sale_id = s.id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id 
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">
+	    	AND s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">
+	    	AND s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	  )tab1 
+	  	group by enterprise_id, date_format(sale_date, '%Y-%m-%d')  	
+	    <if test="order != null and order != ''">
+	      order by ${order} ${sort}
+	    </if>	
+	    <if test="start != null">
+		    limit #{start}, #{pageSize}	
+	    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListByDateForParent" resultType ="java.lang.Long">
+  	select count(1) from( 
+		 select 
+	    	count(1)
+	    from saas_sale_detail d 
+	    	left join saas_sale s 
+	    		on d.sale_id = s.id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id 
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    
+	    <if test="vo.saleCode != null and vo.saleCode != ''">
+	    	AND s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">
+	    	AND s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    	group by s.enterprise_id, date_format(s.sale_date, '%Y-%m-%d')
+	 )tab1   	
+  </select>
+  
+  <select id="querySaleFlowListByDateForParent" resultMap="SaleFlowListDateResultBranchTotalVOResultMap">
+	select 
+    	sum(real_amount_total) as real_amount_total, 
+    	sum(notax_real_amount_total) as notax_real_amount_total,
+    	sum(tax_amount_total) as tax_amount_total
+    from(	
+	    select 
+	    	sum(d.real_amount) as real_amount_total, 
+	    	sum(d.notax_real_amount) as notax_real_amount_total,
+	    	sum(d.tax_amount) as tax_amount_total
+	    from saas_sale_detail d 
+	    	left join saas_sale s 
+	    		on d.sale_id = s.id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id 
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">
+	    	AND s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">
+	    	AND s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	sum(-1*d.real_amount) as real_amount_total, 
+	    	sum(-1*d.notax_real_amount) as notax_real_amount_total,
+	    	sum(-1*d.tax_amount) as tax_amount_total
+	    from saas_sale_detail d 
+	    	left join saas_sale s 
+	    		on d.sale_id = s.id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id 
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">
+	    	AND s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">
+	    	AND s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	 )tab1   
+  </select>
+  
+  <select id="selectSaleFlowListBySumForParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchVO">
+    select 
+    	s.id,
+    	e.code as storeCode,
+    	e.name as storeName,
+    	s.daily_time as dailyDate,
+    	s.sale_date as saleDate, 
+    	s.code as saleCode,
+    	s.sale_type as saleType,
+    	s.sale_mode as saleMode,
+    	s.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	s.member_card_code as memberCardCode,
+    	s.amount_total as amountTotal,
+    	s.whole_discount as wholeDiscount,
+    	s.whole_discount_amount as wholeDiscountAmount,
+    	s.real_amount_total as realAmountTotal,
+    	s.notax_real_amount_total as notaxRealAmountTotal,
+    	s.tax_amount_total as taxAmountTotal
+    from saas_sale s left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_enterprise e
+    		on s.enterprise_id = e.id
+    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    
+    <if test="vo.chainType != null">
+    	AND e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode != ''">
+    	AND e.code like '%${vo.storeCode}%'
+    </if>
+    <if test="vo.storeName != null and vo.storeName != ''">
+    	AND e.code like '%${vo.storeName}%'
+    </if>
+    
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListBySumForParent" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale s left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_enterprise e
+    		on s.enterprise_id = e.id
+    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    
+    <if test="vo.chainType != null">
+    	AND e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode != ''">
+    	AND e.code like '%${vo.storeCode}%'
+    </if>
+    <if test="vo.storeName != null and vo.storeName != ''">
+    	AND e.code like '%${vo.storeName}%'
+    </if>
+    
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+  </select>
+  
+  <select id="querySaleFlowListBySumForParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchTotalVO">
+  	select 
+  		sum(amountTotal) as amountTotal,
+	  	sum(wholeDiscountAmount) as wholeDiscountAmount, 
+	  	sum(realAmountTotal) as realAmountTotal, 
+	  	sum(notaxRealAmountTotal) as notaxRealAmountTotal, 
+	  	sum(taxAmountTotal) as taxAmountTotal from (	  
+	    select 
+	    	sum(s.amount_total) as amountTotal,
+	    	sum(s.whole_discount_amount) as wholeDiscountAmount,
+	    	sum(s.real_amount_total) as realAmountTotal,
+	    	sum(s.notax_real_amount_total) as notaxRealAmountTotal,
+	    	sum(s.tax_amount_total) as taxAmountTotal
+	    from saas_sale s left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    
+	    union all 
+	    
+	    select 
+	    	sum(-1*s.amount_total) as amountTotal,
+	    	sum(-1*s.whole_discount_amount) as wholeDiscountAmount,
+	    	sum(-1*s.real_amount_total) as realAmountTotal,
+	    	sum(-1*s.notax_real_amount_total) as notaxRealAmountTotal,
+	    	sum(-1*s.tax_amount_total) as taxAmountTotal
+	    from saas_sale s left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_enterprise e
+	    		on s.enterprise_id = e.id
+	    where (s.enterprise_id = #{enterpriseId} or s.parent_id = #{enterpriseId})
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    ) tab1
+  </select>
+  
+  <select id="selectSaleFlowListByDtlForParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchVO">
+    select 
+    	e.code as storeCode,
+    	e.name as storeName,
+    	s.daily_time as dailyDate,
+    	s.sale_date as saleDate,
+    	s.code as saleCode,
+    	s.sale_type as saleType,
+    	s.sale_mode as saleMode, 
+    	d.goods_code as goodsCode,
+    	d.goods_generic_name as goodsGenericName,
+    	d.dosage_name as dosageName,
+    	d.goods_specification as goodsSpecification,
+    	d.unit_name as unitName,
+    	d.manufacturer as manufacturer,
+    	d.quantity,
+    	d.unit_price as unitPrice,
+    	d.line_discount as lineDiscount,
+    	d.amount,
+    	d.whole_discount as wholeDiscount,
+    	d.line_discount_amount as lineDiscountAmount,
+    	d.real_price as realPrice,
+    	d.real_amount as realAmount,
+    	d.tax_rate as taxRate,
+    	d.notax_real_amount as notaxRealAmount,
+    	d.tax_amount as taxAmount,
+    	s.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	d.clerk_name as clerkName,
+    	s.member_card_code as memberCardCode,
+    	sh.lot_id as lotId,
+		sh.line_num as lotNumber,
+		sh.product_date as productDate,
+		sh.valid_date as validDate
+    from saas_sale_shelf sh
+		left join saas_sale_detail d 
+			on sh.sale_dtl_id = d.id
+    	left join saas_sale s
+    		on d.sale_id = s.id
+    	left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_goods g
+    		on d.goods_id = g.id
+    	left join saas_enterprise e	
+    		on d.enterprise_id = e.id	
+    where (d.enterprise_id = #{enterpriseId} or d.parent_id = #{enterpriseId})
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.chainType != null">
+    	AND e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode != ''">
+    	AND e.code like '%${vo.storeCode}%'
+    </if>
+    <if test="vo.storeName != null and vo.storeName != ''">
+    	AND e.code like '%${vo.storeName}%'
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.clerkName != null and vo.clerkName != ''">  
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+	    	or INSTR(g.barcode, #{vo.goodsCode})
+	    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+    </if>
+    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+    	and (
+	    	INSTR(d.goods_name, #{vo.goodsGenericName})
+	    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+    	)
+    </if>
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListByDtlForParent" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale_detail d 
+    	left join saas_sale s
+    		on d.sale_id = s.id
+    	left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_goods g
+    		on d.goods_id = g.id
+    	left join saas_enterprise e	
+    		on d.enterprise_id = e.id	
+    where (d.enterprise_id = #{enterpriseId} or d.parent_id = #{enterpriseId})
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    <if test="vo.startDate != null">  
+    	and s.sale_date >= #{vo.startDate}
+    </if>
+    <if test="vo.endDate != null">
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+    </if>
+    <if test="vo.chainType != null">
+    	AND e.chain_type = #{vo.chainType}
+    </if>
+    <if test="vo.storeCode != null and vo.storeCode != ''">
+    	AND e.code like '%${vo.storeCode}%'
+    </if>
+    <if test="vo.storeName != null and vo.storeName != ''">
+    	AND e.code like '%${vo.storeName}%'
+    </if>
+    <if test="vo.saleCode != null and vo.saleCode != ''">  
+    	and s.code like '%${vo.saleCode}%'
+    </if>
+    <if test="vo.standCode != null and vo.standCode != ''">  
+    	and s.stand_code = #{vo.standCode}
+    </if>
+    <if test="vo.teamId != null and vo.teamId != ''">  
+    	and t.team_id = #{vo.teamId}
+    </if>
+    <if test="vo.payeeName != null and vo.payeeName != ''">  
+    	and s.payee_name like '%${vo.payeeName}%'
+    </if>
+    <if test="vo.clerkName != null and vo.clerkName != ''">  
+    	and d.clerk_name like '%${vo.clerkName}%'
+    </if>
+    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+    	and s.member_card_code like '%${vo.memberCardCode}%'
+    </if>
+    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+    	and (
+    		INSTR(g.code, #{vo.goodsCode})
+	    	or INSTR(g.barcode, #{vo.goodsCode})
+	    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+    </if>
+    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+    	and (
+	    	INSTR(d.goods_name, #{vo.goodsGenericName})
+	    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+    	)
+    </if>
+  </select>
+  
+  <select id="querySaleFlowListByDtlForParent" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchTotalVO">
+	select
+	  sum(quantityTotal) as quantityTotal,
+	  sum(amountTotal) as amountTotal,
+	  sum(wholeDiscountAmount) as wholeDiscountAmount,
+	  sum(realAmountTotal) as realAmountTotal,
+	  sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+	  sum(taxAmountTotal) as taxAmountTotal
+	from(	    
+	    select 
+	    	sum(d.quantity) as quantityTotal,
+	    	sum(d.amount) as amountTotal,
+	    	sum(d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(d.real_amount) as realAmountTotal,
+	    	sum(d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale s
+	    		on d.sale_id = s.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_goods g
+	    		on d.goods_id = g.id
+	    	left join saas_enterprise e	
+	    		on d.enterprise_id = e.id	
+	    where (d.enterprise_id = #{enterpriseId} or d.parent_id = #{enterpriseId})
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    	and s.sale_type = '0'
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+	    	and (
+	    		INSTR(g.code, #{vo.goodsCode})
+		    	or INSTR(g.barcode, #{vo.goodsCode})
+		    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+	    </if>
+	    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+	    	and (
+		    	INSTR(d.goods_name, #{vo.goodsGenericName})
+		    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+	    	)
+	    </if>
+	    
+	    union all
+	    
+	    select 
+	    	sum(-1*d.quantity) as quantityTotal,
+	    	sum(-1*d.amount) as amountTotal,
+	    	sum(-1*d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(-1*d.real_amount) as realAmountTotal,
+	    	sum(-1*d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(-1*d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale s
+	    		on d.sale_id = s.id
+	    	left join saas_pos_payee t
+	    		on s.payee_id = t.payee_id
+	    	left join saas_goods g
+	    		on d.goods_id = g.id
+	    	left join saas_enterprise e	
+	    		on d.enterprise_id = e.id	
+	    where (d.enterprise_id = #{enterpriseId} or d.parent_id = #{enterpriseId})
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    	and s.sale_type = '1'
+	    <if test="vo.startDate != null">  
+	    	and s.sale_date >= #{vo.startDate}
+	    </if>
+	    <if test="vo.endDate != null">
+	    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{vo.endDate}
+	    </if>
+	    <if test="vo.chainType != null">
+	    	AND e.chain_type = #{vo.chainType}
+	    </if>
+	    <if test="vo.storeCode != null and vo.storeCode != ''">
+	    	AND e.code like '%${vo.storeCode}%'
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName != ''">
+	    	AND e.code like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.saleCode != null and vo.saleCode != ''">  
+	    	and s.code like '%${vo.saleCode}%'
+	    </if>
+	    <if test="vo.standCode != null and vo.standCode != ''">  
+	    	and s.stand_code = #{vo.standCode}
+	    </if>
+	    <if test="vo.teamId != null and vo.teamId != ''">  
+	    	and t.team_id = #{vo.teamId}
+	    </if>
+	    <if test="vo.payeeName != null and vo.payeeName != ''">  
+	    	and s.payee_name like '%${vo.payeeName}%'
+	    </if>
+	    <if test="vo.clerkName != null and vo.clerkName != ''">  
+	    	and d.clerk_name like '%${vo.clerkName}%'
+	    </if>
+	    <if test="vo.memberCardCode != null and vo.memberCardCode != ''">  
+	    	and s.member_card_code like '%${vo.memberCardCode}%'
+	    </if>
+	    <if test="vo.goodsCode != null and vo.goodsCode != ''">  
+	    	and (
+	    		INSTR(g.code, #{vo.goodsCode})
+		    	or INSTR(g.barcode, #{vo.goodsCode})
+		    	or INSTR(g.pinyin_code, #{vo.goodsCode})
+	    	)
+	    </if>
+	    <if test="vo.goodsGenericName != null and vo.goodsGenericName != ''">  
+	    	and (
+		    	INSTR(d.goods_name, #{vo.goodsGenericName})
+		    	or INSTR(d.goods_generic_name, #{vo.goodsGenericName})
+	    	)
+	    </if>
+	    ) tab1 
+  </select>
+  
+  <select id="selectSaleFlowListDoubleClickBySum" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchVO">
+    select 
+    	s.id,
+    	e.code as storeCode,
+    	e.name as storeName,
+    	s.daily_time as dailyDate,
+    	s.sale_date as saleDate, 
+    	s.code as saleCode,
+    	s.sale_type as saleType,
+    	s.sale_mode as saleMode,
+    	s.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	s.member_card_code as memberCardCode,
+    	s.amount_total as amountTotal,
+    	s.whole_discount as wholeDiscount,
+    	s.whole_discount_amount as wholeDiscountAmount,
+    	s.real_amount_total as realAmountTotal,
+    	s.notax_real_amount_total as notaxRealAmountTotal,
+    	s.tax_amount_total as taxAmountTotal
+    from saas_sale s left join saas_pos_payee t
+    		on s.payee_id = t.payee_id
+    	left join saas_enterprise e
+    		on s.enterprise_id = e.id
+    where s.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    	AND date_format(s.sale_date, '%Y-%m-%d') = #{vo.saleDate}
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListDoubleClickBySum" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale s
+    where s.enterprise_id = #{enterpriseId}
+    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+    	AND date_format(s.sale_date, '%Y-%m-%d') = #{vo.saleDate}
+  </select>
+  
+  <select id="querySaleFlowListDoubleClickBySum" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListSumResultBranchTotalVO">
+	select
+	  sum(amountTotal) as amountTotal,
+      sum(wholeDiscountAmount) as wholeDiscountAmount,
+      sum(realAmountTotal) as realAmountTotal,
+      sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+      sum(taxAmountTotal) as taxAmountTotal
+    from (  
+		select
+		  s.amount_total as amountTotal,
+	      s.whole_discount_amount as wholeDiscountAmount,
+	      s.real_amount_total as realAmountTotal,
+	      s.notax_real_amount_total as notaxRealAmountTotal,
+	      s.tax_amount_total as taxAmountTotal
+	    from saas_sale s
+	    	where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '0'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    	AND date_format(s.sale_date, '%Y-%m-%d') = #{vo.saleDate}
+	    
+	    union all
+	    
+	    select
+		  (-1*s.amount_total) as amountTotal,
+	      (-1*s.whole_discount_amount) as wholeDiscountAmount,
+	      (-1*s.real_amount_total) as realAmountTotal,
+	      (-1*s.notax_real_amount_total) as notaxRealAmountTotal,
+	      (-1*s.tax_amount_total) as taxAmountTotal
+	    from saas_sale s
+	    	where s.enterprise_id = #{enterpriseId}
+	    	and s.sale_type = '1'
+	    	and s.daily_settlement_flag = ${vo.dailySettlementFlag}
+	    	AND date_format(s.sale_date, '%Y-%m-%d') = #{vo.saleDate}	
+	 )tab1   	
+  </select>
+  
+  <select id="selectSaleFlowListDoubleClickByDtl" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchVO">
+    select 
+    	e.code as storeCode,
+    	e.name as storeName,
+    	o.daily_time as dailyDate,
+    	o.sale_date as saleDate,
+    	o.code as saleCode,
+    	o.sale_type as saleType,
+    	o.sale_mode as saleMode, 
+    	d.goods_code as goodsCode,
+    	d.goods_generic_name as goodsGenericName,
+    	d.dosage_name as dosageName,
+    	d.goods_specification as goodsSpecification,
+    	d.unit_name as unitName,
+    	d.manufacturer as manufacturer,
+    	d.quantity,
+    	d.unit_price as unitPrice,
+    	d.line_discount as lineDiscount,
+    	d.amount,
+    	d.whole_discount as wholeDiscount,
+    	d.line_discount_amount as lineDiscountAmount,
+    	d.real_price as realPrice,
+    	d.real_amount as realAmount,
+    	d.tax_rate as taxRate,
+    	d.notax_real_amount as notaxRealAmount,
+    	d.tax_amount as taxAmount,
+    	o.stand_code as standCode,
+    	t.team_name as teamName,
+    	t.payee_name as payeeName,
+    	d.clerk_name as clerkName,
+    	o.member_card_code as memberCardCode,
+   		sh.lot_id as lotId,
+		sh.line_num as lotNumber,
+		sh.product_date as productDate,
+		sh.valid_date as validDate,
+		g.enterprise_id as enterpriseId
+    from saas_sale_shelf sh
+		left join saas_sale_detail d 
+			on sh.sale_dtl_id = d.id
+    	left join saas_sale o
+    		on d.sale_id = o.id
+    	left join saas_pos_payee t
+    		on o.payee_id = t.payee_id
+    	left join saas_goods g
+    		on d.goods_id = g.id
+    	left join saas_enterprise e	
+    		on d.enterprise_id = e.id	
+    where d.sale_id = #{vo.id}
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="order == null or order == ''">
+        order by e.code asc,o.code desc
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountSaleFlowListDoubleClickByDtl" resultType ="java.lang.Long">
+	 select 
+    	count(1)
+    from saas_sale_detail d 
+    where d.sale_id = #{vo.id}
+  </select>
+  
+  <select id="querySaleFlowListDoubleClickByDtl" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.SaleFlowListDtlResultBranchTotalVO">
+	select
+	  sum(quantityTotal) as quantityTotal,
+	  sum(amountTotal) as amountTotal,
+	  sum(wholeDiscountAmount) as wholeDiscountAmount,
+	  sum(realAmountTotal) as realAmountTotal,
+	  sum(notaxRealAmountTotal) as notaxRealAmountTotal,
+	  sum(taxAmountTotal) as taxAmountTotal
+	from(	    
+	    select 
+	    	sum(d.quantity) as quantityTotal,
+	    	sum(d.amount) as amountTotal,
+	    	sum(d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(d.real_amount) as realAmountTotal,
+	    	sum(d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale o
+	    		on d.sale_id = o.id
+	    where d.sale_id = #{vo.id}
+	    	and o.sale_type = '0'
+	    
+	    union all
+	    
+	    select 
+	    	sum(d.quantity) as quantityTotal,
+	    	sum(-1*d.amount) as amountTotal,
+	    	sum(-1*d.line_discount_amount) as wholeDiscountAmount,
+	    	sum(-1*d.real_amount) as realAmountTotal,
+	    	sum(-1*d.notax_real_amount) as notaxRealAmountTotal,
+	    	sum(-1*d.tax_amount) as taxAmountTotal
+	    from saas_sale_detail d 
+	    	left join saas_sale o
+	    		on d.sale_id = o.id
+	    	where d.sale_id = #{vo.id}
+	    		and o.sale_type = '1'
+	    ) tab1 
+  </select>
+  
+</mapper>

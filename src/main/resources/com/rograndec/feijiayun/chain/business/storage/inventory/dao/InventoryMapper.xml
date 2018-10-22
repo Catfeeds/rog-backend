@@ -1,0 +1,1146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.inventory.dao.InventoryMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.inventory.entity.Inventory">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="inv_date" jdbcType="TIMESTAMP" property="invDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="inv_type" jdbcType="INTEGER" property="invType" />
+    <result column="inv_range" jdbcType="INTEGER" property="invRange" />
+    <result column="warehouse_id" jdbcType="BIGINT" property="warehouseId" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="warehouse_area_ids" jdbcType="VARCHAR" property="warehouseAreaIds" />
+    <result column="warehouse_area_names" jdbcType="VARCHAR" property="warehouseAreaNames" />
+    <result column="cargo_area_ids" jdbcType="VARCHAR" property="cargoAreaIds" />
+    <result column="cargo_area_names" jdbcType="VARCHAR" property="cargoAreaNames" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_man_id" jdbcType="BIGINT" property="registerManId" />
+    <result column="register_man_code" jdbcType="VARCHAR" property="registerManCode" />
+    <result column="register_man_name" jdbcType="VARCHAR" property="registerManName" />
+    <result column="register_type" jdbcType="INTEGER" property="registerType" />
+    <result column="inv_man_id" jdbcType="BIGINT" property="invManId" />
+    <result column="inv_man_code" jdbcType="VARCHAR" property="invManCode" />
+    <result column="inv_man_name" jdbcType="VARCHAR" property="invManName" />
+    <result column="second_inv_man_id" jdbcType="BIGINT" property="secondInvManId" />
+    <result column="second_inv_man_code" jdbcType="VARCHAR" property="secondInvManCode" />
+    <result column="second_inv_man_name" jdbcType="VARCHAR" property="secondInvManName" />
+    <result column="handle_date" jdbcType="TIMESTAMP" property="handleDate" />
+    <result column="handle_man_id" jdbcType="BIGINT" property="handleManId" />
+    <result column="handle_man_code" jdbcType="VARCHAR" property="handleManCode" />
+    <result column="handle_man_name" jdbcType="VARCHAR" property="handleManName" />
+    <result column="post_date" jdbcType="TIMESTAMP" property="postDate" />
+    <result column="post_man_id" jdbcType="BIGINT" property="postManId" />
+    <result column="post_man_code" jdbcType="VARCHAR" property="postManCode" />
+    <result column="post_man_name" jdbcType="VARCHAR" property="postManName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="inv_quantity_total" jdbcType="DECIMAL" property="invQuantityTotal" />
+    <result column="diff_quantity_total" jdbcType="DECIMAL" property="diffQuantityTotal" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="diff_amount_total" jdbcType="DECIMAL" property="diffAmountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="real_notax_amount_total" jdbcType="DECIMAL" property="realNotaxAmountTotal" />
+    <result column="diff_notax_amount_total" jdbcType="DECIMAL" property="diffNotaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="real_tax_amount_total" jdbcType="DECIMAL" property="realTaxAmountTotal" />
+    <result column="diff_tax_amount_total" jdbcType="DECIMAL" property="diffTaxAmountTotal" />
+    <result column="retail_amount_total" jdbcType="DECIMAL" property="retailAmountTotal" />
+    <result column="real_retail_amount_total" jdbcType="DECIMAL" property="realRetailAmountTotal" />
+    <result column="diff_retail_amount_total" jdbcType="DECIMAL" property="diffRetailAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="BaseResultMapForList" type="com.rograndec.feijiayun.chain.business.storage.inventory.vo.InventoryForOrderListVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="inv_type" jdbcType="INTEGER" property="invType" />
+    <result column="inv_range" jdbcType="INTEGER" property="invRange" />
+    <result column="warehouse_id" jdbcType="BIGINT" property="warehouseId" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="warehouse_area_ids" jdbcType="VARCHAR" property="warehouseAreaIds" />
+    <result column="warehouse_area_names" jdbcType="VARCHAR" property="warehouseAreaNames" />
+    <result column="cargo_area_ids" jdbcType="VARCHAR" property="cargoAreaIds" />
+    <result column="cargo_area_names" jdbcType="VARCHAR" property="cargoAreaNames" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+  </resultMap>
+
+
+
+
+
+  <resultMap id="BaseResultMap_Detail" type="com.rograndec.feijiayun.chain.business.storage.inventory.vo.InventoryForOrderDetailVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="inv_type" jdbcType="INTEGER" property="invType" />
+    <result column="inv_range" jdbcType="INTEGER" property="invRange" />
+    <result column="warehouse_id" jdbcType="BIGINT" property="warehouseId" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="warehouse_area_ids" jdbcType="VARCHAR" property="warehouseAreaIds" />
+    <result column="warehouse_area_names" jdbcType="VARCHAR" property="warehouseAreaNames" />
+    <result column="cargo_area_ids" jdbcType="VARCHAR" property="cargoAreaIds" />
+    <result column="cargo_area_names" jdbcType="VARCHAR" property="cargoAreaNames" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapForRegister" type="com.rograndec.feijiayun.chain.business.storage.inventory.vo.register.InventoryForRegisterVO2">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="inv_type" jdbcType="INTEGER" property="invType" />
+    <result column="inv_date" jdbcType="TIMESTAMP" property="invDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="register_man_id" jdbcType="BIGINT" property="registerManId" />
+    <result column="register_man_name" jdbcType="VARCHAR" property="registerManName" />
+    <result column="register_type" jdbcType="INTEGER" property="registerType" />
+    <result column="inv_man_id" jdbcType="BIGINT" property="invManId" />
+    <result column="inv_man_name" jdbcType="VARCHAR" property="invManName" />
+    <result column="second_inv_man_id" jdbcType="BIGINT" property="secondInvManId" />
+    <result column="second_inv_man_name" jdbcType="VARCHAR" property="secondInvManName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapForDiff" type="com.rograndec.feijiayun.chain.business.storage.inventory.vo.diff.InventoryForDiffDetailVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="handle_date" jdbcType="TIMESTAMP" property="handleDate" />
+    <result column="handle_man_id" jdbcType="BIGINT" property="handleManId" />
+    <result column="handle_man_name" jdbcType="VARCHAR" property="handleManName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="inv_quantity_total" jdbcType="DECIMAL" property="invQuantityTotal" />
+    <result column="diff_quantity_total" jdbcType="DECIMAL" property="diffQuantityTotal" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapForPost" type="com.rograndec.feijiayun.chain.business.storage.inventory.vo.post.InventoryForPostVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="post_date" jdbcType="TIMESTAMP" property="postDate" />
+    <result column="post_man_id" jdbcType="BIGINT" property="postManId" />
+    <result column="post_man_name" jdbcType="VARCHAR" property="postManName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="inv_quantity_total" jdbcType="DECIMAL" property="invQuantityTotal" />
+    <result column="diff_quantity_total" jdbcType="DECIMAL" property="diffQuantityTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="diff_amount_total" jdbcType="DECIMAL" property="diffAmountTotal" />
+    <result column="diff_notax_amount_total" jdbcType="DECIMAL" property="diffNotaxAmountTotal" />
+    <result column="diff_tax_amount_total" jdbcType="DECIMAL" property="diffTaxAmountTotal" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, inv_date, code, inv_type, inv_range, warehouse_id, 
+    warehouse_name, warehouse_area_ids, warehouse_area_names, cargo_area_ids, cargo_area_names, 
+    register_date, register_man_id, register_man_code, register_man_name, register_type,inv_man_id,
+    inv_man_code, inv_man_name, second_inv_man_id, second_inv_man_code, second_inv_man_name, 
+    handle_date, handle_man_id, handle_man_code, handle_man_name, post_date, post_man_id, 
+    post_man_code, post_man_name, quantity_total, varieties_quantity, inv_quantity_total, 
+    diff_quantity_total, amount_total, real_amount_total, diff_amount_total, notax_amount_total, 
+    real_notax_amount_total, diff_notax_amount_total, tax_amount_total, real_tax_amount_total, 
+    diff_tax_amount_total, retail_amount_total, real_retail_amount_total, diff_retail_amount_total, 
+    status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+
+  <sql id="Base_Column_List_had_register">
+    id, inv_type,inv_date, code,
+    register_date, register_man_id, register_man_name, register_type,inv_man_id,
+   inv_man_name, second_inv_man_id, second_inv_man_name,status
+  </sql>
+
+  <sql id="Base_Column_List_had_diff">
+    id, code,
+   handle_date,handle_man_id,handle_man_name,status,quantity_total, inv_quantity_total,
+    diff_quantity_total,status
+  </sql>
+
+  <sql id="Base_Column_List_post">
+    id, code,
+    post_date,post_man_id,post_man_name,status,quantity_total, inv_quantity_total,
+    diff_quantity_total,diff_amount_total,diff_notax_amount_total,diff_tax_amount_total,status
+  </sql>
+
+  <sql id="Base_Column_List_Detail">
+    id, code, inv_type, inv_range, warehouse_id,
+    warehouse_name, warehouse_area_ids, warehouse_area_names, cargo_area_ids, cargo_area_names,
+    status, remark, creater_id, creater_code, creater_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_inventory
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_inventory
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.inventory.entity.Inventory">
+    insert into saas_inventory (id, enterprise_id, parent_id, 
+      order_type, inv_date, code, 
+      inv_type, inv_range, warehouse_id, 
+      warehouse_name, warehouse_area_ids, warehouse_area_names, 
+      cargo_area_ids, cargo_area_names, register_date, 
+      register_man_id, register_man_code, register_man_name, register_type,
+      inv_man_id, inv_man_code, inv_man_name, 
+      second_inv_man_id, second_inv_man_code, second_inv_man_name, 
+      handle_date, handle_man_id, handle_man_code, 
+      handle_man_name, post_date, post_man_id, 
+      post_man_code, post_man_name, quantity_total, 
+      varieties_quantity, inv_quantity_total, diff_quantity_total, 
+      amount_total, real_amount_total, diff_amount_total, 
+      notax_amount_total, real_notax_amount_total, 
+      diff_notax_amount_total, tax_amount_total, real_tax_amount_total, 
+      diff_tax_amount_total, retail_amount_total, 
+      real_retail_amount_total, diff_retail_amount_total, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{invDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{invType,jdbcType=INTEGER}, #{invRange,jdbcType=INTEGER}, #{warehouseId,jdbcType=BIGINT}, 
+      #{warehouseName,jdbcType=VARCHAR}, #{warehouseAreaIds,jdbcType=VARCHAR}, #{warehouseAreaNames,jdbcType=VARCHAR},
+      #{cargoAreaIds,jdbcType=VARCHAR}, #{cargoAreaNames,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP},
+      #{registerManId,jdbcType=BIGINT}, #{registerManCode,jdbcType=VARCHAR}, #{registerManName,jdbcType=VARCHAR}, #{registerType},
+      #{invManId,jdbcType=BIGINT}, #{invManCode,jdbcType=VARCHAR}, #{invManName,jdbcType=VARCHAR}, 
+      #{secondInvManId,jdbcType=BIGINT}, #{secondInvManCode,jdbcType=VARCHAR}, #{secondInvManName,jdbcType=VARCHAR}, 
+      #{handleDate,jdbcType=TIMESTAMP}, #{handleManId,jdbcType=BIGINT}, #{handleManCode,jdbcType=VARCHAR}, 
+      #{handleManName,jdbcType=VARCHAR}, #{postDate,jdbcType=TIMESTAMP}, #{postManId,jdbcType=BIGINT}, 
+      #{postManCode,jdbcType=VARCHAR}, #{postManName,jdbcType=VARCHAR}, #{quantityTotal,jdbcType=DECIMAL}, 
+      #{varietiesQuantity,jdbcType=INTEGER}, #{invQuantityTotal,jdbcType=DECIMAL}, #{diffQuantityTotal,jdbcType=DECIMAL}, 
+      #{amountTotal,jdbcType=DECIMAL}, #{realAmountTotal,jdbcType=DECIMAL}, #{diffAmountTotal,jdbcType=DECIMAL}, 
+      #{notaxAmountTotal,jdbcType=DECIMAL}, #{realNotaxAmountTotal,jdbcType=DECIMAL}, 
+      #{diffNotaxAmountTotal,jdbcType=DECIMAL}, #{taxAmountTotal,jdbcType=DECIMAL}, #{realTaxAmountTotal,jdbcType=DECIMAL}, 
+      #{diffTaxAmountTotal,jdbcType=DECIMAL}, #{retailAmountTotal,jdbcType=DECIMAL}, 
+      #{realRetailAmountTotal,jdbcType=DECIMAL}, #{diffRetailAmountTotal,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.inventory.entity.Inventory" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="invDate != null">
+        inv_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="invType != null">
+        inv_type,
+      </if>
+      <if test="invRange != null">
+        inv_range,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name,
+      </if>
+      <if test="warehouseAreaIds != null">
+        warehouse_area_ids,
+      </if>
+      <if test="warehouseAreaNames != null">
+        warehouse_area_names,
+      </if>
+      <if test="cargoAreaIds != null">
+        cargo_area_ids,
+      </if>
+      <if test="cargoAreaNames != null">
+        cargo_area_names,
+      </if>
+      <if test="registerDate != null">
+        register_date,
+      </if>
+      <if test="registerManId != null">
+        register_man_id,
+      </if>
+      <if test="registerManCode != null">
+        register_man_code,
+      </if>
+      <if test="registerManName != null">
+        register_man_name,
+      </if>
+      <if test="registerType != null">
+        register_type,
+      </if>
+      <if test="invManId != null">
+        inv_man_id,
+      </if>
+      <if test="invManCode != null">
+        inv_man_code,
+      </if>
+      <if test="invManName != null">
+        inv_man_name,
+      </if>
+      <if test="secondInvManId != null">
+        second_inv_man_id,
+      </if>
+      <if test="secondInvManCode != null">
+        second_inv_man_code,
+      </if>
+      <if test="secondInvManName != null">
+        second_inv_man_name,
+      </if>
+      <if test="handleDate != null">
+        handle_date,
+      </if>
+      <if test="handleManId != null">
+        handle_man_id,
+      </if>
+      <if test="handleManCode != null">
+        handle_man_code,
+      </if>
+      <if test="handleManName != null">
+        handle_man_name,
+      </if>
+      <if test="postDate != null">
+        post_date,
+      </if>
+      <if test="postManId != null">
+        post_man_id,
+      </if>
+      <if test="postManCode != null">
+        post_man_code,
+      </if>
+      <if test="postManName != null">
+        post_man_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="invQuantityTotal != null">
+        inv_quantity_total,
+      </if>
+      <if test="diffQuantityTotal != null">
+        diff_quantity_total,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total,
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total,
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+      <if test="realNotaxAmountTotal != null">
+        real_notax_amount_total,
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        diff_notax_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="realTaxAmountTotal != null">
+        real_tax_amount_total,
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        diff_tax_amount_total,
+      </if>
+      <if test="retailAmountTotal != null">
+        retail_amount_total,
+      </if>
+      <if test="realRetailAmountTotal != null">
+        real_retail_amount_total,
+      </if>
+      <if test="diffRetailAmountTotal != null">
+        diff_retail_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="invDate != null">
+        #{invDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="invType != null">
+        #{invType,jdbcType=INTEGER},
+      </if>
+      <if test="invRange != null">
+        #{invRange,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseName != null">
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAreaIds != null">
+        #{warehouseAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAreaNames != null">
+        #{warehouseAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaIds != null">
+        #{cargoAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaNames != null">
+        #{cargoAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerManId != null">
+        #{registerManId,jdbcType=BIGINT},
+      </if>
+      <if test="registerManCode != null">
+        #{registerManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerManName != null">
+        #{registerManName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerType != null">
+        #{registerType,jdbcType=INTEGER},
+      </if>
+      <if test="invManId != null">
+        #{invManId,jdbcType=BIGINT},
+      </if>
+      <if test="invManCode != null">
+        #{invManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invManName != null">
+        #{invManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondInvManId != null">
+        #{secondInvManId,jdbcType=BIGINT},
+      </if>
+      <if test="secondInvManCode != null">
+        #{secondInvManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondInvManName != null">
+        #{secondInvManName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null">
+        #{handleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleManId != null">
+        #{handleManId,jdbcType=BIGINT},
+      </if>
+      <if test="handleManCode != null">
+        #{handleManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleManName != null">
+        #{handleManName,jdbcType=VARCHAR},
+      </if>
+      <if test="postDate != null">
+        #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postManId != null">
+        #{postManId,jdbcType=BIGINT},
+      </if>
+      <if test="postManCode != null">
+        #{postManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postManName != null">
+        #{postManName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invQuantityTotal != null">
+        #{invQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffQuantityTotal != null">
+        #{diffQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realNotaxAmountTotal != null">
+        #{realNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realTaxAmountTotal != null">
+        #{realTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="retailAmountTotal != null">
+        #{retailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realRetailAmountTotal != null">
+        #{realRetailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffRetailAmountTotal != null">
+        #{diffRetailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.inventory.entity.Inventory">
+    update saas_inventory
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="invDate != null">
+        inv_date = #{invDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="invType != null">
+        inv_type = #{invType,jdbcType=INTEGER},
+      </if>
+      <if test="invRange != null">
+        inv_range = #{invRange,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseName != null">
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAreaIds != null">
+        warehouse_area_ids = #{warehouseAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAreaNames != null">
+        warehouse_area_names = #{warehouseAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaIds != null">
+        cargo_area_ids = #{cargoAreaIds,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaNames != null">
+        cargo_area_names = #{cargoAreaNames,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerManId != null">
+        register_man_id = #{registerManId,jdbcType=BIGINT},
+      </if>
+      <if test="registerManCode != null">
+        register_man_code = #{registerManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerManName != null">
+        register_man_name = #{registerManName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerType != null">
+        register_type = #{registerType,jdbcType=INTEGER},
+      </if>
+      <if test="invManId != null">
+        inv_man_id = #{invManId,jdbcType=BIGINT},
+      </if>
+      <if test="invManCode != null">
+        inv_man_code = #{invManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invManName != null">
+        inv_man_name = #{invManName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondInvManId != null">
+        second_inv_man_id = #{secondInvManId,jdbcType=BIGINT},
+      </if>
+      <if test="secondInvManCode != null">
+        second_inv_man_code = #{secondInvManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondInvManName != null">
+        second_inv_man_name = #{secondInvManName,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null">
+        handle_date = #{handleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handleManId != null">
+        handle_man_id = #{handleManId,jdbcType=BIGINT},
+      </if>
+      <if test="handleManCode != null">
+        handle_man_code = #{handleManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="handleManName != null">
+        handle_man_name = #{handleManName,jdbcType=VARCHAR},
+      </if>
+      <if test="postDate != null">
+        post_date = #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postManId != null">
+        post_man_id = #{postManId,jdbcType=BIGINT},
+      </if>
+      <if test="postManCode != null">
+        post_man_code = #{postManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postManName != null">
+        post_man_name = #{postManName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="invQuantityTotal != null">
+        inv_quantity_total = #{invQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffQuantityTotal != null">
+        diff_quantity_total = #{diffQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realNotaxAmountTotal != null">
+        real_notax_amount_total = #{realNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        diff_notax_amount_total = #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realTaxAmountTotal != null">
+        real_tax_amount_total = #{realTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        diff_tax_amount_total = #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="retailAmountTotal != null">
+        retail_amount_total = #{retailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="realRetailAmountTotal != null">
+        real_retail_amount_total = #{realRetailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffRetailAmountTotal != null">
+        diff_retail_amount_total = #{diffRetailAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.inventory.entity.Inventory">
+    update saas_inventory
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      inv_date = #{invDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      inv_type = #{invType,jdbcType=INTEGER},
+      inv_range = #{invRange,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      warehouse_area_ids = #{warehouseAreaIds,jdbcType=VARCHAR},
+      warehouse_area_names = #{warehouseAreaNames,jdbcType=VARCHAR},
+      cargo_area_ids = #{cargoAreaIds,jdbcType=VARCHAR},
+      cargo_area_names = #{cargoAreaNames,jdbcType=VARCHAR},
+      register_date = #{registerDate,jdbcType=TIMESTAMP},
+      register_man_id = #{registerManId,jdbcType=BIGINT},
+      register_man_code = #{registerManCode,jdbcType=VARCHAR},
+      register_man_name = #{registerManName,jdbcType=VARCHAR},
+      register_type = #{registerType}
+      inv_man_id = #{invManId,jdbcType=BIGINT},
+      inv_man_code = #{invManCode,jdbcType=VARCHAR},
+      inv_man_name = #{invManName,jdbcType=VARCHAR},
+      second_inv_man_id = #{secondInvManId,jdbcType=BIGINT},
+      second_inv_man_code = #{secondInvManCode,jdbcType=VARCHAR},
+      second_inv_man_name = #{secondInvManName,jdbcType=VARCHAR},
+      handle_date = #{handleDate,jdbcType=TIMESTAMP},
+      handle_man_id = #{handleManId,jdbcType=BIGINT},
+      handle_man_code = #{handleManCode,jdbcType=VARCHAR},
+      handle_man_name = #{handleManName,jdbcType=VARCHAR},
+      post_date = #{postDate,jdbcType=TIMESTAMP},
+      post_man_id = #{postManId,jdbcType=BIGINT},
+      post_man_code = #{postManCode,jdbcType=VARCHAR},
+      post_man_name = #{postManName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      inv_quantity_total = #{invQuantityTotal,jdbcType=DECIMAL},
+      diff_quantity_total = #{diffQuantityTotal,jdbcType=DECIMAL},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      real_notax_amount_total = #{realNotaxAmountTotal,jdbcType=DECIMAL},
+      diff_notax_amount_total = #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      real_tax_amount_total = #{realTaxAmountTotal,jdbcType=DECIMAL},
+      diff_tax_amount_total = #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      retail_amount_total = #{retailAmountTotal,jdbcType=DECIMAL},
+      real_retail_amount_total = #{realRetailAmountTotal,jdbcType=DECIMAL},
+      diff_retail_amount_total = #{diffRetailAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getInventoryList" resultMap="BaseResultMapForList">
+    SELECT
+
+    <include refid="Base_Column_List"/>
+
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code != ''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.createrName != null and paramForListVO.createrName != ''">
+      and
+      inventory.creater_name like concat('%',#{paramForListVO.createrName},'%')
+    </if>
+
+    <if test="paramForListVO.handleManName != null and  paramForListVO.handleManName != ''">
+      and
+      inventory.handle_man_name like concat('%',#{paramForListVO.handleManName},'%')
+    </if>
+    <if test="paramForListVO.invType != null">
+      and
+      inventory.inv_type = #{paramForListVO.invType}
+    </if>
+    <if test="paramForListVO.invRange != null">
+      and
+      inventory.inv_range = #{paramForListVO.invRange}
+    </if>
+    <if test="paramForListVO.status != null">
+      and
+      inventory.status = #{paramForListVO.status}
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.create_time >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.create_time <= #{paramForListVO.endDate}]]>
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.create_time desc,inventory.code desc
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.create_time ,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.create_time desc,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.create_time ,inventory.code desc
+    </if>
+  </select>
+
+  <select id="getHadRegisterInventoryOrderList" resultMap="BaseResultMapForRegister">
+    SELECT
+    <include refid="Base_Column_List_had_register"/>
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+
+    <if test="paramForListVO.diff == 1">
+      AND (inventory.status = 1 OR inventory.status = 2)
+    </if>
+    <if test="paramForListVO.diff == 0">
+      AND (inventory.status = 1 )
+    </if>
+
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code !=''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.invManName != null and paramForListVO.invManName !=''">
+      and
+      inventory.inv_man_name like concat('%',#{paramForListVO.invManName},'%')
+    </if>
+    <if test="paramForListVO.registerManName != null and  paramForListVO.registerManName != ''">
+      and
+      inventory.register_man_name like concat('%',#{paramForListVO.registerManName},'%')
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.register_date >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.register_date <= #{paramForListVO.endDate}]]>
+    </if>
+    <if test="paramForListVO.invDate != null">
+      and <![CDATA[inventory.inv_date = #{paramForListVO.invDate}]]>
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.register_date desc,inventory.code desc
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.register_date ,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.register_date desc,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.register_date ,inventory.code desc
+    </if>
+  </select>
+
+  <select id="getHadHandlerInventoryList" resultMap="BaseResultMapForDiff">
+    SELECT
+    <include refid="Base_Column_List_had_diff"/>
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    <if test="paramForListVO.status == 2">
+      AND (inventory.status = 2 OR inventory.status = 3)
+    </if>
+
+    <if test="paramForListVO.status == 7">
+      AND (inventory.status = 2)
+    </if>
+
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code !=''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.handleManName != null and paramForListVO.handleManName != ''">
+      and
+      inventory.handle_man_name like concat('%',#{paramForListVO.handleManName},'%')
+    </if>
+
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.handle_date >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.handle_date <= #{paramForListVO.endDate}]]>
+    </if>
+
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.handle_date desc,inventory.code desc
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.handle_date ,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.handle_date desc,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.handle_date ,inventory.code desc
+    </if>
+    limit #{paramForListVO.start},#{paramForListVO.pageSize}
+  </select>
+
+  <select id="getHadHandlerInventoryListCount" resultType="java.lang.Integer">
+    SELECT
+   count(1)
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    <if test="paramForListVO.status == 2">
+      AND (inventory.status = 2 OR inventory.status = 3)
+    </if>
+    <if test="paramForListVO.status == 7">
+      AND (inventory.status = 2)
+    </if>
+
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code !=''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.handleManName != null and paramForListVO.handleManName != ''">
+      and
+      inventory.handle_man_name like concat('%',#{paramForListVO.handleManName},'%')
+    </if>
+
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.handle_date >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.handle_date <= #{paramForListVO.endDate}]]>
+    </if>
+
+  </select>
+
+  <select id="getInventoryPostOrderList" resultMap="BaseResultMapForPost">
+    SELECT
+    <include refid="Base_Column_List_post"/>
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code !=''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.postManName != null  and paramForListVO.postManName != ''">
+      and
+      inventory.post_man_name like concat('%',#{paramForListVO.postManName},'%')
+    </if>
+
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.post_date >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.post_date <= #{paramForListVO.endDate}]]>
+    </if>
+    <if test="paramForListVO.status == 3">
+      AND inventory.status = 3
+    </if>
+    <if test="paramForListVO.status == 5">
+      AND inventory.status = 5
+    </if>
+    <if test="paramForListVO.status == 6">
+      AND inventory.status = 6
+    </if>
+
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.post_date desc,inventory.code desc
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.post_date ,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 0 and paramForListVO.codeOrder == 1">
+      order by inventory.id desc,inventory.post_date desc,inventory.code
+    </if>
+    <if test="paramForListVO.dateOrder == 1 and paramForListVO.codeOrder == 0">
+      order by inventory.id desc,inventory.post_date ,inventory.code desc
+    </if>
+    limit #{paramForListVO.start} ,#{paramForListVO.pageSize}
+  </select>
+
+  <select id="getInventoryPostOrderListCount" resultType="java.lang.Integer">
+    SELECT
+    count(1)
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    AND inventory.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.code != null and paramForListVO.code !=''">
+      and inventory.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.postManName != null and paramForListVO.postManName !=''">
+      and
+      inventory.post_man_name like concat('%',#{paramForListVO.postManName},'%')
+    </if>
+
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null">
+      and <![CDATA[inventory.post_date >= #{paramForListVO.startDate}]]>
+      and <![CDATA[inventory.post_date <= #{paramForListVO.endDate}]]>
+    </if>
+    <if test="paramForListVO.status == 3">
+      AND inventory.status = 3
+    </if>
+    <if test="paramForListVO.status == 5">
+      AND inventory.status = 5
+    </if>
+    <if test="paramForListVO.status == 6">
+      AND inventory.status = 6
+    </if>
+  </select>
+
+  <select id="getTotalForPost" resultType="com.rograndec.feijiayun.chain.business.storage.inventory.vo.post.InventoryPostVO">
+    SELECT
+      sum(diff_amount_total) as diffAmountTotalAll,
+      sum(diff_notax_amount_total) as diffNotaxAmountTotalAll,
+      sum(diff_tax_amount_total) as diffTaxAmountTotalAll
+    FROM
+    saas_inventory inventory
+    WHERE 1=1
+    and status = 3
+
+  </select>
+
+  <select id="getInventoryById" resultMap="BaseResultMap_Detail">
+    SELECT <include refid="Base_Column_List_Detail"/>
+    FROM saas_inventory inventory
+    WHERE enterprise_id = #{enterpriseId}
+    and
+    id = #{id}
+  </select>
+
+  <select id="getInventoryByIdForRegister" resultMap="BaseResultMapForRegister">
+    SELECT <include refid="Base_Column_List_had_register"/>
+    FROM saas_inventory inventory
+    WHERE enterprise_id = #{enterpriseId}
+    and
+    id = #{id}
+  </select>
+
+  <select id="getInventoryByIdForDiff" resultMap="BaseResultMapForDiff">
+    SELECT <include refid="Base_Column_List_had_diff"/>
+    FROM saas_inventory inventory
+    WHERE enterprise_id = #{enterpriseId}
+    and
+    id = #{id}
+  </select>
+
+  <select id="getInventoryByIdForPost" resultType="com.rograndec.feijiayun.chain.business.storage.inventory.vo.post.InventoryForPostDetailVO">
+    SELECT
+    inventory.id,inventory.code,inventory.post_date as postDate,inventory.post_man_id as postManId,
+    inventory.post_man_name as postManName,inventory.remark
+    FROM saas_inventory inventory
+    WHERE enterprise_id = #{enterpriseId}
+    and
+    id = #{id}
+  </select>
+
+  <select id="getInventoryById4ExportExcel" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM saas_inventory inventory
+    WHERE enterprise_id = #{enterpriseId}
+    and
+    id = #{id}
+  </select>
+
+  <update id="updateInventory" >
+    UPDATE saas_inventory set status = #{status} where id = #{id}
+  </update>
+  
+</mapper>

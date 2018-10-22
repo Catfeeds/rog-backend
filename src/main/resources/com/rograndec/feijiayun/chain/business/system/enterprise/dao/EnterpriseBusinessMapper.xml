@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.enterprise.dao.EnterpriseBusinessMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseBusiness">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="settlement_mode" jdbcType="INTEGER" property="settlementMode" />
+    <result column="distr_price_type" jdbcType="INTEGER" property="distrPriceType" />
+    <result column="distr_price_order_id" jdbcType="BIGINT" property="distrPriceOrderId" />
+    <result column="distr_price_order_name" jdbcType="VARCHAR" property="distrPriceOrderName" />
+    <result column="add_rate" jdbcType="DECIMAL" property="addRate" />
+    <result column="payment_provision" jdbcType="INTEGER" property="paymentProvision" />
+    <result column="payment_period" jdbcType="INTEGER" property="paymentPeriod" />
+    <result column="payment_period_unit" jdbcType="INTEGER" property="paymentPeriodUnit" />
+    <result column="payment_time" jdbcType="INTEGER" property="paymentTime" />
+    <result column="payment_time_unit" jdbcType="INTEGER" property="paymentTimeUnit" />
+    <result column="quality_control" jdbcType="INTEGER" property="qualityControl" />
+    <result column="permission_set" jdbcType="INTEGER" property="permissionSet" />
+    <result column="approval_control" jdbcType="INTEGER" property="approvalControl" />
+    <result column="warn_set" jdbcType="INTEGER" property="warnSet" />
+    <result column="price_manage" jdbcType="INTEGER" property="priceManage" />
+    <result column="special_price_manage" jdbcType="INTEGER" property="specialPriceManage" />
+    <result column="member_info" jdbcType="INTEGER" property="memberInfo" />
+    <result column="promotion_rule" jdbcType="INTEGER" property="promotionRule" />
+    <result column="pos_set" jdbcType="INTEGER" property="posSet" />
+    <result column="price_tag_print" jdbcType="INTEGER" property="priceTagPrint" />
+    <result column="royalty_rule" jdbcType="INTEGER" property="royaltyRule" />
+    <result column="remote_trial" jdbcType="INTEGER" property="remoteTrial" />
+    <result column="reasonable_stock" jdbcType="INTEGER" property="reasonableStock" />
+    <result column="distribution_manage" jdbcType="INTEGER" property="distributionManage" />
+    <result column="equipment_manage" jdbcType="INTEGER" property="equipmentManage" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, settlement_mode, distr_price_type, distr_price_order_id, 
+    distr_price_order_name, add_rate, payment_provision, payment_period, payment_period_unit, 
+    payment_time, payment_time_unit, quality_control, permission_set, approval_control, 
+    warn_set, price_manage, special_price_manage, member_info, promotion_rule, pos_set, 
+    price_tag_print, royalty_rule, remote_trial, reasonable_stock, distribution_manage, 
+    equipment_manage, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_business
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_enterprise_business
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseBusiness">
+    insert into saas_enterprise_business (id, enterprise_id, parent_id, 
+      settlement_mode, distr_price_type, distr_price_order_id, 
+      distr_price_order_name, add_rate, payment_provision, 
+      payment_period, payment_period_unit, payment_time, 
+      payment_time_unit, quality_control, permission_set, 
+      approval_control, warn_set, price_manage, 
+      special_price_manage, member_info, promotion_rule, 
+      pos_set, price_tag_print, royalty_rule, 
+      remote_trial, reasonable_stock, distribution_manage, 
+      equipment_manage, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{settlementMode,jdbcType=INTEGER}, #{distrPriceType,jdbcType=INTEGER}, #{distrPriceOrderId,jdbcType=BIGINT}, 
+      #{distrPriceOrderName,jdbcType=VARCHAR}, #{addRate,jdbcType=DECIMAL}, #{paymentProvision,jdbcType=INTEGER}, 
+      #{paymentPeriod,jdbcType=INTEGER}, #{paymentPeriodUnit,jdbcType=INTEGER}, #{paymentTime,jdbcType=INTEGER}, 
+      #{paymentTimeUnit,jdbcType=INTEGER}, #{qualityControl,jdbcType=INTEGER}, #{permissionSet,jdbcType=INTEGER}, 
+      #{approvalControl,jdbcType=INTEGER}, #{warnSet,jdbcType=INTEGER}, #{priceManage,jdbcType=INTEGER}, 
+      #{specialPriceManage,jdbcType=INTEGER}, #{memberInfo,jdbcType=INTEGER}, #{promotionRule,jdbcType=INTEGER}, 
+      #{posSet,jdbcType=INTEGER}, #{priceTagPrint,jdbcType=INTEGER}, #{royaltyRule,jdbcType=INTEGER}, 
+      #{remoteTrial,jdbcType=INTEGER}, #{reasonableStock,jdbcType=INTEGER}, #{distributionManage,jdbcType=INTEGER}, 
+      #{equipmentManage,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseBusiness">
+    insert into saas_enterprise_business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="settlementMode != null">
+        settlement_mode,
+      </if>
+      <if test="distrPriceType != null">
+        distr_price_type,
+      </if>
+      <if test="distrPriceOrderId != null">
+        distr_price_order_id,
+      </if>
+      <if test="distrPriceOrderName != null">
+        distr_price_order_name,
+      </if>
+      <if test="addRate != null">
+        add_rate,
+      </if>
+      <if test="paymentProvision != null">
+        payment_provision,
+      </if>
+      <if test="paymentPeriod != null">
+        payment_period,
+      </if>
+      <if test="paymentPeriodUnit != null">
+        payment_period_unit,
+      </if>
+      <if test="paymentTime != null">
+        payment_time,
+      </if>
+      <if test="paymentTimeUnit != null">
+        payment_time_unit,
+      </if>
+      <if test="qualityControl != null">
+        quality_control,
+      </if>
+      <if test="permissionSet != null">
+        permission_set,
+      </if>
+      <if test="approvalControl != null">
+        approval_control,
+      </if>
+      <if test="warnSet != null">
+        warn_set,
+      </if>
+      <if test="priceManage != null">
+        price_manage,
+      </if>
+      <if test="specialPriceManage != null">
+        special_price_manage,
+      </if>
+      <if test="memberInfo != null">
+        member_info,
+      </if>
+      <if test="promotionRule != null">
+        promotion_rule,
+      </if>
+      <if test="posSet != null">
+        pos_set,
+      </if>
+      <if test="priceTagPrint != null">
+        price_tag_print,
+      </if>
+      <if test="royaltyRule != null">
+        royalty_rule,
+      </if>
+      <if test="remoteTrial != null">
+        remote_trial,
+      </if>
+      <if test="reasonableStock != null">
+        reasonable_stock,
+      </if>
+      <if test="distributionManage != null">
+        distribution_manage,
+      </if>
+      <if test="equipmentManage != null">
+        equipment_manage,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementMode != null">
+        #{settlementMode,jdbcType=INTEGER},
+      </if>
+      <if test="distrPriceType != null">
+        #{distrPriceType,jdbcType=INTEGER},
+      </if>
+      <if test="distrPriceOrderId != null">
+        #{distrPriceOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPriceOrderName != null">
+        #{distrPriceOrderName,jdbcType=VARCHAR},
+      </if>
+      <if test="addRate != null">
+        #{addRate,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentProvision != null">
+        #{paymentProvision,jdbcType=INTEGER},
+      </if>
+      <if test="paymentPeriod != null">
+        #{paymentPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="paymentPeriodUnit != null">
+        #{paymentPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null">
+        #{paymentTime,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTimeUnit != null">
+        #{paymentTimeUnit,jdbcType=INTEGER},
+      </if>
+      <if test="qualityControl != null">
+        #{qualityControl,jdbcType=INTEGER},
+      </if>
+      <if test="permissionSet != null">
+        #{permissionSet,jdbcType=INTEGER},
+      </if>
+      <if test="approvalControl != null">
+        #{approvalControl,jdbcType=INTEGER},
+      </if>
+      <if test="warnSet != null">
+        #{warnSet,jdbcType=INTEGER},
+      </if>
+      <if test="priceManage != null">
+        #{priceManage,jdbcType=INTEGER},
+      </if>
+      <if test="specialPriceManage != null">
+        #{specialPriceManage,jdbcType=INTEGER},
+      </if>
+      <if test="memberInfo != null">
+        #{memberInfo,jdbcType=INTEGER},
+      </if>
+      <if test="promotionRule != null">
+        #{promotionRule,jdbcType=INTEGER},
+      </if>
+      <if test="posSet != null">
+        #{posSet,jdbcType=INTEGER},
+      </if>
+      <if test="priceTagPrint != null">
+        #{priceTagPrint,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyRule != null">
+        #{royaltyRule,jdbcType=INTEGER},
+      </if>
+      <if test="remoteTrial != null">
+        #{remoteTrial,jdbcType=INTEGER},
+      </if>
+      <if test="reasonableStock != null">
+        #{reasonableStock,jdbcType=INTEGER},
+      </if>
+      <if test="distributionManage != null">
+        #{distributionManage,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentManage != null">
+        #{equipmentManage,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseBusiness">
+    update saas_enterprise_business
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementMode != null">
+        settlement_mode = #{settlementMode,jdbcType=INTEGER},
+      </if>
+      <if test="distrPriceType != null">
+        distr_price_type = #{distrPriceType,jdbcType=INTEGER},
+      </if>
+      <if test="distrPriceOrderId != null">
+        distr_price_order_id = #{distrPriceOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPriceOrderName != null">
+        distr_price_order_name = #{distrPriceOrderName,jdbcType=VARCHAR},
+      </if>
+      <if test="addRate != null">
+        add_rate = #{addRate,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentProvision != null">
+        payment_provision = #{paymentProvision,jdbcType=INTEGER},
+      </if>
+      <if test="paymentPeriod != null">
+        payment_period = #{paymentPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="paymentPeriodUnit != null">
+        payment_period_unit = #{paymentPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTime != null">
+        payment_time = #{paymentTime,jdbcType=INTEGER},
+      </if>
+      <if test="paymentTimeUnit != null">
+        payment_time_unit = #{paymentTimeUnit,jdbcType=INTEGER},
+      </if>
+      <if test="qualityControl != null">
+        quality_control = #{qualityControl,jdbcType=INTEGER},
+      </if>
+      <if test="permissionSet != null">
+        permission_set = #{permissionSet,jdbcType=INTEGER},
+      </if>
+      <if test="approvalControl != null">
+        approval_control = #{approvalControl,jdbcType=INTEGER},
+      </if>
+      <if test="warnSet != null">
+        warn_set = #{warnSet,jdbcType=INTEGER},
+      </if>
+      <if test="priceManage != null">
+        price_manage = #{priceManage,jdbcType=INTEGER},
+      </if>
+      <if test="specialPriceManage != null">
+        special_price_manage = #{specialPriceManage,jdbcType=INTEGER},
+      </if>
+      <if test="memberInfo != null">
+        member_info = #{memberInfo,jdbcType=INTEGER},
+      </if>
+      <if test="promotionRule != null">
+        promotion_rule = #{promotionRule,jdbcType=INTEGER},
+      </if>
+      <if test="posSet != null">
+        pos_set = #{posSet,jdbcType=INTEGER},
+      </if>
+      <if test="priceTagPrint != null">
+        price_tag_print = #{priceTagPrint,jdbcType=INTEGER},
+      </if>
+      <if test="royaltyRule != null">
+        royalty_rule = #{royaltyRule,jdbcType=INTEGER},
+      </if>
+      <if test="remoteTrial != null">
+        remote_trial = #{remoteTrial,jdbcType=INTEGER},
+      </if>
+      <if test="reasonableStock != null">
+        reasonable_stock = #{reasonableStock,jdbcType=INTEGER},
+      </if>
+      <if test="distributionManage != null">
+        distribution_manage = #{distributionManage,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentManage != null">
+        equipment_manage = #{equipmentManage,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseBusiness">
+    update saas_enterprise_business
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      settlement_mode = #{settlementMode,jdbcType=INTEGER},
+      distr_price_type = #{distrPriceType,jdbcType=INTEGER},
+      distr_price_order_id = #{distrPriceOrderId,jdbcType=BIGINT},
+      distr_price_order_name = #{distrPriceOrderName,jdbcType=VARCHAR},
+      add_rate = #{addRate,jdbcType=DECIMAL},
+      payment_provision = #{paymentProvision,jdbcType=INTEGER},
+      payment_period = #{paymentPeriod,jdbcType=INTEGER},
+      payment_period_unit = #{paymentPeriodUnit,jdbcType=INTEGER},
+      payment_time = #{paymentTime,jdbcType=INTEGER},
+      payment_time_unit = #{paymentTimeUnit,jdbcType=INTEGER},
+      quality_control = #{qualityControl,jdbcType=INTEGER},
+      permission_set = #{permissionSet,jdbcType=INTEGER},
+      approval_control = #{approvalControl,jdbcType=INTEGER},
+      warn_set = #{warnSet,jdbcType=INTEGER},
+      price_manage = #{priceManage,jdbcType=INTEGER},
+      special_price_manage = #{specialPriceManage,jdbcType=INTEGER},
+      member_info = #{memberInfo,jdbcType=INTEGER},
+      promotion_rule = #{promotionRule,jdbcType=INTEGER},
+      pos_set = #{posSet,jdbcType=INTEGER},
+      price_tag_print = #{priceTagPrint,jdbcType=INTEGER},
+      royalty_rule = #{royaltyRule,jdbcType=INTEGER},
+      remote_trial = #{remoteTrial,jdbcType=INTEGER},
+      reasonable_stock = #{reasonableStock,jdbcType=INTEGER},
+      distribution_manage = #{distributionManage,jdbcType=INTEGER},
+      equipment_manage = #{equipmentManage,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryEnterpriseBusinessByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_business
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryEnterpriseBusinessByEnterpriseIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_business
+    where enterprise_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  <select id="selectbyParam"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_business
+    <where>
+      1=1
+      <if test="parentId != null">
+        and parent_id = #{parentId}
+      </if>
+      <if test="qualityControl != null">
+        and quality_control = #{qualityControl}
+      </if>
+    </where>
+  </select>
+
+</mapper>

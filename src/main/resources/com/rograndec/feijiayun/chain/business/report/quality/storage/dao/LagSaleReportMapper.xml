@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.quality.storage.dao.LagSaleReportMapper">
+  
+  <!-- 滞销商品 -->
+  <select id="getLagSaleGoods" parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LagSaleGoodsRequestParamVO" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LagSaleGoodsVO">
+	SELECT
+	goods.id as goodsId,
+	goods.code as goodsCode,
+	goods.barcode,
+	goods.name as goodsName,
+	goods.generic_name AS goodsGenericName,
+	goods.dosage_id AS dosageId,
+	goods.dosage_name AS dosageName,
+	goods.unit_id AS unitId,
+	goods.unit_name AS unitName,
+	goods.specification,
+	goods.manufacturer_id AS manufacturerId,
+	goods.manufacturer,
+	goods.place,
+	goods.approval_number AS approvalNumber,
+	goods.business_variety AS businessVariety,
+	goods.goods_attribute AS goodsAttribute,
+	goods.domestic_import AS domesticImport,
+	goods.management_scope_name AS managementScopeName,
+	goods.special_drug AS specialDrug ,
+	goods.in_charge_drug AS inChargeDrug,
+	goods.spirit_drug_type as spiritDrugType,
+    goods.formulation_type as formulationType,
+	goods.limit_quantity AS limitQuantity,
+	goods.storage_temp AS storageTemp,
+	goods.storage_condition_name AS storageConditionName,
+	goods.quality_period AS qualityPeriod,
+	goods.quality_period_unit AS qualityPeriodUnit,
+	(SELECT NAME FROM saas_goods_category WHERE id=goods.category_id AND enterprise_id=st.enterprise_id) AS
+	categoryName,
+	max(sd.sale_date) AS saleDate,
+	case when 0 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0))
+	when 1 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0) * 30)
+	when 2 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0) * 365)
+	END AS unsalableCycle,	
+	case when 0 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0))
+	when 1 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 30)
+	when 2 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 365)	
+	END AS unsalableDay,	
+	SUM(st.usable_quantity) AS usableQuantity,
+	se.code AS enterpriseCode,
+    se.name AS enterpriseName,
+	st.`lot_num`,st.`shelf_name`
+	FROM
+	saas_stock st
+	JOIN saas_goods goods ON goods.id = st.goods_id
+	JOIN saas_goods_storage gst
+	ON goods.id = gst.`goods_id`
+	LEFT JOIN saas_enterprise se ON st.enterprise_id = se.id
+	left join saas_sale_detail sd on st.enterprise_id = sd.enterprise_id and st.goods_id = sd.goods_id
+	WHERE 1=1
+	AND st.usable_quantity>0
+	<choose>
+		<when test="parentId == 0">
+			and (st.`parent_id` = #{enterpriseId} or st.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and st.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+	GROUP BY st.goods_id
+	HAVING unsalableDay > 0   
+	<if test="start != null">
+		limit #{start},#{pageSize}
+	</if>     
+  </select>
+  
+  <select id="countLagSaleGoods" parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LagSaleGoodsRequestParamVO" resultType="java.lang.Integer">
+	SELECT count(1) from
+	(
+	SELECT
+	st.id,
+	case when 0 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0))
+	when 1 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0) * 30)
+	when 2 = gst.unsalable_cycle_unit
+		then (ifnull(gst.unsalable_cycle, 0) * 365)
+	END AS unsalableCycle,	
+	case when 0 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0))
+	when 1 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 30)
+	when 2 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 365)	
+	END AS unsalableDay
+	FROM
+	saas_stock st
+	JOIN saas_goods goods ON goods.id = st.goods_id
+	JOIN saas_goods_storage gst
+	ON goods.id = gst.`goods_id`
+	LEFT JOIN saas_enterprise se ON st.enterprise_id = se.id
+	left join saas_sale_detail sd on st.enterprise_id = sd.enterprise_id and st.goods_id = sd.goods_id
+	WHERE 1=1
+	AND st.usable_quantity>0
+	<choose>
+		<when test="parentId == 0">
+			and (st.`parent_id` = #{enterpriseId} or st.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and st.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+	GROUP BY st.goods_id
+	HAVING unsalableDay > 0
+	)tab     
+  </select>
+
+  <sql id="whereSqlGoods">
+	<if test="businessVariety!=null and businessVariety!=''">and goods.business_variety =#{businessVariety}</if>
+	<if test="param!=null and param!=''">
+		AND (
+            INSTR(goods.name ,#{param})
+            OR INSTR(goods.code ,#{param})
+            OR INSTR(goods.pinyin_code ,#{param})
+            OR INSTR(goods.approval_number ,#{param})
+            OR INSTR(goods.barcode ,#{param})
+            OR INSTR(goods.generic_name ,#{param})
+        )
+	</if>
+	<if test="chainType!=null">and se.chain_type=#{chainType}</if>
+    <if test="enterpriseCode!=null and enterpriseCode!=''">and se.code like  CONCAT('%',#{enterpriseCode},'%')</if>
+    <if test="enterpriseName!=null and enterpriseName!=''">and se.name like  CONCAT('%',#{enterpriseName},'%')</if>
+	<if test="categoryId!=null">and goods.category_id=#{categoryId}</if>
+	<if test="domesticImport!=null">and goods.domestic_import=#{domesticImport}</if>
+	<if test="storageTemp!=null">and goods.storage_temp=#{storageTemp}</if>
+	<if test="storageConditionName!=null and storageConditionName!=''">and goods.storage_condition_name like
+		CONCAT('%',#{storageConditionName},'%')</if>
+	<if test="registeredTrademark!=null and registeredTrademark!=''">and goods.registered_trademark like
+		CONCAT('%',#{registeredTrademark},'%')</if>
+	<if test="brand!=null and brand!=''">and goods.brand like CONCAT('%',#{brand},'%')</if>
+	<if test="goodsAttribute!=null">and goods.goods_attribute=#{goodsAttribute}</if>
+	<if test="prescriptionDrug!=null">and goods.prescription_drug=#{prescriptionDrug}</if>
+	<if test="otcType!=null">and goods.otc_type=#{otcType}</if>
+	<if test="specialDrug!=null">and goods.special_drug=#{specialDrug}</if>
+	<if test="inChargeDrug!=null">and goods.in_charge_drug=#{inChargeDrug}</if>
+	<if test="managementScopeId!=null">and goods.management_scope_id=#{managementScopeId}</if>
+	<if test="spiritDrugType!=null">and goods.spirit_drug_type=#{spiritDrugType}</if>
+    <if test="formulationType!=null">and goods.formulation_type=#{formulationType}</if>
+  </sql>
+  
+  <select id="sumLagSaleGoods" parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LagSaleGoodsRequestParamVO" resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.LagSaleGoodsTotalVO">
+	SELECT
+	SUM(usable_quantity) AS usableQuantityTotal
+	FROM
+	(
+	SELECT
+	sum(st.usable_quantity) as usable_quantity,
+	case when 0 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0))
+	when 1 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 30)
+	when 2 = gst.unsalable_cycle_unit
+		then (datediff(CURDATE(), max(sd.sale_date)) - ifnull(gst.unsalable_cycle, 0) * 365)	
+	END AS unsalableDay
+	FROM
+	saas_stock st
+	JOIN saas_goods goods
+	ON goods.id = st.goods_id
+	JOIN saas_goods_storage gst
+	ON goods.id = gst.`goods_id`
+	LEFT JOIN saas_enterprise se ON st.enterprise_id = se.id
+	left join saas_sale_detail sd on st.enterprise_id = sd.enterprise_id and st.goods_id = sd.goods_id
+	WHERE 1 = 1
+	AND st.usable_quantity > 0
+	<choose>
+		<when test="parentId == 0">
+			and (st.`parent_id` = #{enterpriseId} or st.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and st.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+	GROUP BY st.enterprise_id,st.goods_id
+	HAVING unsalableDay > 0
+	) tab 
+  </select>
+  
+  
+  
+</mapper>

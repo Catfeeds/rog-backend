@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.ret.dao.PurchaseReturnOtherMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.ret.entity.PurchaseReturnOther">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="return_id" jdbcType="BIGINT" property="returnId" />
+    <result column="settlement_type" jdbcType="INTEGER" property="settlementType" />
+    <result column="settlement_unit_id" jdbcType="BIGINT" property="settlementUnitId" />
+    <result column="settlement_unit" jdbcType="VARCHAR" property="settlementUnit" />
+    <result column="settlement_unit_phone" jdbcType="VARCHAR" property="settlementUnitPhone" />
+    <result column="settlement_unit_address" jdbcType="VARCHAR" property="settlementUnitAddress" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="bank" jdbcType="VARCHAR" property="bank" />
+    <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+    <result column="taxpayer_code" jdbcType="VARCHAR" property="taxpayerCode" />
+    <result column="carriage_mode" jdbcType="INTEGER" property="carriageMode" />
+    <result column="carriage_unit" jdbcType="VARCHAR" property="carriageUnit" />
+    <result column="transport_mode" jdbcType="INTEGER" property="transportMode" />
+    <result column="temp_control_mode" jdbcType="INTEGER" property="tempControlMode" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="receive_phone" jdbcType="VARCHAR" property="receivePhone" />
+    <result column="receive_address" jdbcType="VARCHAR" property="receiveAddress" />
+    <result column="order_id" jdbcType="BIGINT" property="orderId" />
+    <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+    <result column="order_date" jdbcType="TIMESTAMP" property="orderDate" />
+    <result column="out_flag" jdbcType="INTEGER" property="outFlag" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, return_id, settlement_type,settlement_unit_id, settlement_unit, settlement_unit_phone, 
+    settlement_unit_address, account_name, account, bank, invoice_type, taxpayer_code, 
+    carriage_mode, carriage_unit, transport_mode, temp_control_mode,  receiver,
+    receive_phone, receive_address, order_id, order_code, order_date, out_flag, status,
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_return_other
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByReturnId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_return_other
+    where return_id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_return_other
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.ret.entity.PurchaseReturnOther">
+    insert into saas_purchase_return_other (id, enterprise_id, parent_id, 
+      return_id, settlement_type, settlement_unit, 
+      settlement_unit_phone, settlement_unit_address, 
+      account_name, account, bank, 
+      invoice_type, taxpayer_code, carriage_mode, 
+      carriage_unit, transport_mode, temp_control_mode, 
+       receiver, receive_phone,
+      receive_address, order_id, order_code,
+      order_date, out_flag, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,settlement_unit_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{returnId,jdbcType=BIGINT}, #{settlementType,jdbcType=INTEGER}, #{settlementUnit,jdbcType=VARCHAR}, 
+      #{settlementUnitPhone,jdbcType=VARCHAR}, #{settlementUnitAddress,jdbcType=VARCHAR}, 
+      #{accountName,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
+      #{invoiceType,jdbcType=INTEGER}, #{taxpayerCode,jdbcType=VARCHAR}, #{carriageMode,jdbcType=INTEGER}, 
+      #{carriageUnit,jdbcType=VARCHAR}, #{transportMode,jdbcType=INTEGER}, #{tempControlMode,jdbcType=INTEGER}, 
+     #{receiver,jdbcType=VARCHAR}, #{receivePhone,jdbcType=VARCHAR},
+      #{receiveAddress,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=TIMESTAMP}, #{outFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},#{settlementUnitId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.ret.entity.PurchaseReturnOther" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_return_other
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="returnId != null">
+        return_id,
+      </if>
+      <if test="settlementType != null">
+        settlement_type,
+      </if>
+      <if test="settlementUnitId != null">
+        settlement_unit_id,
+      </if>
+      <if test="settlementUnit != null">
+        settlement_unit,
+      </if>
+      <if test="settlementUnitPhone != null">
+        settlement_unit_phone,
+      </if>
+      <if test="settlementUnitAddress != null">
+        settlement_unit_address,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="bank != null">
+        bank,
+      </if>
+      <if test="invoiceType != null">
+        invoice_type,
+      </if>
+      <if test="taxpayerCode != null">
+        taxpayer_code,
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode,
+      </if>
+      <if test="carriageUnit != null">
+        carriage_unit,
+      </if>
+      <if test="transportMode != null">
+        transport_mode,
+      </if>
+      <if test="tempControlMode != null">
+        temp_control_mode,
+      </if>
+      <if test="receiver != null">
+        receiver,
+      </if>
+      <if test="receivePhone != null">
+        receive_phone,
+      </if>
+      <if test="receiveAddress != null">
+        receive_address,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="outFlag != null">
+        out_flag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="returnId != null">
+        #{returnId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementType != null">
+        #{settlementType,jdbcType=INTEGER},
+      </if>
+      <if test="settlementUnitId != null">
+        #{settlementUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementUnit != null">
+        #{settlementUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementUnitPhone != null">
+        #{settlementUnitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementUnitAddress != null">
+        #{settlementUnitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null">
+        #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="taxpayerCode != null">
+        #{taxpayerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carriageMode != null">
+        #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageUnit != null">
+        #{carriageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null">
+        #{transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="tempControlMode != null">
+        #{tempControlMode,jdbcType=INTEGER},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivePhone != null">
+        #{receivePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null">
+        #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outFlag != null">
+        #{outFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.ret.entity.PurchaseReturnOther">
+    update saas_purchase_return_other
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="returnId != null">
+        return_id = #{returnId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementType != null">
+        settlement_type = #{settlementType,jdbcType=INTEGER},
+      </if>
+      <if test="settlementUnitId != null">
+        settlement_unit_id = #{settlementUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="settlementUnit != null">
+        settlement_unit = #{settlementUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementUnitPhone != null">
+        settlement_unit_phone = #{settlementUnitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementUnitAddress != null">
+        settlement_unit_address = #{settlementUnitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null">
+        invoice_type = #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="taxpayerCode != null">
+        taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="carriageUnit != null">
+        carriage_unit = #{carriageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMode != null">
+        transport_mode = #{transportMode,jdbcType=INTEGER},
+      </if>
+      <if test="tempControlMode != null">
+        temp_control_mode = #{tempControlMode,jdbcType=INTEGER},
+      </if>
+      <if test="receiver != null">
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receivePhone != null">
+        receive_phone = #{receivePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveAddress != null">
+        receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outFlag != null">
+        out_flag = #{outFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.ret.entity.PurchaseReturnOther">
+    update saas_purchase_return_other
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      return_id = #{returnId,jdbcType=BIGINT},
+      settlement_type = #{settlementType,jdbcType=INTEGER},
+      settlement_unit_id = #{settlementUnitId,jdbcType=BIGINT},
+      settlement_unit = #{settlementUnit,jdbcType=VARCHAR},
+      settlement_unit_phone = #{settlementUnitPhone,jdbcType=VARCHAR},
+      settlement_unit_address = #{settlementUnitAddress,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      invoice_type = #{invoiceType,jdbcType=INTEGER},
+      taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR},
+      carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      carriage_unit = #{carriageUnit,jdbcType=VARCHAR},
+      transport_mode = #{transportMode,jdbcType=INTEGER},
+      temp_control_mode = #{tempControlMode,jdbcType=INTEGER},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      receive_phone = #{receivePhone,jdbcType=VARCHAR},
+      receive_address = #{receiveAddress,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=BIGINT},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      order_date = #{orderDate,jdbcType=TIMESTAMP},
+      out_flag = #{outFlag,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateReturnOtherStatus">
+      UPDATE saas_purchase_return_other set status = #{status}
+      where return_id  = #{id}
+    </update>
+
+</mapper>

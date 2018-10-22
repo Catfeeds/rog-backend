@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.set.period.dao.AccountingPeriodMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.set.period.entity.AccountingPeriod">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap  id="AccountResultMap" type="com.rograndec.feijiayun.chain.business.finance.set.period.vo.AccountingPeriodVO">  
+       <id column="id" property="id"/>  
+       <result column="enterprise_id" property="enterpriseId"/>  
+       <result column="parent_id" property="parentId"/>
+       <result column="year" property="year"/>
+       <result column="status" property="status"/>
+       <result column="remark" property="remark"/>
+       <collection property="detailList" ofType="com.rograndec.feijiayun.chain.business.finance.set.period.vo.AccountingPeriodDetailVO">  
+            <id column="dId" property="id"/>  
+            <result column="period_id" property="periodId"/>
+	        <result column="month" property="month"/>
+	        <result column="start_date" jdbcType="DATE" property="startDate"/>
+	        <result column="end_date"  jdbcType="DATE" property="endDate"/>
+	        <result column="account_date" property="accountDate"/>
+	        <result column="account_man_id" property="accountManId"/>
+	        <result column="account_man_code" property="accountManCode"/>
+	        <result column="account_man_name" property="accountManName"/>
+	        <result column="dStatus" property="status"/>
+       </collection>  
+  </resultMap>  
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, year, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_accounting_period
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEnterpriseId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_accounting_period
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="status != null">
+    and status = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectByEnterpriseIdAndYear" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_accounting_period
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and year =  #{year,jdbcType=INTEGER}
+    <if test="status != null">
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_accounting_period
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.set.period.entity.AccountingPeriod" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_accounting_period (id, enterprise_id, parent_id, 
+      year, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{year,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.set.period.entity.AccountingPeriod" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_accounting_period
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.set.period.entity.AccountingPeriod">
+    update saas_accounting_period
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.set.period.entity.AccountingPeriod">
+    update saas_accounting_period
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      year = #{year,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getPeriodYear" resultType="java.lang.Integer" >
+   SELECT MAX(`year`) FROM `saas_accounting_period` WHERE `enterprise_id` = #{enterpriseId} 
+  </select>
+  
+  <select id="getPeriodYearStartDate" resultType="java.util.Date" >
+   SELECT MAX(`end_date`) FROM `saas_accounting_period_detail` WHERE `enterprise_id` = #{enterpriseId} 
+  </select>
+  
+  <select id="getPeriodPage" resultType="java.lang.Long">
+    SELECT id FROM `saas_accounting_period` WHERE `enterprise_id` = #{enterpriseId} ORDER BY id DESC LIMIT #{start},#{pageSize} 
+  </select>
+  
+  <select id="getTotalPeriodPage" resultType="java.lang.Integer">
+    SELECT COUNT(id) FROM `saas_accounting_period` WHERE `enterprise_id` = #{enterpriseId} 
+  </select>
+  
+  <select id="getPeriodList" resultMap="AccountResultMap">
+    SELECT 
+	  p.`id`, p.enterprise_id, p.parent_id, p.year, p.status, p.remark,
+	  d.`id` as dId, d.period_id, d.month, d.start_date, d.end_date,
+	  d.account_date, d.account_man_id,d.account_man_code,
+	  d.account_man_name, d.status as dStatus
+	FROM
+	  `saas_accounting_period` p 
+	  LEFT JOIN `saas_accounting_period_detail` d 
+	    ON p.id = d.`period_id` 
+	    WHERE p.id IN  
+	    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        </foreach> 
+  </select>
+  
+   <select id="getEnterpriseIdByFinaceControl" resultType="java.lang.Long">
+    SELECT bus.`enterprise_id` FROM saas_enterprise_business bus WHERE bus.`parent_id` = #{enterpriseId}  AND bus.finance_control = 0
+  </select>
+  
+   <select id="getNearOrderDate" resultType="java.util.Date">
+    SELECT MAX(rec.`order_date`) FROM saas_in_out_record rec 
+    WHERE rec.`enterprise_id` IN 
+	    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        </foreach> 
+  </select>
+  
+  <select id="getNearFinalSettleDate" resultType="java.util.Date">
+   SELECT MAX(d.`end_date`) FROM saas_accounting_period_detail d WHERE d.`enterprise_id` =#{enterpriseId} AND d.`status` = 1
+  </select>
+  
+  <select id="getPeriodId" resultType="java.lang.Long">
+   SELECT `id` FROM `saas_accounting_period` WHERE `year` =#{year} AND `enterprise_id` =#{enterpriseId}
+  </select>
+  
+  <select id="getFinalSettlePeriod" resultType="com.rograndec.feijiayun.chain.business.finance.set.period.vo.FinalSettleVO">
+    SELECT 
+	    d.`id` AS id ,d.`period_id` AS periodId,d.`month`,d.`start_date` AS startDate,
+		d.`end_date` AS endDate,p.`year` 
+	FROM `saas_accounting_period_detail` d
+	LEFT JOIN `saas_accounting_period` p ON d.`period_id` = p.`id`
+	WHERE d.`enterprise_id`=#{enterpriseId} AND d.`status` = 0  
+	ORDER BY d.`id` LIMIT 1
+  </select>
+  
+  <select id="getFinalSettlePage" resultType="com.rograndec.feijiayun.chain.business.finance.set.period.vo.ResponseFinalSettleVO">
+    SELECT 
+	    d.`id` AS id ,d.`period_id` AS periodId,d.`month`,d.`start_date` AS startDate,
+		d.`end_date` AS endDate,p.`year` ,d.`account_man_id` AS accountManId,
+		d.`account_man_code` AS accountManCode,d.`account_man_name` AS accountManName,
+		d.`account_date` AS accountDate
+	FROM `saas_accounting_period_detail` d
+	LEFT JOIN `saas_accounting_period` p ON d.`period_id` = p.`id`
+	WHERE d.`enterprise_id`=#{enterpriseId} AND d.`status` = 1  
+	order by d.id desc
+	LIMIT #{start},#{pageSize} 
+  </select>
+  
+  <select id="getFinalSettleTotalRecord" resultType="java.lang.Integer">
+    SELECT   COUNT(d.`id`)	
+	FROM `saas_accounting_period_detail` d
+	LEFT JOIN `saas_accounting_period` p ON d.`period_id` = p.`id`
+	WHERE d.`enterprise_id`=#{enterpriseId} AND d.`status` = 1  
+  </select>
+  
+  <select id="getNearestPeriodId" resultType="java.lang.Long">
+    SELECT id FROM `saas_accounting_period` WHERE `enterprise_id` = #{enterpriseId} ORDER BY id DESC LIMIT 1
+  </select>
+  
+</mapper>

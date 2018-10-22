@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.member.integral.dao.IntegralRecordMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.member.integral.entity.IntegralRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="change_type" jdbcType="INTEGER" property="changeType" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+    <result column="new_member_id" jdbcType="BIGINT" property="newMemberId" />
+    <result column="new_card_code" jdbcType="VARCHAR" property="newCardCode" />
+    <result column="total_integral" jdbcType="DECIMAL" property="totalIntegral" />
+    <result column="current_integral" jdbcType="DECIMAL" property="currentIntegral" />
+    <result column="change_integral" jdbcType="DECIMAL" property="changeIntegral" />
+    <result column="new_total_integral" jdbcType="DECIMAL" property="newTotalIntegral" />
+    <result column="new_current_integral" jdbcType="DECIMAL" property="newCurrentIntegral" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, change_type, base_order_id, base_order_type,
+    base_order_code, base_order_date, member_id, card_code, new_member_id, new_card_code, 
+    total_integral, current_integral, change_integral, new_total_integral, new_current_integral, 
+    status, remark, creater_id, creater_code, creater_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_integral_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_integral_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.member.integral.entity.IntegralRecord">
+    insert into saas_integral_record (id, enterprise_id, parent_id, 
+      change_type, base_order_id, base_order_type, base_order_code,
+      base_order_date,
+      member_id, card_code, 
+      new_member_id, new_card_code, total_integral, 
+      current_integral, change_integral, new_total_integral, 
+      new_current_integral, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{changeType,jdbcType=INTEGER}, #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR},
+      #{baseOrderDate,jdbcType=TIMESTAMP}, 
+      #{memberId,jdbcType=BIGINT}, #{cardCode,jdbcType=VARCHAR}, 
+      #{newMemberId,jdbcType=BIGINT}, #{newCardCode,jdbcType=VARCHAR}, #{totalIntegral,jdbcType=DECIMAL}, 
+      #{currentIntegral,jdbcType=DECIMAL}, #{changeIntegral,jdbcType=DECIMAL}, #{newTotalIntegral,jdbcType=DECIMAL}, 
+      #{newCurrentIntegral,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.member.integral.entity.IntegralRecord">
+    insert into saas_integral_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="changeType != null">
+        change_type,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="cardCode != null">
+        card_code,
+      </if>
+      <if test="newMemberId != null">
+        new_member_id,
+      </if>
+      <if test="newCardCode != null">
+        new_card_code,
+      </if>
+      <if test="totalIntegral != null">
+        total_integral,
+      </if>
+      <if test="currentIntegral != null">
+        current_integral,
+      </if>
+      <if test="changeIntegral != null">
+        change_integral,
+      </if>
+      <if test="newTotalIntegral != null">
+        new_total_integral,
+      </if>
+      <if test="newCurrentIntegral != null">
+        new_current_integral,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="changeType != null">
+        #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="cardCode != null">
+        #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newMemberId != null">
+        #{newMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="newCardCode != null">
+        #{newCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIntegral != null">
+        #{totalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="currentIntegral != null">
+        #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="changeIntegral != null">
+        #{changeIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalIntegral != null">
+        #{newTotalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="newCurrentIntegral != null">
+        #{newCurrentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.member.integral.entity.IntegralRecord">
+    update saas_integral_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="changeType != null">
+        change_type = #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="cardCode != null">
+        card_code = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newMemberId != null">
+        new_member_id = #{newMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="newCardCode != null">
+        new_card_code = #{newCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIntegral != null">
+        total_integral = #{totalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="currentIntegral != null">
+        current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="changeIntegral != null">
+        change_integral = #{changeIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalIntegral != null">
+        new_total_integral = #{newTotalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="newCurrentIntegral != null">
+        new_current_integral = #{newCurrentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.member.integral.entity.IntegralRecord">
+    update saas_integral_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      change_type = #{changeType,jdbcType=INTEGER},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      member_id = #{memberId,jdbcType=BIGINT},
+      card_code = #{cardCode,jdbcType=VARCHAR},
+      new_member_id = #{newMemberId,jdbcType=BIGINT},
+      new_card_code = #{newCardCode,jdbcType=VARCHAR},
+      total_integral = #{totalIntegral,jdbcType=DECIMAL},
+      current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      change_integral = #{changeIntegral,jdbcType=DECIMAL},
+      new_total_integral = #{newTotalIntegral,jdbcType=DECIMAL},
+      new_current_integral = #{newCurrentIntegral,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache />
+</mapper>

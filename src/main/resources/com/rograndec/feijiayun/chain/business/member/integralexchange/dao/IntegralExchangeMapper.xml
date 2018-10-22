@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.member.integralexchange.dao.IntegralExchangeMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.member.integralexchange.entity.IntegralExchange">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="exchange_date" jdbcType="TIMESTAMP" property="exchangeDate" />
+    <result column="exchange_man_id" jdbcType="BIGINT" property="exchangeManId" />
+    <result column="exchange_man_code" jdbcType="VARCHAR" property="exchangeManCode" />
+    <result column="exchange_man_name" jdbcType="VARCHAR" property="exchangeManName" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="current_integral" jdbcType="DECIMAL" property="currentIntegral" />
+    <result column="deduct_integral" jdbcType="DECIMAL" property="deductIntegral" />
+    <result column="remainder_integral" jdbcType="DECIMAL" property="remainderIntegral" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="IntegralExchangePageVOResultMap" type="com.rograndec.feijiayun.chain.business.member.integralexchange.vo.IntegralExchangePageVO">
+
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="exchange_date" jdbcType="TIMESTAMP" property="exchangeDate" />
+    <result column="exchange_man_id" jdbcType="BIGINT" property="exchangeManId" />
+    <result column="exchange_man_code" jdbcType="VARCHAR" property="exchangeManCode" />
+    <result column="exchange_man_name" jdbcType="VARCHAR" property="exchangeManName" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="current_integral" jdbcType="DECIMAL" property="currentIntegral" />
+    <result column="deduct_integral" jdbcType="DECIMAL" property="deductIntegral" />
+    <result column="remainder_integral" jdbcType="DECIMAL" property="remainderIntegral" />
+
+  </resultMap>
+
+  <resultMap id="IntegralExchangeVOResultMap" type="com.rograndec.feijiayun.chain.business.member.integralexchange.vo.IntegralExchangeVO">
+
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exchange_date" jdbcType="TIMESTAMP" property="exchangeDate" />
+    <result column="exchange_man_id" jdbcType="BIGINT" property="exchangeManId" />
+    <result column="exchange_man_name" jdbcType="VARCHAR" property="exchangeManName" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="current_integral" jdbcType="DECIMAL" property="currentIntegral" />
+    <result column="deduct_integral" jdbcType="DECIMAL" property="deductIntegral" />
+    <result column="remainder_integral" jdbcType="DECIMAL" property="remainderIntegral" />
+    <collection property="exchangeDtlVOList" ofType="com.rograndec.feijiayun.chain.business.member.integralexchange.vo.IntegralExchangeDtlVO">
+
+
+      <id column="dtl_id" jdbcType="BIGINT" property="id" />
+      <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+      <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+      <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+      <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+      <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+      <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+      <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+      <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+      <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+      <result column="integral_exchange" jdbcType="DECIMAL" property="integralExchange" />
+      <result column="useable_quantity" jdbcType="DECIMAL" property="useableQuantity" />
+      <result column="exchange_quantity" jdbcType="DECIMAL" property="exchangeQuantity" />
+      <result column="deduct_integral" jdbcType="DECIMAL" property="deductIntegral" />
+
+
+    </collection>
+
+
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id,order_type, code, exchange_date, exchange_man_id, exchange_man_code,
+    exchange_man_name, member_id, member_card_code, current_integral, deduct_integral,
+    quantity_total, varieties_quantity, amount_total, notax_amount_total, tax_amount_total,
+    remainder_integral, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_integral_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_integral_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.entity.IntegralExchange" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_integral_exchange (id, enterprise_id, parent_id, order_type,
+      code, exchange_date, exchange_man_id, 
+      exchange_man_code, exchange_man_name, member_id, 
+      member_card_code, current_integral, deduct_integral, 
+      remainder_integral, quantity_total,
+      varieties_quantity, amount_total, notax_amount_total,
+      tax_amount_total, status, remark,
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},#{orderType,jdbcType=INTEGER},
+      #{code,jdbcType=VARCHAR}, #{exchangeDate,jdbcType=TIMESTAMP}, #{exchangeManId,jdbcType=BIGINT}, 
+      #{exchangeManCode,jdbcType=VARCHAR}, #{exchangeManName,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, 
+      #{memberCardCode,jdbcType=VARCHAR}, #{currentIntegral,jdbcType=DECIMAL}, #{deductIntegral,jdbcType=DECIMAL}, 
+      #{remainderIntegral,jdbcType=DECIMAL},#{quantityTotal,jdbcType=DECIMAL},
+      #{varietiesQuantity,jdbcType=INTEGER}, #{amountTotal,jdbcType=DECIMAL}, #{notaxAmountTotal,jdbcType=DECIMAL},
+      #{taxAmountTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.entity.IntegralExchange" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_integral_exchange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="exchangeDate != null">
+        exchange_date,
+      </if>
+      <if test="exchangeManId != null">
+        exchange_man_id,
+      </if>
+      <if test="exchangeManCode != null">
+        exchange_man_code,
+      </if>
+      <if test="exchangeManName != null">
+        exchange_man_name,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code,
+      </if>
+      <if test="currentIntegral != null">
+        current_integral,
+      </if>
+      <if test="deductIntegral != null">
+        deduct_integral,
+      </if>
+      <if test="remainderIntegral != null">
+        remainder_integral,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDate != null">
+        #{exchangeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeManId != null">
+        #{exchangeManId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeManCode != null">
+        #{exchangeManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeManName != null">
+        #{exchangeManName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberCardCode != null">
+        #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIntegral != null">
+        #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="deductIntegral != null">
+        #{deductIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="remainderIntegral != null">
+        #{remainderIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.entity.IntegralExchange">
+    update saas_integral_exchange
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeDate != null">
+        exchange_date = #{exchangeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exchangeManId != null">
+        exchange_man_id = #{exchangeManId,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeManCode != null">
+        exchange_man_code = #{exchangeManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeManName != null">
+        exchange_man_name = #{exchangeManName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currentIntegral != null">
+        current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="deductIntegral != null">
+        deduct_integral = #{deductIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="remainderIntegral != null">
+        remainder_integral = #{remainderIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.entity.IntegralExchange">
+    update saas_integral_exchange
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      exchange_date = #{exchangeDate,jdbcType=TIMESTAMP},
+      exchange_man_id = #{exchangeManId,jdbcType=BIGINT},
+      exchange_man_code = #{exchangeManCode,jdbcType=VARCHAR},
+      exchange_man_name = #{exchangeManName,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=BIGINT},
+      member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+      current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      deduct_integral = #{deductIntegral,jdbcType=DECIMAL},
+      remainder_integral = #{remainderIntegral,jdbcType=DECIMAL},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+  <select id="selectDetailById" parameterType="java.lang.Long" resultMap="IntegralExchangeVOResultMap">
+
+
+    SELECT
+
+    ecg.id, ecg.exchange_date, ecg.exchange_man_id,
+    ecg.exchange_man_name, ecg.member_id, ecg.member_card_code, ecg.current_integral, ecg.deduct_integral,
+    ecg.remainder_integral,
+
+    dtl.id as dtl_id,  dtl.exchange_goods_id, dtl.goods_id, dtl.goods_code,
+    dtl.barcode, dtl.goods_name, dtl.goods_generic_name, dtl.dosage_id, dtl.dosage_name, dtl.unit_id, dtl.unit_name,
+    dtl.goods_specification, dtl.manufacturer_id, dtl.manufacturer, dtl.integral_exchange, dtl.useable_quantity,
+    dtl.exchange_quantity, dtl.deduct_integral
+
+    FROM  saas_integral_exchange ecg
+    JOIN  saas_integral_exchange_dtl dtl
+    ON  dtl.exchange_id = ecg.id
+    WHERE ecg.id = #{id}
+
+
+  </select>
+
+
+  <select id="selectExchangePage" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.vo.IntegralExchangeRequestVO"  resultMap="IntegralExchangePageVOResultMap">
+
+
+    select
+    <include refid="Base_Column_List" />
+    from saas_integral_exchange
+
+    <where>
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="exchangeManName != null  and exchangeManName != '' ">
+        and exchange_man_name like  concat('%', #{exchangeManName,jdbcType=VARCHAR},'%')
+      </if>
+
+      <if test="memberCardCode != null and memberCardCode !='' ">
+        and member_card_code = #{memberCardCode,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null and code != ''" >
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test ="startDate != null and startDate != ''" >
+        and exchange_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test ="endDate != null and endDate != ''" >
+        and exchange_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+    order by ${order}  ${sort}
+
+
+  </select>
+
+
+  <select id="selectTotal" parameterType="com.rograndec.feijiayun.chain.business.member.integralexchange.vo.IntegralExchangeRequestVO" resultType="java.util.Map">
+
+
+    SELECT
+  		sum(current_integral) as currentIntegralTotal,
+		sum(deduct_integral) as deductIntegralTotal,
+		sum(remainder_integral) as remainderIntegralTotal
+    from saas_integral_exchange
+
+    <where>
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="exchangeManName != null  and exchangeManName != '' ">
+        and exchange_man_name = #{exchangeManName,jdbcType=VARCHAR}
+      </if>
+
+      <if test="memberCardCode != null and memberCardCode !='' ">
+        and member_card_code = #{memberCardCode,jdbcType=VARCHAR}
+      </if>
+      <if test="code != null and code != ''">
+        and code = #{code,jdbcType=VARCHAR}
+      </if>
+      <if test ="startDate != null and startDate != '' " >
+        and exchange_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test ="endDate != null and endDate != '' " >
+        and exchange_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+
+  </select>
+
+</mapper>

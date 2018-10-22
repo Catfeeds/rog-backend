@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.plan.dao.PurchasePlanDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.plan.entity.PurchasePlanDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="inventory_quantity" jdbcType="DECIMAL" property="inventoryQuantity" />
+    <result column="on_way_num" jdbcType="DECIMAL" property="onWayNum" />
+    <result column="safety_stock" jdbcType="DECIMAL" property="safetyStock" />
+    <result column="period_sales" jdbcType="DECIMAL" property="periodSales" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="notax_price" jdbcType="DECIMAL" property="notaxPrice" />
+    <result column="notax_amount" jdbcType="DECIMAL" property="notaxAmount" />
+
+    <result column="tax_amout" jdbcType="DECIMAL" property="taxAmout" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="carriage_mode" jdbcType="INTEGER" property="carriageMode" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="PurchasePlanVOResultMap"  type="com.rograndec.feijiayun.chain.business.purchase.plan.vo.PurchasePlanVO">
+  	<id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="panner_id" jdbcType="BIGINT" property="pannerId" />
+    <result column="panner_code" jdbcType="VARCHAR" property="pannerCode" />
+    <result column="panner_name" jdbcType="VARCHAR" property="pannerName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <collection property="planDetails" ofType="com.rograndec.feijiayun.chain.business.purchase.plan.vo.PurchasePlanDetailVO">
+    	<id column="detail_id" jdbcType="BIGINT" property="id" />
+    	<result column="plan_id" jdbcType="BIGINT" property="planId" />
+	    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+	    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+	    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+	    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+	    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+	    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+	    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+	    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+	    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+	    <result column="period_sales" jdbcType="DECIMAL" property="periodSales" />
+	    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+	    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+	    <result column="amount" jdbcType="DECIMAL" property="amount" />
+        <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+        <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+	    <result column="notax_price" jdbcType="DECIMAL" property="notaxPrice" />
+	    <result column="notax_amount" jdbcType="DECIMAL" property="notaxAmount" />
+	    <result column="tax_amout" jdbcType="DECIMAL" property="taxAmout" />
+	    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+	    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+	    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+	    <result column="carriage_mode" jdbcType="INTEGER" property="carriageMode" />
+    
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, plan_id, enterprise_id, goods_id, goods_code, barcode, goods_name, goods_generic_name, 
+    dosage_id, dosage_name, unit_id, unit_name, goods_specification, manufacturer_id, 
+    manufacturer, goods_place, approval_number, inventory_quantity, on_way_num, safety_stock, 
+    period_sales, quantity, unit_price, amount, tax_rate_id,tax_rate, notax_price, notax_amount,
+    tax_amout, supplier_id, supplier_code, supplier_name, carriage_mode, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+
+  <sql id="Report_List">
+    dtl.id, dtl.plan_id planId, dtl.enterprise_id enterpriseId, dtl.goods_id goodsId, dtl.goods_code goodsCode, dtl.barcode, dtl.goods_name goodsName, dtl.goods_generic_name goodsGenericName,
+    dtl.dosage_id dosageId, dtl.dosage_name dosageName, dtl.unit_id unitId, dtl.unit_name unitName, dtl.goods_specification goodsSpecification, dtl.manufacturer_id manufacturerId,
+    dtl.manufacturer, dtl.goods_place goodsPlace, dtl.approval_number approvalNumber, dtl.inventory_quantity inventoryQuantity, dtl.on_way_num onWayNum, dtl.safety_stock safetyStock,
+    dtl.period_sales periodSales, dtl.quantity, dtl.unit_price unitPrice, dtl.amount, dtl.tax_rate_id taxRateId,dtl.tax_rate taxRate, dtl.notax_price notaxPrice, dtl.notax_amount notaxAmount,
+    dtl.tax_amout taxAmout, dtl.supplier_id supplierId, dtl.supplier_code supplierCode, dtl.supplier_name supplierName, dtl.carriage_mode carriageMode, dtl.status, dtl.remark,
+    doc.code,doc.plan_date planDate, doc.panner_id pannerId, doc.panner_code pannerCode, doc.panner_name pannerName,
+    goods.business_variety businessVariety,goods.category_id categoryId,goods.goods_attribute goodsAttribute,goods.domestic_import domesticImport,
+    goods.management_scope_id managementScopeId,goods.management_scope_name managementScopeName,goods.special_drug specialDrug,goods.in_charge_drug inChargeDrug,goods.limit_quantity limitQuantity,
+    goods.storage_temp storageTemp,goods.storage_condition_name storageConditionName,goods.quality_period qualityPeriod,goods.quality_period_unit qualityPeriodUnit
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="getPlanReportInfo" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.purchase.PurchasePlanReportVO">
+    select
+    <include refid="Report_List" />
+    from saas_purchase_plan_detail dtl,
+    saas_purchase_plan doc,
+    saas_goods goods
+    where goods.id = dtl.goods_id
+    and dtl.plan_id = doc.id
+    and dtl.enterprise_id = #{enterpriseId}
+    <if test="planPageVO.param != null and planPageVO.param != ''">
+      and (
+      goods.code like concat('%', #{planPageVO.param},'%')
+      or
+      goods.barcode like concat('%', #{planPageVO.param},'%')
+      or
+      goods.pinyin_code like concat('%', #{planPageVO.param},'%')
+      or
+      goods.name like concat('%', #{planPageVO.param},'%')
+      or
+      goods.generic_name like concat('%', #{planPageVO.param},'%')
+      or
+      goods.approval_number like concat('%', #{planPageVO.param},'%')
+      )
+    </if>
+    <if test="planPageVO.businessVariety != null">
+      and goods.business_variety = #{planPageVO.businessVariety}
+    </if>
+    <if test="planPageVO.supplierCode != null and planPageVO.supplierCode != ''">
+      and dtl.supplier_code = #{planPageVO.supplierCode}
+    </if>
+    <if test="planPageVO.supplierName != null and planPageVO.supplierName != ''">
+      and dtl.supplier_name like concat('%', #{planPageVO.supplierName},'%')
+    </if>
+    <if test="planPageVO.startDate != null and planPageVO.endDate != null">
+      and doc.plan_date between #{planPageVO.startDate} and #{planPageVO.endDate}
+    </if>
+    <if test="planPageVO.code != null and planPageVO.code != ''">
+      and doc.code = #{planPageVO.code}
+    </if>
+    <if test="planPageVO.pannerName != null and planPageVO.pannerName != ''">
+      and doc.panner_name like concat('%',#{planPageVO.pannerName},'%')
+    </if>
+    <if test="planPageVO.status != null">
+      and dtl.status = #{planPageVO.status}
+    </if>
+    <if test="planPageVO.categoryId != null">
+      and goods.category_id = #{planPageVO.categoryId}
+    </if>
+    <if test="planPageVO.domesticImport != null and planPageVO.domesticImport != ''">
+      and goods.domestic_import = #{planPageVO.domesticImport}
+    </if>
+    <if test="planPageVO.storageTemp != null and planPageVO.storageTemp != ''">
+      and goods.storage_temp = #{planPageVO.storageTemp}
+    </if>
+    <if test="planPageVO.storageConditionName != null and planPageVO.storageConditionName != ''">
+      and goods.storage_condition_name = #{planPageVO.storageConditionName}
+    </if>
+    <if test="planPageVO.goodsAttribute != null and planPageVO.goodsAttribute != ''">
+      and goods.goods_attribute = #{planPageVO.goodsAttribute}
+      <if test="planPageVO.goodsAttribute == 0">
+        and goods.prescription_drug = #{planPageVO.prescriptionDrug}
+        <if test="planPageVO.prescriptionDrug == 0">
+          and goods.otc_type = #{planPageVO.otcType}
+        </if>
+      </if>
+    </if>
+    <if test="planPageVO.specialDrug != null and planPageVO.specialDrug != ''">
+      and goods.special_drug = #{planPageVO.specialDrug}
+      <if test="planPageVO.specialDrug == 0">
+        and goods.spirit_drug_type = #{planPageVO.spiritDrugType}
+      </if>
+    </if>
+    <if test="planPageVO.inChargeDrug != null and planPageVO.inChargeDrug != ''">
+      and goods.in_charge_drug = #{planPageVO.inChargeDrug}
+      <if test="planPageVO.inChargeDrug == 0">
+        and goods.formulation_type = #{planPageVO.formulationType}
+      </if>
+    </if>
+    <if test="planPageVO.brand != null and planPageVO.brand != ''">
+      and goods.brand like concat('%', #{planPageVO.brand},'%')
+    </if>
+    <if test="planPageVO.registeredTrademark != null and planPageVO.registeredTrademark != ''">
+      and goods.registered_trademark like concat('%', #{planPageVO.registeredTrademark},'%')
+    </if>
+
+    <if test="planPageVO.orderName != null and planPageVO.orderType!=null">
+      order by ${planPageVO.orderName} ${planPageVO.orderType}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.plan.entity.PurchasePlanDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_plan_detail (id, plan_id, enterprise_id, 
+      goods_id, goods_code, barcode, 
+      goods_name, goods_generic_name, dosage_id, 
+      dosage_name, unit_id, unit_name, 
+      goods_specification, manufacturer_id, manufacturer, 
+      goods_place, approval_number, inventory_quantity, 
+      on_way_num, safety_stock, period_sales, 
+      quantity, unit_price, amount, 
+      tax_rate, notax_price, notax_amount, 
+      tax_amout, supplier_id, supplier_code, 
+      supplier_name, carriage_mode, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,tax_rate_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{planId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, #{barcode,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsGenericName,jdbcType=VARCHAR}, #{dosageId,jdbcType=BIGINT}, 
+      #{dosageName,jdbcType=VARCHAR}, #{unitId,jdbcType=BIGINT}, #{unitName,jdbcType=VARCHAR}, 
+      #{goodsSpecification,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, #{manufacturer,jdbcType=VARCHAR}, 
+      #{goodsPlace,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, #{inventoryQuantity,jdbcType=DECIMAL}, 
+      #{onWayNum,jdbcType=DECIMAL}, #{safetyStock,jdbcType=DECIMAL}, #{periodSales,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{taxRate,jdbcType=DECIMAL}, #{notaxPrice,jdbcType=DECIMAL}, #{notaxAmount,jdbcType=DECIMAL}, 
+      #{taxAmout,jdbcType=DECIMAL}, #{supplierId,jdbcType=BIGINT}, #{supplierCode,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{carriageMode,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+      #{taxRateId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.plan.entity.PurchasePlanDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_plan_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="planId != null">
+        plan_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="goodsPlace != null">
+        goods_place,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="inventoryQuantity != null">
+        inventory_quantity,
+      </if>
+      <if test="onWayNum != null">
+        on_way_num,
+      </if>
+      <if test="safetyStock != null">
+        safety_stock,
+      </if>
+      <if test="periodSales != null">
+        period_sales,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="notaxPrice != null">
+        notax_price,
+      </if>
+      <if test="notaxAmount != null">
+        notax_amount,
+      </if>
+      <if test="taxAmout != null">
+        tax_amout,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="planId != null">
+        #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryQuantity != null">
+        #{inventoryQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="onWayNum != null">
+        #{onWayNum,jdbcType=DECIMAL},
+      </if>
+      <if test="safetyStock != null">
+        #{safetyStock,jdbcType=DECIMAL},
+      </if>
+      <if test="periodSales != null">
+        #{periodSales,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxPrice != null">
+        #{notaxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmount != null">
+        #{notaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmout != null">
+        #{taxAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="carriageMode != null">
+        #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.plan.entity.PurchasePlanDetail">
+    update saas_purchase_plan_detail
+    <set>
+      <if test="planId != null">
+        plan_id = #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryQuantity != null">
+        inventory_quantity = #{inventoryQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="onWayNum != null">
+        on_way_num = #{onWayNum,jdbcType=DECIMAL},
+      </if>
+      <if test="safetyStock != null">
+        safety_stock = #{safetyStock,jdbcType=DECIMAL},
+      </if>
+      <if test="periodSales != null">
+        period_sales = #{periodSales,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxPrice != null">
+        notax_price = #{notaxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmount != null">
+        notax_amount = #{notaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmout != null">
+        tax_amout = #{taxAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="carriageMode != null">
+        carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.plan.entity.PurchasePlanDetail">
+    update saas_purchase_plan_detail
+    set plan_id = #{planId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=BIGINT},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=BIGINT},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      inventory_quantity = #{inventoryQuantity,jdbcType=DECIMAL},
+      on_way_num = #{onWayNum,jdbcType=DECIMAL},
+      safety_stock = #{safetyStock,jdbcType=DECIMAL},
+      period_sales = #{periodSales,jdbcType=DECIMAL},
+      quantity = #{quantity,jdbcType=DECIMAL},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      tax_rate = #{taxRate,jdbcType=DECIMAL},
+      notax_price = #{notaxPrice,jdbcType=DECIMAL},
+      notax_amount = #{notaxAmount,jdbcType=DECIMAL},
+      tax_amout = #{taxAmout,jdbcType=DECIMAL},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      carriage_mode = #{carriageMode,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+<select id="selectDetailByPlanId"  parameterType="java.lang.Long" resultMap="PurchasePlanVOResultMap">
+	SELECT
+		plan.id ,
+		plan.enterprise_id ,
+		plan.order_type ,
+		plan. CODE ,
+		plan.plan_date ,
+		plan.panner_id ,
+		plan.panner_code ,
+		plan.panner_name ,
+		plan.quantity_total ,
+		plan.amount_total ,
+		plan.notax_amount_total ,
+		plan.tax_amount_total ,
+		plan. STATUS ,
+		plan.remark ,
+		detail.id as detail_id,
+		detail.plan_id ,
+		detail.enterprise_id ,
+		detail.goods_id ,
+		detail.goods_code ,
+		detail.goods_name ,
+		detail.goods_generic_name ,
+		detail.dosage_id ,
+		detail.dosage_name ,
+		detail.unit_id ,
+		detail.unit_name ,
+		detail.goods_specification ,
+		detail.manufacturer_id ,
+		detail.manufacturer ,
+		detail.goods_place ,
+		detail.period_sales ,
+		detail.quantity ,
+		detail.unit_price ,
+		detail.amount ,
+		detail.tax_rate_id,
+		detail.tax_rate ,
+		detail.notax_price ,
+		detail.notax_amount ,
+		detail.tax_amout ,
+		detail.supplier_id ,
+		detail.supplier_code ,
+		detail.supplier_name ,
+		detail.carriage_mode
+	FROM
+		saas_purchase_plan plan
+	JOIN saas_purchase_plan_detail detail ON detail.plan_id = plan.id
+	WHERE
+		plan.id = #{id,jdbcType=BIGINT}
+  
+  </select>
+  
+  
+  <update id="updateStatusByPlanId">
+  	update saas_purchase_plan_detail set status = #{status} where plan_id = #{planId}
+  </update>
+  
+  <select id="selectDistinctSupplierIdByPlanId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+ 	 SELECT DISTINCT supplier_id 
+ 	 FROM
+		 saas_purchase_plan_detail WHERE plan_id = #{planId}
+  </select>
+  
+  <select id="selectBySupplierIdAndPlanId" resultMap="BaseResultMap">
+  
+  	SELECT 
+ 	<include refid="Base_Column_List" />
+ 	FROM
+	saas_purchase_plan_detail 
+	WHERE plan_id = #{planId} and supplier_id = #{supplierId}
+  
+  </select>
+
+</mapper>

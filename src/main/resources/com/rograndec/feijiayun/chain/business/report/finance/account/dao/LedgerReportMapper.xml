@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.account.dao.LedgerReportMapper">
+
+	<!-- 查询条件 -->
+	<sql id="whereSql">
+		<!-- 总部/加盟店只看自己的数据 -->
+		<if test="enterpriseId != null">
+			and a.enterprise_id = #{enterpriseId}
+		</if>
+		<!-- 应付/应收数据 -->
+		<if test="accountCode != null">
+			and a.account_code = #{accountCode}
+		</if>
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(a.order_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		
+	</sql>
+
+	<select id="getLedger" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.LedgerVO">
+		select
+		b.year,
+		b.month,
+		a.id,
+		a.order_date AS orderDate,
+		a.sub_account_code AS subAccountCode,
+		a.sub_account_name AS subAccountName,
+		SUM(a.debit_amount) AS debitAmount,
+		SUM(a.credit_amount) AS creditAmount,
+		a.balance,
+		max(id) maxId,
+		min(id) minId
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date,
+		d.status
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id = #{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id,b.year,b.month
+		ORDER BY order_date,sub_account_id asc
+		<if test="start != null">
+	      limit #{start},#{pageSize}
+	    </if>
+	</select>
+
+	<select id="countLedger" resultType="java.lang.Integer">
+		select
+		count(1)
+		FROM
+		(
+		select
+		a.id
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date,
+		d.status
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id = #{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id,b.year,b.month
+		ORDER BY a.id
+		)tab
+	</select>
+	
+	<select id="getMinId" resultType="java.util.Map">
+	select balance,debit_amount debitAmount,credit_amount creditAmount from saas_finance_voucher where id=#{minId}
+	</select>
+	
+	<select id="getMaxId" resultType="java.util.Map">
+	select balance from saas_finance_voucher where id=#{maxId}
+	</select>
+
+</mapper>

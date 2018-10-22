@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.set.dao.ManageConfigMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.entity.ManageConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="supplier_code_rule" jdbcType="INTEGER" property="supplierCodeRule" />
+    <result column="goods_code_rule" jdbcType="INTEGER" property="goodsCodeRule" />
+    <result column="user_code_rule" jdbcType="INTEGER" property="userCodeRule" />
+    <result column="price_control" jdbcType="INTEGER" property="priceControl" />
+    <result column="enter_order" jdbcType="INTEGER" property="enterOrder" />
+    <result column="zero_cost_in" jdbcType="INTEGER" property="zeroCostIn" />
+    <result column="inventory_occupancy" jdbcType="INTEGER" property="inventoryOccupancy" />
+    <result column="quality_control" jdbcType="INTEGER" property="qualityControl" />
+    <result column="business_control" jdbcType="INTEGER" property="businessControl" />
+    <result column="pos_control" jdbcType="INTEGER" property="posControl" />
+    <result column="approval_control" jdbcType="INTEGER" property="approvalControl" />
+    <result column="purchaser_id" jdbcType="BIGINT" property="purchaserId" />
+    <result column="purchaser_code" jdbcType="VARCHAR" property="purchaserCode" />
+    <result column="purchaser_name" jdbcType="VARCHAR" property="purchaserName" />
+    <result column="distr_man_id" jdbcType="BIGINT" property="distrManId" />
+    <result column="distr_man_code" jdbcType="VARCHAR" property="distrManCode" />
+    <result column="distr_man_name" jdbcType="VARCHAR" property="distrManName" />
+    <result column="requester_id" jdbcType="BIGINT" property="requesterId" />
+    <result column="requester_code" jdbcType="VARCHAR" property="requesterCode" />
+    <result column="requester_name" jdbcType="VARCHAR" property="requesterName" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="receiver_code" jdbcType="VARCHAR" property="receiverCode" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="second_receiver_id" jdbcType="BIGINT" property="secondReceiverId" />
+    <result column="second_receiver_code" jdbcType="VARCHAR" property="secondReceiverCode" />
+    <result column="second_receiver_name" jdbcType="VARCHAR" property="secondReceiverName" />
+    <result column="checker_id" jdbcType="BIGINT" property="checkerId" />
+    <result column="checker_code" jdbcType="VARCHAR" property="checkerCode" />
+    <result column="checker_name" jdbcType="VARCHAR" property="checkerName" />
+    <result column="second_checker_id" jdbcType="BIGINT" property="secondCheckerId" />
+    <result column="second_checker_code" jdbcType="VARCHAR" property="secondCheckerCode" />
+    <result column="second_checker_name" jdbcType="VARCHAR" property="secondCheckerName" />
+    <result column="in_out_man_id" jdbcType="BIGINT" property="inOutManId" />
+    <result column="in_out_man_code" jdbcType="VARCHAR" property="inOutManCode" />
+    <result column="in_out_man_name" jdbcType="VARCHAR" property="inOutManName" />
+    <result column="out_checker_id" jdbcType="BIGINT" property="outCheckerId" />
+    <result column="out_checker_code" jdbcType="VARCHAR" property="outCheckerCode" />
+    <result column="out_checker_name" jdbcType="VARCHAR" property="outCheckerName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, chain_type, supplier_code_rule, goods_code_rule, user_code_rule, 
+    price_control, enter_order, zero_cost_in, inventory_occupancy, quality_control, business_control, 
+    pos_control, approval_control, purchaser_id, purchaser_code, purchaser_name, distr_man_id, 
+    distr_man_code, distr_man_name, requester_id, requester_code, requester_name, receiver_id, 
+    receiver_code, receiver_name, second_receiver_id, second_receiver_code, second_receiver_name, 
+    checker_id, checker_code, checker_name, second_checker_id, second_checker_code, second_checker_name, 
+    in_out_man_id, in_out_man_code, in_out_man_name, out_checker_id, out_checker_code, 
+    out_checker_name, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_manage_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_manage_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.ManageConfig">
+    insert into saas_manage_config (id, enterprise_id, parent_id, 
+      chain_type, supplier_code_rule, goods_code_rule, 
+      user_code_rule, price_control, enter_order, 
+      zero_cost_in, inventory_occupancy, quality_control, 
+      business_control, pos_control, approval_control, 
+      purchaser_id, purchaser_code, purchaser_name, 
+      distr_man_id, distr_man_code, distr_man_name, 
+      requester_id, requester_code, requester_name, 
+      receiver_id, receiver_code, receiver_name, 
+      second_receiver_id, second_receiver_code, second_receiver_name, 
+      checker_id, checker_code, checker_name, 
+      second_checker_id, second_checker_code, second_checker_name, 
+      in_out_man_id, in_out_man_code, in_out_man_name, 
+      out_checker_id, out_checker_code, out_checker_name, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{chainType,jdbcType=INTEGER}, #{supplierCodeRule,jdbcType=INTEGER}, #{goodsCodeRule,jdbcType=INTEGER}, 
+      #{userCodeRule,jdbcType=INTEGER}, #{priceControl,jdbcType=INTEGER}, #{enterOrder,jdbcType=INTEGER}, 
+      #{zeroCostIn,jdbcType=INTEGER}, #{inventoryOccupancy,jdbcType=INTEGER}, #{qualityControl,jdbcType=INTEGER}, 
+      #{businessControl,jdbcType=INTEGER}, #{posControl,jdbcType=INTEGER}, #{approvalControl,jdbcType=INTEGER}, 
+      #{purchaserId,jdbcType=BIGINT}, #{purchaserCode,jdbcType=VARCHAR}, #{purchaserName,jdbcType=VARCHAR}, 
+      #{distrManId,jdbcType=BIGINT}, #{distrManCode,jdbcType=VARCHAR}, #{distrManName,jdbcType=VARCHAR}, 
+      #{requesterId,jdbcType=BIGINT}, #{requesterCode,jdbcType=VARCHAR}, #{requesterName,jdbcType=VARCHAR}, 
+      #{receiverId,jdbcType=BIGINT}, #{receiverCode,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, 
+      #{secondReceiverId,jdbcType=BIGINT}, #{secondReceiverCode,jdbcType=VARCHAR}, #{secondReceiverName,jdbcType=VARCHAR}, 
+      #{checkerId,jdbcType=BIGINT}, #{checkerCode,jdbcType=VARCHAR}, #{checkerName,jdbcType=VARCHAR}, 
+      #{secondCheckerId,jdbcType=BIGINT}, #{secondCheckerCode,jdbcType=VARCHAR}, #{secondCheckerName,jdbcType=VARCHAR}, 
+      #{inOutManId,jdbcType=BIGINT}, #{inOutManCode,jdbcType=VARCHAR}, #{inOutManName,jdbcType=VARCHAR}, 
+      #{outCheckerId,jdbcType=BIGINT}, #{outCheckerCode,jdbcType=VARCHAR}, #{outCheckerName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.ManageConfig">
+    insert into saas_manage_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="chainType != null">
+        chain_type,
+      </if>
+      <if test="supplierCodeRule != null">
+        supplier_code_rule,
+      </if>
+      <if test="goodsCodeRule != null">
+        goods_code_rule,
+      </if>
+      <if test="userCodeRule != null">
+        user_code_rule,
+      </if>
+      <if test="priceControl != null">
+        price_control,
+      </if>
+      <if test="enterOrder != null">
+        enter_order,
+      </if>
+      <if test="zeroCostIn != null">
+        zero_cost_in,
+      </if>
+      <if test="inventoryOccupancy != null">
+        inventory_occupancy,
+      </if>
+      <if test="qualityControl != null">
+        quality_control,
+      </if>
+      <if test="businessControl != null">
+        business_control,
+      </if>
+      <if test="posControl != null">
+        pos_control,
+      </if>
+      <if test="approvalControl != null">
+        approval_control,
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id,
+      </if>
+      <if test="purchaserCode != null">
+        purchaser_code,
+      </if>
+      <if test="purchaserName != null">
+        purchaser_name,
+      </if>
+      <if test="distrManId != null">
+        distr_man_id,
+      </if>
+      <if test="distrManCode != null">
+        distr_man_code,
+      </if>
+      <if test="distrManName != null">
+        distr_man_name,
+      </if>
+      <if test="requesterId != null">
+        requester_id,
+      </if>
+      <if test="requesterCode != null">
+        requester_code,
+      </if>
+      <if test="requesterName != null">
+        requester_name,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="receiverCode != null">
+        receiver_code,
+      </if>
+      <if test="receiverName != null">
+        receiver_name,
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id,
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code,
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name,
+      </if>
+      <if test="checkerId != null">
+        checker_id,
+      </if>
+      <if test="checkerCode != null">
+        checker_code,
+      </if>
+      <if test="checkerName != null">
+        checker_name,
+      </if>
+      <if test="secondCheckerId != null">
+        second_checker_id,
+      </if>
+      <if test="secondCheckerCode != null">
+        second_checker_code,
+      </if>
+      <if test="secondCheckerName != null">
+        second_checker_name,
+      </if>
+      <if test="inOutManId != null">
+        in_out_man_id,
+      </if>
+      <if test="inOutManCode != null">
+        in_out_man_code,
+      </if>
+      <if test="inOutManName != null">
+        in_out_man_name,
+      </if>
+      <if test="outCheckerId != null">
+        out_checker_id,
+      </if>
+      <if test="outCheckerCode != null">
+        out_checker_code,
+      </if>
+      <if test="outCheckerName != null">
+        out_checker_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="supplierCodeRule != null">
+        #{supplierCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCodeRule != null">
+        #{goodsCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="userCodeRule != null">
+        #{userCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="priceControl != null">
+        #{priceControl,jdbcType=INTEGER},
+      </if>
+      <if test="enterOrder != null">
+        #{enterOrder,jdbcType=INTEGER},
+      </if>
+      <if test="zeroCostIn != null">
+        #{zeroCostIn,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryOccupancy != null">
+        #{inventoryOccupancy,jdbcType=INTEGER},
+      </if>
+      <if test="qualityControl != null">
+        #{qualityControl,jdbcType=INTEGER},
+      </if>
+      <if test="businessControl != null">
+        #{businessControl,jdbcType=INTEGER},
+      </if>
+      <if test="posControl != null">
+        #{posControl,jdbcType=INTEGER},
+      </if>
+      <if test="approvalControl != null">
+        #{approvalControl,jdbcType=INTEGER},
+      </if>
+      <if test="purchaserId != null">
+        #{purchaserId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaserCode != null">
+        #{purchaserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserName != null">
+        #{purchaserName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrManId != null">
+        #{distrManId,jdbcType=BIGINT},
+      </if>
+      <if test="distrManCode != null">
+        #{distrManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrManName != null">
+        #{distrManName,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterId != null">
+        #{requesterId,jdbcType=BIGINT},
+      </if>
+      <if test="requesterCode != null">
+        #{requesterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterName != null">
+        #{requesterName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null">
+        #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerCode != null">
+        #{checkerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerName != null">
+        #{checkerName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckerId != null">
+        #{secondCheckerId,jdbcType=BIGINT},
+      </if>
+      <if test="secondCheckerCode != null">
+        #{secondCheckerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckerName != null">
+        #{secondCheckerName,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutManId != null">
+        #{inOutManId,jdbcType=BIGINT},
+      </if>
+      <if test="inOutManCode != null">
+        #{inOutManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutManName != null">
+        #{inOutManName,jdbcType=VARCHAR},
+      </if>
+      <if test="outCheckerId != null">
+        #{outCheckerId,jdbcType=BIGINT},
+      </if>
+      <if test="outCheckerCode != null">
+        #{outCheckerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outCheckerName != null">
+        #{outCheckerName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.ManageConfig">
+    update saas_manage_config
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        chain_type = #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="supplierCodeRule != null">
+        supplier_code_rule = #{supplierCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCodeRule != null">
+        goods_code_rule = #{goodsCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="userCodeRule != null">
+        user_code_rule = #{userCodeRule,jdbcType=INTEGER},
+      </if>
+      <if test="priceControl != null">
+        price_control = #{priceControl,jdbcType=INTEGER},
+      </if>
+      <if test="enterOrder != null">
+        enter_order = #{enterOrder,jdbcType=INTEGER},
+      </if>
+      <if test="zeroCostIn != null">
+        zero_cost_in = #{zeroCostIn,jdbcType=INTEGER},
+      </if>
+      <if test="inventoryOccupancy != null">
+        inventory_occupancy = #{inventoryOccupancy,jdbcType=INTEGER},
+      </if>
+      <if test="qualityControl != null">
+        quality_control = #{qualityControl,jdbcType=INTEGER},
+      </if>
+      <if test="businessControl != null">
+        business_control = #{businessControl,jdbcType=INTEGER},
+      </if>
+      <if test="posControl != null">
+        pos_control = #{posControl,jdbcType=INTEGER},
+      </if>
+      <if test="approvalControl != null">
+        approval_control = #{approvalControl,jdbcType=INTEGER},
+      </if>
+      <if test="purchaserId != null">
+        purchaser_id = #{purchaserId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaserCode != null">
+        purchaser_code = #{purchaserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaserName != null">
+        purchaser_name = #{purchaserName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrManId != null">
+        distr_man_id = #{distrManId,jdbcType=BIGINT},
+      </if>
+      <if test="distrManCode != null">
+        distr_man_code = #{distrManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrManName != null">
+        distr_man_name = #{distrManName,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterId != null">
+        requester_id = #{requesterId,jdbcType=BIGINT},
+      </if>
+      <if test="requesterCode != null">
+        requester_code = #{requesterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterName != null">
+        requester_name = #{requesterName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerId != null">
+        checker_id = #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerCode != null">
+        checker_code = #{checkerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="checkerName != null">
+        checker_name = #{checkerName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckerId != null">
+        second_checker_id = #{secondCheckerId,jdbcType=BIGINT},
+      </if>
+      <if test="secondCheckerCode != null">
+        second_checker_code = #{secondCheckerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondCheckerName != null">
+        second_checker_name = #{secondCheckerName,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutManId != null">
+        in_out_man_id = #{inOutManId,jdbcType=BIGINT},
+      </if>
+      <if test="inOutManCode != null">
+        in_out_man_code = #{inOutManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inOutManName != null">
+        in_out_man_name = #{inOutManName,jdbcType=VARCHAR},
+      </if>
+      <if test="outCheckerId != null">
+        out_checker_id = #{outCheckerId,jdbcType=BIGINT},
+      </if>
+      <if test="outCheckerCode != null">
+        out_checker_code = #{outCheckerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outCheckerName != null">
+        out_checker_name = #{outCheckerName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.ManageConfig">
+    update saas_manage_config
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      chain_type = #{chainType,jdbcType=INTEGER},
+      supplier_code_rule = #{supplierCodeRule,jdbcType=INTEGER},
+      goods_code_rule = #{goodsCodeRule,jdbcType=INTEGER},
+      user_code_rule = #{userCodeRule,jdbcType=INTEGER},
+      price_control = #{priceControl,jdbcType=INTEGER},
+      enter_order = #{enterOrder,jdbcType=INTEGER},
+      zero_cost_in = #{zeroCostIn,jdbcType=INTEGER},
+      inventory_occupancy = #{inventoryOccupancy,jdbcType=INTEGER},
+      quality_control = #{qualityControl,jdbcType=INTEGER},
+      business_control = #{businessControl,jdbcType=INTEGER},
+      pos_control = #{posControl,jdbcType=INTEGER},
+      approval_control = #{approvalControl,jdbcType=INTEGER},
+      purchaser_id = #{purchaserId,jdbcType=BIGINT},
+      purchaser_code = #{purchaserCode,jdbcType=VARCHAR},
+      purchaser_name = #{purchaserName,jdbcType=VARCHAR},
+      distr_man_id = #{distrManId,jdbcType=BIGINT},
+      distr_man_code = #{distrManCode,jdbcType=VARCHAR},
+      distr_man_name = #{distrManName,jdbcType=VARCHAR},
+      requester_id = #{requesterId,jdbcType=BIGINT},
+      requester_code = #{requesterCode,jdbcType=VARCHAR},
+      requester_name = #{requesterName,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      checker_id = #{checkerId,jdbcType=BIGINT},
+      checker_code = #{checkerCode,jdbcType=VARCHAR},
+      checker_name = #{checkerName,jdbcType=VARCHAR},
+      second_checker_id = #{secondCheckerId,jdbcType=BIGINT},
+      second_checker_code = #{secondCheckerCode,jdbcType=VARCHAR},
+      second_checker_name = #{secondCheckerName,jdbcType=VARCHAR},
+      in_out_man_id = #{inOutManId,jdbcType=BIGINT},
+      in_out_man_code = #{inOutManCode,jdbcType=VARCHAR},
+      in_out_man_name = #{inOutManName,jdbcType=VARCHAR},
+      out_checker_id = #{outCheckerId,jdbcType=BIGINT},
+      out_checker_code = #{outCheckerCode,jdbcType=VARCHAR},
+      out_checker_name = #{outCheckerName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectManageConfigByEnterpriseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_manage_config
+    where enterprise_id = #{enterpriseId}
+  </select>  
+  <select id="selectByCurrentUser" resultMap="BaseResultMap">
+        select id,enterprise_id,parent_id,chain_type,supplier_code_rule,goods_code_rule,user_code_rule,
+		price_control,enter_order,zero_cost_in,inventory_occupancy,
+		quality_control,business_control,pos_control,approval_control,
+		purchaser_id,purchaser_code,purchaser_name,
+		distr_man_id,distr_man_code,distr_man_name,
+		requester_id,requester_code,requester_name,
+		receiver_id,receiver_code,receiver_name,
+		second_receiver_id,second_receiver_code,second_receiver_name,
+		checker_id,checker_code,checker_name,
+		second_checker_id,second_checker_code,second_checker_name,
+		in_out_man_id,in_out_man_code,in_out_man_name,
+		out_checker_id,out_checker_code,out_checker_name from saas_manage_config
+		where chain_type = #{chainType} 
+		and parent_id = #{parentId} 
+		and enterprise_id = #{enterpriseId}
+  </select>
+    <update id="updateDivisionByConfig">
+      /**
+        修改当前总部所属分部的基础配置信息
+       */
+      update saas_manage_config
+      <set>
+        <if test="userCodeRule != null">
+          user_code_rule = #{userCodeRule,jdbcType=INTEGER},
+        </if>
+        <if test="priceControl != null">
+          price_control = #{priceControl,jdbcType=INTEGER},
+        </if>
+        <if test="enterOrder != null">
+          enter_order = #{enterOrder,jdbcType=INTEGER},
+        </if>
+        <if test="zeroCostIn != null">
+          zero_cost_in = #{zeroCostIn,jdbcType=INTEGER},
+        </if>
+        <if test="inventoryOccupancy != null">
+          inventory_occupancy = #{inventoryOccupancy,jdbcType=INTEGER},
+        </if>
+        <if test="qualityControl != null">
+          quality_control = #{qualityControl,jdbcType=INTEGER},
+        </if>
+        <if test="businessControl != null">
+          business_control = #{businessControl,jdbcType=INTEGER},
+        </if>
+        <if test="posControl != null">
+          pos_control = #{posControl,jdbcType=INTEGER},
+        </if>
+        <if test="approvalControl != null">
+          approval_control = #{approvalControl,jdbcType=INTEGER},
+        </if>
+        <if test="modifierId != null">
+          modifier_id = #{modifierId,jdbcType=BIGINT},
+        </if>
+        <if test="modifierCode != null">
+          modifier_code = #{modifierCode,jdbcType=VARCHAR},
+        </if>
+        <if test="modifierName != null">
+          modifier_name = #{modifierName,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null">
+          update_time = #{updateTime,jdbcType=TIMESTAMP},
+        </if>
+      </set>
+      where parent_id = #{id,jdbcType=BIGINT}
+    </update>
+    <!--根据企业id查询管理配置信息-->
+  <select id="getMangeConfigByEPId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" /> FROM saas_manage_config WHERE
+    enterprise_id = #{enterpriseId}
+  </select>
+  
+  <select id="judgeCodeStyle" resultType="java.lang.Integer">
+  	select supplier_code_rule from saas_manage_config
+  	where enterprise_id = #{arg0}
+  </select>
+</mapper>

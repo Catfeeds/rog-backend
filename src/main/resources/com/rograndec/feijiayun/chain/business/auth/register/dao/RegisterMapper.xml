@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.auth.register.dao.RegisterMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.auth.register.entity.Register">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="login_account" jdbcType="VARCHAR" property="loginAccount" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="password_confirm" jdbcType="VARCHAR" property="passwordConfirm" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="msg_validate_code" jdbcType="VARCHAR" property="msgValidateCode" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_id" jdbcType="INTEGER" property="cityId" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_id" jdbcType="INTEGER" property="areaId" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="warehouse_address" jdbcType="VARCHAR" property="warehouseAddress" />
+    <result column="charge_man" jdbcType="VARCHAR" property="chargeMan" />
+    <result column="legal_man" jdbcType="VARCHAR" property="legalMan" />
+    <result column="quality_officer" jdbcType="VARCHAR" property="qualityOfficer" />
+    <result column="business_file_id" jdbcType="BIGINT" property="businessFileId" />
+    <result column="business_file_code" jdbcType="VARCHAR" property="businessFileCode" />
+    <result column="business_valid_until" jdbcType="TIMESTAMP" property="businessValidUntil" />
+    <result column="permit_file_id" jdbcType="BIGINT" property="permitFileId" />
+    <result column="permit_file_code" jdbcType="VARCHAR" property="permitFileCode" />
+    <result column="permit_valid_until" jdbcType="TIMESTAMP" property="permitValidUntil" />
+    <result column="quality_file_id" jdbcType="BIGINT" property="qualityFileId" />
+    <result column="quality_file_code" jdbcType="VARCHAR" property="qualityFileCode" />
+    <result column="quality_valid_until" jdbcType="TIMESTAMP" property="qualityValidUntil" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, login_account, user_name, password, password_confirm, mobile_phone, msg_validate_code, 
+    email, enterprise_name, province_id, province_name, city_id, city_name, area_id, 
+    area_name, address, warehouse_address, charge_man, legal_man, quality_officer, business_file_id, 
+    business_file_code, business_valid_until, permit_file_id, permit_file_code, permit_valid_until, 
+    quality_file_id, quality_file_code, quality_valid_until,user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_register
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_register
+    where user_id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByLoginAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_register
+    where login_account = #{loginAccount,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectNotBindEnterprise" resultType="com.rograndec.feijiayun.chain.business.auth.register.vo.RegisterEnterpriseNotBindVO">
+    SELECT
+    su.id userId,
+    su.name userName,
+    su.rgt_user_id rgtUserId,
+    se.id enterpriseId,
+    se.name enterpriseName,
+    se.rgt_enterprise_id rgtEnterpriseId,
+    se.create_time enterpriseCreateTime,
+    su.create_time userCreateTime,
+      sr.login_account loginAccount
+    FROM saas_register sr,saas_enterprise se,saas_user su
+    where sr.user_id=su.id AND su.enterprise_id=se.id  AND se.rgt_enterprise_id IS NULL ORDER BY se.rgt_enterprise_id,se.update_time desc
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_register
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.auth.register.entity.Register">
+    insert into saas_register (id, login_account, user_name, 
+      password, password_confirm, mobile_phone, 
+      msg_validate_code, email, enterprise_name, 
+      province_id, province_name, city_id, 
+      city_name, area_id, area_name, 
+      address, warehouse_address, charge_man, 
+      legal_man, quality_officer, business_file_id, 
+      business_file_code, business_valid_until, 
+      permit_file_id, permit_file_code, permit_valid_until, 
+      quality_file_id, quality_file_code, quality_valid_until,user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{loginAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{passwordConfirm,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{msgValidateCode,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{enterpriseName,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER},
+      #{cityName,jdbcType=VARCHAR}, #{areaId,jdbcType=INTEGER}, #{areaName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{warehouseAddress,jdbcType=VARCHAR}, #{chargeMan,jdbcType=VARCHAR}, 
+      #{legalMan,jdbcType=VARCHAR}, #{qualityOfficer,jdbcType=VARCHAR}, #{businessFileId,jdbcType=BIGINT}, 
+      #{businessFileCode,jdbcType=VARCHAR}, #{businessValidUntil,jdbcType=TIMESTAMP}, 
+      #{permitFileId,jdbcType=BIGINT}, #{permitFileCode,jdbcType=VARCHAR}, #{permitValidUntil,jdbcType=TIMESTAMP}, 
+      #{qualityFileId,jdbcType=BIGINT}, #{qualityFileCode,jdbcType=VARCHAR}, #{qualityValidUntil,jdbcType=TIMESTAMP},(#{userId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.auth.register.entity.Register">
+    insert into saas_register
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="loginAccount != null">
+        login_account,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="msgValidateCode != null">
+        msg_validate_code,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name,
+      </if>
+      <if test="provinceId != null">
+        province_id,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="warehouseAddress != null">
+        warehouse_address,
+      </if>
+      <if test="chargeMan != null">
+        charge_man,
+      </if>
+      <if test="legalMan != null">
+        legal_man,
+      </if>
+      <if test="qualityOfficer != null">
+        quality_officer,
+      </if>
+      <if test="businessFileId != null">
+        business_file_id,
+      </if>
+      <if test="businessFileCode != null">
+        business_file_code,
+      </if>
+      <if test="businessValidUntil != null">
+        business_valid_until,
+      </if>
+      <if test="permitFileId != null">
+        permit_file_id,
+      </if>
+      <if test="permitFileCode != null">
+        permit_file_code,
+      </if>
+      <if test="permitValidUntil != null">
+        permit_valid_until,
+      </if>
+      <if test="qualityFileId != null">
+        quality_file_id,
+      </if>
+      <if test="qualityFileCode != null">
+        quality_file_code,
+      </if>
+      <if test="qualityValidUntil != null">
+        quality_valid_until,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginAccount != null">
+        #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="msgValidateCode != null">
+        #{msgValidateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAddress != null">
+        #{warehouseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null">
+        #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMan != null">
+        #{legalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficer != null">
+        #{qualityOfficer,jdbcType=VARCHAR},
+      </if>
+      <if test="businessFileId != null">
+        #{businessFileId,jdbcType=BIGINT},
+      </if>
+      <if test="businessFileCode != null">
+        #{businessFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessValidUntil != null">
+        #{businessValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permitFileId != null">
+        #{permitFileId,jdbcType=BIGINT},
+      </if>
+      <if test="permitFileCode != null">
+        #{permitFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permitValidUntil != null">
+        #{permitValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityFileId != null">
+        #{qualityFileId,jdbcType=BIGINT},
+      </if>
+      <if test="qualityFileCode != null">
+        #{qualityFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityValidUntil != null">
+        #{qualityValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.auth.register.entity.Register">
+    update saas_register
+    <set>
+      <if test="loginAccount != null">
+        login_account = #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="msgValidateCode != null">
+        msg_validate_code = #{msgValidateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        area_id = #{areaId,jdbcType=INTEGER},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAddress != null">
+        warehouse_address = #{warehouseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMan != null">
+        charge_man = #{chargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMan != null">
+        legal_man = #{legalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOfficer != null">
+        quality_officer = #{qualityOfficer,jdbcType=VARCHAR},
+      </if>
+      <if test="businessFileId != null">
+        business_file_id = #{businessFileId,jdbcType=BIGINT},
+      </if>
+      <if test="businessFileCode != null">
+        business_file_code = #{businessFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessValidUntil != null">
+        business_valid_until = #{businessValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permitFileId != null">
+        permit_file_id = #{permitFileId,jdbcType=BIGINT},
+      </if>
+      <if test="permitFileCode != null">
+        permit_file_code = #{permitFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="permitValidUntil != null">
+        permit_valid_until = #{permitValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityFileId != null">
+        quality_file_id = #{qualityFileId,jdbcType=BIGINT},
+      </if>
+      <if test="qualityFileCode != null">
+        quality_file_code = #{qualityFileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityValidUntil != null">
+        quality_valid_until = #{qualityValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.auth.register.entity.Register">
+    update saas_register
+    set login_account = #{loginAccount,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      msg_validate_code = #{msgValidateCode,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=INTEGER},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=INTEGER},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      warehouse_address = #{warehouseAddress,jdbcType=VARCHAR},
+      charge_man = #{chargeMan,jdbcType=VARCHAR},
+      legal_man = #{legalMan,jdbcType=VARCHAR},
+      quality_officer = #{qualityOfficer,jdbcType=VARCHAR},
+      business_file_id = #{businessFileId,jdbcType=BIGINT},
+      business_file_code = #{businessFileCode,jdbcType=VARCHAR},
+      business_valid_until = #{businessValidUntil,jdbcType=TIMESTAMP},
+      permit_file_id = #{permitFileId,jdbcType=BIGINT},
+      permit_file_code = #{permitFileCode,jdbcType=VARCHAR},
+      permit_valid_until = #{permitValidUntil,jdbcType=TIMESTAMP},
+      quality_file_id = #{qualityFileId,jdbcType=BIGINT},
+      quality_file_code = #{qualityFileCode,jdbcType=VARCHAR},
+      quality_valid_until = #{qualityValidUntil,jdbcType=TIMESTAMP},
+       user_id = #{userId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache />
+</mapper>

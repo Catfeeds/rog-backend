@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.dao.PrepayInvoiceAccountMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceAccount">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_dtl_id" jdbcType="BIGINT" property="invoiceDtlId" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="base_dtl_id" jdbcType="BIGINT" property="baseDtlId" />
+    <result column="base_shelf_dtl_id" jdbcType="BIGINT" property="baseShelfDtlId" />
+    <result column="account_quantity" jdbcType="DECIMAL" property="accountQuantity" />
+    <result column="account_amount" jdbcType="DECIMAL" property="accountAmount" />
+    <result column="account_notax_amount" jdbcType="DECIMAL" property="accountNotaxAmount" />
+    <result column="account_tax_amount" jdbcType="DECIMAL" property="accountTaxAmount" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="diff_amount" jdbcType="DECIMAL" property="diffAmount" />
+    <result column="diff_notax_amount" jdbcType="DECIMAL" property="diffNotaxAmount" />
+    <result column="diff_tax_amount" jdbcType="DECIMAL" property="diffTaxAmount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, invoice_id, invoice_dtl_id, base_order_id, base_order_code, 
+    base_order_type, base_order_date, base_dtl_id, base_shelf_dtl_id, account_quantity, 
+    account_amount, account_notax_amount, account_tax_amount,  line_num, status, remark, creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code, modifier_name, update_time,diff_amount, diff_notax_amount,
+    diff_tax_amount
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_prepay_invoice_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByInvoiceId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_prepay_invoice_account
+    where invoice_id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_prepay_invoice_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceAccount" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_prepay_invoice_account (id, enterprise_id, parent_id, 
+      invoice_id, invoice_dtl_id, base_order_id, 
+      base_order_code, base_order_type, base_order_date, 
+      base_dtl_id, base_shelf_dtl_id, account_quantity, 
+      account_amount, account_notax_amount, account_tax_amount, 
+      line_num, status, remark,
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time, diff_amount, diff_notax_amount, diff_tax_amount)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{invoiceId,jdbcType=BIGINT}, #{invoiceDtlId,jdbcType=BIGINT}, #{baseOrderId,jdbcType=BIGINT}, 
+      #{baseOrderCode,jdbcType=VARCHAR}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderDate,jdbcType=TIMESTAMP}, 
+      #{baseDtlId,jdbcType=BIGINT}, #{baseShelfDtlId,jdbcType=BIGINT}, #{accountQuantity,jdbcType=DECIMAL}, 
+      #{accountAmount,jdbcType=DECIMAL}, #{accountNotaxAmount,jdbcType=DECIMAL}, #{accountTaxAmount,jdbcType=DECIMAL}, 
+      #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},#{diffAmount,jdbcType=DECIMAL}, #{diffNotaxAmount,jdbcType=DECIMAL}, #{diffTaxAmount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceAccount" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_prepay_invoice_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceDtlId != null">
+        invoice_dtl_id,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="baseDtlId != null">
+        base_dtl_id,
+      </if>
+      <if test="baseShelfDtlId != null">
+        base_shelf_dtl_id,
+      </if>
+      <if test="accountQuantity != null">
+        account_quantity,
+      </if>
+      <if test="accountAmount != null">
+        account_amount,
+      </if>
+      <if test="accountNotaxAmount != null">
+        account_notax_amount,
+      </if>
+      <if test="accountTaxAmount != null">
+        account_tax_amount,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="diffAmount != null">
+        diff_amount,
+      </if>
+      <if test="diffNotaxAmount != null">
+        diff_notax_amount,
+      </if>
+      <if test="diffTaxAmount != null">
+        diff_tax_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceDtlId != null">
+        #{invoiceDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseDtlId != null">
+        #{baseDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="baseShelfDtlId != null">
+        #{baseShelfDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="accountQuantity != null">
+        #{accountQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="accountAmount != null">
+        #{accountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountNotaxAmount != null">
+        #{accountNotaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountTaxAmount != null">
+        #{accountTaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diffAmount != null">
+        #{diffAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmount != null">
+        #{diffNotaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmount != null">
+        #{diffTaxAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceAccount">
+    update saas_prepay_invoice_account
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceDtlId != null">
+        invoice_dtl_id = #{invoiceDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseDtlId != null">
+        base_dtl_id = #{baseDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="baseShelfDtlId != null">
+        base_shelf_dtl_id = #{baseShelfDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="accountQuantity != null">
+        account_quantity = #{accountQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="accountAmount != null">
+        account_amount = #{accountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountNotaxAmount != null">
+        account_notax_amount = #{accountNotaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountTaxAmount != null">
+        account_tax_amount = #{accountTaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diffAmount != null">
+        diff_amount = #{diffAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmount != null">
+        diff_notax_amount = #{diffNotaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmount != null">
+        diff_tax_amount = #{diffTaxAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceAccount">
+    update saas_prepay_invoice_account
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_dtl_id = #{invoiceDtlId,jdbcType=BIGINT},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      base_dtl_id = #{baseDtlId,jdbcType=BIGINT},
+      base_shelf_dtl_id = #{baseShelfDtlId,jdbcType=BIGINT},
+      account_quantity = #{accountQuantity,jdbcType=DECIMAL},
+      account_amount = #{accountAmount,jdbcType=DECIMAL},
+      account_notax_amount = #{accountNotaxAmount,jdbcType=DECIMAL},
+      account_tax_amount = #{accountTaxAmount,jdbcType=DECIMAL},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+       diff_amount = #{diffAmount,jdbcType=DECIMAL},
+      diff_notax_amount = #{diffNotaxAmount,jdbcType=DECIMAL},
+      diff_tax_amount = #{diffTaxAmount,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.dao.RetailPaymentDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.entity.RetailPaymentDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="doc_id" jdbcType="BIGINT" property="docId" />
+    <result column="shift_id" jdbcType="BIGINT" property="shiftId" />
+    <result column="shift_man_id" jdbcType="BIGINT" property="shiftManId" />
+    <result column="shift_man_code" jdbcType="VARCHAR" property="shiftManCode" />
+    <result column="shift_man_name" jdbcType="VARCHAR" property="shiftManName" />
+    <result column="payable_cash" jdbcType="DECIMAL" property="payableCash" />
+    <result column="cash" jdbcType="DECIMAL" property="cash" />
+    <result column="diff_cash" jdbcType="DECIMAL" property="diffCash" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="RetailPaymentDetailVO" type="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.vo.RetailPaymentDetailVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="doc_id" jdbcType="BIGINT" property="docId" />
+    <result column="shift_id" jdbcType="BIGINT" property="shiftId" />
+    <result column="shift_man_id" jdbcType="BIGINT" property="shiftManId" />
+    <result column="shift_man_code" jdbcType="VARCHAR" property="shiftManCode" />
+    <result column="shift_man_name" jdbcType="VARCHAR" property="shiftManName" />
+    <result column="payable_cash" jdbcType="DECIMAL" property="payableCash" />
+    <result column="cash" jdbcType="DECIMAL" property="cash" />
+    <result column="diff_cash" jdbcType="DECIMAL" property="diffCash" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, item_id, doc_id, shift_id,
+    shift_man_id, shift_man_code, shift_man_name, payable_cash, cash, diff_cash,
+    line_num, status, remark, creater_id, creater_code,
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_retail_payment_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectRetailPaymentDetailVOByItemId" parameterType="java.lang.Long" resultMap="RetailPaymentDetailVO">
+    select
+    <include refid="Base_Column_List" />
+    from saas_retail_payment_detail
+    where item_id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByItemId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_retail_payment_detail
+    where item_id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_retail_payment_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.entity.RetailPaymentDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_retail_payment_detail (id, enterprise_id, parent_id, 
+      item_id, doc_id, shift_id, 
+      shift_man_id, shift_man_code, shift_man_name,
+      payable_cash, cash, diff_cash, 
+      line_num, status, remark,
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{itemId,jdbcType=BIGINT}, #{docId,jdbcType=BIGINT}, #{shiftId,jdbcType=BIGINT}, 
+      #{shiftManId,jdbcType=BIGINT}, #{shiftManCode,jdbcType=VARCHAR}, #{shiftManName,jdbcType=VARCHAR},
+      #{payableCash,jdbcType=DECIMAL}, #{cash,jdbcType=DECIMAL}, #{diffCash,jdbcType=DECIMAL}, 
+      #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.entity.RetailPaymentDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_retail_payment_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="docId != null">
+        doc_id,
+      </if>
+      <if test="shiftId != null">
+        shift_id,
+      </if>
+      <if test="shiftManId != null">
+        shift_man_id,
+      </if>
+      <if test="shiftManCode != null">
+        shift_man_code,
+      </if>
+      <if test="shiftManName != null">
+        shift_man_name,
+      </if>
+      <if test="payableCash != null">
+        payable_cash,
+      </if>
+      <if test="cash != null">
+        cash,
+      </if>
+      <if test="diffCash != null">
+        diff_cash,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="docId != null">
+        #{docId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftId != null">
+        #{shiftId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftManId != null">
+        #{shiftManId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftManCode != null">
+        #{shiftManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftManName != null">
+        #{shiftManName,jdbcType=VARCHAR},
+      </if>
+      <if test="payableCash != null">
+        #{payableCash,jdbcType=DECIMAL},
+      </if>
+      <if test="cash != null">
+        #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="diffCash != null">
+        #{diffCash,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.entity.RetailPaymentDetail">
+    update saas_retail_payment_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="docId != null">
+        doc_id = #{docId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftId != null">
+        shift_id = #{shiftId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftManId != null">
+        shift_man_id = #{shiftManId,jdbcType=BIGINT},
+      </if>
+      <if test="shiftManCode != null">
+        shift_man_code = #{shiftManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftManName != null">
+        shift_man_name = #{shiftManName,jdbcType=VARCHAR},
+      </if>
+      <if test="payableCash != null">
+        payable_cash = #{payableCash,jdbcType=DECIMAL},
+      </if>
+      <if test="cash != null">
+        cash = #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="diffCash != null">
+        diff_cash = #{diffCash,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateStatus">
+    UPDATE saas_retail_payment_detail set status = #{status} where item_id = #{itemId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.shouldpayment.retailpayment.entity.RetailPaymentDetail">
+    update saas_retail_payment_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      item_id = #{itemId,jdbcType=BIGINT},
+      doc_id = #{docId,jdbcType=BIGINT},
+      shift_id = #{shiftId,jdbcType=BIGINT},
+      shift_man_id = #{shiftManId,jdbcType=BIGINT},
+      shift_man_code = #{shiftManCode,jdbcType=VARCHAR},
+      shift_man_name = #{shiftManName,jdbcType=VARCHAR},
+      payable_cash = #{payableCash,jdbcType=DECIMAL},
+      cash = #{cash,jdbcType=DECIMAL},
+      diff_cash = #{diffCash,jdbcType=DECIMAL},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

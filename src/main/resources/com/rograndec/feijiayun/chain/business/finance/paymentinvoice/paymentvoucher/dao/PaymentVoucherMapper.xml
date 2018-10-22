@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.dao.PaymentVoucherMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.entity.PaymentVoucher">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="post_date" jdbcType="TIMESTAMP" property="postDate" />
+    <result column="post_man_id" jdbcType="BIGINT" property="postManId" />
+    <result column="post_man_code" jdbcType="VARCHAR" property="postManCode" />
+    <result column="post_man_name" jdbcType="VARCHAR" property="postManName" />
+    <result column="finance_account_type" jdbcType="INTEGER" property="financeAccountType"/>
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="clear_amount_total" jdbcType="DECIMAL" property="clearAmountTotal" />
+    <result column="unclear_amount_total" jdbcType="DECIMAL" property="unclearAmountTotal" />
+    <result column="diff_amount_total" jdbcType="DECIMAL" property="diffAmountTotal" />
+    <result column="diff_notax_amount_total" jdbcType="DECIMAL" property="diffNotaxAmountTotal" />
+    <result column="diff_tax_amount_total" jdbcType="DECIMAL" property="diffTaxAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap_List" type="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.PaymentVoucherListVO" extends="BaseResultMap">
+
+  </resultMap>
+
+  <resultMap id="BaseResultMap_Detail" type="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.PaymentVoucherVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="post_date" jdbcType="TIMESTAMP" property="postDate" />
+    <result column="post_man_id" jdbcType="BIGINT" property="postManId" />
+    <result column="post_man_code" jdbcType="VARCHAR" property="postManCode" />
+    <result column="post_man_name" jdbcType="VARCHAR" property="postManName" />
+    <result column="finance_account_type" jdbcType="INTEGER" property="financeAccountType" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="supplier_code" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="diff_amount_total" jdbcType="DECIMAL" property="diffAmountTotal" />
+    <result column="diff_notax_amount_total" jdbcType="DECIMAL" property="diffNotaxAmountTotal" />
+    <result column="diff_tax_amount_total" jdbcType="DECIMAL" property="diffTaxAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+
+    <collection property="paymentVoucherDetailVOList" ofType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.PaymentVoucherDetailVO">
+      <id column="dId" jdbcType="BIGINT" property="id" />
+      <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+      <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="voucher_id" jdbcType="BIGINT" property="voucherId" />
+      <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+      <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+      <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+      <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+      <result column="base_dtl_id" jdbcType="BIGINT" property="baseDtlId" />
+      <result column="base_shelf_dtl_id" jdbcType="BIGINT" property="baseShelfDtlId" />
+      <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+      <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+      <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+      <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+      <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+      <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+      <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+      <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+      <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+      <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+      <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+      <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+      <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+      <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+      <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+      <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+      <result column="amount" jdbcType="DECIMAL" property="amount" />
+      <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+      <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+      <result column="notax_price" jdbcType="DECIMAL" property="notaxPrice" />
+      <result column="notax_amount" jdbcType="DECIMAL" property="notaxAmount" />
+      <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+      <result column="diff_amount" jdbcType="DECIMAL" property="diffAmount" />
+      <result column="diff_notax_amount" jdbcType="DECIMAL" property="diffNotaxAmount" />
+      <result column="diff_tax_amount" jdbcType="DECIMAL" property="diffTaxAmount" />
+      <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+      <result column="status" jdbcType="INTEGER" property="status" />
+      <result column="detailRemark" jdbcType="VARCHAR" property="remark" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, order_type, post_date, post_man_id, post_man_code,
+    post_man_name, finance_account_type, supplier_id, supplier_code, supplier_name, quantity_total, varieties_quantity,
+    amount_total, notax_amount_total, tax_amount_total, clear_amount_total, unclear_amount_total, 
+    diff_amount_total, diff_notax_amount_total, diff_tax_amount_total, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+
+  <sql id="Base_Column_List_1">
+    id, enterprise_id, parent_id, code, order_type, post_date, post_man_id, post_man_code,
+    post_man_name, supplier_id, supplier_code, supplier_name, quantity_total,
+    amount_total, notax_amount_total, tax_amount_total,
+   status, remark
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_payment_voucher
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_payment_voucher
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.entity.PaymentVoucher" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_payment_voucher (id, enterprise_id, parent_id, 
+      code, order_type, post_date, 
+      post_man_id, post_man_code, post_man_name, finance_account_type,
+      supplier_id, supplier_code, supplier_name, 
+      quantity_total, varieties_quantity, amount_total, 
+      notax_amount_total, tax_amount_total, clear_amount_total, 
+      unclear_amount_total, diff_amount_total, diff_notax_amount_total, 
+      diff_tax_amount_total, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, #{postDate,jdbcType=TIMESTAMP}, 
+      #{postManId,jdbcType=BIGINT}, #{postManCode,jdbcType=VARCHAR}, #{postManName,jdbcType=VARCHAR}, #{financeAccountType,jdbcType=INTEGER},
+      #{supplierId,jdbcType=BIGINT}, #{supplierCode,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{amountTotal,jdbcType=DECIMAL}, 
+      #{notaxAmountTotal,jdbcType=DECIMAL}, #{taxAmountTotal,jdbcType=DECIMAL}, #{clearAmountTotal,jdbcType=DECIMAL}, 
+      #{unclearAmountTotal,jdbcType=DECIMAL}, #{diffAmountTotal,jdbcType=DECIMAL}, #{diffNotaxAmountTotal,jdbcType=DECIMAL}, 
+      #{diffTaxAmountTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.entity.PaymentVoucher" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_payment_voucher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="postDate != null">
+        post_date,
+      </if>
+      <if test="postManId != null">
+        post_man_id,
+      </if>
+      <if test="postManCode != null">
+        post_man_code,
+      </if>
+      <if test="postManName != null">
+        post_man_name,
+      </if>
+      <if test="financeAccountType != null">
+        finance_account_type,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="supplierCode != null">
+        supplier_code,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="clearAmountTotal != null">
+        clear_amount_total,
+      </if>
+      <if test="unclearAmountTotal != null">
+        unclear_amount_total,
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total,
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        diff_notax_amount_total,
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        diff_tax_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="postDate != null">
+        #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postManId != null">
+        #{postManId,jdbcType=BIGINT},
+      </if>
+      <if test="postManCode != null">
+        #{postManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postManName != null">
+        #{postManName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountType != null">
+        #{financeAccountType,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmountTotal != null">
+        #{clearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearAmountTotal != null">
+        #{unclearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.entity.PaymentVoucher">
+    update saas_payment_voucher
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="postDate != null">
+        post_date = #{postDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postManId != null">
+        post_man_id = #{postManId,jdbcType=BIGINT},
+      </if>
+      <if test="postManCode != null">
+        post_man_code = #{postManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postManName != null">
+        post_man_name = #{postManName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountType != null">
+        finance_account_type = #{financeAccountType},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="supplierCode != null">
+        supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmountTotal != null">
+        clear_amount_total = #{clearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearAmountTotal != null">
+        unclear_amount_total = #{unclearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmountTotal != null">
+        diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffNotaxAmountTotal != null">
+        diff_notax_amount_total = #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="diffTaxAmountTotal != null">
+        diff_tax_amount_total = #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.entity.PaymentVoucher">
+    update saas_payment_voucher
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      post_date = #{postDate,jdbcType=TIMESTAMP},
+      post_man_id = #{postManId,jdbcType=BIGINT},
+      post_man_code = #{postManCode,jdbcType=VARCHAR},
+      post_man_name = #{postManName,jdbcType=VARCHAR},
+      finance_account_type = #{financeAccountType},
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      supplier_code = #{supplierCode,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      clear_amount_total = #{clearAmountTotal,jdbcType=DECIMAL},
+      unclear_amount_total = #{unclearAmountTotal,jdbcType=DECIMAL},
+      diff_amount_total = #{diffAmountTotal,jdbcType=DECIMAL},
+      diff_notax_amount_total = #{diffNotaxAmountTotal,jdbcType=DECIMAL},
+      diff_tax_amount_total = #{diffTaxAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectWithUnclear"
+          resultType="com.rograndec.feijiayun.chain.business.finance.receivablepayment.receivable.vo.ReceivableDocumentsPageVO">
+    SELECT post_date as baseOrderDate,
+    id as baseOrderId,
+    code as baseOrderCode,
+    order_type as baseOrderType,
+    amount_total as amount,
+    clear_amount_total as clearAmount,
+    unclear_amount_total as unclearAmount
+    from saas_payment_voucher
+    WHERE enterprise_id = #{enterpriseId}
+    <if test="list != null">
+      and status IN
+      <foreach collection="list" index="index" item="item" open="("
+               separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="supplier != null">
+      AND supplier_id = #{supplier}
+    </if>
+    <if test="startDate != null and endDate != null">
+      AND post_date BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by post_date desc,code desc
+      </otherwise>
+    </choose>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectTotalRecord" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    from saas_payment_voucher
+    WHERE enterprise_id = #{enterpriseId}
+    <if test="list != null">
+      and status IN
+      <foreach collection="list" index="index" item="item" open="("
+               separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="supplier != null">
+      AND supplier_id = #{supplier}
+    </if>
+    <if test="startDate != null and endDate != null">
+      AND post_date BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by post_date desc,code desc
+      </otherwise>
+    </choose>
+
+  </select>
+  <select id="selectAmountTotal"
+          resultType="com.rograndec.feijiayun.chain.business.finance.receivablepayment.receivable.vo.ReceivableDocumentsVO">
+    SELECT
+    sum(amount_total) AS amountTotal,
+    sum(clear_amount_total) AS clearAmountTotal,
+    sum(unclear_amount_total) AS unclearAmountTotal
+    from saas_payment_voucher
+    WHERE enterprise_id = #{enterpriseId}
+    <if test="list != null">
+      and status IN
+      <foreach collection="list" index="index" item="item" open="("
+               separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="supplier != null">
+      AND supplier_id = #{supplier}
+    </if>
+    <if test="startDate != null and endDate != null">
+      AND post_date BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by post_date desc,code desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="getPaymentVoucherListPage" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.RequestVoucherParamVO"
+          resultMap="BaseResultMap_List">
+    SELECT  <include refid="Base_Column_List_1"/>
+    FROM
+    saas_payment_voucher pay
+    WHERE 1=1
+    <if test="paramVO.enterpriseId != null">
+      and pay.enterprise_id = #{paramVO.enterpriseId}
+    </if>
+    <if test="paramVO.code != null and paramVO.code !=''">
+      and pay.code = #{paramVO.code}
+    </if>
+    <if test="paramVO.postManName != null and paramVO.postManName != ''">
+      and pay.post_man_name = #{paramVO.postManName}
+    </if>
+    <if test="paramVO.supplierCode != null and paramVO.supplierCode != ''">
+      and pay.supplier_code = #{paramVO.supplierCode}
+    </if>
+    <if test="paramVO.supplierName != null and paramVO.supplierName != ''">
+      and pay.supplier_name = #{paramVO.supplierName}
+    </if>
+    <if test="paramVO.status != null">
+      and pay.status = #{paramVO.status}
+    </if>
+    <if test="paramVO.startDate != null and paramVO.endDate != null">
+      AND pay.post_date BETWEEN #{paramVO.startDate} AND #{paramVO.endDate}
+    </if>
+
+
+    <if test="paramVO.dateOrder == 0 and paramVO.codeOrder == 0">
+      order by pay.post_date desc,pay.code desc
+    </if>
+    <if test="paramVO.dateOrder == 1 and paramVO.codeOrder == 1">
+      order by pay.post_date ,pay.code
+    </if>
+    <if test="paramVO.dateOrder == 0 and paramVO.codeOrder == 1">
+      order by pay.post_date desc , pay.code
+    </if>
+    <if test="paramVO.dateOrder == 1 and paramVO.codeOrder == 0">
+      order by pay.post_date  , pay.code desc
+    </if>
+
+    <if test="paramVO.start != null and paramVO.pageSize != null">
+      limit #{paramVO.start},#{paramVO.pageSize}
+    </if>
+
+  </select>
+
+  <select id="getPaymentVoucherListPageCount" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.RequestVoucherParamVO"  resultType="integer">
+    SELECT count(1)
+    FROM
+    saas_payment_voucher pay
+    WHERE 1=1
+    <if test="paramVO.enterpriseId != null">
+      and pay.enterprise_id = #{paramVO.enterpriseId}
+    </if>
+    <if test="paramVO.code != null and paramVO.code !=''">
+      and pay.code = #{paramVO.code}
+    </if>
+    <if test="paramVO.postManName != null and paramVO.postManName != ''">
+      and pay.post_man_name = #{paramVO.postManName}
+    </if>
+    <if test="paramVO.supplierCode != null and paramVO.supplierCode != ''">
+      and pay.supplier_code = #{paramVO.supplierCode}
+    </if>
+    <if test="paramVO.supplierName != null and paramVO.supplierName != ''">
+      and pay.supplier_name = #{paramVO.supplierName}
+    </if>
+    <if test="paramVO.status != null and paramVO.status != ''">
+      and pay.status = #{paramVO.status}
+    </if>
+    <if test="paramVO.startDate != null and paramVO.endDate != null">
+      AND pay.post_date BETWEEN #{paramVO.startDate} AND #{paramVO.endDate}
+    </if>
+  </select>
+
+  <select id="getPaymentVoucherListTotal" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.RequestVoucherParamVO"
+          resultType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.paymentvoucher.vo.PaymentVoucherTotalVO">
+    SELECT
+
+    sum(pay.amount_total) as amountTotal,
+    sum(pay.notax_amount_total) as notaxAmountTotal,
+    sum(pay.tax_amount_total) as taxAmountTotal
+
+    FROM
+    saas_payment_voucher pay
+    WHERE 1=1
+    and pay.status in <foreach collection="paramVO.statusList" open="(" close=")" separator="," item="item" >
+      #{item}
+  </foreach>
+    <if test="paramVO.enterpriseId != null">
+      and pay.enterprise_id = #{paramVO.enterpriseId}
+    </if>
+    <if test="paramVO.code != null and paramVO.code !=''">
+      and pay.code = #{paramVO.code}
+    </if>
+    <if test="paramVO.postManName != null and paramVO.postManName != ''">
+      and pay.post_man_name = #{paramVO.postManName}
+    </if>
+    <if test="paramVO.supplierCode != null and paramVO.supplierCode != ''">
+      and pay.supplier_code = #{paramVO.supplierCode}
+    </if>
+    <if test="paramVO.supplierName != null and paramVO.supplierName != ''">
+      and pay.supplier_name = #{paramVO.supplierName}
+    </if>
+    <if test="paramVO.status != null and paramVO.status != ''">
+      and pay.status = #{paramVO.status}
+    </if>
+    <if test="paramVO.startDate != null and paramVO.endDate != null">
+      AND pay.post_date BETWEEN #{paramVO.startDate} AND #{paramVO.endDate}
+    </if>
+
+  </select>
+
+
+  <select id="getPaymentVoucherDetailById" resultMap="BaseResultMap_Detail">
+    SELECT
+     pay.id, pay.code, pay.order_type, pay.post_date, pay.post_man_id, pay.post_man_code,pay.varieties_quantity,
+    pay.post_man_name, pay.finance_account_type,  pay.supplier_id, pay.supplier_code, pay.supplier_name, pay.quantity_total,
+    pay.amount_total, pay.notax_amount_total, pay.tax_amount_total,pay.status, pay.remark,
+    pay.diff_amount_total,pay.diff_notax_amount_total,pay.diff_tax_amount_total,
+
+    detail.id as dId, detail.enterprise_id, detail.parent_id, detail.voucher_id, detail.base_order_id, detail.base_order_code, detail.base_order_type,
+    detail.base_order_date, detail.base_dtl_id, detail.base_shelf_dtl_id, detail.goods_id, detail.goods_code, detail.barcode, detail.goods_name,
+    detail.goods_generic_name, detail.dosage_id, detail.dosage_name, detail.unit_id, detail.unit_name, detail.goods_specification,
+    detail.manufacturer_id, detail.manufacturer, detail.goods_place, detail.approval_number, detail.lot_number, detail.product_date,
+    detail.valid_date, detail.quantity, detail.unit_price, detail.amount, detail.tax_rate_id, detail.tax_rate, detail.notax_price, detail.notax_amount,
+    detail.tax_amount, detail.diff_amount, detail.diff_notax_amount, detail.diff_tax_amount,
+    detail.line_num, detail.status, detail.remark as detailRemark
+    FROM
+    saas_payment_voucher pay
+    INNER JOIN
+    saas_payment_voucher_detail detail on pay.id = detail.voucher_id and pay.enterprise_id = #{enterpriseId}
+    WHERE
+    pay.id = #{id}
+  </select>
+
+</mapper>

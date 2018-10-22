@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.member.storedamount.dao.StoredAmountMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.member.storedamount.entity.StoredAmount">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="change_type" jdbcType="INTEGER" property="changeType" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+    <result column="new_member_id" jdbcType="BIGINT" property="newMemberId" />
+    <result column="new_card_code" jdbcType="VARCHAR" property="newCardCode" />
+    <result column="total_stored_amount" jdbcType="DECIMAL" property="totalStoredAmount" />
+    <result column="current_stored_amount" jdbcType="DECIMAL" property="currentStoredAmount" />
+    <result column="change_stored_amount" jdbcType="DECIMAL" property="changeStoredAmount" />
+    <result column="new_total_stored_amount" jdbcType="DECIMAL" property="newTotalStoredAmount" />
+    <result column="new_current_stored_amount" jdbcType="DECIMAL" property="newCurrentStoredAmount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, change_type, member_id, card_code, new_member_id, new_card_code, 
+    total_stored_amount, current_stored_amount, change_stored_amount, new_total_stored_amount, 
+    new_current_stored_amount, status, remark, creater_id, creater_code, creater_name, 
+    create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_stored_amount_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_stored_amount_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.member.storedamount.entity.StoredAmount">
+    insert into saas_stored_amount_record (id, enterprise_id, parent_id, 
+      change_type, member_id, card_code, 
+      new_member_id, new_card_code, total_stored_amount, 
+      current_stored_amount, change_stored_amount, 
+      new_total_stored_amount, new_current_stored_amount, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{changeType,jdbcType=INTEGER}, #{memberId,jdbcType=BIGINT}, #{cardCode,jdbcType=VARCHAR}, 
+      #{newMemberId,jdbcType=BIGINT}, #{newCardCode,jdbcType=VARCHAR}, #{totalStoredAmount,jdbcType=DECIMAL}, 
+      #{currentStoredAmount,jdbcType=DECIMAL}, #{changeStoredAmount,jdbcType=DECIMAL}, 
+      #{newTotalStoredAmount,jdbcType=DECIMAL}, #{newCurrentStoredAmount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.member.storedamount.entity.StoredAmount">
+    insert into saas_stored_amount_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="changeType != null">
+        change_type,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="cardCode != null">
+        card_code,
+      </if>
+      <if test="newMemberId != null">
+        new_member_id,
+      </if>
+      <if test="newCardCode != null">
+        new_card_code,
+      </if>
+      <if test="totalStoredAmount != null">
+        total_stored_amount,
+      </if>
+      <if test="currentStoredAmount != null">
+        current_stored_amount,
+      </if>
+      <if test="changeStoredAmount != null">
+        change_stored_amount,
+      </if>
+      <if test="newTotalStoredAmount != null">
+        new_total_stored_amount,
+      </if>
+      <if test="newCurrentStoredAmount != null">
+        new_current_stored_amount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="changeType != null">
+        #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="cardCode != null">
+        #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newMemberId != null">
+        #{newMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="newCardCode != null">
+        #{newCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalStoredAmount != null">
+        #{totalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStoredAmount != null">
+        #{currentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="changeStoredAmount != null">
+        #{changeStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalStoredAmount != null">
+        #{newTotalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newCurrentStoredAmount != null">
+        #{newCurrentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.member.storedamount.entity.StoredAmount">
+    update saas_stored_amount_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="changeType != null">
+        change_type = #{changeType,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="cardCode != null">
+        card_code = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="newMemberId != null">
+        new_member_id = #{newMemberId,jdbcType=BIGINT},
+      </if>
+      <if test="newCardCode != null">
+        new_card_code = #{newCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalStoredAmount != null">
+        total_stored_amount = #{totalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStoredAmount != null">
+        current_stored_amount = #{currentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="changeStoredAmount != null">
+        change_stored_amount = #{changeStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newTotalStoredAmount != null">
+        new_total_stored_amount = #{newTotalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="newCurrentStoredAmount != null">
+        new_current_stored_amount = #{newCurrentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.member.storedamount.entity.StoredAmount">
+    update saas_stored_amount_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      change_type = #{changeType,jdbcType=INTEGER},
+      member_id = #{memberId,jdbcType=BIGINT},
+      card_code = #{cardCode,jdbcType=VARCHAR},
+      new_member_id = #{newMemberId,jdbcType=BIGINT},
+      new_card_code = #{newCardCode,jdbcType=VARCHAR},
+      total_stored_amount = #{totalStoredAmount,jdbcType=DECIMAL},
+      current_stored_amount = #{currentStoredAmount,jdbcType=DECIMAL},
+      change_stored_amount = #{changeStoredAmount,jdbcType=DECIMAL},
+      new_total_stored_amount = #{newTotalStoredAmount,jdbcType=DECIMAL},
+      new_current_stored_amount = #{newCurrentStoredAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache />
+</mapper>

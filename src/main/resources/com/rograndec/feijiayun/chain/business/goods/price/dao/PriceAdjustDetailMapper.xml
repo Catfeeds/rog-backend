@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.price.dao.PriceAdjustDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceAdjustDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="adjust_id" jdbcType="BIGINT" property="adjustId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="distr_price" jdbcType="DECIMAL" property="distrPrice" />
+    <result column="old_distr_price" jdbcType="DECIMAL" property="oldDistrPrice" />
+    <result column="distr_tax_rate" jdbcType="DECIMAL" property="distrTaxRate" />
+    <result column="distr_tax_rate_id" jdbcType="BIGINT" property="distrTaxRateId" />
+    <result column="old_distr_tax_rate" jdbcType="DECIMAL" property="oldDistrTaxRate" />
+    <result column="old_distr_tax_rate_id" jdbcType="BIGINT" property="oldDistrTaxRateId" />
+    <result column="notax_distr_price" jdbcType="DECIMAL" property="notaxDistrPrice" />
+    <result column="old_notax_distr_price" jdbcType="DECIMAL" property="oldNotaxDistrPrice" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    <result column="old_retail_price" jdbcType="DECIMAL" property="oldRetailPrice" />
+    <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
+    <result column="old_member_price" jdbcType="DECIMAL" property="oldMemberPrice" />
+    <result column="sale_tax_rate" jdbcType="DECIMAL" property="saleTaxRate" />
+    <result column="sale_tax_rate_id" jdbcType="BIGINT" property="saleTaxRateId" />
+    <result column="old_sale_tax_rate" jdbcType="DECIMAL" property="oldSaleTaxRate" />
+    <result column="old_sale_tax_rate_id" jdbcType="BIGINT" property="oldSaleTaxRateId" />
+    <result column="notax_retail_price" jdbcType="DECIMAL" property="notaxRetailPrice" />
+    <result column="old_notax_retail_price" jdbcType="DECIMAL" property="oldNotaxRetailPrice" />
+    <result column="notax_member_price" jdbcType="DECIMAL" property="notaxMemberPrice" />
+    <result column="old_notax_member_price" jdbcType="DECIMAL" property="oldNotaxMemberPrice" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, adjust_id, goods_id, distr_price, old_distr_price, 
+    distr_tax_rate,distr_tax_rate_id, old_distr_tax_rate,old_distr_tax_rate_id, notax_distr_price, old_notax_distr_price, retail_price,
+    old_retail_price, member_price, old_member_price, sale_tax_rate, sale_tax_rate_id, old_sale_tax_rate,old_sale_tax_rate_id,
+    notax_retail_price, old_notax_retail_price, notax_member_price, old_notax_member_price, 
+    status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPriceAdjustIdAndGoodsId" parameterType="java.util.Map"  resultMap="BaseResultMap">
+    select 
+      sad.*
+    from saas_price_adjust_detail sad ,saas_price_adjust spd
+    where sad.adjust_id = spd.id
+      AND spd.price_order_id = #{priceOrderId,jdbcType=BIGINT}
+      and sad.goods_id = #{goodsId,jdbcType=BIGINT}
+      and sad.enterprise_id = #{eId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_adjust_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByPriceAdjustId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_adjust_detail
+    where adjust_id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_price_adjust_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByAdjustId" parameterType="java.lang.Long">
+    delete from saas_price_adjust_detail
+    where adjust_id = #{id,jdbcType=BIGINT}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceAdjustDetail">
+    insert into saas_price_adjust_detail (id, enterprise_id, parent_id,
+      adjust_id, goods_id, distr_price, 
+      old_distr_price, distr_tax_rate,distr_tax_rate_id, old_distr_tax_rate,old_distr_tax_rate_id,
+      notax_distr_price, old_notax_distr_price, retail_price, 
+      old_retail_price, member_price, old_member_price, 
+      sale_tax_rate, sale_tax_rate_id, old_sale_tax_rate,  old_sale_tax_rate_id, notax_retail_price,
+      old_notax_retail_price, notax_member_price, 
+      old_notax_member_price, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{adjustId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{distrPrice,jdbcType=DECIMAL}, 
+      #{oldDistrPrice,jdbcType=DECIMAL}, #{distrTaxRate,jdbcType=DECIMAL},#{distrTaxRateId,jdbcType=BIGINT}, #{oldDistrTaxRate,jdbcType=DECIMAL}, #{oldDistrTaxRateId,jdbcType=BIGINT},
+      #{notaxDistrPrice,jdbcType=DECIMAL}, #{oldNotaxDistrPrice,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL}, 
+      #{oldRetailPrice,jdbcType=DECIMAL}, #{memberPrice,jdbcType=DECIMAL}, #{oldMemberPrice,jdbcType=DECIMAL}, 
+      #{saleTaxRate,jdbcType=DECIMAL}, #{saleTaxRateId,jdbcType=BIGINT}, #{oldSaleTaxRate,jdbcType=DECIMAL},#{oldSaleTaxRateId,jdbcType=BIGINT}, #{notaxRetailPrice,jdbcType=DECIMAL},
+      #{oldNotaxRetailPrice,jdbcType=DECIMAL}, #{notaxMemberPrice,jdbcType=DECIMAL}, 
+      #{oldNotaxMemberPrice,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceAdjustDetail"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_price_adjust_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="adjustId != null">
+        adjust_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="distrPrice != null">
+        distr_price,
+      </if>
+      <if test="oldDistrPrice != null">
+        old_distr_price,
+      </if>
+      <if test="distrTaxRate != null">
+        distr_tax_rate,
+      </if>
+      <if test="distrTaxRateId != null">
+        distr_tax_rate_id,
+      </if>
+
+
+      <if test="oldDistrTaxRate != null">
+        old_distr_tax_rate,
+      </if>
+
+      <if test="oldDistrTaxRateId != null">
+        old_distr_tax_rate_id,
+      </if>
+
+
+      <if test="notaxDistrPrice != null">
+        notax_distr_price,
+      </if>
+      <if test="oldNotaxDistrPrice != null">
+        old_notax_distr_price,
+      </if>
+      <if test="retailPrice != null">
+        retail_price,
+      </if>
+      <if test="oldRetailPrice != null">
+        old_retail_price,
+      </if>
+      <if test="memberPrice != null">
+        member_price,
+      </if>
+      <if test="oldMemberPrice != null">
+        old_member_price,
+      </if>
+      <if test="saleTaxRate != null">
+        sale_tax_rate,
+      </if>
+      <if test="saleTaxRateId != null">
+        sale_tax_rate_id,
+      </if>
+      <if test="oldSaleTaxRate != null">
+        old_sale_tax_rate,
+      </if>
+      <if test="oldSaleTaxRateId != null">
+        old_sale_tax_rate_id,
+      </if>
+      <if test="notaxRetailPrice != null">
+        notax_retail_price,
+      </if>
+      <if test="oldNotaxRetailPrice != null">
+        old_notax_retail_price,
+      </if>
+      <if test="notaxMemberPrice != null">
+        notax_member_price,
+      </if>
+      <if test="oldNotaxMemberPrice != null">
+        old_notax_member_price,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustId != null">
+        #{adjustId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPrice != null">
+        #{distrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldDistrPrice != null">
+        #{oldDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRate != null">
+        #{distrTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRateId != null">
+        #{distrTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="oldDistrTaxRate != null">
+        #{oldDistrTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oldDistrTaxRateId != null">
+        #{oldDistrTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxDistrPrice != null">
+        #{notaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxDistrPrice != null">
+        #{oldNotaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null">
+        #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldRetailPrice != null">
+        #{oldRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberPrice != null">
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldMemberPrice != null">
+        #{oldMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRate != null">
+        #{saleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRateId != null">
+        #{saleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="oldSaleTaxRate != null">
+        #{oldSaleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oldSaleTaxRateId != null">
+        #{oldSaleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxRetailPrice != null">
+        #{notaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxRetailPrice != null">
+        #{oldNotaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxMemberPrice != null">
+        #{notaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxMemberPrice != null">
+        #{oldNotaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceAdjustDetail">
+    update saas_price_adjust_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustId != null">
+        adjust_id = #{adjustId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPrice != null">
+        distr_price = #{distrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldDistrPrice != null">
+        old_distr_price = #{oldDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRate != null">
+        distr_tax_rate = #{distrTaxRate,jdbcType=DECIMAL},
+      </if>
+        <if test="distrTaxRateId != null">
+        distr_tax_rate_id = #{distrTaxRateId,jdbcType=BIGINT},
+      </if>
+
+
+      <if test="oldDistrTaxRate != null">
+        old_distr_tax_rate = #{oldDistrTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oldDistrTaxRateId != null">
+        old_distr_tax_rate_id = #{oldDistrTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxDistrPrice != null">
+        notax_distr_price = #{notaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxDistrPrice != null">
+        old_notax_distr_price = #{oldNotaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null">
+        retail_price = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldRetailPrice != null">
+        old_retail_price = #{oldRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberPrice != null">
+        member_price = #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldMemberPrice != null">
+        old_member_price = #{oldMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRate != null">
+        sale_tax_rate = #{saleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRateId != null">
+        sale_tax_rate_id = #{saleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="oldSaleTaxRate != null">
+        old_sale_tax_rate = #{oldSaleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oldSaleTaxRateId != null">
+        old_sale_tax_rate_id = #{oldSaleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxRetailPrice != null">
+        notax_retail_price = #{notaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxRetailPrice != null">
+        old_notax_retail_price = #{oldNotaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxMemberPrice != null">
+        notax_member_price = #{notaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="oldNotaxMemberPrice != null">
+        old_notax_member_price = #{oldNotaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceAdjustDetail">
+    update saas_price_adjust_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      adjust_id = #{adjustId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      distr_price = #{distrPrice,jdbcType=DECIMAL},
+      old_distr_price = #{oldDistrPrice,jdbcType=DECIMAL},
+      distr_tax_rate = #{distrTaxRate,jdbcType=DECIMAL},
+      distr_tax_rate_id = #{distrTaxRateId,jdbcType=BIGINT},
+      old_distr_tax_rate = #{oldDistrTaxRate,jdbcType=DECIMAL},
+      old_distr_tax_rate_id = #{oldDistrTaxRateId,jdbcType=BIGINT},
+      notax_distr_price = #{notaxDistrPrice,jdbcType=DECIMAL},
+      old_notax_distr_price = #{oldNotaxDistrPrice,jdbcType=DECIMAL},
+      retail_price = #{retailPrice,jdbcType=DECIMAL},
+      old_retail_price = #{oldRetailPrice,jdbcType=DECIMAL},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      old_member_price = #{oldMemberPrice,jdbcType=DECIMAL},
+      sale_tax_rate = #{saleTaxRate,jdbcType=DECIMAL},
+      sale_tax_rate_id = #{saleTaxRateId,jdbcType=BIGINT},
+      old_sale_tax_rate = #{oldSaleTaxRate,jdbcType=DECIMAL},
+      old_sale_tax_rate_id = #{oldSaleTaxRateId,jdbcType=BIGINT},
+      notax_retail_price = #{notaxRetailPrice,jdbcType=DECIMAL},
+      old_notax_retail_price = #{oldNotaxRetailPrice,jdbcType=DECIMAL},
+      notax_member_price = #{notaxMemberPrice,jdbcType=DECIMAL},
+      old_notax_member_price = #{oldNotaxMemberPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

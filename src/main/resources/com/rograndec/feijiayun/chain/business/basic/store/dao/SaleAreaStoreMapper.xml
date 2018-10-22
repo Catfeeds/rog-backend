@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.store.dao.SaleAreaStoreMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.store.entity.SaleAreaStore">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sale_area_id" jdbcType="BIGINT" property="saleAreaId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+  </resultMap>
+  <resultMap id="ExportMap" type="com.rograndec.feijiayun.chain.business.basic.store.vo.ExportVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" property="name" />
+    <result column="code" property="code" />
+    <result column="store_code" property="storeCode" />
+    <result column="store_name" property="storeName" />
+  </resultMap>
+  <resultMap type="com.rograndec.feijiayun.chain.business.basic.store.vo.StoreVO" id="storeVoMap">
+    <id property="id" column="id"/>
+    <result property="code" column="code"/>
+    <result property="name" column="name"/>
+    <result property="chainType" column="chain_type"/>
+    <result property="businessManName" column="business_man_name"/>
+    <result property="tel" column="tel"/>
+    <result property="fax" column="fax"/>
+    <result property="companyAddress" column="company_address"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sale_area_id, enterprise_id, parent_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale_area_store
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectExport" parameterType="java.lang.Long" resultMap="ExportMap">
+    <!--select c.id,c.code, c.name, b.code store_code, b.name store_name
+    from saas_sale_area_store a, saas_enterprise b, saas_sale_area c
+    where a.enterprise_id = b.id
+    and a.sale_area_id = c.id
+    and c.enterprise_id = #{enterpriseId,jdbcType=BIGINT}-->
+    SELECT
+    c.id,
+    c.code,
+    c.name,
+    b.code store_code,
+    b.name store_name
+    FROM
+    saas_sale_area c
+    LEFT JOIN saas_sale_area_store a ON a.sale_area_id = c.id
+    LEFT JOIN saas_enterprise b ON a.enterprise_id = b.id
+    WHERE
+    c.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+  <select id="selectStoreVOBysaleAreaId" parameterType="java.lang.Long" resultMap="storeVoMap">
+    select
+        b.id,b.code,b.name,b.chain_type,b.business_man_name,b.tel,b.fax,b.company_address
+    from saas_sale_area_store a,saas_enterprise b
+    where a.sale_area_id = #{saleAreaId,jdbcType=BIGINT}
+    and a.enterprise_id = b.id
+  </select>
+  <select id="selectStoreMapBySaleAreaId" resultType="long">
+    select
+      DISTINCT sale_area_id
+    from saas_sale_area_store
+    where sale_area_id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    #{item}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sale_area_store
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteBySaleAreaIdByParentId" parameterType="hashMap">
+    delete from saas_sale_area_store
+    where sale_area_id = #{saleAreaId,jdbcType=BIGINT}
+    and parent_id = #{enterpriseId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteBySaleAreaIdByParentIdByShopId" parameterType="hashMap">
+    delete from saas_sale_area_store
+    where sale_area_id = #{saleAreaId,jdbcType=BIGINT}
+    and parent_id = #{enterpriseId,jdbcType=BIGINT}
+    and enterprise_id = #{shopId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.store.entity.SaleAreaStore">
+    insert into saas_sale_area_store (id, sale_area_id, enterprise_id, 
+      parent_id)
+    values (#{id,jdbcType=BIGINT}, #{saleAreaId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT})
+  </insert>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into saas_sale_area_store (sale_area_id, enterprise_id,
+      parent_id)
+    values
+    <foreach collection="list" item="saleAreaStore" index="index" separator=",">
+      (#{saleAreaStore.saleAreaId,jdbcType=BIGINT}, #{saleAreaStore.enterpriseId,jdbcType=BIGINT},
+      #{saleAreaStore.parentId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.store.entity.SaleAreaStore">
+    insert into saas_sale_area_store
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="saleAreaId != null">
+        sale_area_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="saleAreaId != null">
+        #{saleAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.store.entity.SaleAreaStore">
+    update saas_sale_area_store
+    <set>
+      <if test="saleAreaId != null">
+        sale_area_id = #{saleAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.store.entity.SaleAreaStore">
+    update saas_sale_area_store
+    set sale_area_id = #{saleAreaId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

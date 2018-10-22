@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.other.dao.DataBackupMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.other.entity.DataBackup">
+    <id column="Id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="backup_time" jdbcType="TIMESTAMP" property="backupTime" />
+    <result column="backup_type" jdbcType="INTEGER" property="backupType" />
+    <result column="backup_name" jdbcType="VARCHAR" property="backupName" />
+    <result column="backup_path" jdbcType="VARCHAR" property="backupPath" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.system.other.vo.DataBackupVO" extends="BaseResultMap">
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, enterpriseId, parent_id, backup_time, backup_type, backup_name, backup_path, 
+    remark, creater_id, creater_code, creater_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_data_backup
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_data_backup
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.DataBackup">
+    insert into saas_data_backup (Id, enterpriseId, parent_id, 
+      backup_time, backup_type, backup_name, 
+      backup_path, remark, creater_id, 
+      creater_code, creater_name, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{backupTime,jdbcType=TIMESTAMP}, #{backupType,jdbcType=INTEGER}, #{backupName,jdbcType=VARCHAR}, 
+      #{backupPath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.DataBackup">
+    insert into saas_data_backup
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="backupTime != null">
+        backup_time,
+      </if>
+      <if test="backupType != null">
+        backup_type,
+      </if>
+      <if test="backupName != null">
+        backup_name,
+      </if>
+      <if test="backupPath != null">
+        backup_path,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="backupTime != null">
+        #{backupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backupType != null">
+        #{backupType,jdbcType=INTEGER},
+      </if>
+      <if test="backupName != null">
+        #{backupName,jdbcType=VARCHAR},
+      </if>
+      <if test="backupPath != null">
+        #{backupPath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.DataBackup">
+    update saas_data_backup
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="backupTime != null">
+        backup_time = #{backupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backupType != null">
+        backup_type = #{backupType,jdbcType=INTEGER},
+      </if>
+      <if test="backupName != null">
+        backup_name = #{backupName,jdbcType=VARCHAR},
+      </if>
+      <if test="backupPath != null">
+        backup_path = #{backupPath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.other.entity.DataBackup">
+    update saas_data_backup
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      backup_time = #{backupTime,jdbcType=TIMESTAMP},
+      backup_type = #{backupType,jdbcType=INTEGER},
+      backup_name = #{backupName,jdbcType=VARCHAR},
+      backup_path = #{backupPath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getDataBackUp"  resultMap="BaseResultMapVO">
+   SELECT  k.backup_time,k.backup_type,k.backup_name,k.backup_path FROM (
+    SELECT  backup_time,backup_type,backup_name,backup_path FROM  saas_data_backup backup WHERE
+    backup.enterprise_id = #{enterpriseId}
+    AND  backup.parent_id = #{parentId}
+    UNION  ALL
+    SELECT  backup_time ,backup_type,backup_name,backup_path  FROM  saas_data_backup backup WHERE
+    backup.parent_id = #{enterpriseId}
+    ) k ORDER BY k.backup_time desc
+
+  </select>
+</mapper>

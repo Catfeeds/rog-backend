@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.pharmacy.dao.IncompatibilityGoodsOneMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.pharmacy.entity.IncompatibilityGoodsOne">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="incompatibility_id" jdbcType="BIGINT" property="incompatibilityId" />
+    <result column="goods_ids" jdbcType="VARCHAR" property="goodsIds" />
+    <result column="goods_names" jdbcType="VARCHAR" property="goodsNames" />
+    <result column="goods_codes" jdbcType="VARCHAR" property="goodsCodes" />
+  </resultMap>
+  <resultMap id="VO2Map" type="com.rograndec.feijiayun.chain.business.goods.pharmacy.vo.IncompatibilityVO2">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_ids" jdbcType="VARCHAR" property="goodsIds" />
+    <result column="goods_names" jdbcType="VARCHAR" property="goodsNames" />
+    <result column="goods_codes" jdbcType="VARCHAR" property="goodsCodes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, incompatibility_id, goods_ids, goods_names,goods_codes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_incompatibility_goods_one
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_incompatibility_goods_one
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.pharmacy.entity.IncompatibilityGoodsOne" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_incompatibility_goods_one (id, enterprise_id, parent_id, 
+      incompatibility_id, goods_ids, goods_names,goods_codes
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{incompatibilityId,jdbcType=BIGINT}, #{goodsIds,jdbcType=VARCHAR}, #{goodsNames,jdbcType=VARCHAR},#{goodsCodes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.pharmacy.entity.IncompatibilityGoodsOne" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_incompatibility_goods_one
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="incompatibilityId != null">
+        incompatibility_id,
+      </if>
+      <if test="goodsIds != null">
+        goods_ids,
+      </if>
+      <if test="goodsNames != null">
+        goods_names,
+      </if>
+      <if test="goodsCodes != null">
+        goods_codes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="incompatibilityId != null">
+        #{incompatibilityId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsIds != null">
+        #{goodsIds,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNames != null">
+        #{goodsNames,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCodes != null">
+        #{goodsCodes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.pharmacy.entity.IncompatibilityGoodsOne">
+    update saas_incompatibility_goods_one
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="incompatibilityId != null">
+        incompatibility_id = #{incompatibilityId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsIds != null">
+        goods_ids = #{goodsIds,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNames != null">
+        goods_names = #{goodsNames,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCodes != null">
+        goods_codes = #{goodsCodes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.pharmacy.entity.IncompatibilityGoodsOne">
+    update saas_incompatibility_goods_one
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      incompatibility_id = #{incompatibilityId,jdbcType=BIGINT},
+      goods_ids = #{goodsIds,jdbcType=VARCHAR},
+      goods_names = #{goodsNames,jdbcType=VARCHAR},
+      goods_codes = #{goodsCodes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="deleteByKey" parameterType="java.lang.Long">
+    delete from saas_incompatibility_goods_one
+    where incompatibility_id = #{incompatibilityId,jdbcType=BIGINT}
+  </delete>
+  <select id="IncompatibilityVo2ByParam" resultMap="VO2Map">
+    select
+    <include refid="Base_Column_List" />
+    from saas_incompatibility_goods_one
+    where 1=1
+   <!--  enterprise_id = #{enterpriseId} -->
+    AND incompatibility_id =  #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

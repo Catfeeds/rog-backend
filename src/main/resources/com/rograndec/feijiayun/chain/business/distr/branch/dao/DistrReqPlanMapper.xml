@@ -1,0 +1,1396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.distr.branch.dao.DistrReqPlanMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="planner_id" jdbcType="BIGINT" property="plannerId" />
+    <result column="planner_code" jdbcType="VARCHAR" property="plannerCode" />
+    <result column="planner_name" jdbcType="VARCHAR" property="plannerName" />
+    <result column="request_type" jdbcType="INTEGER" property="requestType" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+  </resultMap>
+  <resultMap id="selectList" type="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="planner_id" jdbcType="BIGINT" property="plannerId" />
+    <result column="planner_code" jdbcType="VARCHAR" property="plannerCode" />
+    <result column="planner_name" jdbcType="VARCHAR" property="plannerName" />
+    <result column="request_type" jdbcType="INTEGER" property="requestType" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="request_type_desc" jdbcType="VARCHAR" property="requestTypeDesc" />
+    <result column="status_desc" jdbcType="VARCHAR" property="statusDesc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+  </resultMap>
+  <resultMap id="DistrReqPlanVO" type="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="planner_id" jdbcType="BIGINT" property="plannerId" />
+    <result column="planner_code" jdbcType="VARCHAR" property="plannerCode" />
+    <result column="planner_name" jdbcType="VARCHAR" property="plannerName" />
+    <result column="request_type" jdbcType="INTEGER" property="requestType" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+    <collection property="distrReqPlanDetailVOList" ofType="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanDetailVO">
+    <id column="detail_id" jdbcType="BIGINT" property="id" />
+    <result column="detail_plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="detail_order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="detail_plan_code" jdbcType="VARCHAR" property="planCode" />
+    <result column="detail_plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="detail_goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="detail_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="detail_barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="detail_goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="detail_goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="detail_dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="detail_dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="detail_unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="detail_unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="detail_goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="detail_manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="detail_manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="detail_goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="detail_approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="detail_org_usable_quantity" jdbcType="DECIMAL" property="orgUsableQuantity" />
+    <result column="detail_usable_quantity" jdbcType="DECIMAL" property="usableQuantity" />
+    <result column="detail_quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="detail_line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="detail_status" jdbcType="INTEGER" property="status" />
+    <result column="detail_remark" jdbcType="VARCHAR" property="remark" />
+    </collection>
+  </resultMap>
+
+  <resultMap id="distrReqPlanDetailVOList" type="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanDetailVO">
+    <id column="detail_id" jdbcType="BIGINT" property="id" />
+    <result column="detail_plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="detail_order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="detail_plan_code" jdbcType="VARCHAR" property="planCode" />
+    <result column="detail_plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="detail_goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="detail_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="detail_barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="detail_goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="detail_goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="detail_dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="detail_dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="detail_unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="detail_unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="detail_goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="detail_manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="detail_manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="detail_goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="detail_approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="detail_org_usable_quantity" jdbcType="DECIMAL" property="orgUsableQuantity" />
+    <result column="detail_usable_quantity" jdbcType="DECIMAL" property="usableQuantity" />
+    <result column="detail_quantity" jdbcType="INTEGER" property="quantity" />
+  </resultMap>
+   <select id="selectById" parameterType="java.lang.Long" resultMap="DistrReqPlanVO">
+    select 
+    plan.id, plan.order_type, plan.code, plan.plan_date, plan.distr_unit_id, plan.distr_unit_code, 
+    plan.distr_unit_name, plan.planner_id, plan.planner_code, plan.planner_name, plan.request_type, plan.quantity_total, 
+    plan.varieties_quantity, plan.status, plan.remark,plan.outbound_unit_id,plan.outbound_unit_code,plan.outbound_unit_name,
+    detail.id as detail_id, detail.plan_id as detail_plan_id, detail.order_type as detail_order_type,
+    detail.plan_code as detail_plan_code, detail.plan_date as detail_plan_date, detail.goods_id as detail_goods_id, 
+    detail.goods_code as detail_goods_code, detail.barcode as detail_barcode, detail.goods_name as detail_goods_name,
+    detail.goods_generic_name as detail_goods_generic_name, detail.dosage_id as detail_dosage_id,
+    detail.dosage_name as detail_dosage_name, detail.unit_id as detail_unit_id, 
+    detail.unit_name as detail_unit_name, detail.goods_specification as detail_goods_specification,
+    detail.manufacturer_id as detail_manufacturer_id, detail.manufacturer as detail_manufacturer, 
+    detail.goods_place as detail_goods_place, detail.approval_number as detail_approval_number, 
+    detail.org_usable_quantity as detail_org_usable_quantity, detail.usable_quantity as detail_usable_quantity,
+    detail.quantity as detail_quantity, detail.line_num as detail_line_num, detail.status as detail_status, detail.remark as detail_remark
+    from saas_distr_req_plan plan
+    LEFT JOIN saas_distr_req_plan_detail detail ON detail.plan_id = plan.id
+    where plan.id = #{id,jdbcType=BIGINT}
+   </select>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, plan_date, distr_unit_id, distr_unit_code, 
+    distr_unit_name, planner_id, planner_code, planner_name, request_type, quantity_total, 
+    varieties_quantity, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time,outbound_unit_id,outbound_unit_code,outbound_unit_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_distr_req_plan
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_distr_req_plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_distr_req_plan (id, enterprise_id, parent_id, 
+      order_type, code, plan_date, 
+      distr_unit_id, distr_unit_code, distr_unit_name, 
+      planner_id, planner_code, planner_name, 
+      request_type, quantity_total, varieties_quantity, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time,outbound_unit_id,outbound_unit_code,outbound_unit_name)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{planDate,jdbcType=TIMESTAMP}, 
+      #{distrUnitId,jdbcType=BIGINT}, #{distrUnitCode,jdbcType=VARCHAR}, #{distrUnitName,jdbcType=VARCHAR}, 
+      #{plannerId,jdbcType=BIGINT}, #{plannerCode,jdbcType=VARCHAR}, #{plannerName,jdbcType=VARCHAR}, 
+      #{requestType,jdbcType=INTEGER}, #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{outboundUnitId,jdbcType=BIGINT}, #{outboundUnitCode,jdbcType=VARCHAR},
+      #{outboundUnitName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_distr_req_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="planDate != null">
+        plan_date,
+      </if>
+      <if test="distrUnitId != null">
+        distr_unit_id,
+      </if>
+      <if test="distrUnitCode != null">
+        distr_unit_code,
+      </if>
+      <if test="distrUnitName != null">
+        distr_unit_name,
+      </if>
+      <if test="plannerId != null">
+        planner_id,
+      </if>
+      <if test="plannerCode != null">
+        planner_code,
+      </if>
+      <if test="plannerName != null">
+        planner_name,
+      </if>
+      <if test="requestType != null">
+        request_type,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="outboundUnitId != null">
+        outbound_unit_id,
+      </if>
+      <if test="outboundUnitCode != null">
+        outbound_unit_code,
+      </if>
+      <if test="outboundUnitName != null">
+        outbound_unit_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null">
+        #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distrUnitId != null">
+        #{distrUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="distrUnitCode != null">
+        #{distrUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrUnitName != null">
+        #{distrUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="plannerId != null">
+        #{plannerId,jdbcType=BIGINT},
+      </if>
+      <if test="plannerCode != null">
+        #{plannerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="plannerName != null">
+        #{plannerName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        #{requestType,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outboundUnitId != null">
+        #{outboundUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="outboundUnitCode != null">
+        #{outboundUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundUnitName != null">
+        #{outboundUnitName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan">
+    update saas_distr_req_plan
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null">
+        plan_date = #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distrUnitId != null">
+        distr_unit_id = #{distrUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="distrUnitCode != null">
+        distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrUnitName != null">
+        distr_unit_name = #{distrUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="plannerId != null">
+        planner_id = #{plannerId,jdbcType=BIGINT},
+      </if>
+      <if test="plannerCode != null">
+        planner_code = #{plannerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="plannerName != null">
+        planner_name = #{plannerName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        request_type = #{requestType,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outboundUnitId != null">
+        outbound_unit_id = #{outboundUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="outboundUnitCode != null">
+        outbound_unit_code = #{outboundUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundUnitName != null">
+        outbound_unit_name = #{outboundUnitName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan">
+    update saas_distr_req_plan
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
+      distr_unit_id = #{distrUnitId,jdbcType=BIGINT},
+      distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR},
+      distr_unit_name = #{distrUnitName,jdbcType=VARCHAR},
+      planner_id = #{plannerId,jdbcType=BIGINT},
+      planner_code = #{plannerCode,jdbcType=VARCHAR},
+      planner_name = #{plannerName,jdbcType=VARCHAR},
+      request_type = #{requestType,jdbcType=INTEGER},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      outbound_unit_id = #{outboundUnitId,jdbcType=BIGINT},
+      outbound_unit_code = #{outboundUnitCode,jdbcType=VARCHAR},
+      outbound_unit_name = #{outboundUnitName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectList" parameterType="java.util.Map" resultMap="selectList">
+    select
+     id, enterprise_id, parent_id, order_type, code, plan_date, distr_unit_id, distr_unit_code, 
+    distr_unit_name, planner_id, planner_code, planner_name, request_type, quantity_total, 
+    varieties_quantity, status, remark,`outbound_unit_id`,`outbound_unit_code`,`outbound_unit_name`
+    from saas_distr_req_plan
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null and code!=''">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+     <if test="status != null and status!=''">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="distrUnitCode != null and distrUnitCode!=''">
+    	and distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR}
+    </if>
+     <if test="distrUnitName != null and distrUnitName!=''">
+    	and distr_unit_name = #{distrUnitName,jdbcType=VARCHAR}
+    </if>
+    <if test="plannerName != null and plannerName!=''">
+    	and planner_name = #{plannerName,jdbcType=VARCHAR}
+    </if>
+     <if test="requestType != null and requestType!=''">
+    	and request_type = #{requestType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate!=''" > 
+      <![CDATA[and plan_date >= #{startDate,jdbcType=TIMESTAMP}]]>
+	</if>
+	<if test="endDate != null and endDate!=''" >
+      <![CDATA[and plan_date <=  #{endDate,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<choose>
+        <when test="sortField != null and sortField !='' and sort != null and sort !=''">
+             order by  ${sortField}  ${sort}
+        </when>
+        <otherwise>
+            order by create_time desc
+        </otherwise>
+    </choose>
+	    limit #{start},#{pageSize}
+  </select>
+  
+   <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_distr_req_plan
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null and code!=''">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+     <if test="status != null and status!=''">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+    <if test="distrUnitCode != null and distrUnitCode!=''">
+    	and distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR}
+    </if>
+     <if test="distrUnitName != null and distrUnitName!=''">
+    	and distr_unit_name = #{distrUnitName,jdbcType=VARCHAR}
+    </if>
+    <if test="plannerName != null and plannerName!=''">
+    	and planner_name = #{plannerName,jdbcType=VARCHAR}
+    </if>
+     <if test="requestType != null and requestType!=''">
+    	and request_type = #{requestType,jdbcType=VARCHAR}
+    </if>
+     <if test="startDate != null and startDate!=''" >
+       <![CDATA[and plan_date >= #{startDate,jdbcType=TIMESTAMP}]]>
+     </if>
+     <if test="endDate != null and endDate!=''" >
+       <![CDATA[and plan_date <=  #{endDate,jdbcType=TIMESTAMP} ]]>
+     </if>
+  </select>
+  <!-- 
+     查询商品带着配货机构库存可用量，门店库存可用量
+  distrUnitId配货单位ID必填项
+  enterpriseId企业ID必填
+
+,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{distrUnitId} and goods_id=goods.id ) as orgUsableQuantity,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{enterpriseId} and goods_id=goods.id ) as usableQuantity
+
+        <if test="requestType == 3">
+	    HAVING orgUsableQuantity>0
+	    </if>
+	     left JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId}
+
+   -->
+  <select id="selectGoodsList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode
+
+      FROM saas_goods goods
+        <if test="sign != null">
+          inner JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId}  AND FIND_IN_SET(goods.management_scope_id,enterprise.business_scope_id)
+        </if>
+        where goods.owner_id=#{parentId}  
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+        and goods.goods_nature = 0
+
+        <if test="param != null and param != ''">
+         AND (INSTR(goods.code,#{param}) OR
+			  INSTR(goods.barcode,#{param}) OR
+			  INSTR(goods.pinyin_code,#{param}) OR
+			  INSTR(goods.name,#{param}) OR
+			  INSTR(goods.generic_name,#{param}) OR
+			  INSTR(goods.code,#{param}))
+        </if>
+	    group by goods.id
+        ORDER BY distr_flag desc
+
+	     LIMIT 100
+   </select>
+   <!-- 获取单个商品 -->
+     <select id="selectGoods" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{distrUnitId} and goods_id=goods.id ) as orgUsableQuantity,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{enterpriseId} and goods_id=goods.id ) as usableQuantity
+        FROM saas_goods goods 
+        LEFT JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId}
+        where goods.enterprise_id=#{enterpriseId} 
+        and goods.id=#{goodsId} 
+        group by goods.id
+   </select>
+     <!-- 分页获取商品列表 and goods.goods_nature != 1-->
+     <select id="queryGoodsList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode
+        FROM saas_goods goods
+       <if test="sign != null">
+         inner JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId}  AND FIND_IN_SET(goods.management_scope_id,enterprise.business_scope_id)
+       </if>
+        where goods.owner_id=#{parentId}
+        AND goods.approve_status = 1
+	    AND goods.status = 1
+	    AND goods.valid_flag = 1
+	    AND goods.goods_nature = 0
+       <if test="param != null and param != ''">
+         AND (INSTR(goods.code,#{param}) OR
+         INSTR(goods.barcode,#{param}) OR
+         INSTR(goods.pinyin_code,#{param}) OR
+         INSTR(goods.name,#{param}) OR
+         INSTR(goods.generic_name,#{param}) OR
+         INSTR(goods.code,#{param}))
+       </if>
+	    group by goods.id
+	    <choose>
+        <when test="sortField != null and sort != null">
+        order by goods.distr_flag desc,goods.${sortField}  ${sort}
+        </when>
+        <otherwise>
+        order by goods.distr_flag desc ,goods.create_time desc
+        </otherwise>
+        </choose>
+	    limit ${pageStart},${pageSize}
+   </select>
+     <select id="queryGoodsCount" resultType ="java.lang.Long">
+        SELECT count(1) from (SELECT goods.id
+        FROM saas_goods goods
+       <if test="sign != null">
+         inner JOIN saas_enterprise enterprise ON enterprise.id=#{enterpriseId}  AND FIND_IN_SET(goods.management_scope_id,enterprise.business_scope_id)
+       </if>
+        LEFT JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId}
+        where goods.owner_id=#{parentId}
+        AND goods.approve_status = 1
+	    AND goods.status = 1
+	    AND goods.valid_flag = 1
+	    AND goods.goods_nature = 0
+       <if test="param != null and param != ''">
+         AND (INSTR(goods.code,#{param}) OR
+         INSTR(goods.barcode,#{param}) OR
+         INSTR(goods.pinyin_code,#{param}) OR
+         INSTR(goods.name,#{param}) OR
+         INSTR(goods.generic_name,#{param}) OR
+         INSTR(goods.code,#{param}))
+       </if>
+	    group by goods.id) c
+  </select>
+
+
+<!--门店间调剂类型  选择合格未过期的有库存的 商品-->
+  <select id="queryQuantityGoodsCount" resultType="java.lang.Long">
+
+    SELECT count(*) from (
+
+      SELECT
+      goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+      goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+      goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+      goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode
+      FROM saas_stock stock
+      JOIN saas_goods goods ON goods.id=stock.goods_id
+      left join
+      saas_lot_number lot on lot.id=stock.lot_id
+
+      left join saas_warehouse_shelf ws on ws.id=stock.shelf_id
+      left join saas_warehouse_cargo_area wca on wca.id=ws.cargo_area_id
+      WHERE
+      stock.enterprise_id = #{distrUnitId}
+      AND stock.goods_id = lot.goods_id
+      AND stock.inventory_status = 0
+      AND stock.usable_quantity>0
+      AND wca.job_type=0
+      and wca.job_area=0
+      AND date_format(lot.valid_until, '%Y-%m-%d') >= date_format(now(), '%Y-%m-%d')
+      AND goods.approve_status = 1
+      AND goods.status = 1
+      AND goods.valid_flag = 1
+      AND goods.goods_nature = 0
+    <if test="param != null and param != ''">
+      AND (INSTR(goods.code,#{param}) OR
+      INSTR(goods.barcode,#{param}) OR
+      INSTR(goods.pinyin_code,#{param}) OR
+      INSTR(goods.name,#{param}) OR
+      INSTR(goods.generic_name,#{param}) OR
+      INSTR(goods.code,#{param}))
+    </if>
+      group by goods.id
+    )  c
+
+
+  </select>
+
+  <select id="queryQuantityGoodsList"
+          resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+
+
+    SELECT
+    goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+    goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+    goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+    goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode
+    FROM saas_stock stock
+    JOIN saas_goods goods ON goods.id=stock.goods_id
+    left join
+    saas_lot_number lot on lot.id=stock.lot_id
+
+    left join saas_warehouse_shelf ws on ws.id=stock.shelf_id
+    left join saas_warehouse_cargo_area wca on wca.id=ws.cargo_area_id
+    WHERE
+    stock.enterprise_id = #{distrUnitId}
+    AND stock.goods_id = lot.goods_id
+    AND stock.inventory_status = 0
+    AND stock.usable_quantity>0
+    AND wca.job_type=0
+    and wca.job_area=0
+    AND date_format(lot.valid_until, '%Y-%m-%d') >= date_format(now(), '%Y-%m-%d')
+    AND goods.approve_status = 1
+    AND goods.status = 1
+    AND goods.valid_flag = 1
+    AND goods.goods_nature = 0
+    <if test="param != null and param != ''">
+      AND (INSTR(goods.code,#{param}) OR
+      INSTR(goods.barcode,#{param}) OR
+      INSTR(goods.pinyin_code,#{param}) OR
+      INSTR(goods.name,#{param}) OR
+      INSTR(goods.generic_name,#{param}) OR
+      INSTR(goods.code,#{param}))
+    </if>
+    group by goods.id
+    <choose>
+      <when test="sortField != null and sort != null">
+        order by goods.distr_flag desc, goods.${sortField}  ${sort}
+      </when>
+      <otherwise>
+        order by goods.distr_flag desc,goods.create_time desc
+      </otherwise>
+    </choose>
+    <if test="pageStart != null">
+      limit ${pageStart},${pageSize}
+    </if>
+
+    <if test="pageStart == null">
+      limit 100
+    </if>
+
+  </select>
+    <!--
+     根据要货分析查询商品列表
+  distrUnitId配货单位ID必填项
+  enterpriseId企业ID必填
+  parentId为配货单位默认的ID
+   -->
+  <select id="selectGoodsListByAnalysis" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{parentId} and goods_id=goods.id ) as orgUsableQuantity,
+        (SELECT sum(usable_quantity) from saas_stock where enterprise_id=#{enterpriseId} and goods_id=goods.id ) as usableQuantity
+        FROM saas_goods goods 
+        LEFT JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId}
+        where goods.enterprise_id=#{parentId}  
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+        and goods.id in (#{goodsIds})
+   </select>
+   
+   <!-- 根据安全库存采购，返回一个商品ID，和对应的采购数量-->
+    <select id="selectGoodsListBySafetyStock" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanAnalysisVO">
+        SELECT
+	        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+	        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+	        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+	        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+	        sum(stockp.usable_quantity) as orgUsableQuantity,
+	        sum(stock.usable_quantity)  as usableQuantity,
+	        safety.safety_stock as safetyStock
+	    FROM saas_safety_stock safety
+        LEFT JOIN saas_goods goods  ON safety.goods_id=goods.id 
+        LEFT JOIN saas_stock stock ON goods.id=stock.goods_id AND stock.enterprise_id=#{enterpriseId}
+
+          LEFT JOIN saas_lot_number lot ON lot.id = stock.lot_id
+          LEFT JOIN saas_warehouse_shelf ws ON ws.id = stock.shelf_id
+          LEFT JOIN saas_warehouse_cargo_area wca ON wca.id = ws.cargo_area_id
+        LEFT JOIN saas_stock stockp ON goods.id=stockp.goods_id AND stockp.enterprise_id=#{parentId}
+
+          LEFT JOIN saas_lot_number lotp ON lotp.id = stockp.lot_id
+          LEFT JOIN saas_warehouse_shelf wsp ON wsp.id = stockp.shelf_id
+          LEFT JOIN saas_warehouse_cargo_area wcap ON wcap.id = wsp.cargo_area_id
+        <!-- 若是直接调配需判断商品是否在供货单位的经营范围内 -->
+        <if test="requestType == 4">
+        LEFT JOIN saas_supplier supplier ON supplier.id=#{supplierId}        
+        </if>
+        WHERE 1=1
+        AND safety.enterprise_id=#{enterpriseId}
+        <if test="requestType == 4">
+        AND FIND_IN_SET(goods.management_scope_id,supplier.business_scope_id)
+        </if>
+        AND safety.`safety_stock` > 0
+        and goods.enterprise_id=#{parentId} 
+        <!-- 总部配送类型的商品必须是总部的 -->
+        <if test="requestType == 0">
+        and goods.owner_id=#{parentId} 
+        </if>
+        <if test="requestType == 4">
+        and (goods.owner_id=#{enterpriseId} or goods.owner_id=#{parentId} )
+        </if>
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+
+        AND wca.job_type = 0
+        AND wca.job_area = 0
+        AND stock.inventory_status = 0
+        AND date_format(lot.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+        AND wcap.job_type = 0
+        AND wcap.job_area = 0
+        AND stockp.inventory_status = 0
+        AND date_format(lotp.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+        GROUP BY safety.id
+   </select>
+    <!-- 根据缺货数量采购，30内有销售无库存，返回一个商品ID，和对应的采购数量-->
+   <select id="selectGoodsListByWeekLimit" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanAnalysisVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        sum(stockp.usable_quantity) as orgUsableQuantity,
+        sum(stock.usable_quantity)  as usableQuantity,
+        sum(sale.quantity) as quantity
+        FROM
+        saas_sale_detail sale 
+        LEFT JOIN saas_goods goods ON goods.id=sale.goods_id
+         LEFT JOIN saas_stock stock ON goods.id=stock.goods_id AND stock.enterprise_id=#{enterpriseId}
+
+         LEFT JOIN saas_lot_number lot ON lot.id = stock.lot_id
+         LEFT JOIN saas_warehouse_shelf ws ON ws.id = stock.shelf_id
+         LEFT JOIN saas_warehouse_cargo_area wca ON wca.id = ws.cargo_area_id
+         LEFT JOIN saas_stock stockp ON goods.id=stockp.goods_id AND stockp.enterprise_id=#{parentId}
+
+         LEFT JOIN saas_lot_number lotp ON lotp.id = stockp.lot_id
+         LEFT JOIN saas_warehouse_shelf wsp ON wsp.id = stockp.shelf_id
+         LEFT JOIN saas_warehouse_cargo_area wcap ON wcap.id = wsp.cargo_area_id
+        <!-- 若是直接调配需判断商品是否再供货单位的经营范围内 -->
+        <if test="requestType == 4">
+        LEFT JOIN saas_supplier supplier ON supplier.id=#{supplierId}
+        </if>
+        where 1=1
+        and  goods.enterprise_id=#{parentId} 
+        <!-- 总部配送类型的商品必须是总部的 -->
+        <if test="requestType == 0">
+        and goods.owner_id=#{parentId} 
+        </if>
+        <if test="requestType == 4">
+        and  (goods.owner_id=#{enterpriseId} or goods.owner_id=#{parentId} )
+        AND FIND_IN_SET(goods.management_scope_id,supplier.business_scope_id)
+        </if>
+         and sale.enterprise_id=#{enterpriseId}
+         and DATE(sale.sale_date) >= DATE(#{startTime})
+         and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+
+         AND wca.job_type = 0
+         AND wca.job_area = 0
+         AND stock.inventory_status = 0
+         AND date_format(lot.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+         AND wcap.job_type = 0
+         AND wcap.job_area = 0
+         AND stockp.inventory_status = 0
+         AND date_format(lotp.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+         group by sale.goods_id
+         HAVING usableQuantity &lt;= 0
+   </select>
+   <!--
+              根据动态存量采购，30内有销售不满足15天销售，返回一个商品ID，和对应的采购数量
+   -->
+     <select id="selectGoodsListByWeekLimitHalfDay" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanAnalysisVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        sum(stockp.usable_quantity) as orgUsableQuantity,
+        sum(stock.usable_quantity)  as usableQuantity,
+        sum(sale.quantity) as saleQuantityTotal,
+        sum(stock.quantity) as stockQuantityTotal
+        FROM saas_sale_detail sale 
+        LEFT JOIN saas_goods goods ON goods.id=sale.goods_id
+
+       LEFT JOIN saas_stock stock ON goods.id=stock.goods_id AND stock.enterprise_id=#{enterpriseId}
+
+       LEFT JOIN saas_lot_number lot ON lot.id = stock.lot_id
+       LEFT JOIN saas_warehouse_shelf ws ON ws.id = stock.shelf_id
+       LEFT JOIN saas_warehouse_cargo_area wca ON wca.id = ws.cargo_area_id
+       LEFT JOIN saas_stock stockp ON goods.id=stockp.goods_id AND stockp.enterprise_id=#{parentId}
+
+       LEFT JOIN saas_lot_number lotp ON lotp.id = stockp.lot_id
+       LEFT JOIN saas_warehouse_shelf wsp ON wsp.id = stockp.shelf_id
+       LEFT JOIN saas_warehouse_cargo_area wcap ON wcap.id = wsp.cargo_area_id
+         <!-- 若是直接调配需判断商品是否再供货单位的经营范围内 -->
+        <if test="requestType == 4">
+        LEFT JOIN saas_supplier supplier ON supplier.id=#{supplierId} 
+        </if>
+        where  1=1
+        and goods.enterprise_id=#{parentId}
+        <!-- 总部配送类型的商品必须是总部的 -->
+        <if test="requestType == 0">
+        and goods.owner_id=#{parentId}
+        </if>
+        <if test="requestType == 4">
+        and (goods.owner_id=#{parentId} or goods.owner_id=#{enterpriseId} )
+        AND FIND_IN_SET(goods.management_scope_id,supplier.business_scope_id)
+        </if>
+        and sale.enterprise_id=#{enterpriseId}
+        and DATE(sale.sale_date) >= DATE(#{startTime}) 
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+
+         AND wca.job_type = 0
+         AND wca.job_area = 0
+         AND stock.inventory_status = 0
+         AND date_format(lot.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+         AND wcap.job_type = 0
+         AND wcap.job_area = 0
+         AND stockp.inventory_status = 0
+         AND date_format(lotp.valid_until , '%Y-%m-%d') >= date_format(now() , '%Y-%m-%d')
+        group by sale.goods_id
+   </select>
+   <!-- 查询要货单位 -->
+  <select id="selectEnterprise" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.EnterpriseReqPlanVO">
+	  	SELECT id,code,name,chain_type as isParent FROM saas_enterprise where id = #{parentId}
+  </select>
+  <!-- 获取在途库存 -->
+  <select id="selectOnPassageStock" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.OnPassageStockVO">
+	  	SELECT goods_id as goodsId,SUM(quantity) as quantity
+	  	FROM saas_distr_in_notice_detail
+	  	where  enterprise_id = #{enterpriseId} and status not in(33,34)
+	  	GROUP BY goods_id
+  </select>
+
+  <!--查询总店的所有要货计划(待配货状态、配送类型为-总部配送)-->
+  <select id="getReqPlanByDistrUnitId" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.parent.vo.DistrSendReqPlanVO">
+      select
+        req.id AS id,
+        req.order_type AS orderType,
+        req.code AS code,
+        req.plan_date AS planDate,
+        req.planner_name AS plannerName,
+        req.request_type AS requestType,
+        se.code AS enterpriseCode,
+        se.name AS enterpriseName
+      from saas_distr_req_plan req
+      LEFT JOIN saas_enterprise se ON se.id = req.enterprise_id
+      where req.distr_unit_id = #{enterpriseId,jdbcType=BIGINT}
+      AND req.request_type = 0
+      <if test="status != null">
+          AND req.status = #{status}
+      </if>
+      <if test="startTime != null and endTime != null">
+          AND req.plan_date between #{startTime} and #{endTime}
+      </if>
+      <choose>
+          <when test="sort != null and sort!= '' ">
+              order by  ${sort}
+          </when>
+          <otherwise>
+              order by req.id desc
+          </otherwise>
+      </choose>
+  </select>
+
+  <update id="updateStatusById" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrReqPlan">
+      update saas_distr_req_plan
+      <set>
+          <if test="status != null">
+              status = #{status,jdbcType=INTEGER},
+          </if>
+          <if test="modifierId != null">
+              modifier_id = #{modifierId,jdbcType=BIGINT},
+          </if>
+          <if test="modifierCode != null">
+              modifier_code = #{modifierCode,jdbcType=VARCHAR},
+          </if>
+          <if test="modifierName != null">
+              modifier_name = #{modifierName,jdbcType=VARCHAR},
+          </if>
+          <if test="updateTime != null">
+              update_time = #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+      </set>
+      WHERE
+          id = #{id}
+  </update>
+
+<!--报表专用-->
+  <resultMap id="ReqPlanMap" type="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.DistrReqPlanReportVo">
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate"/>
+    <result column="discode" jdbcType="VARCHAR" property="code"/>
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode"/>
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName"/>
+    <result column="planner_name" jdbcType="VARCHAR" property="plannerName"/>
+    <result column="request_type" jdbcType="INTEGER" property="requestType"/>
+    <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+    <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+    <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+    <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+    <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+    <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+    <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+    <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+    <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+    <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+    <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+    <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+    <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+    <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+    <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+    <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+    <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+    <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+  </resultMap>
+  <sql id="whereSql">
+    <where>
+      <if test="enterpriseId!=null">
+        <if test="parentId == 0">
+          and (a.enterprise_id=#{enterpriseId} or a.parent_id=#{enterpriseId})
+        </if>
+        <if test="parentId != 0">
+          and a.enterprise_id=#{enterpriseId}
+        </if>
+      </if>
+      <if test="startDate!=null and startDate!=''">and a.plan_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+      <if test="endDate!=null and endDate!=''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.plan_date</if>
+      <if test="distrUnitCode!=null and distrUnitCode!=''">and a.distr_unit_code like  CONCAT('%',#{distrUnitCode},'%')</if>
+      <if test="distrUnitName!=null and distrUnitName!=''">and a.distr_unit_name like  CONCAT('%',#{distrUnitName},'%')</if>
+      <if test="code!=null and code!=''">and a.code like  CONCAT('%',#{code},'%')</if>
+      <if test="plannerName!=null and plannerName!=''">and a.planner_name like  CONCAT('%',#{plannerName},'%')</if>
+      <if test="requestType!=null and requestType!=''">and a.request_type=#{requestType}</if>
+      <if test="status!=null and status!=''">and a.`status` =#{status}</if>
+      <if test="businessVariety!=null and businessVariety!=''">and c.business_variety =#{businessVariety}</if>
+      <if test="param!=null and param!=''">
+        and (
+        INSTR(c.name,#{param})
+        or INSTR(c.code,#{param})
+        or INSTR(c.pinyin_code,#{param})
+        or INSTR(c.approval_number,#{param})
+        or INSTR(c.barcode,#{param})
+        or INSTR(c.generic_name,#{param})
+        )
+      </if>
+      <if test="chainType!=null">and d.chain_type=#{chainType}</if>
+      <if test="enterpriseCode!=null and enterpriseCode!=''">and d.code like  CONCAT('%',#{enterpriseCode},'%')</if>
+      <if test="enterpriseName!=null and enterpriseName!=''">and d.name like  CONCAT('%',#{enterpriseName},'%')</if>
+      <if test="categoryId!=null">and c.category_id=#{categoryId}</if>
+      <if test="domesticImport!=null">and c.domestic_import=#{domesticImport}</if>
+      <if test="storageTemp!=null">and c.storage_temp=#{storageTemp}</if>
+      <if test="storageConditionName!=null and storageConditionName!=''">and c.storage_condition_name like  CONCAT('%',#{storageConditionName},'%')</if>
+      <if test="registeredTrademark!=null and registeredTrademark!=''">and c.registered_trademark like  CONCAT('%',#{registeredTrademark},'%')</if>
+      <if test="brand!=null and brand!=''">and c.brand like  CONCAT('%',#{brand},'%')</if>
+      <if test="goodsAttribute!=null">and c.goods_attribute=#{goodsAttribute}</if>
+      <if test="prescriptionDrug!=null">and c.prescription_drug=#{prescriptionDrug}</if>
+      <if test="otcType!=null">and c.otc_type=#{otcType}</if>
+      <if test="spiritDrugType!=null">and c.spirit_drug_type=#{spiritDrugType}</if>
+      <if test="formulationType!=null">and c.formulation_type=#{formulationType}</if>
+      <if test="specialDrug!=null">and c.special_drug=#{specialDrug}</if>
+      <if test="inChargeDrug!=null">and c.in_charge_drug=#{inChargeDrug}</if>
+      <if test="managementScopeId!=null">and c.management_scope_id=#{managementScopeId}</if>
+    </where>
+  </sql>
+  <select id="getReqPlanOrderListCount" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrReqPlan" resultType="int">
+      select count(1) from
+       saas_distr_req_plan a
+      left join saas_distr_req_plan_detail b on b.plan_id=a.id
+      left join saas_goods c on c.id=b.goods_id
+      left join saas_enterprise d on d.id=a.enterprise_id
+      left join saas_goods_category e on e.id=c.category_id
+      <include refid="whereSql"/>
+  </select>
+  <select id="getReqPlanOrderList" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrReqPlan" resultMap="ReqPlanMap">
+    select
+      b.goods_id,
+      d.code as enterprise_code,
+      d.name as enterprise_name,
+      a.plan_date,
+      a.code as discode,
+      a.distr_unit_code,
+      a.distr_unit_name,
+      a.planner_name,
+      a.request_type,
+      b.quantity,
+      a.`status`,
+      c.code,
+      c.barcode,
+      c.name,
+      c.generic_name,
+      c.dosage_id,
+      c.dosage_name,
+      c.unit_id,
+      c.unit_name,
+      c.specification,
+      c.manufacturer,
+      c.manufacturer_id,
+      c.place,
+      c.approval_number,
+      c.business_variety,
+      e.name as category_name,
+      c.goods_attribute,
+      c.domestic_import,
+      c.management_scope_name,
+      c.special_drug,
+      c.in_charge_drug,
+      c.limit_quantity,
+      c.storage_temp,
+      c.storage_condition_name,
+      c.quality_period,
+      c.quality_period_unit
+    from
+      saas_distr_req_plan a
+      left join saas_distr_req_plan_detail b on b.plan_id=a.id
+      left join saas_goods c on c.id=b.goods_id
+      left join saas_enterprise d on d.id=a.enterprise_id
+      left join saas_goods_category e on e.id=c.category_id
+    <include refid="whereSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+
+  </select>
+  <!--报表专用end-->
+
+  <!-- 查询配出单位 -->
+  <select id="getEnterpriseByDistrType" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.EnterpriseReqPlanVO">
+	 SELECT id,`code`,`name`,chain_type as isParent FROM saas_enterprise where parent_id = #{parentId} AND id!=#{id} AND `chain_type`=1
+  </select>
+
+  <select id="getGoodsListByDistrType" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,goods.chain_type as chainType
+        FROM saas_goods goods
+        inner join saas_goods_business business  on goods.id = business.goods_id
+        INNER JOIN saas_supplier supplier ON supplier.id = #{supplierId}
+        <if test="scopeList != null and scopeList.size > 0">
+          AND goods.management_scope_id in
+          <foreach collection="scopeList" open="(" close=")"  item="scopeId" separator=",">
+            #{scopeId}
+          </foreach>
+        </if>
+        inner join saas_supplier_business sbu on supplier.id = sbu.supplier_id
+        and  business.management_mode = sbu.management_mode
+        WHERE 1=1
+        <choose>
+		  <when test="chainType == 2">
+		    <if test="enterpriseId != null and parentId != null">
+		      and goods.enterprise_id = #{parentId}
+		      and goods.owner_id in (#{parentId},#{enterpriseId})
+		    </if>
+		  </when>
+		  <otherwise>
+		    <if test="enterpriseId != null">
+		      and goods.enterprise_id = #{parentId} and goods.owner_id = #{parentId}
+		    </if>
+		  </otherwise>
+		</choose>
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1 and goods.goods_nature = 0
+        <if test="param != null and param !=''">
+            and (
+            INSTR(goods.name,#{param})
+            or INSTR(goods.code,#{param})
+            or INSTR(goods.pinyin_code,#{param})
+            or INSTR(goods.approval_number,#{param})
+            or INSTR(goods.barcode,#{param})
+            or INSTR(goods.generic_name,#{param})
+            )
+	    </if>
+      order by goods.distr_flag desc
+      LIMIT 100
+   </select>
+   <!--AND CONCAT(goods.name,',',goods.code,',',goods.generic_name,',',goods.barcode,',',goods.approval_number) LIKE CONCAT('%', #{param},'%')-->
+    <select id="getGoodsListByDistrTypePage" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.GoodsDistrReqPlanVO">
+        SELECT
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,goods.chain_type as chainType
+        FROM saas_goods goods
+        inner join saas_goods_business business  on goods.id = business.goods_id
+        RIGHT JOIN saas_supplier supplier ON supplier.id=#{supplierId}
+        AND FIND_IN_SET(goods.management_scope_id,supplier.business_scope_id)
+        inner join saas_supplier_business sbu on supplier.id = sbu.supplier_id
+        and  business.management_mode = sbu.management_mode
+      WHERE 1=1
+        <choose>
+		  <when test="chainType == 2">
+		    <if test="enterpriseId != null and parentId != null">
+		      and goods.enterprise_id = #{parentId}
+		      and goods.owner_id in (#{parentId},#{enterpriseId})
+		    </if>
+		  </when>
+		  <otherwise>
+		    <if test="enterpriseId != null">
+		      and goods.enterprise_id = #{parentId} and goods.owner_id = #{parentId}
+		    </if>
+		  </otherwise>
+		</choose>
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1 and goods.goods_nature = 0
+        <if test="param != null">
+        and (
+        INSTR(goods.name,#{param})
+        or INSTR(goods.code,#{param})
+        or INSTR(goods.pinyin_code,#{param})
+        or INSTR(goods.approval_number,#{param})
+        or INSTR(goods.barcode,#{param})
+        or INSTR(goods.generic_name,#{param})
+        )
+	    </if>
+	    <choose>
+        <when test="sortField != null and sort != null">
+        order by goods.distr_flag desc,goods.${sortField}  ${sort}
+        </when>
+        <otherwise>
+        order by goods.distr_flag desc,goods.create_time desc
+        </otherwise>
+        </choose>
+	    limit ${pageStart},${pageSize}
+   </select>
+     <select id="getGoodsListByDistrTypeCount" resultType ="java.lang.Long">
+       SELECT count(1) from (SELECT
+        goods.id
+       FROM saas_goods goods
+       inner join saas_goods_business business  on goods.id = business.goods_id
+       RIGHT JOIN saas_supplier supplier ON supplier.id=#{supplierId}
+       AND FIND_IN_SET(goods.management_scope_id,supplier.business_scope_id)
+       inner join saas_supplier_business sbu on supplier.id = sbu.supplier_id
+       and  business.management_mode = sbu.management_mode
+        WHERE 1=1
+        <choose>
+		  <when test="chainType == 2">
+		    <if test="enterpriseId != null and parentId != null">
+		      and goods.enterprise_id = #{parentId}
+		      and goods.owner_id in (#{parentId},#{enterpriseId})
+		    </if>
+		  </when>
+		  <otherwise>
+		    <if test="enterpriseId != null">
+              and goods.enterprise_id = #{parentId} and goods.owner_id = #{parentId}
+		    </if>
+		  </otherwise>
+		</choose>
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1 and goods.goods_nature = 0
+        <if test="param != null">
+       and (
+        INSTR(goods.name,#{param})
+        or INSTR(goods.code,#{param})
+        or INSTR(goods.pinyin_code,#{param})
+        or INSTR(goods.approval_number,#{param})
+        or INSTR(goods.barcode,#{param})
+        or INSTR(goods.generic_name,#{param})
+        )
+	    </if>
+         ) c
+   </select>
+
+  <!-- 查询供货单位 -->
+  <select id="getSupplierList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier">
+       SELECT `id`,`code`,`name`,chain_type as chainType FROM `saas_supplier` WHERE 1=1 and approve_status = 1 and valid_flag = 1 and status = 1
+       <choose>
+		  <when test="chainType == 2">
+		    <if test="enterpriseId != null and parentId != null">
+		      and enterprise_id = #{parentId}
+		      and owner_id in (#{enterpriseId})
+		    </if>
+		  </when>
+         <when test="chainType == 1">
+           <if test="enterpriseId != null and parentId != null">
+             and enterprise_id = #{parentId}
+             and owner_id = #{parentId}
+           </if>
+         </when>
+		  <otherwise>
+		    <if test="enterpriseId != null">
+		      and enterprise_id = #{enterpriseId} and owner_id = #{enterpriseId}
+		    </if>
+		  </otherwise>
+	  </choose>
+  </select>
+
+   <select id="getEnterpriseDistrType"  resultType="java.lang.Integer">
+      SELECT `distribution_manage` FROM `saas_enterprise_business` WHERE `enterprise_id`=#{id}
+   </select>
+
+    <select id="getStockSumQuantity"  resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanSumVO">
+	    SELECT
+		goods_id AS goodsId, SUM(usable_quantity) AS sumQuantity
+		FROM  saas_stock
+		WHERE enterprise_id = #{enterpriseId}
+		  AND goods_id IN
+		 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+               #{item}
+         </foreach>
+		GROUP BY goods_id
+   </select>
+
+  <select id="queryCountByDistrReqPlanParams"  resultType="java.lang.Long">
+    SELECT
+	count(1)
+    FROM
+        saas_distr_req_plan
+    WHERE
+        enterprise_id = #{enterpriseId}
+    AND request_type = #{disType}
+    AND STATUS = #{type}
+    <if test="startTimes != null and endTimes != null">
+      and plan_date between #{startTimes} and #{endTimes}
+    </if>
+  </select>
+  <select id="selectByRequestType"  resultType="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrReqPlanPageVO">
+    SELECT
+    id,
+	plan_date AS planDate,
+	code,
+	outbound_unit_code AS outboundUnitCode,
+	outbound_unit_name AS outboundUnitName,
+	planner_name AS plannerName,
+	request_type AS requestType,
+    distr_unit_code AS distrUnitCode,
+    distr_unit_name AS distrUnitName
+    FROM
+        saas_distr_req_plan
+    WHERE
+        enterprise_id = #{enterpriseId}
+    AND request_type = #{disType}
+    AND STATUS = #{type}
+    <if test="startTimes != null and endTimes != null">
+      and plan_date between #{startTimes} and #{endTimes}
+    </if>
+    <if test="orderName != null and orderName != '' and orderType!=null and orderType != ''">
+      ORDER BY ${orderName} ${orderType}
+    </if>
+    limit #{start},#{pageSize}
+  </select>
+
+  <select id="getReqPlanDtlByIds"  resultMap="distrReqPlanDetailVOList">
+    select
+    detail.id as detail_id, detail.plan_id as detail_plan_id, detail.order_type as detail_order_type,
+    detail.plan_code as detail_plan_code, detail.plan_date as detail_plan_date, detail.goods_id as detail_goods_id,
+    detail.goods_code as detail_goods_code, detail.barcode as detail_barcode, detail.goods_name as detail_goods_name,
+    detail.goods_generic_name as detail_goods_generic_name, detail.dosage_id as detail_dosage_id,
+    detail.dosage_name as detail_dosage_name, detail.unit_id as detail_unit_id,
+    detail.unit_name as detail_unit_name, detail.goods_specification as detail_goods_specification,
+    detail.manufacturer_id as detail_manufacturer_id, detail.manufacturer as detail_manufacturer,
+    detail.goods_place as detail_goods_place, detail.approval_number as detail_approval_number,
+    detail.org_usable_quantity as detail_org_usable_quantity, detail.usable_quantity as detail_usable_quantity,
+    detail.quantity as detail_quantity, detail.line_num as detail_line_num, detail.status as detail_status, detail.remark as detail_remark
+    from saas_distr_req_plan_detail detail INNER  JOIN  saas_distr_req_plan plan ON detail.plan_id = plan.id and plan.request_type = #{requestType}
+    where detail.enterprise_id = #{enterpriseId}
+    <if test="arr != null and arr.length>0 ">
+    AND detail.plan_id IN
+    <foreach item="item" index="index" collection="arr" open="("  close=")" separator=",">
+      #{item}
+    </foreach>
+    </if>
+   </select>
+
+</mapper>

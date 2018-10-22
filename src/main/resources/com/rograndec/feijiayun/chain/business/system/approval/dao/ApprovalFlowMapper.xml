@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.approval.dao.ApprovalFlowMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="start_org" jdbcType="INTEGER" property="startOrg" />
+    <result column="start_org_id" jdbcType="BIGINT" property="startOrgId" />
+    <result column="start_org_name" jdbcType="BIGINT" property="startOrgName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="default_flag" jdbcType="INTEGER" property="defaultFlag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+
+  <resultMap id="BaseResultReturnMap" type="com.rograndec.feijiayun.chain.business.system.approval.vo.ApprovalFlowUpdateVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="chain_type" jdbcType="INTEGER" property="chainType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="start_org" jdbcType="INTEGER" property="startOrg" />
+    <result column="start_org_id" jdbcType="BIGINT" property="startOrgId" />
+    <result column="start_org_name" jdbcType="BIGINT" property="startOrgName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="default_flag" jdbcType="INTEGER" property="defaultFlag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, chain_type, name, content, start_org, start_org_id, start_org_name, 
+    status, default_flag, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow
+    where id  IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+ <select id="selectByReturn" parameterType="java.lang.Long" resultMap="BaseResultReturnMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByContent" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow
+    where content = #{content,jdbcType=VARCHAR} and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByCheckRepeart" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List"/>
+    from saas_approval_flow
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and content = #{content,jdbcType=VARCHAR} and status = 1
+  </select>
+  
+  <!-- 后面根据需要进行一对多关联改造 -->
+  <resultMap id="approvalFlowDetailList" type="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow">
+     <id property="id" column="id" javaType="long" jdbcType="BIGINT" />
+     <result property="name" column="name" javaType="string" jdbcType="VARCHAR"/>  
+     <collection property="aFDList" ofType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowDetail">
+		<!-- 注意此处column设置为别名，避免与基表重名冲突 -->
+		<id property="id" column="detail_id" javaType="long" jdbcType="BIGINT" />
+        <result property="approverName" column="approver_name" javaType="string" jdbcType="VARCHAR"/>
+     </collection>
+  </resultMap>
+  <select id="getListByEId2" parameterType="java.lang.Long" resultMap="approvalFlowDetailList">
+    select a.id,a.`name`,b.id as detail_id,b.approver_name 
+    from saas_approval_flow a join saas_approval_flow_detail b 
+	on a.id = b.flow_id 
+	where a.enterprise_id = #{eId,jdbcType=BIGINT}
+  </select>
+  <select id="getListByEId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow
+    where enterprise_id = #{eId,jdbcType=BIGINT}
+  </select>
+  <select id="getPositionRole" parameterType="java.lang.Long" resultType="com.rograndec.feijiayun.chain.business.system.approval.vo.SysPositionRoleDTO">
+    select 
+	    c.id as positionId,c.`name` as positionName,
+	    b.id as roleId,b.`name` as roleName 
+    from
+		(select a.id,a.`name`,a.position_id from saas_sys_role a where (a.enterprise_id = #{eId,jdbcType=BIGINT} or a.sys_type=1) and a.`status`=1) b
+	right join saas_position c 
+	on b.position_id = c.id
+	order by c.id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_approval_flow
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow">
+    insert into saas_approval_flow (id, enterprise_id, parent_id, 
+      chain_type, name, content, 
+      start_org, start_org_id, start_org_name, status, default_flag, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{chainType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{startOrg,jdbcType=INTEGER}, #{startOrgId,jdbcType=BIGINT}, #{startOrgName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{defaultFlag,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_approval_flow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="chainType != null">
+        chain_type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="startOrg != null">
+        start_org,
+      </if>
+      <if test="startOrgId != null">
+        start_org_id,
+      </if>
+      <if test="startOrgName != null">
+        start_org_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="defaultFlag != null">
+        default_flag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startOrg != null">
+        #{startOrg,jdbcType=INTEGER},
+      </if>
+      <if test="startOrgId != null">
+        #{startOrgId,jdbcType=BIGINT},
+      </if>
+      <if test="startOrgName != null">
+        #{startOrgName,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="defaultFlag != null">
+        #{defaultFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow">
+    update saas_approval_flow
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="chainType != null">
+        chain_type = #{chainType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startOrg != null">
+        start_org = #{startOrg,jdbcType=INTEGER},
+      </if>
+      <if test="startOrgId != null">
+        start_org_id = #{startOrgId,jdbcType=BIGINT},
+      </if>
+      <if test="startOrgName != null">
+        start_org_name =  #{startOrgName,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="defaultFlag != null">
+        default_flag = #{defaultFlag,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlow">
+    update saas_approval_flow
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      chain_type = #{chainType,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      start_org = #{startOrg,jdbcType=INTEGER},
+      start_org_id = #{startOrgId,jdbcType=BIGINT},
+      start_org_name = #{startOrgName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getApprovalFlowByParam" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />  FROM
+    saas_approval_flow afw
+    WHERE  afw.enterprise_id = #{enterpriseId} AND afw.default_flag = #{defaultFlag}
+    AND afw.name = #{name}
+  </select>
+    <select id="selectByEnterPriseId"
+            resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from saas_approval_flow
+      where enterprise_id = #{enterpriseId} and default_flag != 1
+    </select>
+</mapper>

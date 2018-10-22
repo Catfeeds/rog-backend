@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.distr.branch.dao.DistrInReceiveMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrInReceive">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="receive_date" jdbcType="TIMESTAMP" property="receiveDate" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="distr_type" jdbcType="INTEGER" property="distrType" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="receiver_code" jdbcType="VARCHAR" property="receiverCode" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="second_receiver_id" jdbcType="BIGINT" property="secondReceiverId" />
+    <result column="second_receiver_code" jdbcType="VARCHAR" property="secondReceiverCode" />
+    <result column="second_receiver_name" jdbcType="VARCHAR" property="secondReceiverName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap_Detail" type="com.rograndec.feijiayun.chain.business.distr.branch.vo.inCheck.DistrInCheck2DetailVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="check_date" jdbcType="TIMESTAMP" property="checkDate" />
+    <result column="distr_type" jdbcType="INTEGER" property="distrType" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="checker_id" jdbcType="BIGINT" property="checkerId" />
+    <result column="checker_name" jdbcType="VARCHAR" property="checkerName" />
+    <result column="second_checker_id" jdbcType="BIGINT" property="secondCheckerId" />
+    <result column="second_checker_name" jdbcType="VARCHAR" property="secondCheckerName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+    
+  </resultMap>
+  <resultMap id="DistrInReceiveVO" type="com.rograndec.feijiayun.chain.business.distr.branch.vo.DistrInReceiveVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="receive_date" jdbcType="TIMESTAMP" property="receiveDate" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="distr_unit_id" jdbcType="BIGINT" property="distrUnitId" />
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode" />
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName" />
+    <result column="distr_type" jdbcType="INTEGER" property="distrType" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="receiver_code" jdbcType="VARCHAR" property="receiverCode" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="second_receiver_id" jdbcType="BIGINT" property="secondReceiverId" />
+    <result column="second_receiver_code" jdbcType="VARCHAR" property="secondReceiverCode" />
+    <result column="second_receiver_name" jdbcType="VARCHAR" property="secondReceiverName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="outbound_unit_id" jdbcType="BIGINT" property="outboundUnitId" />
+    <result column="outbound_unit_code" jdbcType="VARCHAR" property="outboundUnitCode" />
+    <result column="outbound_unit_name" jdbcType="VARCHAR" property="outboundUnitName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, receive_date, base_order_id, base_order_type, 
+    base_order_code, base_order_date, distr_unit_id, distr_unit_code, distr_unit_name, 
+    distr_type, receiver_id, receiver_code, receiver_name, second_receiver_id, second_receiver_code, 
+    second_receiver_name, quantity_total, varieties_quantity, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time,outbound_unit_id,outbound_unit_code,outbound_unit_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_distr_in_receive
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseIdByBaseOrderId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_distr_in_receive
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and base_order_id = #{baseOrderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByEnterpriseId" resultMap="DistrInReceiveVO">
+  select
+  <include refid="Base_Column_List" />
+  from saas_distr_in_receive
+  where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  <if test="startDate != null and endDate != null">
+    and receive_date between #{startDate} and #{endDate}
+  </if>
+  <if test="distrUnitCode != null">
+    and distr_unit_code = #{distrUnitCode}
+  </if>
+  <if test="distrUnitName != null">
+    and distr_unit_name = #{distrUnitName}
+  </if>
+  <if test="code != null">
+    and code = #{code}
+  </if>
+  <if test="distrType != null">
+    and distr_type = #{distrType}
+  </if>
+  <if test="status != null">
+    and status = #{status}
+  </if>
+  <if test="receiverName != null">
+    and receiver_name = #{receiverName}
+  </if>
+  <if test="secondReceiverName != null">
+    and second_receiver_name = #{secondReceiverName}
+  </if>
+  <if test="orderType != null and orderName != null">
+    order by ${orderName} ${orderType}
+  </if>
+    <if test="orderName == null or orderName== '' ">
+      order by receive_date desc,code desc
+    </if>
+    <if test="start != null and pageSize != null">
+      limit ${start},${pageSize}
+    </if>
+  </select>
+
+  <select id="selectCountByEnterpriseId" resultType="java.lang.Integer">
+  select
+  count(*)
+  from saas_distr_in_receive
+  where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  <if test="startDate != null and endDate != null">
+    and receive_date between #{startDate} and #{endDate}
+  </if>
+  <if test="distrUnitCode != null">
+    and distr_unit_code = #{distrUnitCode}
+  </if>
+  <if test="distrUnitName != null">
+    and distr_unit_name = #{distrUnitName}
+  </if>
+  <if test="code != null">
+    and code = #{code}
+  </if>
+  <if test="distrType != null">
+    and distr_type = #{distrType}
+  </if>
+  <if test="status != null">
+    and status = #{status}
+  </if>
+  <if test="receiverName != null">
+    and receiver_name = #{receiverName}
+  </if>
+  <if test="secondReceiverName != null">
+    and second_receiver_name = #{secondReceiverName}
+  </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_distr_in_receive
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrInReceive" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_distr_in_receive (enterprise_id, parent_id,
+      order_type, code, receive_date, 
+      base_order_id, base_order_type, base_order_code, 
+      base_order_date, distr_unit_id, distr_unit_code, 
+      distr_unit_name, distr_type, receiver_id, 
+      receiver_code, receiver_name, second_receiver_id, 
+      second_receiver_code, second_receiver_name, 
+      quantity_total, varieties_quantity, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,plan.outbound_unit_id,plan.outbound_unit_code,plan.outbound_unit_name
+      )
+    values (#{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{receiveDate,jdbcType=TIMESTAMP}, 
+      #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR}, 
+      #{baseOrderDate,jdbcType=TIMESTAMP}, #{distrUnitId,jdbcType=BIGINT}, #{distrUnitCode,jdbcType=VARCHAR}, 
+      #{distrUnitName,jdbcType=VARCHAR}, #{distrType,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, 
+      #{receiverCode,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{secondReceiverId,jdbcType=BIGINT}, 
+      #{secondReceiverCode,jdbcType=VARCHAR}, #{secondReceiverName,jdbcType=VARCHAR}, 
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+      #{outboundUnitId,jdbcType=BIGINT}, #{outboundUnitCode,jdbcType=VARCHAR}, 
+      #{outboundUnitName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrInReceive" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_distr_in_receive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="receiveDate != null">
+        receive_date,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="distrUnitId != null">
+        distr_unit_id,
+      </if>
+      <if test="distrUnitCode != null">
+        distr_unit_code,
+      </if>
+      <if test="distrUnitName != null">
+        distr_unit_name,
+      </if>
+      <if test="distrType != null">
+        distr_type,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="receiverCode != null">
+        receiver_code,
+      </if>
+      <if test="receiverName != null">
+        receiver_name,
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id,
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code,
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="outboundUnitId != null">
+        outbound_unit_id,
+      </if>
+      <if test="outboundUnitCode != null">
+        outbound_unit_code,
+      </if>
+      <if test="outboundUnitName != null">
+        outbound_unit_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distrUnitId != null">
+        #{distrUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="distrUnitCode != null">
+        #{distrUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrUnitName != null">
+        #{distrUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrType != null">
+        #{distrType,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outboundUnitId != null">
+        #{outboundUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="outboundUnitCode != null">
+        #{outboundUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundUnitName != null">
+        #{outboundUnitName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrInReceive">
+    update saas_distr_in_receive
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveDate != null">
+        receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distrUnitId != null">
+        distr_unit_id = #{distrUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="distrUnitCode != null">
+        distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distrUnitName != null">
+        distr_unit_name = #{distrUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrType != null">
+        distr_type = #{distrType,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="receiverCode != null">
+        receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null">
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverId != null">
+        second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      </if>
+      <if test="secondReceiverCode != null">
+        second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      </if>
+      <if test="secondReceiverName != null">
+        second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outboundUnitId != null">
+        outbound_unit_id = #{outboundUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="outboundUnitCode != null">
+        outbound_unit_code = #{outboundUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundUnitName != null">
+        outbound_unit_name = #{outboundUnitName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.distr.branch.entity.DistrInReceive">
+    update saas_distr_in_receive
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      receive_date = #{receiveDate,jdbcType=TIMESTAMP},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      distr_unit_id = #{distrUnitId,jdbcType=BIGINT},
+      distr_unit_code = #{distrUnitCode,jdbcType=VARCHAR},
+      distr_unit_name = #{distrUnitName,jdbcType=VARCHAR},
+      distr_type = #{distrType,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      receiver_code = #{receiverCode,jdbcType=VARCHAR},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      second_receiver_id = #{secondReceiverId,jdbcType=BIGINT},
+      second_receiver_code = #{secondReceiverCode,jdbcType=VARCHAR},
+      second_receiver_name = #{secondReceiverName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      outbound_unit_id = #{outboundUnitId,jdbcType=BIGINT},
+      outbound_unit_code = #{outboundUnitCode,jdbcType=VARCHAR},
+      outbound_unit_name = #{outboundUnitName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getDistrReceive2InCheckById" resultMap="BaseResultMap_Detail">
+    SELECT
+      receive.id ,receive.code,receive.distr_unit_id ,
+      receive.distr_unit_code ,receive.distr_unit_name ,receive.distr_type,receive.outbound_unit_id,receive.outbound_unit_code,receive.outbound_unit_name
+    FROM saas_distr_in_receive receive
+    WHERE
+    receive.enterprise_id = #{enterpriseId}
+    and
+    receive.id = #{id}
+  </select>
+
+
+  <!--报表专用-->
+  <resultMap id="LackMap" type="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.DistrInReceiveReportVo">
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+    <result column="receive_date" jdbcType="TIMESTAMP" property="receiveDate"/>
+    <result column="discode" jdbcType="VARCHAR" property="code"/>
+    <result column="distr_unit_code" jdbcType="VARCHAR" property="distrUnitCode"/>
+    <result column="distr_unit_name" jdbcType="VARCHAR" property="distrUnitName"/>
+    <result column="distr_out_code" jdbcType="VARCHAR" property="distrOutCode"/>
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode"/>
+    <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+    <result column="arrival_quantity" jdbcType="DECIMAL" property="arrivalQuantity"/>
+    <result column="receive_quantity" jdbcType="DECIMAL" property="receiveQuantity"/>
+    <result column="refuse_quantity" jdbcType="DECIMAL" property="refuseQuantity"/>
+    <result column="refuse_reason_ids" jdbcType="VARCHAR" property="refuseReasonIds"/>
+
+    <result column="status" jdbcType="INTEGER" property="status"/>
+
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+    <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+    <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+    <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+    <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+    <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+    <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+    <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+    <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+    <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+    <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+    <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+    <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+    <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+    <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+    <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+    <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+    <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+  </resultMap>
+  <sql id="reportWhereSql">
+    <where>
+      <if test="enterpriseId!=null">
+        <if test="parentId == 0">
+          and (a.enterprise_id=#{enterpriseId} or a.parent_id=#{enterpriseId})
+        </if>
+        <if test="parentId != 0">
+          and a.enterprise_id=#{enterpriseId}
+        </if>
+      </if>
+      <if test="startDate!=null and startDate!=''">and a.receive_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+      <if test="endDate!=null and endDate!=''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.receive_date</if>
+      <if test="distrUnitCode!=null and distrUnitCode!=''">and a.distr_unit_code like  CONCAT('%',#{distrUnitCode},'%')</if>
+      <if test="distrUnitName!=null and distrUnitName!=''">and a.distr_unit_name like  CONCAT('%',#{distrUnitName},'%')</if>
+      <if test="code!=null and code!=''">and a.code like  CONCAT('%',#{code},'%')</if>
+      <if test="receiverName!=null and receiverName!=''">and a.receiver_name like  CONCAT('%',#{receiverName},'%')</if>
+      <if test="secondReceiverName!=null and secondReceiverName!=''">and a.second_receiver_name like  CONCAT('%',#{secondReceiverName},'%')</if>
+      <if test="status!=null and status!=''">and a.`status` =#{status}</if>
+
+      <if test="businessVariety!=null and businessVariety!=''">and c.business_variety =#{businessVariety}</if>
+      <if test="param!=null and param!=''">
+        and (
+        c.code like  CONCAT('%',#{param},'%') or
+        c.barcode like  CONCAT('%',#{param},'%') or
+        c.name like  CONCAT('%',#{param},'%') or
+        c.generic_name like  CONCAT('%',#{param},'%') or
+        c.approval_number like  CONCAT('%',#{param},'%')
+        )
+      </if>
+      <if test="chainType!=null">and d.chain_type=#{chainType}</if>
+      <if test="enterpriseCode!=null and enterpriseCode!=''">and d.code like  CONCAT('%',#{enterpriseCode},'%')</if>
+      <if test="enterpriseName!=null and enterpriseName!=''">and d.name like  CONCAT('%',#{enterpriseName},'%')</if>
+      <if test="categoryId!=null">and c.category_id=#{categoryId}</if>
+      <if test="domesticImport!=null">and c.domestic_import=#{domesticImport}</if>
+      <if test="storageTemp!=null">and c.storage_temp=#{storageTemp}</if>
+      <if test="storageConditionName!=null and storageConditionName!=''">and c.storage_condition_name like  CONCAT('%',#{storageConditionName},'%')</if>
+      <if test="registeredTrademark!=null and registeredTrademark!=''">and c.registered_trademark like  CONCAT('%',#{registeredTrademark},'%')</if>
+      <if test="brand!=null and brand!=''">and c.brand like  CONCAT('%',#{brand},'%')</if>
+      <if test="goodsAttribute!=null">and c.goods_attribute=#{goodsAttribute}</if>
+      <if test="prescriptionDrug!=null">and c.prescription_drug=#{prescriptionDrug}</if>
+      <if test="otcType!=null">and c.otc_type=#{otcType}</if>
+      <if test="spiritDrugType!=null">and c.spirit_drug_type=#{spiritDrugType}</if>
+      <if test="formulationType!=null">and c.formulation_type=#{formulationType}</if>
+      <if test="specialDrug!=null">and c.special_drug=#{specialDrug}</if>
+      <if test="inChargeDrug!=null">and c.in_charge_drug=#{inChargeDrug}</if>
+      <if test="managementScopeId!=null">and c.management_scope_id=#{managementScopeId}</if>
+    </where>
+  </sql>
+  <select id="getDistrInReceiveListCount" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrInReceive" resultType="int">
+    select count(1) from
+    saas_distr_in_receive a
+    INNER join saas_distr_in_receive_detail b on b.receive_id=a.id
+    INNER join saas_distr_in_notice_detail f on f.id=b.base_order_dtl_id
+    INNER join saas_goods c on c.id=b.goods_id
+    INNER join saas_enterprise d on d.id=a.enterprise_id
+    INNER join saas_goods_category e on e.id=c.category_id
+    <include refid="reportWhereSql"/>
+  </select>
+  <select id="getDistrInReceiveList" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrInReceive" resultMap="LackMap">
+    select
+    b.goods_id,
+    d.name enterprise_code,
+    d.code enterprise_name,
+    a.receive_date,
+    a.code as discode,
+    a.distr_unit_code,
+    a.distr_unit_name,
+    a.base_order_code,
+    f.base_order_code distr_out_code,
+    a.`status`,
+    f.quantity,
+    b.arrival_quantity,
+    b.receive_quantity,
+    b.refuse_quantity,
+    b.refuse_reason_ids,
+    c.code,
+    c.barcode,
+    c.name,
+    c.generic_name,
+    c.dosage_id,
+    c.dosage_name,
+    c.unit_id,
+    c.unit_name,
+    c.specification,
+    c.manufacturer,
+    c.manufacturer_id,
+    c.place,
+    c.approval_number,
+    c.business_variety,
+    e.name as category_name,
+    c.goods_attribute,
+    c.domestic_import,
+    c.management_scope_name,
+    c.special_drug,
+    c.in_charge_drug,
+    c.limit_quantity,
+    c.storage_temp,
+    c.storage_condition_name,
+    c.quality_period,
+    c.quality_period_unit
+    from
+    saas_distr_in_receive a
+    INNER join saas_distr_in_receive_detail b on b.receive_id=a.id
+    INNER join saas_distr_in_notice_detail f on f.id=b.base_order_dtl_id
+    INNER join saas_goods c on c.id=b.goods_id
+    INNER join saas_enterprise d on d.id=a.enterprise_id
+    INNER join saas_goods_category e on e.id=c.category_id
+    <include refid="reportWhereSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+
+  </select>
+  <!--报表专用end-->
+  <select id="selectByBaseOrderId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_distr_in_receive
+    where base_order_id = #{id}
+    AND enterprise_id =  #{enterpriseId}
+    limit 0,1
+  </select>
+
+  <update id="updateStatusById" >
+    UPDATE saas_distr_in_receive set status = #{status} where
+    enterprise_id= #{enterpriseId} and id = #{id}
+  </update>
+</mapper>

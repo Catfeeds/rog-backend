@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.quality.system.dao.QualityManageSystemMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.quality.system.entity.QualityManageSystem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="file_type" jdbcType="INTEGER" property="fileType" />
+    <result column="file_code" jdbcType="VARCHAR" property="fileCode" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="draft_man" jdbcType="VARCHAR" property="draftMan" />
+    <result column="audit_man" jdbcType="VARCHAR" property="auditMan" />
+    <result column="approval_man" jdbcType="VARCHAR" property="approvalMan" />
+    <result column="draft_date" jdbcType="TIMESTAMP" property="draftDate" />
+    <result column="approval_date" jdbcType="TIMESTAMP" property="approvalDate" />
+    <result column="execute_date" jdbcType="TIMESTAMP" property="executeDate" />
+    <result column="change_time" jdbcType="TIMESTAMP" property="changeTime" />
+    <result column="version_code" jdbcType="VARCHAR" property="versionCode" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, file_type, file_code, file_name, draft_man, audit_man, 
+    approval_man, draft_date, approval_date, execute_date, change_time, version_code, 
+    file_id, status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_quality_manage_system
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_quality_manage_system
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.quality.system.entity.QualityManageSystem" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_quality_manage_system (id, enterprise_id, parent_id, 
+      file_type, file_code, file_name, 
+      draft_man, audit_man, approval_man, 
+      draft_date, approval_date, execute_date, 
+      change_time, version_code, file_id, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{fileType,jdbcType=INTEGER}, #{fileCode,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{draftMan,jdbcType=VARCHAR}, #{auditMan,jdbcType=VARCHAR}, #{approvalMan,jdbcType=VARCHAR}, 
+      #{draftDate,jdbcType=TIMESTAMP}, #{approvalDate,jdbcType=TIMESTAMP}, #{executeDate,jdbcType=TIMESTAMP}, 
+      #{changeTime,jdbcType=TIMESTAMP}, #{versionCode,jdbcType=VARCHAR}, #{fileId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.quality.system.entity.QualityManageSystem" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_quality_manage_system
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="fileCode != null">
+        file_code,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="draftMan != null">
+        draft_man,
+      </if>
+      <if test="auditMan != null">
+        audit_man,
+      </if>
+      <if test="approvalMan != null">
+        approval_man,
+      </if>
+      <if test="draftDate != null">
+        draft_date,
+      </if>
+      <if test="approvalDate != null">
+        approval_date,
+      </if>
+      <if test="executeDate != null">
+        execute_date,
+      </if>
+      <if test="changeTime != null">
+        change_time,
+      </if>
+      <if test="versionCode != null">
+        version_code,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=INTEGER},
+      </if>
+      <if test="fileCode != null">
+        #{fileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="draftMan != null">
+        #{draftMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalMan != null">
+        #{approvalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="draftDate != null">
+        #{draftDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalDate != null">
+        #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeDate != null">
+        #{executeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeTime != null">
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="versionCode != null">
+        #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.quality.system.entity.QualityManageSystem">
+    update saas_quality_manage_system
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=INTEGER},
+      </if>
+      <if test="fileCode != null">
+        file_code = #{fileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="draftMan != null">
+        draft_man = #{draftMan,jdbcType=VARCHAR},
+      </if>
+      <if test="auditMan != null">
+        audit_man = #{auditMan,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalMan != null">
+        approval_man = #{approvalMan,jdbcType=VARCHAR},
+      </if>
+      <if test="draftDate != null">
+        draft_date = #{draftDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalDate != null">
+        approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeDate != null">
+        execute_date = #{executeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changeTime != null">
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="versionCode != null">
+        version_code = #{versionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.quality.system.entity.QualityManageSystem">
+    update saas_quality_manage_system
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      file_type = #{fileType,jdbcType=INTEGER},
+      file_code = #{fileCode,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      draft_man = #{draftMan,jdbcType=VARCHAR},
+      audit_man = #{auditMan,jdbcType=VARCHAR},
+      approval_man = #{approvalMan,jdbcType=VARCHAR},
+      draft_date = #{draftDate,jdbcType=TIMESTAMP},
+      approval_date = #{approvalDate,jdbcType=TIMESTAMP},
+      execute_date = #{executeDate,jdbcType=TIMESTAMP},
+      change_time = #{changeTime,jdbcType=TIMESTAMP},
+      version_code = #{versionCode,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="queryCountByStatusAndTypePage" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_quality_manage_system
+    where enterprise_id = #{enterpriseId}
+    <if test="type != 5 and type != null and type != ''">
+      AND ( file_type = #{type})
+    </if>
+    <if test="types != null and types != ''">
+      AND  file_type IN
+      <foreach item="item" index="index" collection="types"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="status != 3 and status != null and status != ''">
+      AND ( status = #{status})
+    </if>
+    <if test="statuss != null and statuss != ''">
+      AND  status IN
+      <foreach item="item" index="index" collection="statuss"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="key != null and key != ''">
+      AND (
+      INSTR( file_code , #{key})
+      OR  INSTR(file_name , #{key})
+      )
+    </if>
+  </select>
+  <select id="selectByStatusAndType" resultType="com.rograndec.feijiayun.chain.business.quality.system.vo.QualityManageSystemPageVO">
+    select
+    sqms.id,
+    sqms.file_type AS fileType,
+    sqms.file_code AS fileCode,
+    sqms.file_name AS fileName,
+    sqms.draft_man AS draftMan,
+    sqms.audit_man AS auditMan,
+    sqms.approval_man AS approvalMan,
+    sqms.draft_date AS draftDate,
+    sqms.approval_date AS approvalDate,
+    sqms.execute_date AS executeDate,
+    sqms.change_time AS changeTime,
+    sqms.version_code AS versionCode,
+    sqms.status,
+    sqms.file_id AS fileId,
+    sf.file_name AS fileIdName
+    from saas_quality_manage_system sqms
+    LEFT JOIN saas_file sf ON sf.id = sqms.file_id
+    where sqms.enterprise_id = #{enterpriseId}
+    <if test="type != 5 and type != null and type != ''">
+      AND ( sqms.file_type = #{type})
+    </if>
+    <if test="types != null and types != ''">
+      AND  sqms.file_type IN
+      <foreach item="item" index="index" collection="types"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="status != 3 and status != null and status != ''">
+      AND ( sqms.status = #{status})
+    </if>
+    <if test="statuss != null and statuss != ''">
+      AND  sqms.status IN
+      <foreach item="item" index="index" collection="statuss"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="key != null and key != ''">
+      AND (
+      INSTR(sqms.file_code , #{key})
+      OR  INSTR(sqms.file_name , #{key})
+      )
+    </if>
+    <if test="orderName != null and orderType!=null">
+      ORDER BY ${orderName} ${orderType}
+    </if>
+    limit #{start},#{pageSize}
+  </select>
+  <select id="selectByIdAndEnterpriseId" resultType="com.rograndec.feijiayun.chain.business.quality.system.vo.GetQualityManageSystemVO">
+  select
+    sqms.id,
+    sqms.file_type AS fileType,
+    sqms.file_code AS fileCode,
+    sqms.file_name AS fileName,
+    sqms.draft_man AS draftMan,
+    sqms.audit_man AS auditMan,
+    sqms.approval_man AS approvalMan,
+    sqms.draft_date AS draftDate,
+    sqms.approval_date AS approvalDate,
+    sqms.execute_date AS executeDate,
+    sqms.change_time AS changeTime,
+    sqms.version_code AS versionCode,
+    sqms.status,
+    sqms.file_id AS fileId,
+    sf.file_name AS fileIdName,
+    sqms.remark
+    from saas_quality_manage_system sqms
+    LEFT JOIN saas_file sf ON sf.id = sqms.file_id
+    where sqms.enterprise_id = #{enterpriseId}
+    AND sqms.id = #{id}
+  </select>
+    <select id="selectFileCodeByEnterpriseId"
+            resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+      from saas_quality_manage_system
+      WHERE enterprise_id = #{enterpriseId}
+    </select>
+</mapper>

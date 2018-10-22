@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.info.dao.GoodsStorageMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="inbag_quantity" jdbcType="DECIMAL" property="inbagQuantity" />
+    <result column="bigbag_quantity" jdbcType="DECIMAL" property="bigbagQuantity" />
+    <result column="smallbag_length" jdbcType="DECIMAL" property="smallbagLength" />
+    <result column="smallbag_width" jdbcType="DECIMAL" property="smallbagWidth" />
+    <result column="smallbag_height" jdbcType="DECIMAL" property="smallbagHeight" />
+    <result column="smallbag_volume" jdbcType="DECIMAL" property="smallbagVolume" />
+    <result column="smallbag_weight" jdbcType="DECIMAL" property="smallbagWeight" />
+    <result column="inbag_length" jdbcType="DECIMAL" property="inbagLength" />
+    <result column="inbag_width" jdbcType="DECIMAL" property="inbagWidth" />
+    <result column="inbag_height" jdbcType="DECIMAL" property="inbagHeight" />
+    <result column="inbag_volume" jdbcType="DECIMAL" property="inbagVolume" />
+    <result column="inbag_weight" jdbcType="DECIMAL" property="inbagWeight" />
+    <result column="bigbag_length" jdbcType="DECIMAL" property="bigbagLength" />
+    <result column="bigbag_width" jdbcType="DECIMAL" property="bigbagWidth" />
+    <result column="bigbag_height" jdbcType="DECIMAL" property="bigbagHeight" />
+    <result column="bigbag_volume" jdbcType="DECIMAL" property="bigbagVolume" />
+    <result column="bigbag_weight" jdbcType="DECIMAL" property="bigbagWeight" />
+    <result column="delivery_mode" jdbcType="INTEGER" property="deliveryMode" />
+    <result column="replenishment_policy" jdbcType="INTEGER" property="replenishmentPolicy" />
+    <result column="minimum_purchasing_batch" jdbcType="DECIMAL" property="minimumPurchasingBatch" />
+    <result column= "minimum_distribution_batch" jdbcType="DECIMAL" property="minimumDistributionBatch" />
+    <result column="near_effect_period" jdbcType="INTEGER" property="nearEffectPeriod" />
+    <result column="near_effect_period_unit" jdbcType="INTEGER" property="nearEffectPeriodUnit" />
+    <result column="unsalable_cycle" jdbcType="INTEGER" property="unsalableCycle" />
+    <result column="unsalable_cycle_unit" jdbcType="INTEGER" property="unsalableCycleUnit" />
+    <result column="maintenance_type" jdbcType="INTEGER" property="maintenanceType" />
+    <result column="maintenance_cycle" jdbcType="INTEGER" property="maintenanceCycle" />
+    <result column="maintenance_cycle_unit" jdbcType="INTEGER" property="maintenanceCycleUnit" />
+    <result column="maintenance_measure_ids" jdbcType="VARCHAR" property="maintenanceMeasureIds" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="GoodsStorageDataVOMap" type="com.rograndec.feijiayun.chain.business.common.vo.GoodsStorageDataVO">
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="inbag_quantity" jdbcType="DECIMAL" property="inbagQuantity" />
+    <result column="bigbag_quantity" jdbcType="DECIMAL" property="bigbagQuantity" />
+    <result column="smallbag_length" jdbcType="DECIMAL" property="smallbagLength" />
+    <result column="smallbag_width" jdbcType="DECIMAL" property="smallbagWidth" />
+    <result column="smallbag_height" jdbcType="DECIMAL" property="smallbagHeight" />
+    <result column="smallbag_volume" jdbcType="DECIMAL" property="smallbagVolume" />
+    <result column="smallbag_weight" jdbcType="DECIMAL" property="smallbagWeight" />
+    <result column="inbag_length" jdbcType="DECIMAL" property="inbagLength" />
+    <result column="inbag_width" jdbcType="DECIMAL" property="inbagWidth" />
+    <result column="inbag_height" jdbcType="DECIMAL" property="inbagHeight" />
+    <result column="inbag_volume" jdbcType="DECIMAL" property="inbagVolume" />
+    <result column="inbag_weight" jdbcType="DECIMAL" property="inbagWeight" />
+    <result column="bigbag_length" jdbcType="DECIMAL" property="bigbagLength" />
+    <result column="bigbag_width" jdbcType="DECIMAL" property="bigbagWidth" />
+    <result column="bigbag_height" jdbcType="DECIMAL" property="bigbagHeight" />
+    <result column="bigbag_volume" jdbcType="DECIMAL" property="bigbagVolume" />
+    <result column="bigbag_weight" jdbcType="DECIMAL" property="bigbagWeight" />
+    <result column="delivery_mode" jdbcType="INTEGER" property="deliveryMode" />
+    <result column="replenishment_policy" jdbcType="INTEGER" property="replenishmentPolicy" />
+    <result column="minimum_purchasing_batch" jdbcType="DECIMAL" property="minimumPurchasingBatch" />
+    <result column= "minimum_distribution_batch" jdbcType="DECIMAL" property="minimumDistributionBatch" />
+    <result column="near_effect_period" jdbcType="INTEGER" property="nearEffectPeriod" />
+    <result column="near_effect_period_unit" jdbcType="INTEGER" property="nearEffectPeriodUnit" />
+    <result column="unsalable_cycle" jdbcType="INTEGER" property="unsalableCycle" />
+    <result column="unsalable_cycle_unit" jdbcType="INTEGER" property="unsalableCycleUnit" />
+    <result column="maintenance_type" jdbcType="INTEGER" property="maintenanceType" />
+    <result column="maintenance_cycle" jdbcType="INTEGER" property="maintenanceCycle" />
+    <result column="maintenance_cycle_unit" jdbcType="INTEGER" property="maintenanceCycleUnit" />
+    <result column="maintenance_measure_ids" jdbcType="VARCHAR" property="maintenanceMeasureIds" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, enterprise_id,  inbag_quantity, bigbag_quantity, smallbag_length, smallbag_width,
+    smallbag_height, smallbag_volume, smallbag_weight, inbag_length, inbag_width, inbag_height, 
+    inbag_volume, inbag_weight, bigbag_length, bigbag_width, bigbag_height, bigbag_volume, 
+    bigbag_weight, delivery_mode, replenishment_policy, minimum_purchasing_batch, minimum_distribution_batch,
+    near_effect_period, near_effect_period_unit, unsalable_cycle, unsalable_cycle_unit, 
+    maintenance_type, maintenance_cycle, maintenance_cycle_unit, maintenance_measure_ids,
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_storage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_storage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    insert into saas_goods_storage (id, goods_id, enterprise_id, 
+      inbag_quantity, bigbag_quantity, smallbag_length, 
+      smallbag_width, smallbag_height, smallbag_volume, 
+      smallbag_weight, inbag_length, inbag_width, 
+      inbag_height, inbag_volume, inbag_weight, 
+      bigbag_length, bigbag_width, bigbag_height, 
+      bigbag_volume, bigbag_weight, delivery_mode, 
+      replenishment_policy, minimum_purchasing_batch, 
+      minimum_distribution_batch, near_effect_period,
+      near_effect_period_unit, unsalable_cycle, unsalable_cycle_unit, 
+      maintenance_type, maintenance_cycle, maintenance_cycle_unit,
+      maintenance_measure_ids, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{inbagQuantity,jdbcType=DECIMAL}, #{bigbagQuantity,jdbcType=DECIMAL}, #{smallbagLength,jdbcType=DECIMAL}, 
+      #{smallbagWidth,jdbcType=DECIMAL}, #{smallbagHeight,jdbcType=DECIMAL}, #{smallbagVolume,jdbcType=DECIMAL}, 
+      #{smallbagWeight,jdbcType=DECIMAL}, #{inbagLength,jdbcType=DECIMAL}, #{inbagWidth,jdbcType=DECIMAL}, 
+      #{inbagHeight,jdbcType=DECIMAL}, #{inbagVolume,jdbcType=DECIMAL}, #{inbagWeight,jdbcType=DECIMAL}, 
+      #{bigbagLength,jdbcType=DECIMAL}, #{bigbagWidth,jdbcType=DECIMAL}, #{bigbagHeight,jdbcType=DECIMAL}, 
+      #{bigbagVolume,jdbcType=DECIMAL}, #{bigbagWeight,jdbcType=DECIMAL}, #{deliveryMode,jdbcType=INTEGER}, 
+      #{replenishmentPolicy,jdbcType=INTEGER}, #{minimumPurchasingBatch,jdbcType=DECIMAL}, 
+      #{minimumDistributionBatch,jdbcType=DECIMAL}, #{nearEffectPeriod,jdbcType=INTEGER}, 
+      #{nearEffectPeriodUnit,jdbcType=INTEGER}, #{unsalableCycle,jdbcType=INTEGER}, #{unsalableCycleUnit,jdbcType=INTEGER}, 
+      #{maintenanceType,jdbcType=INTEGER}, #{maintenanceCycle,jdbcType=INTEGER}, #{maintenanceCycleUnit,jdbcType=INTEGER}, 
+      #{maintenanceMeasureIds,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    insert into saas_goods_storage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+
+      <if test="inbagQuantity != null">
+        inbag_quantity,
+      </if>
+      <if test="bigbagQuantity != null">
+        bigbag_quantity,
+      </if>
+      <if test="smallbagLength != null">
+        smallbag_length,
+      </if>
+      <if test="smallbagWidth != null">
+        smallbag_width,
+      </if>
+      <if test="smallbagHeight != null">
+        smallbag_height,
+      </if>
+      <if test="smallbagVolume != null">
+        smallbag_volume,
+      </if>
+      <if test="smallbagWeight != null">
+        smallbag_weight,
+      </if>
+      <if test="inbagLength != null">
+        inbag_length,
+      </if>
+      <if test="inbagWidth != null">
+        inbag_width,
+      </if>
+      <if test="inbagHeight != null">
+        inbag_height,
+      </if>
+      <if test="inbagVolume != null">
+        inbag_volume,
+      </if>
+      <if test="inbagWeight != null">
+        inbag_weight,
+      </if>
+      <if test="bigbagLength != null">
+        bigbag_length,
+      </if>
+      <if test="bigbagWidth != null">
+        bigbag_width,
+      </if>
+      <if test="bigbagHeight != null">
+        bigbag_height,
+      </if>
+      <if test="bigbagVolume != null">
+        bigbag_volume,
+      </if>
+      <if test="bigbagWeight != null">
+        bigbag_weight,
+      </if>
+      <if test="deliveryMode != null">
+        delivery_mode,
+      </if>
+      <if test="replenishmentPolicy != null">
+        replenishment_policy,
+      </if>
+      <if test="minimumPurchasingBatch != null">
+        minimum_purchasing_batch,
+      </if>
+      <if test="minimumDistributionBatch != null">
+        minimum_distribution_batch,
+      </if>
+      <if test="nearEffectPeriod != null">
+        near_effect_period,
+      </if>
+      <if test="nearEffectPeriodUnit != null">
+        near_effect_period_unit,
+      </if>
+      <if test="unsalableCycle != null">
+        unsalable_cycle,
+      </if>
+      <if test="unsalableCycleUnit != null">
+        unsalable_cycle_unit,
+      </if>
+      <if test="maintenanceType != null">
+        maintenance_type,
+      </if>
+      <if test="maintenanceCycle != null">
+        maintenance_cycle,
+      </if>
+      <if test="maintenanceCycleUnit != null">
+        maintenance_cycle_unit,
+      </if>
+      <if test="maintenanceMeasureIds != null">
+        maintenance_measure_ids,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+
+      <if test="inbagQuantity != null">
+        #{inbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagQuantity != null">
+        #{bigbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagLength != null">
+        #{smallbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWidth != null">
+        #{smallbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagHeight != null">
+        #{smallbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagVolume != null">
+        #{smallbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWeight != null">
+        #{smallbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagLength != null">
+        #{inbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWidth != null">
+        #{inbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagHeight != null">
+        #{inbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagVolume != null">
+        #{inbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWeight != null">
+        #{inbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagLength != null">
+        #{bigbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWidth != null">
+        #{bigbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagHeight != null">
+        #{bigbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagVolume != null">
+        #{bigbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWeight != null">
+        #{bigbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryMode != null">
+        #{deliveryMode,jdbcType=INTEGER},
+      </if>
+      <if test="replenishmentPolicy != null">
+        #{replenishmentPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="minimumPurchasingBatch != null">
+        #{minimumPurchasingBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumDistributionBatch != null">
+        #{minimumDistributionBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="nearEffectPeriod != null">
+        #{nearEffectPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="nearEffectPeriodUnit != null">
+        #{nearEffectPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycle != null">
+        #{unsalableCycle,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycleUnit != null">
+        #{unsalableCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceType != null">
+        #{maintenanceType,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycle != null">
+        #{maintenanceCycle,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycleUnit != null">
+        #{maintenanceCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceMeasureIds != null">
+        #{maintenanceMeasureIds,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    update saas_goods_storage
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="inbagQuantity != null">
+        inbag_quantity = #{inbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagQuantity != null">
+        bigbag_quantity = #{bigbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagLength != null">
+        smallbag_length = #{smallbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWidth != null">
+        smallbag_width = #{smallbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagHeight != null">
+        smallbag_height = #{smallbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagVolume != null">
+        smallbag_volume = #{smallbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWeight != null">
+        smallbag_weight = #{smallbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagLength != null">
+        inbag_length = #{inbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWidth != null">
+        inbag_width = #{inbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagHeight != null">
+        inbag_height = #{inbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagVolume != null">
+        inbag_volume = #{inbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWeight != null">
+        inbag_weight = #{inbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagLength != null">
+        bigbag_length = #{bigbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWidth != null">
+        bigbag_width = #{bigbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagHeight != null">
+        bigbag_height = #{bigbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagVolume != null">
+        bigbag_volume = #{bigbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWeight != null">
+        bigbag_weight = #{bigbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryMode != null">
+        delivery_mode = #{deliveryMode,jdbcType=INTEGER},
+      </if>
+      <if test="replenishmentPolicy != null">
+        replenishment_policy = #{replenishmentPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="minimumPurchasingBatch != null">
+        minimum_purchasing_batch = #{minimumPurchasingBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumDistributionBatch != null">
+        minimum_distribution_batch = #{minimumDistributionBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="nearEffectPeriod != null">
+        near_effect_period = #{nearEffectPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="nearEffectPeriodUnit != null">
+        near_effect_period_unit = #{nearEffectPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycle != null">
+        unsalable_cycle = #{unsalableCycle,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycleUnit != null">
+        unsalable_cycle_unit = #{unsalableCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceType != null">
+        maintenance_type = #{maintenanceType,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycle != null">
+        maintenance_cycle = #{maintenanceCycle,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycleUnit != null">
+        maintenance_cycle_unit = #{maintenanceCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceMeasureIds != null">
+        maintenance_measure_ids = #{maintenanceMeasureIds,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    update saas_goods_storage
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      inbag_quantity = #{inbagQuantity,jdbcType=DECIMAL},
+      bigbag_quantity = #{bigbagQuantity,jdbcType=DECIMAL},
+      smallbag_length = #{smallbagLength,jdbcType=DECIMAL},
+      smallbag_width = #{smallbagWidth,jdbcType=DECIMAL},
+      smallbag_height = #{smallbagHeight,jdbcType=DECIMAL},
+      smallbag_volume = #{smallbagVolume,jdbcType=DECIMAL},
+      smallbag_weight = #{smallbagWeight,jdbcType=DECIMAL},
+      inbag_length = #{inbagLength,jdbcType=DECIMAL},
+      inbag_width = #{inbagWidth,jdbcType=DECIMAL},
+      inbag_height = #{inbagHeight,jdbcType=DECIMAL},
+      inbag_volume = #{inbagVolume,jdbcType=DECIMAL},
+      inbag_weight = #{inbagWeight,jdbcType=DECIMAL},
+      bigbag_length = #{bigbagLength,jdbcType=DECIMAL},
+      bigbag_width = #{bigbagWidth,jdbcType=DECIMAL},
+      bigbag_height = #{bigbagHeight,jdbcType=DECIMAL},
+      bigbag_volume = #{bigbagVolume,jdbcType=DECIMAL},
+      bigbag_weight = #{bigbagWeight,jdbcType=DECIMAL},
+      delivery_mode = #{deliveryMode,jdbcType=INTEGER},
+      replenishment_policy = #{replenishmentPolicy,jdbcType=INTEGER},
+      minimum_purchasing_batch = #{minimumPurchasingBatch,jdbcType=DECIMAL},
+      minimum_distribution_batch = #{minimumDistributionBatch,jdbcType=DECIMAL},
+      near_effect_period = #{nearEffectPeriod,jdbcType=INTEGER},
+      near_effect_period_unit = #{nearEffectPeriodUnit,jdbcType=INTEGER},
+      unsalable_cycle = #{unsalableCycle,jdbcType=INTEGER},
+      unsalable_cycle_unit = #{unsalableCycleUnit,jdbcType=INTEGER},
+      maintenance_type = #{maintenanceType,jdbcType=INTEGER},
+      maintenance_cycle = #{maintenanceCycle,jdbcType=INTEGER},
+      maintenance_cycle_unit = #{maintenanceCycleUnit,jdbcType=INTEGER},
+      maintenance_measure_ids = #{maintenanceMeasureIds,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByGoodsId" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsStorage">
+    update saas_goods_storage
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="inbagQuantity != null">
+        inbag_quantity = #{inbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagQuantity != null">
+        bigbag_quantity = #{bigbagQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagLength != null">
+        smallbag_length = #{smallbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWidth != null">
+        smallbag_width = #{smallbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagHeight != null">
+        smallbag_height = #{smallbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagVolume != null">
+        smallbag_volume = #{smallbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="smallbagWeight != null">
+        smallbag_weight = #{smallbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagLength != null">
+        inbag_length = #{inbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWidth != null">
+        inbag_width = #{inbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagHeight != null">
+        inbag_height = #{inbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagVolume != null">
+        inbag_volume = #{inbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="inbagWeight != null">
+        inbag_weight = #{inbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagLength != null">
+        bigbag_length = #{bigbagLength,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWidth != null">
+        bigbag_width = #{bigbagWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagHeight != null">
+        bigbag_height = #{bigbagHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagVolume != null">
+        bigbag_volume = #{bigbagVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="bigbagWeight != null">
+        bigbag_weight = #{bigbagWeight,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryMode != null">
+        delivery_mode = #{deliveryMode,jdbcType=INTEGER},
+      </if>
+      <if test="replenishmentPolicy != null">
+        replenishment_policy = #{replenishmentPolicy,jdbcType=INTEGER},
+      </if>
+      <if test="minimumPurchasingBatch != null">
+        minimum_purchasing_batch = #{minimumPurchasingBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumDistributionBatch != null">
+        minimum_distribution_batch = #{minimumDistributionBatch,jdbcType=DECIMAL},
+      </if>
+      <if test="nearEffectPeriod != null">
+        near_effect_period = #{nearEffectPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="nearEffectPeriodUnit != null">
+        near_effect_period_unit = #{nearEffectPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycle != null">
+        unsalable_cycle = #{unsalableCycle,jdbcType=INTEGER},
+      </if>
+      <if test="unsalableCycleUnit != null">
+        unsalable_cycle_unit = #{unsalableCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceType != null">
+        maintenance_type = #{maintenanceType,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycle != null">
+        maintenance_cycle = #{maintenanceCycle,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceCycleUnit != null">
+        maintenance_cycle_unit = #{maintenanceCycleUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintenanceMeasureIds != null">
+        maintenance_measure_ids = #{maintenanceMeasureIds,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </update>
+
+  <select id="getByGoodsId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_goods_storage
+    where goods_id = #{goodsId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByGoodsidAndEnterpriseId" resultMap="GoodsStorageDataVOMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+        saas_goods_storage
+    WHERE
+        id = #{goodsId}
+    AND enterprise_id = #{enterpriseId}
+  </select>
+</mapper>

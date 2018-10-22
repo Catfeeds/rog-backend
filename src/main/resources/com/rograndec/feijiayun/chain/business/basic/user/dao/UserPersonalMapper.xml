@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.UserPersonalMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="marital_status" jdbcType="INTEGER" property="maritalStatus" />
+    <result column="nation_id" jdbcType="BIGINT" property="nationId" />
+    <result column="political_outlook" jdbcType="VARCHAR" property="politicalOutlook" />
+    <result column="origin_place" jdbcType="VARCHAR" property="originPlace" />
+    <result column="adderss" jdbcType="VARCHAR" property="adderss" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="wechat_num" jdbcType="VARCHAR" property="wechatNum" />
+    <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="photo_id" jdbcType="BIGINT" property="photoId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, enterprise_id, parent_id, sex, id_num, birth_date, marital_status, nation_id, 
+    political_outlook, origin_place, adderss, mobile_phone, telephone, wechat_num, qq_num, 
+    email, photo_id, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_user_personal
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user_personal
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByMobilePhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user_personal
+    where mobile_phone = #{mobilePhone,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectUserPersonalByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_user_personal
+    where user_id = #{adminId}
+  </select>
+
+  <select id="selectUserPersonalByUserIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user_personal
+    where user_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_user_personal
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal">
+    insert into saas_user_personal (id, user_id, enterprise_id, 
+      parent_id, sex, id_num, 
+      birth_date, marital_status, nation_id, 
+      political_outlook, origin_place, adderss, 
+      mobile_phone, telephone, wechat_num, 
+      qq_num, email, photo_id, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT}, #{sex,jdbcType=INTEGER}, #{idNum,jdbcType=VARCHAR}, 
+      #{birthDate,jdbcType=TIMESTAMP}, #{maritalStatus,jdbcType=INTEGER}, #{nationId,jdbcType=BIGINT}, 
+      #{politicalOutlook,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, #{adderss,jdbcType=VARCHAR}, 
+      #{mobilePhone,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{wechatNum,jdbcType=VARCHAR}, 
+      #{qqNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{photoId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal"
+          useGeneratedKeys="true" keyProperty="id">
+    insert into saas_user_personal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="maritalStatus != null">
+        marital_status,
+      </if>
+      <if test="nationId != null">
+        nation_id,
+      </if>
+      <if test="politicalOutlook != null">
+        political_outlook,
+      </if>
+      <if test="originPlace != null">
+        origin_place,
+      </if>
+      <if test="adderss != null">
+        adderss,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="wechatNum != null">
+        wechat_num,
+      </if>
+      <if test="qqNum != null">
+        qq_num,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="photoId != null">
+        photo_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maritalStatus != null">
+        #{maritalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="nationId != null">
+        #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="politicalOutlook != null">
+        #{politicalOutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="adderss != null">
+        #{adderss,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photoId != null">
+        #{photoId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal">
+    update saas_user_personal
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maritalStatus != null">
+        marital_status = #{maritalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="nationId != null">
+        nation_id = #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="politicalOutlook != null">
+        political_outlook = #{politicalOutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="adderss != null">
+        adderss = #{adderss,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="photoId != null">
+        photo_id = #{photoId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal">
+    update saas_user_personal
+    set user_id = #{userId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      sex = #{sex,jdbcType=INTEGER},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      marital_status = #{maritalStatus,jdbcType=INTEGER},
+      nation_id = #{nationId,jdbcType=BIGINT},
+      political_outlook = #{politicalOutlook,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      adderss = #{adderss,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      qq_num = #{qqNum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      photo_id = #{photoId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--出生日期 birth_dat，照片附件ID photo_id 可修改为null zhangyu 2018-02-01 19:09:30-->
+  <update id="updateByPrimaryKeyPartSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserPersonal">
+    update saas_user_personal
+    <set>
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+        photo_id = #{photoId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+
+      <if test="maritalStatus != null">
+        marital_status = #{maritalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="nationId != null">
+        nation_id = #{nationId,jdbcType=BIGINT},
+      </if>
+      <if test="politicalOutlook != null">
+        political_outlook = #{politicalOutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null">
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="adderss != null">
+        adderss = #{adderss,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

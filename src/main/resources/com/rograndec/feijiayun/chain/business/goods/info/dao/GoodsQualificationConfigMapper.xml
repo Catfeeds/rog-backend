@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.info.dao.GoodsQualificationConfigMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="qualification_id" jdbcType="BIGINT" property="qualificationId" />
+    <result column="qualification_code" jdbcType="VARCHAR" property="qualificationCode" />
+    <result column="valid_until" jdbcType="TIMESTAMP" property="validUntil" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+
+
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.goods.info.vo.GoodsQualificationConfigVO" extends="BaseResultMap">
+    <result column="qualificationConfigId" jdbcType="BIGINT" property="qualificationConfigId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, enterprise_id,  qualification_id, qualification_code, valid_until, file_id,
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <sql id="SgqcBase_Column_List">
+    sgqc.id, sgqc.goods_id, sgqc.enterprise_id,  sgqc.qualification_id, sgqc.qualification_code, sgqc.valid_until, sgqc.file_id,
+    sgqc.remark, sgqc.creater_id, sgqc.creater_code, sgqc.creater_name, sgqc.create_time, sgqc.modifier_id, sgqc.modifier_code,
+    sgqc.modifier_name, sgqc.update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_qualification_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_goods_qualification_config
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    AND id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectCurrentEnterpriseByIds" resultMap="BaseResultMap">
+    select
+    <include refid="SgqcBase_Column_List" />
+    from saas_goods_qualification_config sgqc, saas_goods sg
+    where sgqc.goods_id = sg.id AND sg.enterprise_id = #{enterpriseId,jdbcType=BIGINT} and sg.owner_id = #{ownerId,jdbcType=BIGINT}
+    AND sgqc.qualification_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_qualification_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    insert into saas_goods_qualification_config (id, goods_id, enterprise_id, 
+      qualification_id, qualification_code, valid_until, 
+      file_id, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{qualificationId,jdbcType=BIGINT}, #{qualificationCode,jdbcType=VARCHAR}, #{validUntil,jdbcType=TIMESTAMP}, 
+      #{fileId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    insert into saas_goods_qualification_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="qualificationId != null">
+        qualification_id,
+      </if>
+      <if test="qualificationCode != null">
+        qualification_code,
+      </if>
+      <if test="validUntil != null">
+        valid_until,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationId != null">
+        #{qualificationId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationCode != null">
+        #{qualificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validUntil != null">
+        #{validUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    update saas_goods_qualification_config
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationId != null">
+        qualification_id = #{qualificationId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationCode != null">
+        qualification_code = #{qualificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validUntil != null">
+        valid_until = #{validUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    update saas_goods_qualification_config
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      qualification_id = #{qualificationId,jdbcType=BIGINT},
+      qualification_code = #{qualificationCode,jdbcType=VARCHAR},
+      valid_until = #{validUntil,jdbcType=TIMESTAMP},
+      file_id = #{fileId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getQualificationConfigList" parameterType="java.lang.Long" resultMap="BaseResultMapVO">
+    SELECT  qcon.id as qualificationConfigId,qcon.goods_id, qcon.enterprise_id, qcon.qualification_id, qcon.qualification_code, qcon.valid_until, qcon.file_id,file.file_name
+    FROM saas_goods_qualification_config qcon
+    left join  saas_file file on qcon.file_id = file.id
+    WHERE qcon.goods_id = #{goodsId}
+  </select>
+  <select id="getGoodsQualificationConfigByGoodsIdQUID" resultMap="BaseResultMapVO">
+    SELECT
+    id as qualificationConfigId,goods_id, enterprise_id, qualification_id, qualification_code, valid_until, file_id
+    FROM saas_goods_qualification_config qcon
+    WHERE qcon.goods_id = #{goodsId} AND  qcon.qualification_id = #{qualificationId} AND qcon.enterprise_id = #{enterpriseId}
+  </select>
+
+  <!--updateByGoodsIdQUID-->
+  <update id="updateByGoodsIdQUID" parameterType="com.rograndec.feijiayun.chain.business.goods.info.entity.GoodsQualificationConfig">
+    update saas_goods_qualification_config
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="qualificationCode != null">
+        qualification_code = #{qualificationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="validUntil != null">
+        valid_until = #{validUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where goods_id = #{goodsId} AND qualification_id = #{qualificationId}
+  </update>
+</mapper>

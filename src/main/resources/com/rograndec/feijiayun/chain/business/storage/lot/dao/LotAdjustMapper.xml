@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.lot.dao.LotAdjustMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.lot.entity.LotAdjust">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="adjust_date" jdbcType="TIMESTAMP" property="adjustDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="adjust_man_id" jdbcType="BIGINT" property="adjustManId" />
+    <result column="adjust_man_code" jdbcType="VARCHAR" property="adjustManCode" />
+    <result column="adjust_man_name" jdbcType="VARCHAR" property="adjustManName" />
+    <result column="adjust_reason" jdbcType="VARCHAR" property="adjustReason" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+  <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+  <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+  <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+  <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+  </resultMap>
+    <resultMap id="LotAdjustList" type="com.rograndec.feijiayun.chain.business.storage.lot.vo.LotAdjustVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="adjust_date" jdbcType="TIMESTAMP" property="adjustDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="adjust_man_id" jdbcType="BIGINT" property="adjustManId" />
+    <result column="adjust_man_code" jdbcType="VARCHAR" property="adjustManCode" />
+    <result column="adjust_man_name" jdbcType="VARCHAR" property="adjustManName" />
+    <result column="adjust_reason" jdbcType="VARCHAR" property="adjustReason" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap id="LotAdjustVO" type="com.rograndec.feijiayun.chain.business.storage.lot.vo.LotAdjustVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="adjust_date" jdbcType="TIMESTAMP" property="adjustDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="adjust_man_id" jdbcType="BIGINT" property="adjustManId" />
+    <result column="adjust_man_code" jdbcType="VARCHAR" property="adjustManCode" />
+    <result column="adjust_man_name" jdbcType="VARCHAR" property="adjustManName" />
+    <result column="adjust_reason" jdbcType="VARCHAR" property="adjustReason" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+       <collection property="lotAdjustDetailVOList" ofType="com.rograndec.feijiayun.chain.business.storage.lot.vo.LotAdjustDetailVO">
+     <id column="detail_id" jdbcType="BIGINT" property="id" />
+     <result column="detail_order_type" jdbcType="INTEGER" property="orderType" />
+     <result column="detail_adjust_date" jdbcType="TIMESTAMP" property="adjustDate" />
+     <result column="detail_code" jdbcType="VARCHAR" property="code" />
+     <result column="detail_adjust_id" jdbcType="BIGINT" property="adjustId" />
+     <result column="detail_adjust_code" jdbcType="VARCHAR" property="adjustCode" />
+     <result column="detail_goods_id" jdbcType="BIGINT" property="goodsId" />
+     <result column="detail_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+     <result column="detail_goods_name" jdbcType="VARCHAR" property="goodsName" />
+     <result column="detail_lot_id" jdbcType="BIGINT" property="lotId" />
+     <result column="detail_lot_num" jdbcType="VARCHAR" property="lotNum" />
+     <result column="detail_product_date" jdbcType="TIMESTAMP" property="productDate" />
+     <result column="detail_valid_until" jdbcType="TIMESTAMP" property="validUntil" />
+     <result column="detail_new_lot_num" jdbcType="VARCHAR" property="newLotNum" />
+     <result column="detail_new_product_date" jdbcType="TIMESTAMP" property="newProductDate" />
+     <result column="detail_new_valid_until" jdbcType="TIMESTAMP" property="newValidUntil" />
+     <result column="detail_status" jdbcType="INTEGER" property="status" />
+     <result column="detail_remark" jdbcType="VARCHAR" property="remark" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    </collection>
+  </resultMap>
+     <select id="selectById" parameterType="java.lang.Long" resultMap="LotAdjustVO">
+    select 
+    adjust.id,adjust.order_type,adjust.adjust_date,adjust.code,
+    adjust.adjust_man_id,adjust.adjust_man_code,adjust.adjust_man_name,
+    adjust.adjust_reason,adjust.status,adjust.remark,
+    detail.id as detail_id,detail.order_type as detail_order_type,detail.adjust_date as detail_adjust_date, 
+    detail.code as detail_code,detail.adjust_id as detail_adjust_id,
+    detail.adjust_code as detail_adjust_code,detail.goods_id as detail_goods_id,
+    detail.goods_code as detail_goods_code,detail.goods_name as detail_goods_name,
+    detail.lot_id as detail_lot_id,detail.lot_num as detail_lot_num,
+    detail.product_date as detail_product_date,detail.valid_until as detail_valid_until,
+    detail.new_lot_num as detail_new_lot_num,
+    detail.new_product_date as detail_new_product_date,detail.new_valid_until as detail_new_valid_until,
+    detail.status as detail_status,
+    detail.remark as detail_remark,
+    goods.specification as goods_specification,goods.dosage_name as dosage_name,goods.unit_name as unit_name,
+    goods.manufacturer as manufacturer,goods.place as goods_place,goods.generic_name as goods_generic_name
+    from saas_lot_adjust adjust
+    LEFT JOIN saas_lot_adjust_detail detail ON detail.adjust_id = adjust.id
+    LEFT JOIN saas_goods goods ON detail.goods_id=goods.id
+    where adjust.id = #{id,jdbcType=BIGINT}
+   </select>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, adjust_date, code, adjust_man_id, adjust_man_code, 
+    adjust_man_name, adjust_reason, status, remark, creater_id, creater_code, creater_name, 
+    create_time,quantity_total,varieties_quantity,amount_total,notax_amount_total,tax_amount_total
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_lot_adjust
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_lot_adjust
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.lot.entity.LotAdjust" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_lot_adjust (id, enterprise_id, parent_id, 
+      order_type, adjust_date, code, 
+      adjust_man_id, adjust_man_code, adjust_man_name, 
+      adjust_reason, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time,
+      quantity_total,
+      varieties_quantity,
+      amount_total,
+      notax_amount_total,
+      tax_amount_total)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{adjustDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{adjustManId,jdbcType=BIGINT}, #{adjustManCode,jdbcType=VARCHAR}, #{adjustManName,jdbcType=VARCHAR}, 
+      #{adjustReason,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP},
+      #{quantityTotal,jdbcType=DECIMAL},
+      #{varietiesQuantity,jdbcType=INTEGER},
+      #{amountTotal,jdbcType=DECIMAL},
+      #{notaxAmountTotal,jdbcType=DECIMAL},
+      #{taxAmountTotal,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.lot.entity.LotAdjust">
+    insert into saas_lot_adjust
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="adjustDate != null">
+        adjust_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="adjustManId != null">
+        adjust_man_id,
+      </if>
+      <if test="adjustManCode != null">
+        adjust_man_code,
+      </if>
+      <if test="adjustManName != null">
+        adjust_man_name,
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+       <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+       <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+       <if test="amountTotal != null">
+        amount_total,
+      </if>
+       <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+       <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="adjustDate != null">
+        #{adjustDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustManId != null">
+        #{adjustManId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustManCode != null">
+        #{adjustManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustManName != null">
+        #{adjustManName,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustReason != null">
+        #{adjustReason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+       <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="notaxAmountTotal != null">
+        #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.lot.entity.LotAdjust">
+    update saas_lot_adjust
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="adjustDate != null">
+        adjust_date = #{adjustDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustManId != null">
+        adjust_man_id = #{adjustManId,jdbcType=BIGINT},
+      </if>
+      <if test="adjustManCode != null">
+        adjust_man_code = #{adjustManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustManName != null">
+        adjust_man_name = #{adjustManName,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustReason != null">
+        adjust_reason = #{adjustReason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+       remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+       creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+       creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+       creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+       create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="quantityTotal != null">
+       quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="varietiesQuantity != null">
+       varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+       <if test="amountTotal != null">
+       amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="notaxAmountTotal != null">
+       notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+       <if test="taxAmountTotal != null">
+       tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.lot.entity.LotAdjust">
+    update saas_lot_adjust
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      adjust_date = #{adjustDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      adjust_man_id = #{adjustManId,jdbcType=BIGINT},
+      adjust_man_code = #{adjustManCode,jdbcType=VARCHAR},
+      adjust_man_name = #{adjustManName,jdbcType=VARCHAR},
+      adjust_reason = #{adjustReason,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL}
+      where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 选择商品
+                    以下的sql直接根据批号表里查出的可能存在问题
+        SELECT
+        lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validUntil,
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode
+        FROM saas_goods goods 
+        RIGHT JOIN saas_lot_number lot on goods.id=lot.goods_id 
+   -->
+  <select id="selectGoodsList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.lot.vo.GoodsLotNumberVO">
+        SELECT
+        lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validUntil,
+        goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.barcode as barcode
+     <!--    FROM saas_goods goods 
+        RIGHT JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId} and stock.quantity &gt; 0  and (select sum(lock_quantity) from saas_stock where enterprise_id=#{enterpriseId} and goods_id=goods.id and lot_id=stock.lot_id  group by lot_id) &lt;= 0
+        LEFT JOIN saas_lot_number lot ON stock.lot_id=lot.id  and lot.enterprise_id=#{enterpriseId}
+        where goods.enterprise_id=#{parentId}  
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1 -->
+        <!-- 加盟店修改 -->
+		        FROM
+			(
+				SELECT
+					*,sum(lock_quantity) as locknum
+				FROM
+					saas_stock
+				WHERE
+					enterprise_id = #{enterpriseId}
+				AND quantity > 0	
+				GROUP BY lot_id
+				HAVING locknum =0 
+			) stock
+		LEFT JOIN saas_goods goods ON goods.id = stock.goods_id
+		LEFT JOIN saas_lot_number lot ON stock.lot_id = lot.id
+		WHERE
+			goods.approve_status = 1
+		AND goods. STATUS = 1
+		AND goods.valid_flag = 1
+        <if test="param != null">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	    </if>
+   </select>
+   
+  <select id="selectLotAdjustList" parameterType="java.util.Map" resultMap="LotAdjustList">
+    select
+    <include refid="Base_Column_List" />
+    from saas_lot_adjust
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustManName != null">
+    	and adjust_man_name = #{adjustManName,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null" > 
+	    and adjust_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null" > 
+	    and adjust_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+    <choose>
+        <when test="sortField != null and sort != null">
+             order by ${sortField}  ${sort}
+        </when>
+        <otherwise>
+            order by create_time desc
+        </otherwise>
+    </choose>
+	    limit ${pageNo},${pageSize}
+  </select>
+  
+   <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_lot_adjust
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="adjustManName != null">
+    	and adjust_man_name = #{adjustManName,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null" > 
+	    and adjust_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null" > 
+	    and adjust_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+  </select>
+   <select id="selectLotNumberList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.lot.vo.LotNumberVO">
+        SELECT
+        lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validUntil
+        FROM saas_lot_number lot 
+    	WHERE lot.enterprise_id = #{enterpriseId}
+   </select>
+      <select id="selectStockVOByParam" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.lot.vo.LotStockVO">
+    SELECT
+	k.shelf_id AS shelfId,
+	k.quantity,
+	k.lockQuantity,
+	k.usableQuantity,
+	(
+		SELECT
+			NAME
+		FROM
+			saas_warehouse_shelf shelf
+		WHERE
+			k.shelf_id = shelf.id
+	) AS shelfName
+FROM
+	(
+		SELECT
+			shelf_id,
+			sum(stock.quantity) AS quantity,
+			sum(stock.lock_quantity) AS lockQuantity,
+			sum(stock.usable_quantity) AS usableQuantity
+		FROM
+			saas_stock stock
+		WHERE enterprise_id = #{enterpriseId}
+        and goods_id = #{goodsId}
+        and lot_id = #{lotId}
+        group by
+        stock.shelf_id
+	) k
+
+  </select>
+</mapper>

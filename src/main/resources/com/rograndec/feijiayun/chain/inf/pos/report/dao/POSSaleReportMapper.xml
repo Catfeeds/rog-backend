@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.report.dao.POSSaleReportMapper">
+	
+	<sql id="whereSql">
+		and s.`enterprise_id` = #{enterpriseId}
+		<if test="startDate != null">
+    		and DATE_FORMAT(s.sale_date,'%Y-%m-%d') &gt;= #{startDate}
+	    </if>
+	    <if test="endDate != null">
+	    	and DATE_FORMAT(s.sale_date,'%Y-%m-%d') &lt;= #{endDate}
+	    </if>
+	</sql>
+	
+	<select id="getSaleDate" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleDateVO">
+	SELECT 
+	sale_date AS saleDate,
+	stand_code AS standCode,
+	enterprise_id AS enterpriseId,
+	payee_id AS payeeId,
+	payee_name AS payeeName,
+	SUM(sale_quantity)AS saleQuantity,
+	SUM(real_amount_total)AS realAmount,
+	SUM(return_sale_quantity)AS returnQuantity,
+	SUM(return_real_amount_total)AS returnRealAmount,
+	IFNULL(SUM(real_amount_total),0) + IFNULL(SUM(return_real_amount_total),0) AS realAmountTotal,
+	SUM(cash) AS cash
+	FROM
+	(
+		SELECT
+		s.sale_date,
+		s.stand_code,
+		s.enterprise_id,
+		s.payee_id,
+		s.payee_name,
+		(CASE WHEN s.sale_type = 0 THEN 1 END) AS sale_quantity ,
+		(CASE WHEN s.sale_type = 0 THEN s.real_amount_total END) AS real_amount_total ,
+		(CASE WHEN s.sale_type = 0 THEN s.notax_real_amount_total END) AS notax_real_amount_total ,
+		(CASE WHEN s.sale_type = 0 THEN s.tax_amount_total END) AS tax_amount_total,
+		(CASE WHEN s.sale_type = 1 THEN 1 END) AS return_sale_quantity ,
+		(CASE WHEN s.sale_type = 1 THEN -1*s.real_amount_total END) AS
+		return_real_amount_total,
+		IFNULL(so.cash,0) AS cash
+		FROM
+		saas_sale s
+		LEFT JOIN saas_payee_opening_shift_detail dtl ON s.code =
+		dtl.base_order_code AND s.enterprise_id=dtl.enterprise_id
+		LEFT JOIN saas_payee_opening_shift so ON dtl.doc_id = so.id AND so.enterprise_id=dtl.enterprise_id
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		order by s.id desc
+	)tab1
+	
+	GROUP BY payee_id
+	</select>
+	
+	<select id="sumSaleDate" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleDateTotalVO">
+    SELECT 
+	SUM(sale_quantity)AS saleQuantityTotal,
+	SUM(real_amount_total)AS realAmount,
+	SUM(return_sale_quantity)AS returnQuantity,
+	SUM(return_real_amount_total)AS returnRealAmount,
+	IFNULL(SUM(real_amount_total),0) + IFNULL(SUM(return_real_amount_total),0) AS realAmountTotal,
+	sum(cash) as cashTotal
+	FROM
+	(
+		SELECT
+		s.sale_date,
+		s.stand_code,
+		s.enterprise_id,
+		s.payee_id,
+		s.payee_name,
+		(CASE WHEN s.sale_type = 0 THEN 1 END) AS sale_quantity ,
+		(CASE WHEN s.sale_type = 0 THEN s.real_amount_total END) AS real_amount_total ,
+		(CASE WHEN s.sale_type = 0 THEN s.notax_real_amount_total END) AS notax_real_amount_total ,
+		(CASE WHEN s.sale_type = 0 THEN s.tax_amount_total END) AS tax_amount_total,
+		(CASE WHEN s.sale_type = 1 THEN 1 END) AS return_sale_quantity ,
+		(CASE WHEN s.sale_type = 1 THEN -1*s.real_amount_total END) AS
+		return_real_amount_total,
+		IFNULL(so.cash,0) AS cash
+		FROM
+		saas_sale s
+		LEFT JOIN saas_payee_opening_shift_detail dtl ON s.code =
+		dtl.base_order_code AND s.enterprise_id=dtl.enterprise_id
+		LEFT JOIN saas_payee_opening_shift so ON dtl.doc_id = so.id AND so.enterprise_id=dtl.enterprise_id
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		order by s.id desc
+	)tab1	
+	</select>
+	
+	<select id="getSaleCode" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleCodeVO">
+	SELECT 
+	s.id,
+	s.sale_date AS saleDate,
+	s.code AS saleCode,
+	CASE WHEN s.sale_mode=0 THEN '常规' WHEN s.sale_mode=1 THEN '中药' END AS saleMode,
+	CASE WHEN s.sale_type=0 THEN '销售' WHEN s.sale_type=1 THEN '销退' END AS saleType,
+	s.stand_code AS standCode,
+	s.payee_name AS payeeName,
+	s.member_card_code AS memberCardCode,
+	s.amount_total AS amountTotal,
+	s.whole_discount AS wholeDiscount,
+	s.whole_discount_amount AS wholeDiscountAmount,
+	s.real_amount_total AS realAmountTotal,
+	s.create_time as createTime,
+	s.dose,
+	s.member_name as memberName,
+	s.member_integral as memberIntegral,
+	s.this_integral_total as thisIntegralTotal
+	FROM
+	saas_sale s
+	where 1=1
+	<include refid="whereSql"></include>
+	order by s.id desc
+	</select>
+	
+	<select id="sumSaleCode" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleCodeTotalVO">
+	SELECT 
+	sum(s.amount_total) AS amountTotal,
+	sum(s.whole_discount_amount) AS wholeDiscountAmount,
+	sum(s.real_amount_total) AS realAmountTotal
+	FROM
+	saas_sale s
+	where 1=1
+	<include refid="whereSql"></include>
+	</select>
+	
+	<select id="getSaleGoods" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleGoodsVO">
+	SELECT 
+	s.id,
+	s.sale_date AS saleDate,
+	s.code AS saleCode,
+	CASE WHEN s.sale_mode=0 THEN '常规' WHEN s.sale_mode=1 THEN '中药' END AS saleMode,
+	CASE WHEN s.sale_type=0 THEN '销售' WHEN s.sale_type=1 THEN '销退' END AS saleType,
+	sd.goods_id AS goodsId,
+	sd.goods_code AS goodsCode,
+	sd.barcode,
+	sd.goods_name AS goodsName,
+	sd.goods_generic_name AS goodsGenericName,
+	sd.dosage_id AS dosageId,
+	sd.dosage_name AS dosageName,
+	sd.unit_id AS unitId,
+	sd.unit_name AS unitName,
+	sd.goods_specification AS goodsSpecification,
+	sd.manufacturer_id AS manufacturerId,
+	sd.manufacturer,
+	sd.goods_place AS goodsPlace,
+	sh.lot_number as lotNumber,
+  	sh.product_date as productDate,
+  	sh.valid_date as validDate,
+  	sh.shelf_id as shelfId,
+  	sh.shelf_name as shelfName,
+	sd.approval_number AS approvalNumber,
+	sd.quantity,
+	sd.line_discount AS lineDiscount,
+	sd.amount,
+	sd.whole_discount AS wholeDiscount,
+	sd.line_discount_amount AS lineDiscountAmount,
+	sd.real_amount AS realAmount,
+	s.stand_code AS standCode,
+	s.payee_name AS payeeName,
+	sd.clerk_name AS clerkName,
+	s.member_card_code AS memberCardCode,
+	sd.real_price as realPrice
+	FROM
+	saas_sale s 
+	JOIN saas_sale_detail sd
+	ON s.id = sd.sale_id
+	JOIN saas_sale_shelf sh
+    ON sd.id = sh.sale_dtl_id AND s.id = sh.sale_id
+	where 1=1
+	<include refid="whereSql"></include>
+	
+	order by s.id desc
+	</select>
+	
+	<select id="sumSaleGoods" parameterType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleParamVO" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleGoodsTotalVO">
+	select 
+	sum(quantity) as quantityTotal,
+	sum(amount) as amountTotal,
+	sum(lineDiscountAmount) as lineDiscountAmount,
+	sum(realAmount) as realAmount
+	from
+	(
+	SELECT
+	sd.quantity,
+	sd.amount,
+	sd.line_discount_amount AS lineDiscountAmount,
+	sd.real_amount AS realAmount
+	FROM
+	saas_sale s 
+	JOIN saas_sale_detail sd
+	ON s.id = sd.sale_id
+	JOIN saas_sale_shelf sh
+    ON sd.id = sh.sale_dtl_id AND s.id = sh.sale_id
+	where 1=1
+	<include refid="whereSql"></include>
+	
+	)tab
+	</select>
+	
+	
+	<select id="getSaleGoodsBySaleId" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.SaleGoodsVO">
+	SELECT 
+	s.id,
+	s.sale_date AS saleDate,
+	s.code AS saleCode,
+	CASE WHEN s.sale_mode=0 THEN '常规' WHEN s.sale_mode=1 THEN '中药' END AS saleMode,
+	CASE WHEN s.sale_type=0 THEN '销售' WHEN s.sale_type=1 THEN '销退' END AS saleType,
+	sd.goods_id AS goodsId,
+	sd.goods_code AS goodsCode,
+	sd.barcode,
+	sd.goods_name AS goodsName,
+	sd.goods_generic_name AS goodsGenericName,
+	sd.dosage_id AS dosageId,
+	sd.dosage_name AS dosageName,
+	sd.unit_id AS unitId,
+	sd.unit_name AS unitName,
+	sd.goods_specification AS goodsSpecification,
+	sd.manufacturer_id AS manufacturerId,
+	sd.manufacturer,
+	sd.goods_place AS goodsPlace,
+	sh.lot_number as lotNumber,
+  	sh.product_date as productDate,
+  	sh.valid_date as validDate,
+  	sh.shelf_id as shelfId,
+  	sh.shelf_name as shelfName,
+	sd.approval_number AS approvalNumber,
+	sd.quantity,
+	sd.line_discount AS lineDiscount,
+	sd.amount,
+	sd.whole_discount AS wholeDiscount,
+	sd.line_discount_amount AS lineDiscountAmount,
+	sd.real_amount AS realAmount,
+	s.stand_code AS standCode,
+	s.payee_name AS payeeName,
+	sd.clerk_name AS clerkName,
+	s.member_card_code AS memberCardCode,
+	sd.unit_price as unitPrice,
+	sd.real_price as realPrice
+	FROM
+	saas_sale s 
+	JOIN saas_sale_detail sd
+	ON s.id = sd.sale_id
+	JOIN saas_sale_shelf sh
+    ON sd.id = sh.sale_dtl_id AND s.id = sh.sale_id
+	where 1=1
+	and s.id = #{saleId}
+	and s.`enterprise_id` = #{enterpriseId}
+	order by s.id desc
+	</select>
+	
+	<select id="getReceipt" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.ReceiptVO">
+		SELECT 
+		  id AS receiptId,
+		  enterprise_id,
+		  base_order_id AS baseOrderId,
+		  base_order_code AS baseOrderCode, 
+		  amount,
+		  real_amount AS realAmount,
+		  diff_amount AS diffAmount
+		FROM
+		  saas_receipt
+		where 1=1
+			and base_order_id=#{saleId}  
+			and enterprise_id = #{enterpriseId}
+	</select>
+	
+	<select id="getReceiptDtl" resultType="com.rograndec.feijiayun.chain.inf.pos.report.vo.ReceiptDetailVO">
+		SELECT 
+		  id AS receiptId,
+		  enterprise_id,
+		  pay_type_name AS payTypeName,
+		  bank_name AS bankName,
+		  card_account AS cardAccount,
+		  amount,
+		  balance,
+		  create_time AS createTime
+		FROM
+		  saas_receipt_detail
+		where 1=1
+		  and receipt_id=#{receiptId}
+		  and enterprise_id = #{enterpriseId}
+	</select>
+	
+</mapper>

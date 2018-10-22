@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.retail.dao.SaleAnalysisReportGroupMapper">
+    <resultMap id="CabinetSaleMap" type="com.rograndec.feijiayun.chain.business.report.retail.vo.ReportCabinetSaleVO">
+
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="storeCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="storeName"/>
+
+        <result column="sale_quantity" jdbcType="BIGINT" property="saleQuantity"/>
+        <result column="real_amount" jdbcType="DECIMAL" property="realAmount"/>
+        <result column="return_quantity" jdbcType="BIGINT" property="returnQuantity"/>
+        <result column="return_amount" jdbcType="DECIMAL" property="returnRealAmount"/>
+        <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal"/>
+        <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal"/>
+        <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal"/>
+
+        <result column="sale_date" jdbcType="TIMESTAMP" property="saleDate"/>
+        <result column="daily_time" jdbcType="TIMESTAMP" property="dailyTime"/>
+        <result column="cargo_area_id" jdbcType="BIGINT" property="cargoAreaId"/>
+        <result column="cargo_area_code" jdbcType="VARCHAR" property="cargoAreaCode"/>
+        <result column="cargo_area_name" jdbcType="VARCHAR" property="cargoAreaName"/>
+        <result column="clerk_id" jdbcType="VARCHAR" property="clerkId"/>
+        <result column="clerk_name" jdbcType="VARCHAR" property="clerkName"/>
+    </resultMap>
+
+    <resultMap id="TeamSaleMap" type="com.rograndec.feijiayun.chain.business.report.retail.vo.ReportTeamSaleVO">
+
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="storeCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="storeName"/>
+
+        <result column="sale_quantity" jdbcType="BIGINT" property="saleQuantity"/>
+        <result column="real_amount" jdbcType="DECIMAL" property="realAmount"/>
+        <result column="return_quantity" jdbcType="BIGINT" property="returnQuantity"/>
+        <result column="return_amount" jdbcType="DECIMAL" property="returnRealAmount"/>
+        <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal"/>
+        <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal"/>
+        <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal"/>
+
+        <result column="sale_date" jdbcType="TIMESTAMP" property="saleDate"/>
+        <result column="daily_time" jdbcType="TIMESTAMP" property="dailyTime"/>
+        <result column="team_id" jdbcType="BIGINT" property="teamId"/>
+        <result column="team_code" jdbcType="VARCHAR" property="teamCode"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="stand_code" jdbcType="VARCHAR" property="standCode"/>
+        <result column="payee_id" jdbcType="BIGINT" property="payeeId"/>
+        <result column="payee_name" jdbcType="VARCHAR" property="payeeName"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+    </resultMap>
+
+    <!--柜组销售查询条件-->
+    <sql id="cabinetWhereSql">
+        <choose>
+            <when test="epType == 1">AND sd.parent_id = #{enterpriseId}
+            </when>
+            <otherwise>
+                AND sd.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <if test="type == 2">
+            AND sale.daily_settlement_flag = 1
+        </if>
+        <if test="chainType!=null">and se.chain_type=#{chainType}</if>
+        <if test="enterpriseCode!=null and enterpriseCode!=''">
+            and
+            (
+            se.code like CONCAT('%',#{enterpriseCode},'%')
+            OR
+            se.pinyin like CONCAT('%',#{enterpriseCode},'%')
+            )
+        </if>
+        <if test="enterpriseName!=null and enterpriseName!=''">and se.name like CONCAT('%',#{enterpriseName},'%')</if>
+        <if test="cargoAreaName!=null and cargoAreaName!=''">and pc.name like
+            CONCAT('%',#{cargoAreaName},'%')
+        </if>
+
+        <if test="startDate != null and startDate != ''">
+            <choose>
+                <when test="type == 1">
+                    and sale.sale_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+                </when>
+                <otherwise>
+                    and sale.daily_time>=str_to_date(#{startDate},'%Y-%m-%d %T')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <choose>
+                <when test="type == 1">
+                    and str_to_date(#{endDate},'%Y-%m-%d %T')>=sale.sale_date
+                </when>
+                <otherwise>
+                    and and str_to_date(#{endDate},'%Y-%m-%d %T')>=sale.daily_time
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <!--班组销售查询条件-->
+    <sql id="teamWhereSql">
+        <choose>
+            <when test="epType == 1">AND sd.parent_id = #{enterpriseId}
+            </when>
+            <otherwise>
+                AND sd.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <if test="type == 2">
+            AND sale.daily_settlement_flag = 1
+        </if>
+        <if test="chainType!=null">and se.chain_type=#{chainType}</if>
+        <if test="enterpriseCode!=null and enterpriseCode!=''">
+            and
+            (
+            se.code like CONCAT('%',#{enterpriseCode},'%')
+            OR
+            se.pinyin like CONCAT('%',#{enterpriseCode},'%')
+            )
+        </if>
+        <if test="enterpriseName!=null and enterpriseName!=''">and se.name like CONCAT('%',#{enterpriseName},'%')</if>
+        <if test="teamName!=null and teamName!=''">and pt.name like
+            CONCAT('%',#{teamName},'%')
+        </if>
+
+        <if test="startDate != null and startDate != ''">
+            <choose>
+                <when test="type == 1">
+                    and sale.sale_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+                </when>
+                <otherwise>
+                    and sale.daily_time>=str_to_date(#{startDate},'%Y-%m-%d %T')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <choose>
+                <when test="type == 1">
+                    and str_to_date(#{endDate},'%Y-%m-%d %T')>=sale.sale_date
+                </when>
+                <otherwise>
+                    and and str_to_date(#{endDate},'%Y-%m-%d %T')>=sale.daily_time
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
+
+    <!--柜组分组条件-->
+    <sql id="cabinetGroupSql">
+        <choose>
+            <when test="type == 1">
+                GROUP BY sale.enterprise_id, str_to_date(sale.sale_date,'%Y-%m-%d'), pc.cargo_area_id
+            </when>
+            <otherwise>
+                GROUP BY sale.enterprise_id, str_to_date(sale.daily_time,'%Y-%m-%d'), pc.cargo_area_id
+            </otherwise>
+        </choose>
+    </sql>
+
+    <!--班组分组条件-->
+    <sql id="teamGroupSql">
+        <choose>
+            <when test="type == 1">
+                GROUP BY sale.enterprise_id, str_to_date(sale.sale_date,'%Y-%m-%d'), pt.id
+            </when>
+            <otherwise>
+                GROUP BY sale.enterprise_id, str_to_date(sale.daily_time,'%Y-%m-%d'), pt.id
+            </otherwise>
+        </choose>
+    </sql>
+
+    <!--查询柜组销售列表-->
+    <select id="getReportCabinetSaleList"
+            parameterType="com.rograndec.feijiayun.chain.business.report.retail.vo.RequestCabinetSaleVO"
+            resultMap="CabinetSaleMap">
+        SELECT
+        se.id as enterprise_id,
+        se.code as enterprise_code,
+        se.name as enterprise_name,
+
+        str_to_date(sale.sale_date,'%Y-%m-%d') as sale_date,
+        str_to_date(sale.daily_time,'%Y-%m-%d') as daily_time,
+        cargo.id cargo_area_id,
+        cargo.code cargo_area_code,
+        cargo.name cargo_area_name
+        FROM
+        saas_sale sale
+        LEFT JOIN
+        saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+        saas_sale_shelf shelf ON sd.id = shelf.sale_dtl_id
+        LEFT JOIN
+        saas_warehouse_shelf pc ON pc.id = shelf.shelf_id
+        LEFT JOIN
+        `saas_warehouse_cargo_area` cargo ON cargo.id = pc.`cargo_area_id`
+        LEFT JOIN
+        saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE 1 = 1
+        <include refid="cabinetWhereSql"></include>
+        <include refid="cabinetGroupSql"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY #{sort}
+        </if>
+    </select>
+
+    <!--查询柜组销售明细列表-->
+    <select id="getReportCabinetSaleDetailList" resultMap="CabinetSaleMap">
+        SELECT
+        se.id as enterprise_id,
+        se.code as enterprise_code,
+        se.name as enterprise_name,
+
+        str_to_date(sale.sale_date,'%Y-%m-%d') as sale_date,
+        str_to_date(sale.daily_time,'%Y-%m-%d') as daily_time,
+        cargo.id cargo_area_id,
+        cargo.code cargo_area_code,
+        cargo.name cargo_area_name,
+        sd.clerk_id,
+        sd.clerk_name
+        FROM
+        saas_sale sale
+        LEFT JOIN
+        saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+        saas_sale_shelf shelf ON sd.id = shelf.sale_dtl_id
+        LEFT JOIN
+        saas_warehouse_shelf pc ON pc.id = shelf.shelf_id
+         LEFT JOIN
+        `saas_warehouse_cargo_area` cargo ON cargo.id = pc.`cargo_area_id`
+        LEFT JOIN
+        saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE sale.enterprise_id = #{enterpriseId}
+        AND pc.cargo_area_id = #{cargoAreaId}
+        <choose>
+            <when test="type == 1">
+                AND str_to_date(sale.sale_date,'%Y-%m-%d') = #{dateStr}
+                GROUP BY sale.enterprise_id, str_to_date(sale.sale_date,'%Y-%m-%d'), cargo.id, sd.clerk_id
+            </when>
+            <otherwise>
+                AND sale.daily_settlement_flag = 1
+                AND str_to_date(sale.daily_time,'%Y-%m-%d') = #{dateStr}
+                GROUP BY sale.enterprise_id, str_to_date(sale.daily_time,'%Y-%m-%d'), cargo.id, sd.clerk_id
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <!--通过企业id、柜组查询所有明细-->
+    <select id="getReportCabinetSaleDetail" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.ReportSaleDetailVO">
+        SELECT
+            sale.sale_type AS saleType,
+            sd.sale_id AS saleId,
+            sd.real_amount AS realAmount,
+            sd.notax_real_amount AS notaxRealAmount,
+            sd.tax_amount AS taxAmount
+        FROM
+            saas_sale sale
+        LEFT JOIN
+            saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+            saas_pos_clerk pc ON sd.clerk_id = pc.clerk_id AND sd.enterprise_id = pc.enterprise_id
+        LEFT JOIN
+            saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE sd.enterprise_id = #{enterpriseId}
+            AND pc.cargo_area_id = #{cargoAreaId}
+            <if test="clerkId != null">
+                AND pc.clerk_id = #{clerkId}
+            </if>
+            <choose>
+                <when test="type == 1">
+                    AND str_to_date(sale.sale_date,'%Y-%m-%d') = #{dateStr}
+                </when>
+                <otherwise>
+                    AND str_to_date(sale.daily_time,'%Y-%m-%d') = #{dateStr}
+                </otherwise>
+            </choose>
+    </select>
+
+    <!--查询班组销售列表-->
+    <select id="getReportTeamSaleList"
+            parameterType="com.rograndec.feijiayun.chain.business.report.retail.vo.RequestTeamSaleVO"
+            resultMap="TeamSaleMap">
+        SELECT
+            se.id as enterprise_id,
+            se.code as enterprise_code,
+            se.name as enterprise_name,
+
+            str_to_date(sale.sale_date,'%Y-%m-%d') as sale_date,
+            str_to_date(sale.daily_time,'%Y-%m-%d') as daily_time,
+            pt.id as team_id,
+            pt.code as team_code,
+            pt.name as team_name
+        FROM
+            saas_sale sale
+        LEFT JOIN
+            saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+            saas_pos_payee pe ON pe.payee_id = sale.payee_id and pe.enterprise_id = sale.enterprise_id
+        LEFT JOIN
+            saas_pos_team pt ON pe.team_id = pt.id
+        LEFT JOIN
+            saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE 1 = 1
+            <include refid="teamWhereSql"></include>
+            <include refid="teamGroupSql"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY #{sort}
+        </if>
+    </select>
+
+    <!--查询班组销售明细列表-->
+    <select id="getReportTeamSaleDetailList" resultMap="TeamSaleMap">
+        SELECT
+        se.id as enterprise_id,
+        se.code as enterprise_code,
+        se.name as enterprise_name,
+
+        str_to_date(sale.sale_date,'%Y-%m-%d') as sale_date,
+        str_to_date(sale.daily_time,'%Y-%m-%d') as daily_time,
+        pt.id as team_id,
+        pt.code as team_code,
+        pt.name as team_name,
+        sale.stand_code,
+        sale.payee_id,
+        sale.payee_name,
+        pt.start_time,
+        pt.end_time
+        FROM
+        saas_sale sale
+        LEFT JOIN
+        saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+        saas_pos_payee pe ON pe.payee_id = sale.payee_id and pe.enterprise_id = sale.enterprise_id
+        LEFT JOIN
+        saas_pos_team pt ON pe.team_id = pt.id
+        LEFT JOIN
+        saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE sale.enterprise_id = #{enterpriseId}
+        AND pe.team_id = #{teamId}
+        <choose>
+            <when test="type == 1">
+                AND str_to_date(sale.sale_date,'%Y-%m-%d') = #{dateStr}
+                GROUP BY sale.enterprise_id, str_to_date(sale.sale_date,'%Y-%m-%d'), pe.team_id, pe.payee_id
+            </when>
+            <otherwise>
+                AND sale.daily_settlement_flag = 1
+                AND str_to_date(sale.daily_time,'%Y-%m-%d') = #{dateStr}
+                GROUP BY sale.enterprise_id, str_to_date(sale.daily_time,'%Y-%m-%d'), pe.team_id, pe.payee_id
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--通过企业id、班组、日期查询所有明细-->
+    <select id="getReportTeamSaleDetail" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.ReportSaleDetailVO">
+        SELECT
+        sale.sale_type AS saleType,
+        sd.sale_id AS saleId,
+        sd.real_amount AS realAmount,
+        sd.notax_real_amount AS notaxRealAmount,
+        sd.tax_amount AS taxAmount
+        FROM
+        saas_sale sale
+        LEFT JOIN
+        saas_sale_detail sd ON sd.sale_id = sale.id
+        LEFT JOIN
+        saas_pos_payee pe ON pe.payee_id = sale.payee_id and pe.enterprise_id = sale.enterprise_id
+        LEFT JOIN
+        saas_pos_team pt ON pe.team_id = pt.id
+        LEFT JOIN
+        saas_enterprise se ON se.id = sale.enterprise_id
+        WHERE sd.enterprise_id = #{enterpriseId}
+        AND pt.id = #{teamId}
+        <if test="payeeId != null">
+            AND pe.payee_id = #{payeeId}
+        </if>
+        <choose>
+            <when test="type == 1">
+                AND str_to_date(sale.sale_date,'%Y-%m-%d') = #{dateStr}
+            </when>
+            <otherwise>
+                AND str_to_date(sale.daily_time,'%Y-%m-%d') = #{dateStr}
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

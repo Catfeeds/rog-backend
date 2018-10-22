@@ -1,0 +1,1728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="pinyin" jdbcType="VARCHAR" property="pinyin" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="approve_status" jdbcType="INTEGER" property="approveStatus" />
+    <result column="rgt_user_id" jdbcType="INTEGER" property="rgtUserId"/>
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="PrescriptionUserVOResultMap" type="com.rograndec.feijiayun.chain.inf.pos.prescription.vo.PrescriptionUserVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, pinyin, name, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time,status,rgt_user_id
+    ,approve_status
+  </sql>
+
+  <sql id="UserBase_Column_List">
+    su.id,  su.enterprise_id,  su.parent_id,  su.code,  su.pinyin,  su.name,  su.remark,  su.creater_id,  su.creater_code,
+     su.creater_name,  su.create_time,  su.modifier_id,  su.modifier_code,  su.modifier_name,  su.update_time, su.status, su.rgt_user_id
+    , su.approve_status
+  </sql>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByParentIdAndUserCode" resultType="java.lang.Long">
+    select COUNT(code)
+    from saas_user
+    where (enterprise_id = #{enterpriseId,jdbcType=BIGINT} or parent_id = #{enterpriseId,jdbcType=BIGINT})  and code = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user
+    where enterprise_id = #{id,jdbcType=BIGINT}
+    and status = 1
+    and (approve_status = 1 or approve_status is null)
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user
+    where status = 1 AND (enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="parentId != null">
+      or parent_id = #{parentId,jdbcType=BIGINT}
+    </if>
+    )
+  </select>
+
+  <select id="selectByIdAndRoleId" resultMap="BaseResultMap">
+    select
+    <include refid="UserBase_Column_List" />
+    from saas_user su,saas_sys_role sr,saas_user_role sur
+    where sr.id=sur.role_id AND su.id = sur.user_id AND su.status = 1 AND su.enterprise_id = #{enterpriseId,jdbcType=BIGINT} AND sr.code = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByIdAndRoles" resultMap="BaseResultMap">
+    select
+    <include refid="UserBase_Column_List" />
+    from saas_user su,saas_sys_role sr,saas_user_role sur
+    where sr.id=sur.role_id AND su.id = sur.user_id AND su.status = 1 AND su.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    AND sr.code in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item.id}
+    </foreach>
+  </select>
+
+
+  <select id="selectByQueryParam" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.QueryUserVO">
+    SELECT
+    k.id,
+    k.enterpriseId  ,
+    k.parentId  ,
+    k.code ,
+    k.pinyin ,
+    k.name ,
+    k.userType  ,
+    k.loginAccount  ,
+    k.deptIds  ,
+    k.positionIds  ,
+    k.roleIds  ,
+    k.status ,
+    k.updateTime,
+    k.approveStatus
+
+    FROM
+    (
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+       sur.enterprise_id = #{enterprise,jdbcType=BIGINT}
+
+            <if test="dept != null">
+              and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+              and dept.dept_id = #{dept,jdbcType=BIGINT})
+            </if>
+            <if test="position != null">
+              and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+              and pos.position_id = #{position,jdbcType=BIGINT})
+            </if>
+            <if test="role != null">
+              and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+              and urole.role_id = #{role,jdbcType=BIGINT})
+            </if>
+            <if test="education != null">
+              and sua.education_id = #{education,jdbcType=BIGINT}
+            </if>
+            <if test="major != null">
+              and sua.major_id = #{major,jdbcType=BIGINT}
+            </if>
+            <if test="useNature != null">
+              and sua.use_nature = #{useNature,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+              and sua.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="approveStatus != null and approveStatus == 0">
+              and sur.approve_status = 0
+            </if>
+            <if test="approveStatus != null and approveStatus != 0">
+              and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+            </if>
+            <if test="queryStr != null">
+              and (
+              INSTR(sur.code,#{queryStr})
+              or INSTR(sur.pinyin,#{queryStr})
+              or INSTR(sur.name,#{queryStr})
+              or INSTR(sup.mobile_phone,#{queryStr})
+              or INSTR(sup.email,#{queryStr})
+              or INSTR(sup.wechat_num,#{queryStr})
+              or INSTR(sup.qq_num,#{queryStr})
+              )
+            </if>
+          </where>
+
+    <if test="queryEnterprise == null">
+
+      union
+
+
+      select
+      sur.id as id,
+      sur.enterprise_id as enterpriseId,
+      sur.parent_id as parentId,
+      sur.code as code,
+      sur.pinyin as pinyin,
+      sur.name as name,
+      sua.user_type as userType,
+      sua.login_account as loginAccount,
+      sua.dept_ids as deptIds,
+      sua.position_ids as positionIds,
+      sua.role_ids as roleIds,
+      sua.status as status,
+      sur.update_time as updateTime
+      ,sur.approve_status as approveStatus
+      from saas_user sur
+      INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+      LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+      <where>
+         sur.parent_id = #{parentId,jdbcType=BIGINT}
+        <if test="dept != null">
+          and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+          and dept.dept_id = #{dept,jdbcType=BIGINT})
+        </if>
+        <if test="position != null">
+          and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+          and pos.position_id = #{position,jdbcType=BIGINT})
+        </if>
+        <if test="role != null">
+          and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+          and urole.role_id = #{role,jdbcType=BIGINT})
+        </if>
+        <if test="education != null">
+          and sua.education_id = #{education,jdbcType=BIGINT}
+        </if>
+        <if test="major != null">
+          and sua.major_id = #{major,jdbcType=BIGINT}
+        </if>
+        <if test="useNature != null">
+          and sua.use_nature = #{useNature,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+          and sua.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="approveStatus != null and approveStatus == 0">
+          and sur.approve_status = 0
+        </if>
+        <if test="approveStatus != null and approveStatus != 0">
+          and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+        </if>
+        <if test="queryStr != null">
+          and (
+          INSTR(sur.code,#{queryStr})
+          or INSTR(sur.pinyin,#{queryStr})
+          or INSTR(sur.name,#{queryStr})
+          or INSTR(sup.mobile_phone,#{queryStr})
+          or INSTR(sup.email,#{queryStr})
+          or INSTR(sup.wechat_num,#{queryStr})
+          or INSTR(sup.qq_num,#{queryStr})
+          )
+        </if>
+      </where>
+
+    </if>
+
+
+      union
+
+          select
+          sur.id as id,
+          sur.enterprise_id as enterpriseId,
+          sur.parent_id as parentId,
+          sur.code as code,
+          sur.pinyin as pinyin,
+          sur.name as name,
+          sua.user_type as userType,
+          sua.login_account as loginAccount,
+          sua.dept_ids as deptIds,
+          sua.position_ids as positionIds,
+          sua.role_ids as roleIds,
+          sua.status as status,
+          sur.update_time as updateTime
+          ,sur.approve_status as approveStatus
+          from saas_user sur
+          INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+          LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+          <where>
+            sur.enterprise_id = #{enterprise,jdbcType=BIGINT}
+            <if test="dept != null">
+              and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+              and dept.dept_id = #{dept,jdbcType=BIGINT})
+            </if>
+            <if test="position != null">
+              and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+              and pos.position_id = #{position,jdbcType=BIGINT})
+            </if>
+            <if test="role != null">
+              and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+              and urole.role_id = #{role,jdbcType=BIGINT})
+            </if>
+            <if test="education != null">
+              and sua.education_id = #{education,jdbcType=BIGINT}
+            </if>
+            <if test="major != null">
+              and sua.major_id = #{major,jdbcType=BIGINT}
+            </if>
+            <if test="useNature != null">
+              and sua.use_nature = #{useNature,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+              and sua.status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="approveStatus != null and approveStatus == 0">
+              and sur.approve_status = -1
+            </if>
+            <if test="approveStatus != null and approveStatus != 0">
+              and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+            </if>
+            <if test="queryStr != null">
+              and (
+              INSTR(sur.code,#{queryStr})
+              or INSTR(sur.pinyin,#{queryStr})
+              or INSTR(sur.name,#{queryStr})
+              or INSTR(sup.mobile_phone,#{queryStr})
+              or INSTR(sup.email,#{queryStr})
+              or INSTR(sup.wechat_num,#{queryStr})
+              or INSTR(sup.qq_num,#{queryStr})
+              )
+            </if>
+          </where>
+
+
+    <if test="queryEnterprise == null">
+    union
+
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+      sur.parent_id = #{parentId,jdbcType=BIGINT}
+      <if test="dept != null">
+        and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+        and dept.dept_id = #{dept,jdbcType=BIGINT})
+      </if>
+      <if test="position != null">
+        and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+        and pos.position_id = #{position,jdbcType=BIGINT})
+      </if>
+      <if test="role != null">
+        and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+        and urole.role_id = #{role,jdbcType=BIGINT})
+      </if>
+      <if test="education != null">
+        and sua.education_id = #{education,jdbcType=BIGINT}
+      </if>
+      <if test="major != null">
+        and sua.major_id = #{major,jdbcType=BIGINT}
+      </if>
+      <if test="useNature != null">
+        and sua.use_nature = #{useNature,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and sua.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and sur.approve_status = -1
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      <if test="queryStr != null">
+        and (
+        INSTR(sur.code,#{queryStr})
+        or INSTR(sur.pinyin,#{queryStr})
+        or INSTR(sur.name,#{queryStr})
+        or INSTR(sup.mobile_phone,#{queryStr})
+        or INSTR(sup.email,#{queryStr})
+        or INSTR(sup.wechat_num,#{queryStr})
+        or INSTR(sup.qq_num,#{queryStr})
+        )
+      </if>
+    </where>
+    </if>
+    ) k
+
+    order by k.updateTime desc
+
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectByQueryParamCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    SELECT
+    count(id)
+
+    FROM
+    (
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+      sur.enterprise_id = #{enterprise,jdbcType=BIGINT}
+
+      <if test="dept != null">
+        and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+        and dept.dept_id = #{dept,jdbcType=BIGINT})
+      </if>
+      <if test="position != null">
+        and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+        and pos.position_id = #{position,jdbcType=BIGINT})
+      </if>
+      <if test="role != null">
+        and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+        and urole.role_id = #{role,jdbcType=BIGINT})
+      </if>
+      <if test="education != null">
+        and sua.education_id = #{education,jdbcType=BIGINT}
+      </if>
+      <if test="major != null">
+        and sua.major_id = #{major,jdbcType=BIGINT}
+      </if>
+      <if test="useNature != null">
+        and sua.use_nature = #{useNature,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and sua.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and sur.approve_status = 0
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      <if test="queryStr != null">
+        and (
+        INSTR(sur.code,#{queryStr})
+        or INSTR(sur.pinyin,#{queryStr})
+        or INSTR(sur.name,#{queryStr})
+        or INSTR(sup.mobile_phone,#{queryStr})
+        or INSTR(sup.email,#{queryStr})
+        or INSTR(sup.wechat_num,#{queryStr})
+        or INSTR(sup.qq_num,#{queryStr})
+        )
+      </if>
+    </where>
+
+    <if test="queryEnterprise == null">
+    union
+
+
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+    sur.parent_id = #{parentId,jdbcType=BIGINT}
+      <if test="dept != null">
+        and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+        and dept.dept_id = #{dept,jdbcType=BIGINT})
+      </if>
+      <if test="position != null">
+        and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+        and pos.position_id = #{position,jdbcType=BIGINT})
+      </if>
+      <if test="role != null">
+        and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+        and urole.role_id = #{role,jdbcType=BIGINT})
+      </if>
+      <if test="education != null">
+        and sua.education_id = #{education,jdbcType=BIGINT}
+      </if>
+      <if test="major != null">
+        and sua.major_id = #{major,jdbcType=BIGINT}
+      </if>
+      <if test="useNature != null">
+        and sua.use_nature = #{useNature,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and sua.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and sur.approve_status = 0
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      <if test="queryStr != null">
+        and (
+        INSTR(sur.code,#{queryStr})
+        or INSTR(sur.pinyin,#{queryStr})
+        or INSTR(sur.name,#{queryStr})
+        or INSTR(sup.mobile_phone,#{queryStr})
+        or INSTR(sup.email,#{queryStr})
+        or INSTR(sup.wechat_num,#{queryStr})
+        or INSTR(sup.qq_num,#{queryStr})
+        )
+      </if>
+    </where>
+    </if>
+    union
+
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+      sur.enterprise_id = #{enterprise,jdbcType=BIGINT}
+      <if test="dept != null">
+        and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+        and dept.dept_id = #{dept,jdbcType=BIGINT})
+      </if>
+      <if test="position != null">
+        and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+        and pos.position_id = #{position,jdbcType=BIGINT})
+      </if>
+      <if test="role != null">
+        and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+        and urole.role_id = #{role,jdbcType=BIGINT})
+      </if>
+      <if test="education != null">
+        and sua.education_id = #{education,jdbcType=BIGINT}
+      </if>
+      <if test="major != null">
+        and sua.major_id = #{major,jdbcType=BIGINT}
+      </if>
+      <if test="useNature != null">
+        and sua.use_nature = #{useNature,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and sua.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and sur.approve_status = -1
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      <if test="queryStr != null">
+        and (
+        INSTR(sur.code,#{queryStr})
+        or INSTR(sur.pinyin,#{queryStr})
+        or INSTR(sur.name,#{queryStr})
+        or INSTR(sup.mobile_phone,#{queryStr})
+        or INSTR(sup.email,#{queryStr})
+        or INSTR(sup.wechat_num,#{queryStr})
+        or INSTR(sup.qq_num,#{queryStr})
+        )
+      </if>
+    </where>
+
+    <if test="queryEnterprise == null">
+    union
+
+    select
+    sur.id as id,
+    sur.enterprise_id as enterpriseId,
+    sur.parent_id as parentId,
+    sur.code as code,
+    sur.pinyin as pinyin,
+    sur.name as name,
+    sua.user_type as userType,
+    sua.login_account as loginAccount,
+    sua.dept_ids as deptIds,
+    sua.position_ids as positionIds,
+    sua.role_ids as roleIds,
+    sua.status as status,
+    sur.update_time as updateTime
+    ,sur.approve_status as approveStatus
+    from saas_user sur
+    INNER JOIN saas_user_administration sua ON sur.id = sua.user_id
+    LEFT JOIN saas_user_personal sup ON sur.id = sup.user_id
+    <where>
+     sur.parent_id = #{parentId,jdbcType=BIGINT}
+      <if test="dept != null">
+        and sur.id in (select dept.user_id from saas_user_dept dept where sur.id = dept.user_id
+        and dept.dept_id = #{dept,jdbcType=BIGINT})
+      </if>
+      <if test="position != null">
+        and sur.id in (select pos.user_id from saas_user_position pos where sur.id = pos.user_id
+        and pos.position_id = #{position,jdbcType=BIGINT})
+      </if>
+      <if test="role != null">
+        and sur.id in (select urole.user_id from saas_user_role urole where sur.id = urole.user_id
+        and urole.role_id = #{role,jdbcType=BIGINT})
+      </if>
+      <if test="education != null">
+        and sua.education_id = #{education,jdbcType=BIGINT}
+      </if>
+      <if test="major != null">
+        and sua.major_id = #{major,jdbcType=BIGINT}
+      </if>
+      <if test="useNature != null">
+        and sua.use_nature = #{useNature,jdbcType=INTEGER}
+      </if>
+      <if test="status != null">
+        and sua.status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="approveStatus != null and approveStatus == 0">
+        and sur.approve_status = -1
+      </if>
+      <if test="approveStatus != null and approveStatus != 0">
+        and sur.approve_status = #{approveStatus,jdbcType=INTEGER}
+      </if>
+      <if test="queryStr != null">
+        and (
+        INSTR(sur.code,#{queryStr})
+        or INSTR(sur.pinyin,#{queryStr})
+        or INSTR(sur.name,#{queryStr})
+        or INSTR(sup.mobile_phone,#{queryStr})
+        or INSTR(sup.email,#{queryStr})
+        or INSTR(sup.wechat_num,#{queryStr})
+        or INSTR(sup.qq_num,#{queryStr})
+        )
+      </if>
+    </where>
+    </if>
+    ) k
+  </select>
+
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from saas_user
+    where status = 1 AND id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+    insert into saas_user (id, enterprise_id, parent_id, 
+      code, pinyin, name, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time ,status,rgt_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      , #{status,jdbcType=INTEGER},#{rgtUserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.User" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="pinyin != null">
+        pinyin,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="approveStatus != null">
+        approve_status,
+      </if>
+      <if test="rgtUserId != null">
+        rgt_user_id,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="approveStatus != null">
+        #{approveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="rgtUserId != null">
+        #{rgtUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+    update saas_user
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null">
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="approveStatus != null">
+        approve_status = #{approveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="rgtUserId != null">
+        rgt_user_id = #{rgtUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+    update saas_user
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      approve_status = #{approveStatus,jdbcType=INTEGER},
+      rgt_user_id = #{rgtUserId,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findUserByEnterpriseId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from saas_user 
+    where enterprise_id = #{arg0} AND status = '1'  AND approve_status = 1
+  </select>
+
+  <select id="getSimpleUserVOByEnterpriseId" resultType="com.rograndec.feijiayun.chain.business.basic.user.entity.SimpleUserVO">
+    select
+    id, enterprise_id as enterpriseId, parent_id as parentId, code, pinyin, name,status
+    from saas_user
+    where enterprise_id = #{enterpriseId}
+    <if test="status != null">
+      AND status = #{status}
+    </if>
+    AND ( approve_status = 1 or approve_status IS null)
+  </select>
+
+  <select id="getUserInfoForPresc" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserForPrescVO">
+    SELECT
+	u.id,
+	u.`code`,
+	u. NAME,
+	ad.login_account as loginAccount
+    FROM
+	saas_user u,
+	saas_user_administration ad
+    WHERE
+	u.enterprise_id = #{enterpriseId}
+    AND u.id = ad.user_id
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      OR INSTR(u.pinyin,#{param})
+
+      OR INSTR(u.name,#{param})
+      )
+    </if>
+  </select>
+  
+  <select id="getUserById" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserForPrescVO">
+   SELECT
+	u.id,
+	u.`code`,
+	u. NAME,
+	ad.login_account as loginAccount
+    FROM
+	saas_user u,
+	saas_user_administration ad
+    WHERE
+    u.id = ad.user_id
+    and u.enterprise_id = #{enterpriseId}
+    and ad.enterprise_id = #{enterpriseId}
+    AND
+    u.id = #{id}
+  </select>
+  <select id="getUserByIdAndEnterpriseId"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_user
+    where
+      enterprise_id = #{enterpriseId}
+    and id = #{receiverId}
+  </select>
+  <select id="selectUserByRoleCode"
+          resultMap="PrescriptionUserVOResultMap">
+    select
+    	id,code,name
+    from saas_user
+    where enterprise_id = #{enterpriseId}
+    and id in (select user_id from saas_user_role where role_id in
+    	<foreach item="item" index="index" collection="roList"
+	             open="(" separator="," close=")">
+	      #{item.id}
+	    </foreach>
+    )
+  </select>
+  <select id="selectByPositionIds" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserDataVO">
+    SELECT
+    id,
+    CODE,
+    NAME
+    FROM
+    saas_user
+    WHERE
+    1 =1
+    AND status = 1
+    AND id IN (
+    SELECT
+    user_id
+    FROM
+    saas_user_position
+    WHERE
+    position_id IN
+    <foreach item="item" index="index" collection="ids"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    AND enterprise_id = #{enterpriseId}
+    <!--<if test="chainType != 0">-->
+      <!--AND enterprise_id = #{enterpriseId}-->
+    <!--</if>-->
+    <!--<if test="chainType == 0">-->
+      <!--AND (enterprise_id = #{enterpriseId} OR  parent_id = #{enterpriseId})-->
+    <!--</if>-->
+
+      )
+  </select>
+    <select id="selectFatherUserReportByMap"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserReportPageVO">
+    SELECT
+    u.id as id,
+    e.code as enterpriseCode,
+    e.name as enterpriseName,
+    u.code as code,
+    u.name as name,
+    ad.login_account as loginAccount,
+    ad.dept_ids as deptIds,
+    ad.position_ids as positionIds,
+    ad.role_ids as roleIds,
+    ad.limit_variety as limitVariety,
+    ad.limit_variety_range as limitVarietyRange,
+    ad.graduation_time as graduationTime,
+    ad.graduation_university as graduationUniversity,
+    ad.education_id as educationId,
+    ad.major_id as majorId,
+    ad.working_hours as workingHours,
+    ad.induction_time as inductionTime,
+    ad.full_time as fullTime,
+    ad.certificate_num as certificateNum,
+    ad.use_nature as useNature,
+    ad.status as status
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    LEFT JOIN
+    saas_enterprise e
+    ON e.id = u.enterprise_id
+    WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+    <if test="param != null">
+      and (
+        INSTR(u.code,#{param})
+        or
+        INSTR(u.pinyin,#{param})
+        or
+        INSTR(u.name,#{param})
+      )
+    </if>
+      <if test="chainType != null">
+        and e.chain_type = #{chainType}
+      </if>
+      <if test="enterpriseCode != null">
+        and INSTR(e.code,#{enterpriseCode})
+      </if>
+      <if test="enterpriseName != null">
+        and INSTR(e.name,#{enterpriseName})
+      </if>
+      <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+      </if>
+      <if test="positionIds != null">
+        and ad.position_ids in #{positionIds}
+      </if>
+      <if test="roleIds != null">
+        and ad.role_ids in #{roleIds}
+      </if>
+      <if test="educationId != null">
+        and ad.education_id = #{educationId}
+      </if>
+      <if test="majorId != null">
+        and ad.major_id = #{majorId}
+      </if>
+      <if test="useNature != null">
+        and ad.use_nature = #{useNature}
+      </if>
+      <if test="status != null">
+        and ad.status = #{status}
+      </if>
+      <choose>
+        <when test="order != null and sort != null">
+          order by ${order} ${sort}
+        </when>
+        <otherwise>
+          order by u.id desc
+        </otherwise>
+      </choose>
+      <if test="pageSize != null">
+        limit #{start},#{pageSize}
+      </if>
+    </select>
+
+  <select id="selectSonUserReportByMap"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserReportPageVO">
+    SELECT
+    u.id as id,
+    u.code as code,
+    u.name as name,
+    ad.login_account as loginAccount,
+    ad.dept_ids as deptIds,
+    ad.position_ids as positionIds,
+    ad.role_ids as roleIds,
+    ad.limit_variety as limitVariety,
+    ad.limit_variety_range as limitVarietyRange,
+    ad.graduation_time as graduationTime,
+    ad.graduation_university as graduationUniversity,
+    ad.education_id as educationId,
+    ad.major_id as majorId,
+    ad.working_hours as workingHours,
+    ad.induction_time as inductionTime,
+    ad.full_time as fullTime,
+    ad.certificate_num as certificateNum,
+    ad.use_nature as useNature,
+    ad.status as status
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+        INSTR(u.code,#{param})
+        or
+        INSTR(u.pinyin,#{param})
+        or
+        INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <if test="educationId != null">
+      and ad.education_id = #{educationId}
+    </if>
+    <if test="majorId != null">
+      and ad.major_id = #{majorId}
+    </if>
+    <if test="useNature != null">
+      and ad.use_nature = #{useNature}
+    </if>
+    <if test="status != null">
+      and ad.status = #{status}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectFatherUserLicenseReportByMap"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserLicenseReportPageVO">
+    SELECT
+    u.id as id,
+    e.code as enterpriseCode,
+    e.name as enterpriseName,
+    u.code as code,
+    u.name as name,
+    ad.login_account as loginAccount,
+    ad.dept_ids as deptIds,
+    ad.position_ids as positionIds
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    LEFT JOIN
+    saas_enterprise e
+    ON e.id = u.enterprise_id
+    WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+    <if test="param != null">
+      and (
+          INSTR(u.code,#{param})
+        or
+          INSTR(u.pinyin,#{param})
+        or
+          INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectSonUserLicenseReportByMap"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserLicenseReportPageVO">
+    SELECT
+    u.id as id,
+    u.code as code,
+    u.name as name,
+    ad.login_account as loginAccount,
+    ad.dept_ids as deptIds,
+    ad.position_ids as positionIds
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and(
+          INSTR(u.code,#{param})
+        or
+          INSTR(u.pinyin,#{param})
+        or
+          INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+    <select id="selectFatherUserWarningByMap"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserWarningPageVO">
+      SELECT
+      u.id as id,
+      e.code as enterpriseCode,
+      e.name as enterpriseName,
+      u.code as code,
+      u.name as name,
+      ad.dept_ids as deptIds,
+      ad.position_ids as positionIds
+      from saas_user u
+      LEFT JOIN
+      saas_user_administration ad
+      ON u.id = ad.user_id
+      AND u.enterprise_id = ad.enterprise_id
+      LEFT JOIN
+      saas_enterprise e
+      ON e.id = u.enterprise_id
+      WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+      <if test="param != null">
+        and (
+            INSTR(u.code,#{param})
+          or
+            INSTR(u.pinyin,#{param})
+          or
+            INSTR(u.name,#{param})
+        )
+      </if>
+      <if test="chainType != null">
+        and e.chain_type = #{chainType}
+      </if>
+      <if test="enterpriseCode != null">
+        and INSTR(e.code,#{enterpriseCode})
+      </if>
+      <if test="enterpriseName != null">
+        and INSTR(e.name,#{enterpriseName})
+      </if>
+      <if test="deptIds != null">
+        and ad.dept_ids in #{deptIds}
+      </if>
+      <if test="positionIds != null">
+        and ad.position_ids in #{positionIds}
+      </if>
+      <if test="roleIds != null">
+        and ad.role_ids in #{roleIds}
+      </if>
+      <choose>
+        <when test="order != null and sort != null">
+          order by ${order} ${sort}
+        </when>
+        <otherwise>
+          order by u.id desc
+        </otherwise>
+      </choose>
+      <if test="pageSize != null">
+        limit #{start},#{pageSize}
+      </if>
+    </select>
+  <select id="selectSonUserWarningByMap"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.UserWarningPageVO">
+    SELECT
+    u.id as id,
+    u.code as code,
+    u.name as name,
+    ad.dept_ids as deptIds,
+    ad.position_ids as positionIds
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+          INSTR(u.code,#{param})
+        or
+          INSTR(u.pinyin,#{param})
+        or
+          INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectByCodeAndEnterpriseIdAndParentId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from saas_user
+    where code = #{code,jdbcType=VARCHAR}
+      and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      and parent_id = #{parentId,jdbcType=BIGINT}
+  </select>
+    <select id="selectExisitUser" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from saas_user
+      WHERE enterprise_id = #{enterpriseId}
+
+      union
+
+      select
+      <include refid="Base_Column_List"/>
+      from saas_user
+      WHERE parent_id = #{enterpriseId}
+    </select>
+
+  <select id="getUserDataByEId" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.UserDataVO">
+    SELECT
+     us.id,
+     us.code,
+     us.name
+    FROM
+    saas_user us WHERE
+    us.enterprise_id = #{enterpriseId}
+
+  </select>
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+      SELECT * FROM
+      saas_user WHERE 1=1
+    </select>
+    
+    <select id="selectByRgtUserId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_user
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and rgt_user_id = #{uId}
+    and status = '1'
+  </select>
+  <select id="selectFatherUserReportTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    LEFT JOIN
+    saas_enterprise e
+    ON e.id = u.enterprise_id
+    WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <if test="educationId != null">
+      and ad.education_id = #{educationId}
+    </if>
+    <if test="majorId != null">
+      and ad.major_id = #{majorId}
+    </if>
+    <if test="useNature != null">
+      and ad.use_nature = #{useNature}
+    </if>
+    <if test="status != null">
+      and ad.status = #{status}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectSonUserReportTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <if test="educationId != null">
+      and ad.education_id = #{educationId}
+    </if>
+    <if test="majorId != null">
+      and ad.major_id = #{majorId}
+    </if>
+    <if test="useNature != null">
+      and ad.use_nature = #{useNature}
+    </if>
+    <if test="status != null">
+      and ad.status = #{status}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectFatherUserLicenseTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    LEFT JOIN
+    saas_enterprise e
+    ON e.id = u.enterprise_id
+    WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+
+  </select>
+  <select id="selectSonUserLicenseTotalRecord" resultType="java.lang.Integer">
+    SELECT
+      count(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and(
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectFatherUserWarningTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    LEFT JOIN
+    saas_enterprise e
+    ON e.id = u.enterprise_id
+    WHERE (e.id = #{enterpriseId} or e.parent_id = #{enterpriseId})
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(e.code,#{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(e.name,#{enterpriseName})
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectSonUserWarningTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    from saas_user u
+    LEFT JOIN
+    saas_user_administration ad
+    ON u.id = ad.user_id
+    AND u.enterprise_id = ad.enterprise_id
+    WHERE u.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      INSTR(u.code,#{param})
+      or
+      INSTR(u.pinyin,#{param})
+      or
+      INSTR(u.name,#{param})
+      )
+    </if>
+    <if test="deptIds != null">
+      and ad.dept_ids in #{deptIds}
+    </if>
+    <if test="positionIds != null">
+      and ad.position_ids in #{positionIds}
+    </if>
+    <if test="roleIds != null">
+      and ad.role_ids in #{roleIds}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by u.${order} ${sort}
+      </when>
+      <otherwise>
+        order by u.id desc
+      </otherwise>
+    </choose>
+  </select>
+    <select id="getReceivableManNameSelector"
+            resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+      FROM saas_user
+      WHERE
+      enterprise_id = #{enterpriseId}
+      and status = '1'
+      and approve_status = '1'
+      <if test="param != null">
+        and (
+          INSTR(code,#{param})
+          or
+          INSTR(pinyin,#{param})
+          or
+          INSTR(name,#{param})
+        )
+      </if>
+    </select>
+  <select id="selectByIdAndEnterpriseIdAndStatusAndApproveStatus"
+          resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM saas_user
+    WHERE
+    enterprise_id = #{enterpriseId}
+    and id = #{id}
+    and status = #{status}
+    and approve_status=#{approveStatus}
+  </select>
+</mapper>

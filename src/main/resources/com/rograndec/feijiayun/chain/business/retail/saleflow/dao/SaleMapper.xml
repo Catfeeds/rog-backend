@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.saleflow.dao.SaleMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.saleflow.entity.Sale">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="sale_date" jdbcType="TIMESTAMP" property="saleDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="stand_code" jdbcType="VARCHAR" property="standCode" />
+    <result column="payee_id" jdbcType="BIGINT" property="payeeId" />
+    <result column="payee_code" jdbcType="VARCHAR" property="payeeCode" />
+    <result column="payee_name" jdbcType="VARCHAR" property="payeeName" />
+    <result column="sale_mode" jdbcType="INTEGER" property="saleMode" />
+    <result column="sale_type" jdbcType="INTEGER" property="saleType" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="accept_time" jdbcType="TIMESTAMP" property="acceptTime" />
+    <result column="excessive_sale" jdbcType="INTEGER" property="excessiveSale" />
+    <result column="shift_flag" jdbcType="INTEGER" property="shiftFlag" />
+    <result column="payment_flag" jdbcType="INTEGER" property="paymentFlag" />
+    <result column="daily_settlement_flag" jdbcType="INTEGER" property="dailySettlementFlag" />
+    <result column="daily_time" jdbcType="TIMESTAMP" property="dailyTime" />
+    <result column="dose" jdbcType="DECIMAL" property="dose" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="can_return_quantity_total" jdbcType="DECIMAL" property="canReturnQuantityTotal" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+    <result column="whole_discount_amount" jdbcType="DECIMAL" property="wholeDiscountAmount" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="profit_total" jdbcType="DECIMAL" property="profitTotal" />
+    <result column="notax_profit_total" jdbcType="DECIMAL" property="notaxProfitTotal" />
+    <result column="profit_rate" jdbcType="DECIMAL" property="profitRate" />
+    <result column="notax_profit_rate" jdbcType="DECIMAL" property="notaxProfitRate" />
+    <result column="this_integral_total" jdbcType="DECIMAL" property="thisIntegralTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="member_card_code" jdbcType="VARCHAR" property="memberCardCode" />
+    <result column="member_integral" jdbcType="DECIMAL" property="memberIntegral" />
+  </resultMap>
+  <resultMap id="POSOrderVOResultMap" type="com.rograndec.feijiayun.chain.inf.pos.sale.vo.POSOrderVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sale_date" jdbcType="TIMESTAMP" property="saleDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="stand_code" jdbcType="VARCHAR" property="standCode" />
+    <result column="payee_name" jdbcType="VARCHAR" property="payeeName" />
+    <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal" />
+    <collection property="pOSOrderDetailVOList" ofType="com.rograndec.feijiayun.chain.inf.pos.sale.vo.POSOrderDetailVO">
+      	<id column="sh_id" jdbcType="BIGINT" property="baseOrderShelfId" />
+	    <result column="sale_date" jdbcType="TIMESTAMP" property="saleDate" />
+	    <result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+		<result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+		<result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+		<result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+		<result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+		<result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+		<result column="quantity" jdbcType="DECIMAL" property="quantity" />
+		<result column="can_return_quantity" jdbcType="DECIMAL" property="canReturnQuantity" />
+		<result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+		<result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+		<result column="line_num" jdbcType="INTEGER" property="lineNum" />
+		<result column="stand_code" jdbcType="VARCHAR" property="standCode" />
+	    <result column="payee_name" jdbcType="VARCHAR" property="payeeName" />
+	    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+	    <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount" />
+	    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+	    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+	    <result column="clerk_name" jdbcType="VARCHAR" property="clerkName" />
+    </collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+     id, enterprise_id, parent_id, order_type, sale_date, code, base_order_id, base_order_type,
+    base_order_code, base_order_date, stand_code, payee_id, payee_code, payee_name, sale_mode,
+    sale_type, upload_time, accept_time, excessive_sale, shift_flag, payment_flag, daily_settlement_flag, daily_time,
+     dose, quantity_total, varieties_quantity, can_return_quantity_total, amount_total, whole_discount,
+    whole_discount_amount, real_amount_total, notax_real_amount_total, tax_amount_total,
+    profit_total, notax_profit_total, profit_rate, notax_profit_rate, this_integral_total, status, remark,
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code,
+    modifier_name, update_time, member_id, member_name, member_card_code,
+    member_integral
+  </sql>
+
+  <resultMap id="BaseResultMap_Prescr" type="com.rograndec.feijiayun.chain.business.retail.saleflow.vo.SaleForPrescrVO" extends="BaseResultMap">
+  </resultMap>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByEnterpriseIdByPayeeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and payee_id = #{payeeId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sale
+    where id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sale
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.saleflow.entity.Sale" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sale (id, enterprise_id, parent_id,
+    order_type, sale_date, code,
+    base_order_id, base_order_type, base_order_code,
+    base_order_date, stand_code, payee_id,
+    payee_code, payee_name, sale_mode,
+    sale_type, upload_time, accept_time, excessive_sale,
+    shift_flag, payment_flag, daily_settlement_flag, daily_time,
+    dose, quantity_total,
+    varieties_quantity, can_return_quantity_total, amount_total, whole_discount,
+    whole_discount_amount, real_amount_total, notax_real_amount_total,
+    tax_amount_total, profit_total, notax_profit_total,
+    profit_rate, notax_profit_rate, this_integral_total, status,
+    remark, creater_id, creater_code,
+    creater_name, create_time, modifier_id,
+    modifier_code, modifier_name, update_time,
+    member_id, member_name,
+    member_card_code, member_integral)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+    #{orderType,jdbcType=INTEGER}, #{saleDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR},
+    #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR},
+    #{baseOrderDate,jdbcType=TIMESTAMP}, #{standCode,jdbcType=VARCHAR}, #{payeeId,jdbcType=BIGINT},
+    #{payeeCode,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, #{saleMode,jdbcType=INTEGER},
+    #{saleType,jdbcType=INTEGER}, #{uploadTime,jdbcType=TIMESTAMP}, #{acceptTime,jdbcType=TIMESTAMP}, #{excessiveSale,jdbcType=INTEGER},
+    #{shiftFlag,jdbcType=INTEGER}, #{paymentFlag,jdbcType=INTEGER}, #{dailySettlementFlag,jdbcType=INTEGER}, #{dailyTime,jdbcType=TIMESTAMP},
+     #{dose,jdbcType=DECIMAL}, #{quantityTotal,jdbcType=DECIMAL},
+    #{varietiesQuantity,jdbcType=INTEGER}, #{canReturnQuantityTotal,jdbcType=DECIMAL}, #{amountTotal,jdbcType=DECIMAL}, #{wholeDiscount,jdbcType=DECIMAL},
+    #{wholeDiscountAmount,jdbcType=DECIMAL}, #{realAmountTotal,jdbcType=DECIMAL}, #{notaxRealAmountTotal,jdbcType=DECIMAL},
+    #{taxAmountTotal,jdbcType=DECIMAL}, #{profitTotal,jdbcType=DECIMAL}, #{notaxProfitTotal,jdbcType=DECIMAL},
+    #{profitRate,jdbcType=DECIMAL}, #{notaxProfitRate,jdbcType=DECIMAL}, #{thisIntegralTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER},
+    #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR},
+    #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT},
+    #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+    #{memberId,jdbcType=BIGINT}, #{memberName,jdbcType=VARCHAR},
+    #{memberCardCode,jdbcType=VARCHAR}, #{memberIntegral,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.saleflow.entity.Sale" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sale
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="saleDate != null">
+        sale_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="standCode != null">
+        stand_code,
+      </if>
+      <if test="payeeId != null">
+        payee_id,
+      </if>
+      <if test="payeeCode != null">
+        payee_code,
+      </if>
+      <if test="payeeName != null">
+        payee_name,
+      </if>
+      <if test="saleMode != null">
+        sale_mode,
+      </if>
+      <if test="saleType != null">
+        sale_type,
+      </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
+      <if test="acceptTime != null">
+        accept_time,
+      </if>
+      <if test="excessiveSale != null">
+        excessive_sale,
+      </if>
+      <if test="shiftFlag != null">
+        shift_flag,
+      </if>
+      <if test="paymentFlag != null">
+        payment_flag,
+      </if>
+      <if test="dailySettlementFlag != null">
+        daily_settlement_flag,
+      </if>
+      <if test="dailyTime != null">
+        daily_time,
+      </if>
+      <if test="dose != null">
+        dose,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="canReturnQuantityTotal != null">
+        can_return_quantity_total,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount,
+      </if>
+      <if test="wholeDiscountAmount != null">
+        whole_discount_amount,
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total,
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        notax_real_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="profitTotal != null">
+        profit_total,
+      </if>
+      <if test="notaxProfitTotal != null">
+        notax_profit_total,
+      </if>
+      <if test="profitRate != null">
+        profit_rate,
+      </if>
+      <if test="notaxProfitRate != null">
+        notax_profit_rate,
+      </if>
+      <if test="thisIntegralTotal != null">
+        this_integral_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+		create_time,
+	  </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberName != null">
+        member_name,
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code,
+      </if>
+      <if test="memberIntegral != null">
+        member_integral,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="saleDate != null">
+        #{saleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="standCode != null">
+        #{standCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeId != null">
+        #{payeeId,jdbcType=BIGINT},
+      </if>
+      <if test="payeeCode != null">
+        #{payeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null">
+        #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleMode != null">
+        #{saleMode,jdbcType=INTEGER},
+      </if>
+      <if test="saleType != null">
+        #{saleType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excessiveSale != null">
+        #{excessiveSale,jdbcType=INTEGER},
+      </if>
+      <if test="shiftFlag != null">
+        #{shiftFlag,jdbcType=INTEGER},
+      </if>
+      <if test="paymentFlag != null">
+        #{paymentFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dailySettlementFlag != null">
+        #{dailySettlementFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dailyTime != null">
+        #{dailyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dose != null">
+        #{dose,jdbcType=DECIMAL},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="canReturnQuantityTotal != null">
+        #{canReturnQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscountAmount != null">
+        #{wholeDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="profitTotal != null">
+        #{profitTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitTotal != null">
+        #{notaxProfitTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="profitRate != null">
+        #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitRate != null">
+        #{notaxProfitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="thisIntegralTotal != null">
+        #{thisIntegralTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+		#{createTime,jdbcType=TIMESTAMP},
+	  </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberName != null">
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardCode != null">
+        #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberIntegral != null">
+        #{memberIntegral,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.saleflow.entity.Sale">
+    update saas_sale
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="saleDate != null">
+        sale_date = #{saleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="standCode != null">
+        stand_code = #{standCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeId != null">
+        payee_id = #{payeeId,jdbcType=BIGINT},
+      </if>
+      <if test="payeeCode != null">
+        payee_code = #{payeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null">
+        payee_name = #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleMode != null">
+        sale_mode = #{saleMode,jdbcType=INTEGER},
+      </if>
+      <if test="saleType != null">
+        sale_type = #{saleType,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null">
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excessiveSale != null">
+        excessive_sale = #{excessiveSale,jdbcType=INTEGER},
+      </if>
+      <if test="shiftFlag != null">
+        shift_flag = #{shiftFlag,jdbcType=INTEGER},
+      </if>
+      <if test="paymentFlag != null">
+        payment_flag = #{paymentFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dailySettlementFlag != null">
+        daily_settlement_flag = #{dailySettlementFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dailyTime != null">
+        daily_time = #{dailyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dose != null">
+        dose = #{dose,jdbcType=DECIMAL},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="canReturnQuantityTotal != null">
+        can_return_quantity_total = #{canReturnQuantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscountAmount != null">
+        whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmountTotal != null">
+        real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmountTotal != null">
+        notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="profitTotal != null">
+        profit_total = #{profitTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitTotal != null">
+        notax_profit_total = #{notaxProfitTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="profitRate != null">
+        profit_rate = #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitRate != null">
+        notax_profit_rate = #{notaxProfitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="thisIntegralTotal != null">
+        this_integral_total = #{thisIntegralTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="memberName != null">
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCardCode != null">
+        member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memberIntegral != null">
+        member_integral = #{memberIntegral,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.saleflow.entity.Sale">
+    update saas_sale
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+    parent_id = #{parentId,jdbcType=BIGINT},
+    order_type = #{orderType,jdbcType=INTEGER},
+    sale_date = #{saleDate,jdbcType=TIMESTAMP},
+    code = #{code,jdbcType=VARCHAR},
+    base_order_id = #{baseOrderId,jdbcType=BIGINT},
+    base_order_type = #{baseOrderType,jdbcType=INTEGER},
+    base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+    base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+    stand_code = #{standCode,jdbcType=VARCHAR},
+    payee_id = #{payeeId,jdbcType=BIGINT},
+    payee_code = #{payeeCode,jdbcType=VARCHAR},
+    payee_name = #{payeeName,jdbcType=VARCHAR},
+    sale_mode = #{saleMode,jdbcType=INTEGER},
+    sale_type = #{saleType,jdbcType=INTEGER},
+    upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+    accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+    excessive_sale = #{excessiveSale,jdbcType=INTEGER},
+    shift_flag = #{shiftFlag,jdbcType=INTEGER},
+    payment_flag = #{paymentFlag,jdbcType=INTEGER},
+    daily_settlement_flag = #{dailySettlementFlag,jdbcType=INTEGER},
+    daily_time = #{dailyTime,jdbcType=TIMESTAMP},
+    dose = #{dose,jdbcType=DECIMAL},
+    quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+    varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+    can_return_quantity_total = #{canReturnQuantityTotal,jdbcType=DECIMAL},
+    amount_total = #{amountTotal,jdbcType=DECIMAL},
+    whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+    whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+    real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+    notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+    tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+    profit_total = #{profitTotal,jdbcType=DECIMAL},
+    notax_profit_total = #{notaxProfitTotal,jdbcType=DECIMAL},
+    profit_rate = #{profitRate,jdbcType=DECIMAL},
+    notax_profit_rate = #{notaxProfitRate,jdbcType=DECIMAL},
+    this_integral_total = #{thisIntegralTotal,jdbcType=DECIMAL},
+    status = #{status,jdbcType=INTEGER},
+    remark = #{remark,jdbcType=VARCHAR},
+    creater_id = #{createrId,jdbcType=BIGINT},
+    creater_code = #{createrCode,jdbcType=VARCHAR},
+    creater_name = #{createrName,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    modifier_id = #{modifierId,jdbcType=BIGINT},
+    modifier_code = #{modifierCode,jdbcType=VARCHAR},
+    modifier_name = #{modifierName,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    member_id = #{memberId,jdbcType=BIGINT},
+    member_name = #{memberName,jdbcType=VARCHAR},
+    member_card_code = #{memberCardCode,jdbcType=VARCHAR},
+    member_integral = #{memberIntegral,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="querySaleCountByShiftId" resultType ="java.lang.Long">
+    select
+    count(1)
+    from saas_sale
+    where id in (select base_order_id from saas_payee_opening_shift_detail where doc_id = #{id})
+  </select>
+
+  <select id="selectSaleDataByShiftId" resultType ="java.util.Map">
+    select
+    s.id,
+    s.stand_code as standCode, p.team_name as teamName,
+    s.payee_name as payeeName, s.sale_date as saleTime,
+    s.code as saleCode, s.sale_type as saleType,
+    s.sale_mode as saleMode, s.real_amount_total as realAmountTotal
+    from saas_sale s left join saas_pos_payee p
+    on s.payee_id = p.payee_id
+    where s.id in (select base_order_id from saas_payee_opening_shift_detail where doc_id = #{id})
+
+    <if test="order != null and order != ''">
+      order by ${order} ${sort}
+    </if>
+    limit #{start}, #{pageSize}
+
+  </select>
+  <update id="updatePaymentFlagByShiftId">
+    update saas_sale
+    set
+    payment_flag = '1'
+    where id in (select base_order_id from saas_payee_opening_shift_detail where doc_id =#{shiftId})
+  </update>
+
+  <select id="getSaleForPrescrList" resultMap="BaseResultMap_Prescr">
+    SELECT
+    id,  sale_date, code,  stand_code,   payee_name, sale_mode,
+    sale_type, real_amount_total, notax_real_amount_total, tax_amount_total
+    FROM
+    saas_sale sale
+    WHERE  sale.enterprise_id = #{enterpriseId}
+    <if test="startDate != null and endDate != null">
+      <![CDATA[ and sale.sale_date >= #{startDate}]]>
+      <![CDATA[ and sale.sale_date <= #{endDate}]]>
+    </if>
+    order by sale.id desc
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="getCountSaleForPrescrList" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    FROM
+    saas_sale sale
+    WHERE  sale.enterprise_id = #{enterpriseId}
+    <if test="startDate != null and endDate != null">
+      <![CDATA[ and sale.sale_date >= #{startDate}]]>
+      <![CDATA[ and sale.sale_date <= #{endDate}]]>
+    </if>
+  </select>
+
+
+  <select id="countUnRegisterSale" resultType="int" parameterType="com.rograndec.feijiayun.chain.business.retail.special.vo.RequestSaleVo">
+    select
+    count(distinct ss.id)
+    from saas_sale ss
+    left join saas_sale_detail ssd on ssd.sale_id=ss.id
+    left join saas_goods sg on sg.id=ssd.goods_id
+    left join saas_special_register ssr on ssr.base_order_id=ss.id
+    where ss.sale_type=0 and sg.in_charge_drug is not null and ssr.id is NULL
+    and ss.enterprise_id = #{enterpriseId}
+    <if test="startDate != null">and ss.sale_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+    <if test="endDate != null">and str_to_date(#{endDate},'%Y-%m-%d %T')>=ss.sale_date</if>
+  </select>
+
+  <select id="listUnRegisterSale" resultMap="BaseResultMap" parameterType="com.rograndec.feijiayun.chain.business.retail.special.vo.RequestSaleVo">
+    select
+    distinct
+    ss.id,
+    ss.sale_date,
+    ss.code,
+    ss.stand_code,
+    ss.payee_name,
+    ss.member_id,
+    smi.member_name,
+    smi.sex,
+    smi.id_num,
+    smi.card_code member_card_code,
+    ss.sale_mode,
+    ss.sale_type,
+    ss.real_amount_total,
+    ss.notax_real_amount_total,
+    ss.tax_amount_total
+    from saas_sale ss
+    left join saas_sale_detail ssd on ssd.sale_id=ss.id
+    left join saas_goods sg on sg.id=ssd.goods_id
+    left join saas_special_register ssr on ssr.base_order_id=ss.id
+    left join saas_member_info smi on smi.id=ss.member_id
+    where ss.sale_type=0 and sg.in_charge_drug is not null and ssr.id is NULL
+    and ss.enterprise_id=#{enterpriseId}
+    <if test="startDate != null">and ss.sale_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+    <if test="endDate != null">and str_to_date(#{endDate},'%Y-%m-%d %T')>=ss.sale_date</if>
+    limit #{pageNo},#{pageSize}
+  </select>
+  
+  <select id="selectOrderPageDataByParam" resultMap="POSOrderVOResultMap">
+    select 
+    	s.id, s.sale_date, s.code, s.stand_code, s.payee_name, s.real_amount_total,
+    	sh.id as sh_id, d.goods_code, d.goods_generic_name, 
+    	d.dosage_name, d.goods_specification, d.unit_name, d.manufacturer,
+    	d.quantity, d.can_return_quantity, d.real_amount, sh.lot_number, sh.line_num, s.stand_code,
+    	s.payee_name, d.unit_price, d.line_discount, sh.product_date,
+    	sh.valid_date, d.clerk_name
+    from saas_sale_shelf sh 
+    	left join saas_sale_detail d
+    		on sh.sale_dtl_id = d.id
+    	left join saas_sale s
+    		on sh.sale_id = s.id 
+    where sh.enterprise_id = #{enterpriseId}
+    	and sh.can_return_quantity > 0
+    <if test="saleType != null">
+    	and s.sale_type = #{saleType}
+    </if>
+    <if test="param.startDate != null">  
+    	and s.sale_date >= #{param.startDate}
+    </if>
+    <if test="param.endDate != null">  
+    	AND date_format(s.sale_date, '%Y-%m-%d') &lt;= #{param.endDate}
+    </if>
+    <if test="param.code != null and param.code != ''">  
+    	AND s.code like '%${param.code}%'
+    </if>
+    	order by id desc
+    <if test="start != null">  	
+		limit #{start}, #{pageSize}	
+	</if>	
+  </select>
+  
+  <select id="queryOrderCountByParam" resultType ="java.lang.Long">
+    select 
+    	count(1)
+    from saas_sale
+    	where enterprise_id = #{enterpriseId}
+    <if test="saleType != null">
+    	and sale_type = #{saleType}
+    </if>
+    <if test="param.startDate != null">  
+    	and sale_date >= #{param.startDate}
+    </if>
+    <if test="param.endDate != null">  
+    	AND date_format(sale_date, '%Y-%m-%d') &lt;= #{param.endDate}
+    </if>
+    <if test="param.code != null and param.code != ''">  
+    	AND code like '%${param.code}%'
+    </if>	
+  </select>	
+  
+  <select id="queryByCodeAndEnterpriseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale
+    where code = #{saleCode} 
+    and enterprise_id = #{enterpriseId}
+  </select>
+  
+  <select id="selectExecessSaleDataByEnterpriseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale
+    where enterprise_id = #{enterpriseId}
+    and excessive_sale = '1'
+  </select>
+
+  <select id="querySaleReturnByCodeAndEnterpriseId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+     from saas_sale
+    where enterprise_id = #{enterpriseId}
+      and sale_type = 1
+      and order_type = 6205
+      and base_order_type = 6204
+      and base_order_code = #{saleCode}
+  </select>
+
+  <select id="selectByShiftId" resultMap="BaseResultMap">
+    select
+    a.id, a.enterprise_id, a.parent_id, a.order_type, a.sale_date, a.code, a.base_order_id, a.base_order_type,
+    a.base_order_code, a.base_order_date, a.stand_code, a.payee_id, a.payee_code, a.payee_name, a.sale_mode,
+    a.sale_type, a.upload_time, a.accept_time, a.excessive_sale, a.shift_flag, a.payment_flag, a.daily_settlement_flag, a.daily_time,
+    a.dose, a.quantity_total, a.varieties_quantity, a.can_return_quantity_total, a.amount_total, a.whole_discount,
+    a.whole_discount_amount, a.real_amount_total, a.notax_real_amount_total, a.tax_amount_total,
+    a.profit_total, a.notax_profit_total, a.profit_rate, a.notax_profit_rate, a.this_integral_total, a.status, a.remark,
+    a.creater_id, a.creater_code, a.creater_name, a.create_time, a.modifier_id, a.modifier_code,
+    a.modifier_name, a.update_time, a.member_id, a.member_name, a.member_card_code,
+    a.member_integral
+    FROM saas_sale a,saas_payee_opening_shift_detail b
+    where a.id = b.base_order_id
+    and b.doc_id = #{shiftId}
+  </select>
+
+</mapper>

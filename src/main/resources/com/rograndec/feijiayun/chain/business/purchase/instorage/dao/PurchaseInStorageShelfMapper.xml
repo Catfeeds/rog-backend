@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.instorage.dao.PurchaseInStorageShelfMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.instorage.entity.PurchaseInStorageShelf">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="in_storage_dtl_id" jdbcType="BIGINT" property="inStorageDtlId" />
+    <result column="in_storage_id" jdbcType="BIGINT" property="inStorageId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="shelf_id" jdbcType="BIGINT" property="shelfId" />
+    <result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="can_return_quantity" jdbcType="DECIMAL" property="canReturnQuantity" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+    <result column="line_discount_amount" jdbcType="DECIMAL" property="lineDiscountAmount" />
+    <result column="real_price" jdbcType="DECIMAL" property="realPrice" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice" />
+    <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount" />
+    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+    <result column="unclear_quantity" jdbcType="DECIMAL" property="unclearQuantity" />
+    <result column="clear_quantity" jdbcType="DECIMAL" property="clearQuantity" />
+    <result column="verification_quantity" jdbcType="DECIMAL" property="verificationQuantity" />
+    <result column="unverification_quantity" jdbcType="DECIMAL" property="unverificationQuantity" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap_InStorageDetail" type="com.rograndec.feijiayun.chain.business.purchase.instorage.vo.PurchaseInStorageDetailForReturnVO">
+      <id property="id" column="id"/>
+      <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+      <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+      <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+      <result column="in_storage_id" jdbcType="BIGINT" property="inStorageId" />
+      <result column="in_storage_code" jdbcType="VARCHAR" property="inStorageCode" />
+      <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+      <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+      <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+      <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+      <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+      <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+      <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+      <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+      <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+      <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+      <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+      <result column="can_return_quantity" jdbcType="DECIMAL" property="quantity" />
+      <result column="quantity" jdbcType="DECIMAL" property="inStorageQuantity" />
+      <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+      <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount" />
+      <result column="amount" jdbcType="DECIMAL" property="amount" />
+      <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+      <result column="line_discount_amount" jdbcType="DECIMAL" property="lineDiscountAmount" />
+      <result column="real_price" jdbcType="DECIMAL" property="realPrice" />
+      <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+      <result column="tax_rate_id" jdbcType="DECIMAL" property="taxRateId" />
+      <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+      <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice" />
+      <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount" />
+      <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+      <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, in_storage_dtl_id, in_storage_id, goods_id, goods_code, 
+    goods_name, lot_number, product_date, valid_date, shelf_id, shelf_name, quantity, can_return_quantity,
+    unit_price, line_discount, amount, whole_discount, line_discount_amount, real_price, 
+    real_amount, tax_rate_id, tax_rate, notax_real_price, notax_real_amount, tax_amount,
+    unclear_quantity, clear_quantity, verification_quantity, unverification_quantity, line_num, status,
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <sql id="shelf_Base_Column_List">
+    shelf.id,  shelf.enterprise_id,  shelf.parent_id,  shelf.in_storage_dtl_id,  shelf.in_storage_id,  shelf.goods_id,  shelf.goods_code,
+    shelf.goods_name,  shelf.lot_number,  shelf.product_date,  shelf.valid_date,  shelf.shelf_id,  shelf.shelf_name,  shelf.quantity,  shelf.can_return_quantity,
+     shelf.unit_price,  shelf.line_discount,  shelf.amount,  shelf.whole_discount,  shelf.line_discount_amount,  shelf.real_price,
+     shelf.real_amount,  shelf.tax_rate_id,  shelf.tax_rate,  shelf.notax_real_price,  shelf.notax_real_amount, shelf.tax_amount,
+     shelf.unclear_quantity,  shelf.clear_quantity, shelf.verification_quantity,  shelf.unverification_quantity,  shelf.line_num, shelf.status,
+     shelf.remark,  shelf.creater_id,  shelf.creater_code,  shelf.creater_name,  shelf.create_time,  shelf.modifier_id,  shelf.modifier_code,
+     shelf.modifier_name,  shelf.update_time
+  </sql>
+
+  <sql id="k_Base_Column_List">
+    k.id,
+    k.enterprise_id,
+     k.parent_id,
+      k.in_storage_dtl_id,
+      k.in_storage_id,
+      k.goods_id,
+      k.goods_code,
+    k.goods_name,
+    k.lot_number,
+    k.product_date,
+    k.valid_date,
+    k.shelf_id,
+    k.shelf_name,
+    k.quantity,
+    k.can_return_quantity,
+    k.unit_price,
+    k.line_discount,
+    k.amount,
+    k.whole_discount,
+    k.line_discount_amount,
+    k.real_price,
+    k.real_amount,
+    k.tax_rate_id,
+    k.tax_rate,
+    k.notax_real_price,
+    k.notax_real_amount,
+    k.tax_amount,
+    k.unclear_quantity,
+    k.clear_quantity,
+    k.verification_quantity,
+    k.unverification_quantity,
+    k.line_num,
+    k.status,
+    k.remark,
+    k.creater_id,
+    k.creater_code,
+    k.creater_name,
+    k.create_time,
+    k.modifier_id,
+    k.modifier_code,
+    k.modifier_name,
+    k.update_time
+  </sql>
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_in_storage_shelf
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_in_storage_shelf
+    where id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+    <select id="selectByEnterpriseIdAndId"
+            resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+      from saas_purchase_in_storage_shelf
+      WHERE enterprise_id = #{enterpriseId}
+      and in_storage_dtl_id = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_in_storage_shelf
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.instorage.entity.PurchaseInStorageShelf">
+    insert into saas_purchase_in_storage_shelf (id, enterprise_id, parent_id, 
+      in_storage_dtl_id, in_storage_id, goods_id, 
+      goods_code, goods_name, lot_number, 
+      product_date, valid_date, shelf_id, 
+      shelf_name, quantity, can_return_quantity, unit_price, 
+      line_discount, amount, whole_discount, 
+      line_discount_amount, real_price, real_amount, 
+      tax_rate_id, tax_rate, notax_real_price, notax_real_amount, 
+      tax_amount, unclear_quantity, 
+      clear_quantity, verification_quantity, unverification_quantity, line_num, status,
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{inStorageDtlId,jdbcType=BIGINT}, #{inStorageId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{lotNumber,jdbcType=VARCHAR}, 
+      #{productDate,jdbcType=TIMESTAMP}, #{validDate,jdbcType=TIMESTAMP}, #{shelfId,jdbcType=BIGINT}, 
+      #{shelfName,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{canReturnQuantity,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{lineDiscount,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{wholeDiscount,jdbcType=DECIMAL}, 
+      #{lineDiscountAmount,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, 
+      #{taxRateId,jdbcType=BIGINT}, #{taxRate,jdbcType=DECIMAL}, #{notaxRealPrice,jdbcType=DECIMAL}, #{notaxRealAmount,jdbcType=DECIMAL}, 
+      #{taxAmount,jdbcType=DECIMAL}, #{unclearQuantity,jdbcType=DECIMAL}, 
+      #{clearQuantity,jdbcType=DECIMAL}, #{verificationQuantity,jdbcType=DECIMAL}, #{unverificationQuantity,jdbcType=DECIMAL}, #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.instorage.entity.PurchaseInStorageShelf">
+    insert into saas_purchase_in_storage_shelf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="inStorageDtlId != null">
+        in_storage_dtl_id,
+      </if>
+      <if test="inStorageId != null">
+        in_storage_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="lotNumber != null">
+        lot_number,
+      </if>
+      <if test="productDate != null">
+        product_date,
+      </if>
+      <if test="validDate != null">
+        valid_date,
+      </if>
+      <if test="shelfId != null">
+        shelf_id,
+      </if>
+      <if test="shelfName != null">
+        shelf_name,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="canReturnQuantity != null">
+      	can_return_quantity,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="lineDiscount != null">
+        line_discount,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount,
+      </if>
+      <if test="lineDiscountAmount != null">
+        line_discount_amount,
+      </if>
+      <if test="realPrice != null">
+        real_price,
+      </if>
+      <if test="realAmount != null">
+        real_amount,
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price,
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount,
+      </if>
+      <if test="taxAmount != null">
+        tax_amount,
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity,
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity,
+      </if>
+      <if test="verificationQuantity != null">
+        verification_quantity,
+      </if>
+      <if test="unverificationQuantity != null">
+        unverification_quantity,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="inStorageDtlId != null">
+        #{inStorageDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="inStorageId != null">
+        #{inStorageId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="lotNumber != null">
+        #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelfId != null">
+        #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="canReturnQuantity != null">
+      	#{canReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscount != null">
+        #{lineDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscountAmount != null">
+        #{lineDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realPrice != null">
+        #{realPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealPrice != null">
+        #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearQuantity != null">
+        #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="verificationQuantity != null">
+        #{verificationQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unverificationQuantity != null">
+        #{unverificationQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.instorage.entity.PurchaseInStorageShelf">
+    update saas_purchase_in_storage_shelf
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="inStorageDtlId != null">
+        in_storage_dtl_id = #{inStorageDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="inStorageId != null">
+        in_storage_id = #{inStorageId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="lotNumber != null">
+        lot_number = #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        product_date = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        valid_date = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shelfId != null">
+        shelf_id = #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        shelf_name = #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="canReturnQuantity != null">
+      	can_return_quantity = #{canReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscount != null">
+        line_discount = #{lineDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscountAmount != null">
+        line_discount_amount = #{lineDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realPrice != null">
+        real_price = #{realPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        real_amount = #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="verificationQuantity != null">
+        verification_quantity = #{verificationQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unverificationQuantity != null">
+        unverification_quantity = #{unverificationQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.instorage.entity.PurchaseInStorageShelf">
+    update saas_purchase_in_storage_shelf
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      in_storage_dtl_id = #{inStorageDtlId,jdbcType=BIGINT},
+      in_storage_id = #{inStorageId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      lot_number = #{lotNumber,jdbcType=VARCHAR},
+      product_date = #{productDate,jdbcType=TIMESTAMP},
+      valid_date = #{validDate,jdbcType=TIMESTAMP},
+      shelf_id = #{shelfId,jdbcType=BIGINT},
+      shelf_name = #{shelfName,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=DECIMAL},
+      can_return_quantity = #{canReturnQuantity,jdbcType=DECIMAL},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      line_discount = #{lineDiscount,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      line_discount_amount = #{lineDiscountAmount,jdbcType=DECIMAL},
+      real_price = #{realPrice,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
+      tax_rate_id = #{taxRateId,jdbcType=BIGINT}, 
+      tax_rate = #{taxRate,jdbcType=DECIMAL},
+      notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      verification_quantity = #{verificationQuantity,jdbcType=DECIMAL},
+      unverification_quantity = #{unverificationQuantity,jdbcType=DECIMAL},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <insert id="batchSave" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    insert into saas_purchase_in_storage_shelf (enterprise_id, parent_id, 
+      in_storage_dtl_id, in_storage_id, goods_id, 
+      goods_code, goods_name, lot_number, 
+      product_date, valid_date, shelf_id, 
+      shelf_name, quantity, can_return_quantity, unit_price, 
+      line_discount, amount, whole_discount, 
+      line_discount_amount, real_price, real_amount, 
+      tax_rate_id, tax_rate, notax_real_price, notax_real_amount, 
+      tax_amount, unclear_quantity, 
+      clear_quantity, verification_quantity,
+      unverification_quantity, line_num, status,
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.enterpriseId,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT}, 
+      #{item.inStorageDtlId,jdbcType=BIGINT}, #{item.inStorageId,jdbcType=BIGINT}, #{item.goodsId,jdbcType=BIGINT}, 
+      #{item.goodsCode,jdbcType=VARCHAR}, #{item.goodsName,jdbcType=VARCHAR}, #{item.lotNumber,jdbcType=VARCHAR}, 
+      #{item.productDate,jdbcType=TIMESTAMP}, #{item.validDate,jdbcType=TIMESTAMP}, #{item.shelfId,jdbcType=BIGINT}, 
+      #{item.shelfName,jdbcType=VARCHAR}, #{item.quantity,jdbcType=DECIMAL}, #{item.canReturnQuantity,jdbcType=DECIMAL}, #{item.unitPrice,jdbcType=DECIMAL}, 
+      #{item.lineDiscount,jdbcType=DECIMAL}, #{item.amount,jdbcType=DECIMAL}, #{item.wholeDiscount,jdbcType=DECIMAL}, 
+      #{item.lineDiscountAmount,jdbcType=DECIMAL}, #{item.realPrice,jdbcType=DECIMAL}, #{item.realAmount,jdbcType=DECIMAL}, 
+      #{item.taxRateId,jdbcType=BIGINT}, #{item.taxRate,jdbcType=DECIMAL}, #{item.notaxRealPrice,jdbcType=DECIMAL}, #{item.notaxRealAmount,jdbcType=DECIMAL}, 
+      #{item.taxAmount,jdbcType=DECIMAL}, #{item.unclearQuantity,jdbcType=DECIMAL}, 
+      #{item.clearQuantity,jdbcType=DECIMAL}, #{item.verificationQuantity,jdbcType=DECIMAL}, #{item.unverificationQuantity,jdbcType=DECIMAL},
+      #{item.lineNum,jdbcType=INTEGER}, #{item.status,jdbcType=INTEGER},
+      #{item.remark,jdbcType=VARCHAR}, #{item.createrId,jdbcType=BIGINT}, #{item.createrCode,jdbcType=VARCHAR}, 
+      #{item.createrName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifierId,jdbcType=BIGINT}, 
+      #{item.modifierCode,jdbcType=VARCHAR}, #{item.modifierName,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+
+
+
+
+
+
+  <select id="getInStorageDetail" resultMap="BaseResultMap_InStorageDetail">
+    SELECT
+    shelf.lot_number,
+    shelf.product_date,
+    shelf.valid_date,
+    sum(shelf.can_return_quantity) quantity,
+    sum(shelf.quantity) can_return_quantity,
+    storagedetail.id,
+    storagedetail.in_storage_id,
+    storagedetail.in_storage_code,
+    storagedetail.goods_id,
+    storagedetail.goods_code,
+    storagedetail.goods_generic_name,
+    storagedetail.dosage_id,
+    storagedetail.dosage_name,
+    storagedetail.unit_id,
+    storagedetail.unit_name,
+    storagedetail.goods_specification,
+    storagedetail.manufacturer_id,
+    storagedetail.manufacturer,
+    storagedetail.goods_place,
+    storagedetail.unit_price,
+    shelf.line_discount,
+    shelf.amount,
+    shelf.whole_discount,
+    shelf.line_discount_amount,
+    shelf.real_price,
+    shelf.real_amount,
+    shelf.tax_rate,
+    shelf.tax_rate_id,
+    shelf.notax_real_price,
+    shelf.notax_real_amount,
+    shelf.tax_amount,
+    shelf.line_num
+
+
+    FROM
+        saas_purchase_in_storage_shelf shelf INNER JOIN saas_purchase_in_storage_detail storagedetail ON shelf.in_storage_dtl_id = storagedetail.id
+    WHERE
+       shelf.enterprise_id = #{enterpriseId}
+       and
+        shelf.in_storage_id = #{storageId}
+
+    AND
+      shelf.can_return_quantity > 0
+
+    GROUP BY
+        shelf.lot_number,
+        shelf.in_storage_dtl_id,
+        shelf.in_storage_id,
+        shelf.goods_id
+    ORDER BY storagedetail.id, storagedetail.line_num
+
+  </select>
+
+  <select id="getCountInStorageDetail" resultType="java.lang.Integer">
+    SELECT count(*) FROM (
+    SELECT
+    shelf.lot_number,
+    shelf.product_date,
+    shelf.valid_date,
+    shelf.can_return_quantity,
+    storagedetail.id, storagedetail.in_storage_id, storagedetail.in_storage_code,
+    storagedetail.goods_id, storagedetail.goods_code, storagedetail.goods_generic_name, storagedetail.dosage_id,
+    storagedetail.dosage_name,
+    storagedetail.unit_id, storagedetail.unit_name, storagedetail.goods_specification, storagedetail.manufacturer_id,
+    storagedetail.manufacturer, storagedetail.goods_place,
+    storagedetail.quantity, storagedetail.unit_price, storagedetail.line_discount, storagedetail.amount,
+    storagedetail.whole_discount,
+    storagedetail.line_discount_amount,
+    storagedetail.real_price, storagedetail.real_amount, storagedetail.tax_rate, storagedetail.notax_real_price,
+    storagedetail.notax_real_amount,
+    storagedetail.tax_amount,
+    storagedetail.line_num
+    FROM
+    saas_purchase_in_storage_shelf shelf LEFT JOIN saas_purchase_in_storage_detail storagedetail ON
+    shelf.in_storage_dtl_id = storagedetail.id
+    WHERE
+    shelf.enterprise_id = #{enterpriseId}
+    and
+    shelf.in_storage_id = #{storageId}
+
+    AND
+    shelf.can_return_quantity > 0
+
+    GROUP BY
+    shelf.lot_number,
+    shelf.in_storage_dtl_id,
+    shelf.in_storage_id
+    ) k
+  </select>
+  <select id="getPurchaseInStorageReportPageList" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.purchase.PurchaseInStorageReportPageVO">
+    select
+        spis.code,
+        spis.in_storage_date AS inStorageDate,
+        spis.supplier_code AS supplierCode,
+        spis.supplier_name AS supplierName,
+        spis.supplier_saler_name AS supplierSalerName,
+        spis.supplier_saler_phone AS supplierSalerPhone,
+        spis.storage_man_name AS storageManName,
+        spis.base_order_code AS baseOrderCode,
+        spo.`code` AS purchaseOrderCode,
+        spisd.goods_code AS goodsCode,
+		spisd.barcode AS barcode,
+		spisd.goods_name AS goodsName,
+		spisd.goods_generic_name AS goodsGenericName,
+		spisd.dosage_name AS dosageName,
+		spisd.unit_name AS unitName,
+		spisd.goods_specification AS goodsSpecification,
+		spisd.manufacturer,
+		spisd.goods_place AS goodsPlace,
+		spisd.approval_number AS approvalNumber,
+        spiss.lot_number AS lotNumber,
+        DATE_FORMAT(spiss.product_date,'%Y-%m-%d')  AS productDate,
+        DATE_FORMAT(spiss.valid_date,'%Y-%m-%d')  AS validDate,
+        spiss.shelf_id AS shelfId,
+        spiss.shelf_name AS shelfName,
+        spiss.quantity,
+        spiss.unit_price AS unitPrice,
+        spiss.line_discount AS lineDiscount,
+        spiss.amount,
+        spiss.whole_discount AS wholeDiscount,
+        spiss.line_discount_amount AS lineDiscountAmount,
+        spiss.real_price AS realPrice,
+        spiss.real_amount AS realAmount,
+        spiss.tax_rate AS taxRate,
+        spiss.notax_real_price AS notaxRealPrice,
+        spiss.notax_real_amount AS notaxRealAmount,
+        spiss.tax_amount AS taxAmount,
+        spiss.status,
+        sg.management_scope_name AS managementScopeName,
+        sg.limit_quantity AS limitQuantity,
+        sg.storage_condition_name AS storageConditionName,
+        sg.business_variety AS businessVariety,
+        sg.goods_attribute AS goodsAttribute,
+        sg.prescription_drug AS prescriptionDrug,
+        sg.otc_type AS otcType,
+        sg.domestic_import AS domesticImport,
+        sg.special_drug AS specialDrug,
+        sg.spirit_drug_type AS spiritDrugType,
+        sg.in_charge_drug AS inChargeDrug,
+        sg.formulation_type AS formulationType,
+        sg.storage_temp AS storageTemp,
+        sg.quality_period_unit AS qualityPeriodUnit,
+        sgc.`name` AS categoryName,
+        sg.quality_period AS qualityPeriod
+    from saas_purchase_in_storage_shelf spiss
+    LEFT JOIN saas_purchase_in_storage_detail spisd ON spisd.id = spiss.in_storage_dtl_id
+    LEFT JOIN saas_purchase_in_storage spis ON spis.id = spisd.in_storage_id
+    LEFT JOIN saas_purchase_order spo ON spo.id = spis.purchase_order_id
+    LEFT JOIN saas_goods sg ON sg.id = spisd.goods_id
+    LEFT JOIN saas_goods_category sgc ON sgc.id = sg.category_id
+    where spiss.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.key != null and paramForListVO.key != ''">
+      and (
+      sg.code like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.barcode like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.pinyin_code like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.name like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.generic_name like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.approval_number like concat('%', #{paramForListVO.key},'%')
+      )
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null and paramForListVO.startDate != '' and paramForListVO.endDate != ''">
+      and spis.in_storage_date between #{paramForListVO.startDate} and #{paramForListVO.endDate}
+    </if>
+    <if test="paramForListVO.businessVariety != null and paramForListVO.businessVariety != ''">
+      and sg.business_variety = #{paramForListVO.businessVariety}
+    </if>
+    <if test="paramForListVO.supplierCode != null and paramForListVO.supplierCode != ''">
+      and spis.supplier_code = #{paramForListVO.supplierCode}
+    </if>
+    <if test="paramForListVO.supplierName != null and paramForListVO.supplierName != ''">
+      and spis.supplier_name like concat('%', #{paramForListVO.supplierName},'%')
+    </if>
+    <if test="paramForListVO.code != null and paramForListVO.code != ''">
+      and spis.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.storageManName != null and paramForListVO.storageManName != ''">
+      and spis.storage_man_name like concat('%',#{paramForListVO.storageManName},'%')
+    </if>
+    <if test="paramForListVO.status != null and paramForListVO.status != ''">
+      and spiss.status = #{paramForListVO.status}
+    </if>
+    <if test="paramForListVO.categoryId != null and paramForListVO.categoryId != ''">
+      and sg.category_id = #{paramForListVO.categoryId}
+    </if>
+    <if test="paramForListVO.domesticImport != null and paramForListVO.domesticImport != ''">
+      and sg.domestic_import = #{paramForListVO.domesticImport}
+    </if>
+    <if test="paramForListVO.storageTemp != null and paramForListVO.storageTemp != ''">
+      and sg.storage_temp = #{paramForListVO.storageTemp}
+    </if>
+    <if test="paramForListVO.storageConditionName != null and paramForListVO.storageConditionName != ''">
+      and sg.storage_condition_name = #{paramForListVO.storageConditionName}
+    </if>
+    <if test="paramForListVO.registeredTrademark != null and paramForListVO.registeredTrademark != ''">
+      and sg.registered_trademark = #{paramForListVO.registeredTrademark}
+    </if>
+    <if test="paramForListVO.brand != null and paramForListVO.brand != ''">
+      and sg.brand = #{paramForListVO.brand}
+    </if>
+    <if test="paramForListVO.goodsAttribute != null and paramForListVO.goodsAttribute != ''">
+      and sg.goods_attribute = #{paramForListVO.goodsAttribute}
+    </if>
+    <if test="paramForListVO.prescriptionDrug != null and paramForListVO.prescriptionDrug != ''">
+      and sg.prescription_drug = #{paramForListVO.prescriptionDrug}
+    </if>
+    <if test="paramForListVO.otcType != null and paramForListVO.otcType != ''">
+      and sg.otc_type = #{paramForListVO.otcType}
+    </if>
+    <if test="paramForListVO.managementScopeId != null and paramForListVO.managementScopeId != ''">
+      and sg.management_scope_id = #{paramForListVO.managementScopeId}
+    </if>
+    <if test="paramForListVO.specialDrug != null and paramForListVO.specialDrug != ''">
+      and sg.special_drug = #{paramForListVO.specialDrug}
+    </if>
+    <if test="paramForListVO.spiritDrugType != null and paramForListVO.spiritDrugType != ''">
+      and sg.spirit_drug_type = #{paramForListVO.spiritDrugType}
+    </if>
+    <if test="paramForListVO.inChargeDrug != null and paramForListVO.inChargeDrug != ''">
+      and sg.in_charge_drug = #{paramForListVO.inChargeDrug}
+    </if>
+    <if test="paramForListVO.formulationType != null and paramForListVO.formulationType != ''">
+      and sg.formulation_type = #{paramForListVO.formulationType}
+    </if>
+    <if test="paramForListVO.orderName != null and paramForListVO.orderType!=null ">
+      order by ${paramForListVO.orderName} ${paramForListVO.orderType}
+    </if>
+    <if test="paramForListVO.pageStart != null and paramForListVO.pageSize != null">
+      limit #{paramForListVO.pageStart},#{paramForListVO.pageSize}
+    </if>
+  </select>
+
+  <select id="getPurchaseInStorageReportPageCount" resultType="java.lang.Integer">
+    select
+    count(1)
+    from saas_purchase_in_storage_shelf spiss
+    LEFT JOIN saas_purchase_in_storage_detail spisd ON spisd.id = spiss.in_storage_dtl_id
+    LEFT JOIN saas_purchase_in_storage spis ON spis.id = spisd.in_storage_id
+    LEFT JOIN saas_purchase_order spo ON spo.id = spis.purchase_order_id
+    LEFT JOIN saas_goods sg ON sg.id = spisd.goods_id
+    LEFT JOIN saas_goods_category sgc ON sgc.id = sg.category_id
+    where spiss.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.key != null and paramForListVO.key != ''">
+      and (
+      sg.code like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.barcode like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.pinyin_code like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.name like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.generic_name like concat('%', #{paramForListVO.key},'%')
+      or
+      sg.approval_number like concat('%', #{paramForListVO.key},'%')
+      )
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null and paramForListVO.startDate != '' and paramForListVO.endDate != ''">
+      and spis.in_storage_date between #{paramForListVO.startDate} and #{paramForListVO.endDate}
+    </if>
+    <if test="paramForListVO.businessVariety != null and paramForListVO.businessVariety != ''">
+      and sg.business_variety = #{paramForListVO.businessVariety}
+    </if>
+    <if test="paramForListVO.supplierCode != null and paramForListVO.supplierCode != ''">
+      and spis.supplier_code = #{paramForListVO.supplierCode}
+    </if>
+    <if test="paramForListVO.supplierName != null and paramForListVO.supplierName != ''">
+      and spis.supplier_name like concat('%', #{paramForListVO.supplierName},'%')
+    </if>
+    <if test="paramForListVO.code != null and paramForListVO.code != ''">
+      and spis.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.storageManName != null and paramForListVO.storageManName != ''">
+      and spis.storage_man_name like concat('%',#{paramForListVO.storageManName},'%')
+    </if>
+    <if test="paramForListVO.status != null and paramForListVO.status != ''">
+      and spiss.status = #{paramForListVO.status}
+    </if>
+    <if test="paramForListVO.categoryId != null and paramForListVO.categoryId != ''">
+      and sg.category_id = #{paramForListVO.categoryId}
+    </if>
+    <if test="paramForListVO.domesticImport != null and paramForListVO.domesticImport != ''">
+      and sg.domestic_import = #{paramForListVO.domesticImport}
+    </if>
+    <if test="paramForListVO.storageTemp != null and paramForListVO.storageTemp != ''">
+      and sg.storage_temp = #{paramForListVO.storageTemp}
+    </if>
+    <if test="paramForListVO.storageConditionName != null and paramForListVO.storageConditionName != ''">
+      and sg.storage_condition_name = #{paramForListVO.storageConditionName}
+    </if>
+    <if test="paramForListVO.registeredTrademark != null and paramForListVO.registeredTrademark != ''">
+      and sg.registered_trademark = #{paramForListVO.registeredTrademark}
+    </if>
+    <if test="paramForListVO.brand != null and paramForListVO.brand != ''">
+      and sg.brand = #{paramForListVO.brand}
+    </if>
+    <if test="paramForListVO.goodsAttribute != null and paramForListVO.goodsAttribute != ''">
+      and sg.goods_attribute = #{paramForListVO.goodsAttribute}
+    </if>
+    <if test="paramForListVO.prescriptionDrug != null and paramForListVO.prescriptionDrug != ''">
+      and sg.prescription_drug = #{paramForListVO.prescriptionDrug}
+    </if>
+    <if test="paramForListVO.otcType != null and paramForListVO.otcType != ''">
+      and sg.otc_type = #{paramForListVO.otcType}
+    </if>
+    <if test="paramForListVO.managementScopeId != null and paramForListVO.managementScopeId != ''">
+      and sg.management_scope_id = #{paramForListVO.managementScopeId}
+    </if>
+    <if test="paramForListVO.specialDrug != null and paramForListVO.specialDrug != ''">
+      and sg.special_drug = #{paramForListVO.specialDrug}
+    </if>
+    <if test="paramForListVO.spiritDrugType != null and paramForListVO.spiritDrugType != ''">
+      and sg.spirit_drug_type = #{paramForListVO.spiritDrugType}
+    </if>
+    <if test="paramForListVO.inChargeDrug != null and paramForListVO.inChargeDrug != ''">
+      and sg.in_charge_drug = #{paramForListVO.inChargeDrug}
+    </if>
+    <if test="paramForListVO.formulationType != null and paramForListVO.formulationType != ''">
+      and sg.formulation_type = #{paramForListVO.formulationType}
+    </if>
+    <if test="paramForListVO.orderName != null and paramForListVO.orderType!=null ">
+      order by ${paramForListVO.orderName} ${paramForListVO.orderType}
+    </if>
+  </select>
+
+  <select id="getPurchaseInStorageShelf" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf
+    WHERE  shelf.enterprise_id = #{enterpriseId}
+    and shelf.goods_id = #{goodsId}
+    and shelf.in_storage_id = #{inStorageId}
+    <if test="lotNumber != null">
+      and shelf.lot_number = #{lotNumber}
+    </if>
+
+  </select>
+  <select id="selectByStorageId"
+          resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf
+    WHERE  shelf.in_storage_id = #{id}
+  </select>
+
+  <select id="selectByStorageIds"
+          resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf
+    WHERE  shelf.in_storage_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectByStorageIdsAndStatus"
+          resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf
+    WHERE  shelf.in_storage_id in
+    <foreach item="item" index="index" collection="idList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    AND shelf.status in
+    <foreach item="item" index="index" collection="statusList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    order by shelf.id asc
+  </select>
+
+  <select id="selectByStorageIdsAndStatusAndParam"
+          resultMap="BaseResultMap">
+
+    SELECT
+
+    <include refid="k_Base_Column_List"/>
+
+    FROM
+    (
+    SELECT
+    <include refid="shelf_Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf,
+    saas_goods goods ,
+    saas_purchase_in_storage pis,
+    saas_goods_business goodsBussiness,
+    saas_supplier_business sub
+    WHERE
+    shelf.goods_id = goods.id
+    and goodsBussiness.goods_id = goods.id
+    and goodsBussiness.management_mode = 1 and shelf.verification_quantity > 0 and shelf.verification_quantity > shelf.clear_quantity
+    AND pis.supplier_id = #{supplierId,jdbcType=BIGINT}
+    and pis.supplier_id = sub.supplier_id
+    and sub.management_mode = goodsBussiness.management_mode
+    and pis.id = shelf.in_storage_id
+    and shelf.status in
+    <foreach item="item" index="index" collection="statusList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    <if test="param != null">
+      and (
+      INSTR(goods.name,#{param})
+      or INSTR(goods.code,#{param})
+      or INSTR(goods.generic_name,#{param})
+      or INSTR(goods.barcode,#{param})
+      or INSTR(goods.approval_number,#{param})
+      or INSTR(goods.pinyin_code,#{param})
+      )
+    </if>
+
+    union
+
+    SELECT
+    <include refid="shelf_Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf shelf,
+    saas_goods goods ,
+    saas_purchase_in_storage pis,
+    saas_goods_business goodsBussiness,
+    saas_supplier_business sub
+    WHERE
+    shelf.goods_id = goods.id
+    and goodsBussiness.goods_id = goods.id
+    and goodsBussiness.management_mode = 0 and shelf.unclear_quantity > 0
+    AND pis.supplier_id = #{supplierId,jdbcType=BIGINT}
+    and pis.supplier_id = sub.supplier_id
+    and sub.management_mode = goodsBussiness.management_mode
+    and pis.id = shelf.in_storage_id
+    and shelf.status in
+    <foreach item="item" index="index" collection="statusList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    <if test="param != null">
+      and (
+      INSTR(goods.name,#{param})
+      or INSTR(goods.code,#{param})
+      or INSTR(goods.generic_name,#{param})
+      or INSTR(goods.barcode,#{param})
+      or INSTR(goods.approval_number,#{param})
+      or INSTR(goods.pinyin_code,#{param})
+      )
+    </if>
+    ) k
+
+    order by k.id asc
+  </select>
+
+
+  <select id="selectByDetailIdAndGoods" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    saas_purchase_in_storage_shelf
+    WHERE  in_storage_dtl_id = #{dtlId,jdbcType=BIGINT}
+    <if test="goodsId != null">
+      and goods_id = #{goodsId,jdbcType=BIGINT}
+    </if>
+   <if test="lotNumber != null">
+     and lot_number = #{lotNumber,jdbcType=VARCHAR}
+   </if>
+
+  </select>
+
+  <select id="selectByPurchaseInstorageDetailId" resultType="com.rograndec.feijiayun.chain.business.distr.parent.vo.DistrPurchaseInStorageShelfVO">
+    SELECT
+    shelf.lot_number  AS lotNumber,
+		shelf.product_date AS productDate,
+		shelf.valid_date AS validDate,
+		shelf.shelf_name AS shelfName,
+		shelf.shelf_id AS  shelfId,
+		shelf.quantity,
+		shelf.goods_id AS goodsId,
+		shelf.unit_price AS unitPrice,
+		shelf.line_discount AS lineDiscount,
+		shelf.amount,
+		shelf.whole_discount AS wholeDiscount,
+		shelf.line_discount_amount AS lineDiscountAmount,
+		shelf.real_price AS realPrice,
+		shelf.real_amount AS realAmount,
+		shelf.tax_rate_id AS taxRateId,
+		shelf.tax_rate AS taxRate,
+		shelf.notax_real_price AS notaxRealPrice,
+		shelf.notax_real_amount AS notaxRealAmount,
+		shelf.tax_amount AS taxAmount
+    FROM
+    saas_purchase_in_storage_shelf shelf
+    WHERE  shelf.in_storage_dtl_id = #{id}
+  </select>
+  <select id="queryCount" resultType="java.lang.Long">
+    select
+        count(1)
+    from saas_purchase_in_storage_shelf piss
+    LEFT JOIN saas_goods g ON g.id = piss.goods_id
+    LEFT JOIN saas_purchase_in_storage pis ON pis.id = piss.in_storage_id
+    where piss.in_storage_id = #{id}
+    AND piss.enterprise_id =  #{enterpriseId}
+  </select>
+
+  <select id="getPurchaseInStorageShelfList" resultType="com.rograndec.feijiayun.chain.business.distr.parent.vo.GetPurchaseInStorageShelfListVO">
+      select
+        piss.in_storage_id AS inStorageId,
+        pis.`code` AS inStorageCode,
+        piss.line_num AS lineNum,
+        piss.goods_id AS goodsId,
+        g.`code` AS goodsCode,
+        g.generic_name AS goodsGenericName,
+        g.dosage_name AS dosageName,
+        g.unit_name AS unitName,
+        g.specification AS goodsSpecification,
+        g.manufacturer AS manufacturer,
+        piss.line_num AS lotNumber,
+        piss.product_date AS productDate,
+        piss.valid_date AS validDate,
+        piss.quantity,
+        piss.unit_price AS unitPrice,
+        piss.line_discount AS lineDiscount,
+        piss.amount,
+        piss.whole_discount AS wholeDiscount,
+        piss.line_discount_amount AS lineDiscountAmount,
+        piss.tax_rate_id AS taxRateId,
+        piss.tax_rate AS taxRate,
+        piss.notax_real_price AS notaxRealPrice,
+        piss.notax_real_amount AS notaxRealAmount,
+        piss.tax_amount AS taxAmount
+    from saas_purchase_in_storage_shelf piss
+    LEFT JOIN saas_goods g ON g.id = piss.goods_id
+    LEFT JOIN saas_purchase_in_storage pis ON pis.id = piss.in_storage_id
+    where piss.in_storage_id = #{id}
+    AND piss.enterprise_id =  #{enterpriseId}
+    <if test="orderName != null and orderName != '' and orderType!=null and orderType != ''">
+      ORDER BY ${orderName} ${orderType}
+    </if>
+    limit #{start},#{pageSize}
+  </select>
+</mapper>

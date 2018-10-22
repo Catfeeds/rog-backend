@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.supplier.dao.SupplierSalerMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="id_valid_until" jdbcType="TIMESTAMP" property="idValidUntil" />
+    <result column="id_file_id" jdbcType="BIGINT" property="idFileId" />
+    <result column="certificate_num" jdbcType="VARCHAR" property="certificateNum" />
+    <result column="certificate_valid_until" jdbcType="TIMESTAMP" property="certificateValidUntil" />
+    <result column="authorized_variety" jdbcType="VARCHAR" property="authorizedVariety" />
+    <result column="authorized_variety_scope" jdbcType="VARCHAR" property="authorizedVarietyScope" />
+    <result column="authorized_region" jdbcType="VARCHAR" property="authorizedRegion" />
+    <result column="certificate_file_id" jdbcType="BIGINT" property="certificateFileId" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="fax" jdbcType="VARCHAR" property="fax" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="wechat_num" jdbcType="VARCHAR" property="wechatNum" />
+    <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, supplier_id, enterprise_id,  code, name, id_num, id_valid_until, id_file_id, certificate_num,
+    certificate_valid_until, authorized_variety, authorized_variety_scope, authorized_region, certificate_file_id,
+    telephone, fax, mobile_phone, email, wechat_num, qq_num, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+  <sql id="Base_saler_Column_List">
+    saler.id, saler.supplier_id, saler.enterprise_id, saler.code, saler.name, saler.id_num, saler.id_valid_until, saler.id_file_id, saler.certificate_num,
+    saler.certificate_valid_until, saler.authorized_variety, saler.authorized_variety_scope, saler.authorized_region, saler.certificate_file_id,
+    saler.telephone, saler.fax, saler.mobile_phone, saler.email, saler.wechat_num, saler.qq_num, saler.status, saler.remark,saler.creater_id,
+    saler.creater_code, saler.creater_name, saler.create_time, saler.modifier_id, saler.modifier_code, saler.modifier_name,
+    saler.update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_supplier_saler
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectBySuppliereId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier_saler
+    where supplier_id = #{eId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectBySupplierParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_saler_Column_List" />
+    from saas_supplier_saler saler , saas_supplier supplier
+    <where>
+      saler.supplier_id = supplier.id
+      and supplier.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="list != null">
+        and supplier.owner_id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="queryStr != null">
+        and (supplier.code = #{queryStr} or supplier.pinyin = #{queryStr}
+            or supplier.name = #{queryStr}
+        )
+      </if>
+    </where>
+
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by saler.update_time desc
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id="selectByParam" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_saler_Column_List" />
+    from saas_supplier_saler saler, saas_supplier supplier
+    <where>
+      saler.supplier_id = supplier.id
+      and supplier.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="list != null">
+        and supplier.owner_id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="queryStr != null">
+        and (saler.code like concat('%',#{queryStr},'%')
+        or saler.name like concat('%',#{queryStr},'%')
+        )
+      </if>
+    </where>
+
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by saler.update_time desc
+      </otherwise>
+    </choose>
+
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_supplier_saler
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+    insert into saas_supplier_saler (id, supplier_id, enterprise_id, 
+      code, name, id_num, 
+      id_valid_until, id_file_id, certificate_num, 
+      certificate_valid_until, authorized_variety, 
+      authorized_variety_scope, certificate_file_id, 
+      telephone, fax, mobile_phone, 
+      email, wechat_num, qq_num, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{idNum,jdbcType=VARCHAR}, 
+      #{idValidUntil,jdbcType=TIMESTAMP}, #{idFileId,jdbcType=BIGINT}, #{certificateNum,jdbcType=VARCHAR}, 
+      #{certificateValidUntil,jdbcType=TIMESTAMP}, #{authorizedVariety,jdbcType=VARCHAR}, 
+      #{authorizedVarietyScope,jdbcType=VARCHAR}, #{certificateFileId,jdbcType=BIGINT}, 
+      #{telephone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{wechatNum,jdbcType=VARCHAR}, #{qqNum,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_supplier_saler
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="idValidUntil != null">
+        id_valid_until,
+      </if>
+      <if test="idFileId != null">
+        id_file_id,
+      </if>
+      <if test="certificateNum != null">
+        certificate_num,
+      </if>
+      <if test="certificateValidUntil != null">
+        certificate_valid_until,
+      </if>
+      <if test="authorizedVariety != null">
+        authorized_variety,
+      </if>
+      <if test="authorizedVarietyScope != null">
+        authorized_variety_scope,
+      </if>
+      <if test="authorizedRegion != null">
+        authorized_region,
+      </if>
+      <if test="certificateFileId != null">
+        certificate_file_id,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="fax != null">
+        fax,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="wechatNum != null">
+        wechat_num,
+      </if>
+      <if test="qqNum != null">
+        qq_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idValidUntil != null">
+        #{idValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idFileId != null">
+        #{idFileId,jdbcType=BIGINT},
+      </if>
+      <if test="certificateNum != null">
+        #{certificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateValidUntil != null">
+        #{certificateValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizedVariety != null">
+        #{authorizedVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedVarietyScope != null">
+        #{authorizedVarietyScope,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedRegion != null">
+        #{authorizedRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateFileId != null">
+        #{certificateFileId,jdbcType=BIGINT},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+    update saas_supplier_saler
+    <set>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idValidUntil != null">
+        id_valid_until = #{idValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idFileId != null">
+        id_file_id = #{idFileId,jdbcType=BIGINT},
+      </if>
+      <if test="certificateNum != null">
+        certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateValidUntil != null">
+        certificate_valid_until = #{certificateValidUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizedVariety != null">
+        authorized_variety = #{authorizedVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedVarietyScope != null">
+        authorized_variety_scope = #{authorizedVarietyScope,jdbcType=VARCHAR},
+      </if>
+      <if test="authorizedRegion != null">
+        authorized_region = #{authorizedRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateFileId != null">
+        certificate_file_id = #{certificateFileId,jdbcType=BIGINT},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+    update saas_supplier_saler
+    set supplier_id = #{supplierId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      id_valid_until = #{idValidUntil,jdbcType=TIMESTAMP},
+      id_file_id = #{idFileId,jdbcType=BIGINT},
+      certificate_num = #{certificateNum,jdbcType=VARCHAR},
+      certificate_valid_until = #{certificateValidUntil,jdbcType=TIMESTAMP},
+      authorized_variety = #{authorizedVariety,jdbcType=VARCHAR},
+      authorized_variety_scope = #{authorizedVarietyScope,jdbcType=VARCHAR},
+      authorized_region = #{authorizedRegion,jdbcType=VARCHAR},
+      certificate_file_id = #{certificateFileId,jdbcType=BIGINT},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      qq_num = #{qqNum,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="addSale" useGeneratedKeys="true" keyProperty="id">
+  	insert into tmp_saas_supplier_saler (enterprise_id, 
+      code, name, id_num, 
+      id_valid_until, id_file_id, certificate_num, 
+      certificate_valid_until, authorized_variety, 
+      authorized_variety_scope, certificate_file_id, 
+      telephone, fax, mobile_phone, 
+      email, wechat_num, qq_num, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{user.enterpriseId,jdbcType=BIGINT}, 
+      #{supplierSaler.code,jdbcType=VARCHAR}, #{supplierSaler.name,jdbcType=VARCHAR}, 
+      #{supplierSaler.idNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.idValidUntil,jdbcType=TIMESTAMP}, #{supplierSaler.idFileId,jdbcType=BIGINT}, #{supplierSaler.certificateNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.certificateValidUntil,jdbcType=TIMESTAMP}, #{supplierSaler.authorizedVariety,jdbcType=VARCHAR}, 
+      #{supplierSaler.authorizedVarietyScope,jdbcType=VARCHAR}, #{supplierSaler.certificateFileId,jdbcType=BIGINT}, 
+      #{supplierSaler.telephone,jdbcType=VARCHAR}, #{supplierSaler.fax,jdbcType=VARCHAR}, #{supplierSaler.mobilePhone,jdbcType=VARCHAR}, 
+      #{supplierSaler.email,jdbcType=VARCHAR}, #{supplierSaler.wechatNum,jdbcType=VARCHAR}, #{supplierSaler.qqNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.status,jdbcType=INTEGER}, #{supplierSaler.remark,jdbcType=VARCHAR}, #{user.userId}, 
+      #{user.userCode}, #{user.userName}, NOW(), 
+      #{user.userId}, 
+      #{user.userCode}, #{user.userName}, NOW())
+  </insert>
+  <select id="getTmpGroup" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+	  	select id, enterprise_id, code, name, status, remark, creater_id, creater_code, creater_name, 
+	    create_time, modifier_id, modifier_code, modifier_name, update_time from tmp_saas_supplier_saler
+  </select> 
+  <insert id="insertSupplierSaler" useGeneratedKeys="true" keyProperty="id">
+  		insert into saas_supplier_saler (supplier_id, enterprise_id, 
+      code, name, id_num, 
+      id_valid_until, id_file_id, certificate_num, 
+      certificate_valid_until, authorized_variety, 
+      authorized_variety_scope, certificate_file_id, 
+      telephone, fax, mobile_phone, 
+      email, wechat_num, qq_num, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{supplierSaler.supplierId,jdbcType=BIGINT}, #{user.enterpriseId}, 
+      #{supplierSaler.code,jdbcType=VARCHAR}, #{supplierSaler.name,jdbcType=VARCHAR}, #{supplierSaler.idNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.idValidUntil,jdbcType=TIMESTAMP}, #{supplierSaler.idFileId,jdbcType=BIGINT}, #{supplierSaler.certificateNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.certificateValidUntil,jdbcType=TIMESTAMP}, #{supplierSaler.authorizedVariety,jdbcType=VARCHAR}, 
+      #{supplierSaler.authorizedVarietyScope,jdbcType=VARCHAR}, #{supplierSaler.certificateFileId,jdbcType=BIGINT}, 
+      #{supplierSaler.telephone,jdbcType=VARCHAR}, #{supplierSaler.fax,jdbcType=VARCHAR}, #{supplierSaler.mobilePhone,jdbcType=VARCHAR}, 
+      #{supplierSaler.email,jdbcType=VARCHAR}, #{supplierSaler.wechatNum,jdbcType=VARCHAR}, #{supplierSaler.qqNum,jdbcType=VARCHAR}, 
+      #{supplierSaler.status,jdbcType=INTEGER}, #{supplierSaler.remark,jdbcType=VARCHAR}, #{user.userId}, 
+      #{user.userCode}, #{user.userName}, NOW(), 
+      #{user.userId}, 
+      #{user.userCode}, #{user.userName}, NOW())
+  </insert>
+  <delete id="deleteTmpSupplierSaler">
+  	delete from tmp_saas_supplier_saler
+    where id = #{arg0}
+  </delete>
+  <select id="getTransport" resultType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierSaler">
+  	SELECT id,name from saas_supplier_saler
+  	where supplier_id = #{id}
+  </select>
+</mapper>

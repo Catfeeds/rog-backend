@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.quality.storage.dao.GoodsSeriesReportMapper">
+
+    <!--商品锁定-->
+    <resultMap id="GoodsLockReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsLockReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="lock_code" jdbcType="VARCHAR" property="lockCode"/>
+        <result column="lock_date" jdbcType="TIMESTAMP" property="lockDate"/>
+        <result column="lock_man_name" jdbcType="VARCHAR" property="lockManName"/>
+        <result column="lock_reason" jdbcType="INTEGER" property="lockReason"/>
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="spirit_drug_type" jdbcType="INTEGER" property="spiritDrugType"/>
+        <result column="formulation_type" jdbcType="INTEGER" property="formulationType"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--商品处理-->
+    <resultMap id="GoodsHandleReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsHandleReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="handle_code" jdbcType="VARCHAR" property="handleCode"/>
+        <result column="handle_date" jdbcType="TIMESTAMP" property="handleDate"/>
+        <result column="handle_man_name" jdbcType="VARCHAR" property="handleManName"/>
+        <result column="handle_result" jdbcType="INTEGER" property="handleResult"/>
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="spirit_drug_type" jdbcType="INTEGER" property="spiritDrugType"/>
+        <result column="formulation_type" jdbcType="INTEGER" property="formulationType"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--商品销毁-->
+    <resultMap id="GoodsDestroyReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsDestroyReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="destroy_code" jdbcType="VARCHAR" property="destroyCode"/>
+        <result column="destroy_date" jdbcType="TIMESTAMP" property="destroyDate"/>
+        <result column="destroy_man_name" jdbcType="VARCHAR" property="destroyManName"/>
+        <result column="destroy_reason" jdbcType="INTEGER" property="destroyReason"/>
+        <result column="destroy_time" jdbcType="VARCHAR" property="destroyTime"/>
+        <result column="destroy_mode" jdbcType="VARCHAR" property="destroyMode"/>
+        <result column="destroy_unit" jdbcType="VARCHAR" property="destroyUnit"/>
+        <result column="destroy_place" jdbcType="VARCHAR" property="destroyPlace"/>
+        <result column="monitor" jdbcType="VARCHAR" property="monitor"/>
+        <result column="second_monitor" jdbcType="VARCHAR" property="secondMonitor"/>
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--商品-停售通知-->
+    <resultMap id="GoodsStopSaleReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsStopSaleReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="stop_code" jdbcType="VARCHAR" property="stopCode"/>
+        <result column="stop_date" jdbcType="TIMESTAMP" property="stopDate"/>
+        <result column="stop_man_name" jdbcType="VARCHAR" property="stopManName"/>
+        <result column="stop_from" jdbcType="INTEGER" property="stopFrom"/>
+        <result column="stop_reason" jdbcType="VARCHAR" property="stopReason"/>
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--商品-解停通知-->
+    <resultMap id="GoodsStartSaleReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsStartSaleReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="start_code" jdbcType="VARCHAR" property="startCode"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="start_man_name" jdbcType="VARCHAR" property="startManName"/>
+        <result column="start_from" jdbcType="INTEGER" property="startFrom"/>
+        <result column="start_reason" jdbcType="VARCHAR" property="startReason"/>
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="spirit_drug_type" jdbcType="INTEGER" property="spiritDrugType"/>
+        <result column="formulation_type" jdbcType="INTEGER" property="formulationType"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--盘点记录-->
+    <resultMap id="InventoryRecordReportMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.InventoryRecordReportVO">
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+
+        <!--主表取-->
+        <result column="ivn_code" jdbcType="VARCHAR" property="invCode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="register_date" jdbcType="TIMESTAMP" property="registerDate"/>
+        <result column="register_man_name" jdbcType="VARCHAR" property="registerManName"/>
+        <result column="inv_date" jdbcType="TIMESTAMP" property="invDate"/>
+        <result column="inv_man_name" jdbcType="VARCHAR" property="invManName"/>
+        <result column="second_inv_man_name" jdbcType="VARCHAR" property="secondInvManName"/>
+        <result column="post_date" jdbcType="TIMESTAMP" property="postDate"/>
+        <result column="post_man_name" jdbcType="VARCHAR" property="postManName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <!--shelf表-->
+        <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+        <result column="inv_quantity" jdbcType="DECIMAL" property="invQuantity" />
+        <result column="diff_quantity" jdbcType="DECIMAL" property="diffQuantity" />
+        <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+        <result column="amount" jdbcType="DECIMAL" property="amount" />
+        <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+        <result column="diff_amount" jdbcType="DECIMAL" property="diffAmount" />
+        <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+        <result column="notax_price" jdbcType="DECIMAL" property="notaxPrice" />
+        <result column="notax_amount" jdbcType="DECIMAL" property="notaxAmount" />
+        <result column="real_notax_amount" jdbcType="DECIMAL" property="realNotaxAmount" />
+        <result column="diff_notax_amount" jdbcType="DECIMAL" property="diffNotaxAmount" />
+        <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+        <result column="real_tax_amount" jdbcType="DECIMAL" property="realTaxAmount" />
+        <result column="diff_tax_amount" jdbcType="DECIMAL" property="diffTaxAmount" />
+        <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+        <result column="retail_amount" jdbcType="DECIMAL" property="retailAmount" />
+        <result column="real_retail_amount" jdbcType="DECIMAL" property="realRetailAmount" />
+        <result column="diff_retail_amount" jdbcType="DECIMAL" property="diffRetailAmount" />
+        <result column="lot_id" jdbcType="BIGINT" property="lotId"/>
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber"/>
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate"/>
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate"/>
+        <result column="shelf_id" jdbcType="BIGINT" property="shelfId"/>
+        <result column="shelf_name" jdbcType="VARCHAR" property="shelfName"/>
+        <result column="shelf_status_desc" jdbcType="VARCHAR" property="shelfStatusDesc"/>
+
+        <!--商品表-->
+        <result column="id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="spirit_drug_type" jdbcType="INTEGER" property="spiritDrugType"/>
+        <result column="formulation_type" jdbcType="INTEGER" property="formulationType"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--商品锁定单查询条件-->
+    <sql id="whereSqlLockOrder">
+        <if test="status != null and status != 0">and gl.status=#{status}</if>
+        <if test="startDate != null and startDate != ''">and gl.lock_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=gl.lock_date</if>
+        <if test="code != null and code != ''">and gl.code like CONCAT('%',#{code},'%')</if>
+        <if test="lockManName != null and lockManName!=''">and gl.lock_man_name like CONCAT('%',#{lockManName},'%')
+        </if>
+        <if test="lockReason != null and lockReason != ''">and gl.lock_reason=#{lockReason}</if>
+    </sql>
+
+    <!--商品处理单据查询条件-->
+    <sql id="whereSqlHandleOrder">
+        <if test="status != null and status != 0">and gh.status=#{status}</if>
+        <if test="startDate != null and startDate != ''">and gh.handle_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=gh.handle_date</if>
+        <if test="code != null and code != ''">and gh.code like CONCAT('%',#{code},'%')</if>
+        <if test="handleManName != null and handleManName!=''">and gh.handle_man_name like
+            CONCAT('%',#{handleManName},'%')
+        </if>
+        <if test="handleResult != null and handleResult != ''">and gh.handle_result=#{handleResult}</if>
+    </sql>
+
+    <!--商品销毁单据查询条件-->
+    <sql id="whereSqlDestroyOrder">
+        <if test="startDate != null and startDate != ''">and gd.destroy_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=gd.destroy_date</if>
+        <if test="code != null and code != ''">and gd.code like CONCAT('%',#{code},'%')</if>
+        <if test="destroyManName != null and destroyManName!=''">and gd.destroy_man_name like
+            CONCAT('%',#{destroyManName},'%')
+        </if>
+        <if test="destroyReason != null and destroyReason != ''">and gd.destroy_reason=#{destroyReason}</if>
+    </sql>
+
+    <!--商品-停售通知查询条件-->
+    <sql id="whereSqlStopSaleOrder">
+        <if test="startDate != null and startDate != ''">and ss.stop_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=ss.stop_date</if>
+        <if test="code != null and code != ''">and ss.code like CONCAT('%',#{code},'%')</if>
+        <if test="stopManName != null and stopManName!=''">and ss.stop_man_name like
+            CONCAT('%',#{stopManName},'%')
+        </if>
+        <if test="stopFrom != null and stopFrom != ''">and ss.stop_from=#{stopFrom}</if>
+    </sql>
+
+    <!--商品-解停通知查询条件-->
+    <sql id="whereSqlStartSaleOrder">
+        <if test="startDate != null and startDate != ''">and ss.start_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=ss.start_date</if>
+        <if test="code != null and code != ''">and ss.code like CONCAT('%',#{code},'%')</if>
+        <if test="startManName != null and startManName!=''">and ss.start_man_name like
+            CONCAT('%',#{startManName},'%')
+        </if>
+        <if test="startFrom != null and startFrom != ''">and ss.start_from=#{startFrom}</if>
+    </sql>
+
+    <!--盘点记录查询条件-->
+    <sql id="whereSqlInvOrder">
+        <!--盘点单创建日期-->
+        <if test="invDateStart != null and invDateStart != ''">and inv.inv_date>=str_to_date(#{invDateStart},'%Y-%m-%d %T')
+        </if>
+        <if test="invDateEnd != null and invDateEnd != ''">and str_to_date(#{invDateEnd},'%Y-%m-%d %T')>=inv.inv_date</if>
+
+        <!--登记日期-->
+        <if test="registerDateStart != null and registerDateStart != ''">and inv.register_date>=str_to_date(#{registerDateStart},'%Y-%m-%d %T')
+        </if>
+        <if test="registerDateEnd != null and registerDateEnd != ''">and str_to_date(#{registerDateEnd},'%Y-%m-%d %T')>=inv.register_date</if>
+
+        <!--处理日期-->
+        <if test="handleDateStart != null and handleDateStart != ''">and inv.handle_date>=str_to_date(#{handleDateStart},'%Y-%m-%d %T')
+        </if>
+        <if test="handleDateEnd != null and handleDateEnd != ''">and str_to_date(#{handleDateEnd},'%Y-%m-%d %T')>=inv.handle_date</if>
+
+        <!--过账日期-->
+        <if test="postDateStart != null and postDateStart != ''">and inv.post_date>=str_to_date(#{postDateStart},'%Y-%m-%d %T')
+        </if>
+        <if test="postDateEnd != null and postDateEnd != ''">and str_to_date(#{postDateEnd},'%Y-%m-%d %T')>=inv.post_date</if>
+
+        <if test="code != null and code != ''">and inv.code like CONCAT('%',#{code},'%')</if>
+        <if test="createrName != null and createrName!=''">and inv.creater_name like
+            CONCAT('%',#{createrName},'%')
+        </if>
+        <if test="registerManName != null and registerManName!=''">and inv.register_man_name like
+            CONCAT('%',#{registerManName},'%')
+        </if>
+        <if test="invManName != null and invManName!=''">and inv.inv_man_name like
+            CONCAT('%',#{invManName},'%')
+        </if>
+        <if test="secondInvManName != null and secondInvManName!=''">and inv.second_inv_man_name like
+            CONCAT('%',#{secondInvManName},'%')
+        </if>
+        <if test="postManName != null and postManName!=''">and inv.post_man_name like
+            CONCAT('%',#{postManName},'%')
+        </if>
+        <if test="status != null and status != -1">and inv.status=#{status}</if>
+    </sql>
+
+    <sql id="whereSqlGoods">
+        <if test="businessVariety!=null and businessVariety!=''">and goo.business_variety =#{businessVariety}</if>
+        <if test="param!=null and param!=''">
+            and (
+            goo.code like CONCAT('%',#{param},'%') or
+            goo.barcode like CONCAT('%',#{param},'%') or
+            goo.name like CONCAT('%',#{param},'%') or
+            goo.generic_name like CONCAT('%',#{param},'%') or
+            goo.approval_number like CONCAT('%',#{param},'%')
+            )
+        </if>
+        <if test="chainType!=null">and se.chain_type=#{chainType}</if>
+        <if test="enterpriseCode!=null and enterpriseCode!=''">and se.code like CONCAT('%',#{enterpriseCode},'%')</if>
+        <if test="enterpriseName!=null and enterpriseName!=''">and se.name like CONCAT('%',#{enterpriseName},'%')</if>
+        <if test="categoryId!=null">and goo.category_id=#{categoryId}</if>
+        <if test="domesticImport!=null">and goo.domestic_import=#{domesticImport}</if>
+        <if test="storageTemp!=null">and goo.storage_temp=#{storageTemp}</if>
+        <if test="storageConditionName!=null and storageConditionName!=''">and goo.storage_condition_name like
+            CONCAT('%',#{storageConditionName},'%')
+        </if>
+        <if test="registeredTrademark!=null and registeredTrademark!=''">and goo.registered_trademark like
+            CONCAT('%',#{registeredTrademark},'%')
+        </if>
+        <if test="brand!=null and brand!=''">and goo.brand like CONCAT('%',#{brand},'%')</if>
+        <if test="goodsAttribute!=null">and goo.goods_attribute=#{goodsAttribute}</if>
+        <if test="prescriptionDrug!=null">and goo.prescription_drug=#{prescriptionDrug}</if>
+        <if test="otcType!=null">and goo.otc_type=#{otcType}</if>
+        <if test="specialDrug!=null">and goo.special_drug=#{specialDrug}</if>
+        <if test="inChargeDrug!=null">and goo.in_charge_drug=#{inChargeDrug}</if>
+        <if test="managementScopeId!=null">and goo.management_scope_id=#{managementScopeId}
+        </if>
+        <if test="spiritDrugType!=null">and goo.spirit_drug_type=#{spiritDrugType}</if>
+        <if test="formulationType!=null">and goo.formulation_type=#{formulationType}</if>
+    </sql>
+
+    <!-- <查询商品锁定报表数据>-->
+    <select id="getGoodsLockReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsLockVO"
+            resultMap="GoodsLockReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.spirit_drug_type,
+        goo.formulation_type,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        gl.code AS lock_code,
+        gl.lock_date,
+        gl.lock_man_name,
+        gl.lock_reason,
+        gl.status,
+
+        gls.lot_id,
+        gls.lot_number,
+        gls.product_date,
+        gls.valid_date,
+        gls.shelf_id,
+        gls.shelf_name,
+        gls.shelf_status_desc,
+        gls.quantity
+        FROM
+        saas_goods_lock gl
+        LEFT JOIN saas_goods_lock_detail gld ON gl.id = gld.lock_id
+        LEFT JOIN saas_goods_lock_shelf gls ON gl.id = gls.lock_id AND gld.id = gls.dtl_id
+        LEFT JOIN saas_goods goo ON gls.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON gls.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gl.enterprise_id = #{enterpriseId} OR gl.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gl.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlLockOrder"></include>
+        <include refid="whereSqlGoods"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </select>
+
+    <!-- <查询商品锁定报表数据 总数量>-->
+    <select id="getGoodsLockReportQuantityTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsLockVO"
+            resultType="java.math.BigDecimal">
+        SELECT
+        sum(gls.quantity) AS quantityTotal
+        FROM
+        saas_goods_lock gl
+        LEFT JOIN saas_goods_lock_detail gld ON gl.id = gld.lock_id
+        LEFT JOIN saas_goods_lock_shelf gls ON gl.id = gls.lock_id AND gld.id = gls.dtl_id
+        LEFT JOIN saas_goods goo ON gls.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON gls.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gl.enterprise_id = #{enterpriseId} OR gl.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gl.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlLockOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询商品处理报表数据>-->
+    <select id="getGoodsHandleReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsHandleVO"
+            resultMap="GoodsHandleReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.spirit_drug_type,
+        goo.formulation_type,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        gh.code AS handle_code,
+        gh.handle_date,
+        gh.handle_man_name,
+        gh.handle_result,
+        gh.status,
+
+        ghs.lot_id,
+        ghs.lot_number,
+        ghs.product_date,
+        ghs.valid_date,
+        ghs.shelf_id,
+        ghs.shelf_name,
+        ghs.shelf_status_desc,
+        ghs.quantity
+        FROM
+        saas_goods_handle gh
+        LEFT JOIN saas_goods_handle_detail ghd ON gh.id = ghd.handle_id
+        LEFT JOIN saas_goods_handle_shelf ghs ON gh.id = ghs.handle_id AND ghd.id = ghs.dtl_id
+        LEFT JOIN saas_goods goo ON ghs.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON ghs.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gh.enterprise_id = #{enterpriseId} OR gh.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gh.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlHandleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </select>
+
+    <!-- <查询商品处理总数量>-->
+    <select id="getGoodsHandleReportQuantityTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsHandleVO"
+            resultType="java.math.BigDecimal">
+        SELECT
+        sum(ghs.quantity)
+        FROM
+        saas_goods_handle gh
+        LEFT JOIN saas_goods_handle_detail ghd ON gh.id = ghd.handle_id
+        LEFT JOIN saas_goods_handle_shelf ghs ON gh.id = ghs.handle_id AND ghd.id = ghs.dtl_id
+        LEFT JOIN saas_goods goo ON ghs.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON ghs.enterprise_id = se.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gh.enterprise_id = #{enterpriseId} OR gh.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gh.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlHandleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询商品销毁报表数据>-->
+    <select id="getGoodsDestroyReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsDestroyVO"
+            resultMap="GoodsDestroyReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        gd.code AS destroy_code,
+        gd.destroy_date,
+        gd.destroy_man_name,
+        gd.destroy_reason,
+        gd.destroy_time,
+        gd.destroy_mode,
+        gd.destroy_unit,
+        gd.destroy_place,
+        gd.monitor,
+        gd.second_monitor,
+        gd.status,
+
+        gds.lot_id,
+        gds.lot_number,
+        gds.product_date,
+        gds.valid_date,
+        gds.shelf_id,
+        gds.shelf_name,
+        gds.shelf_status_desc,
+        gds.quantity
+        FROM
+        saas_goods_destroy gd
+        LEFT JOIN saas_goods_destroy_detail gdd ON gd.id = gdd.destroy_id
+        LEFT JOIN saas_goods_destroy_shelf gds ON gd.id = gds.destroy_id AND gdd.id = gds.dtl_id
+        LEFT JOIN saas_goods goo ON gds.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON gds.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gd.enterprise_id = #{enterpriseId} OR gd.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gd.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlDestroyOrder"></include>
+        <include refid="whereSqlGoods"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </select>
+
+    <!-- <查询商品销毁报表数据>-->
+    <select id="getGoodsDestroyReportQuantityTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsDestroyVO"
+            resultType="java.math.BigDecimal">
+        SELECT
+        sum(gds.quantity)
+        FROM
+        saas_goods_destroy gd
+        LEFT JOIN saas_goods_destroy_detail gdd ON gd.id = gdd.destroy_id
+        LEFT JOIN saas_goods_destroy_shelf gds ON gd.id = gds.destroy_id AND gdd.id = gds.dtl_id
+        LEFT JOIN saas_goods goo ON gds.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON gds.enterprise_id = se.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (gd.enterprise_id = #{enterpriseId} OR gd.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and gd.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlDestroyOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询商品-停售通知报表数据>-->
+    <select id="getGoodsStopSaleReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsStopSaleVO"
+            resultMap="GoodsStopSaleReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        ss.code AS stop_code,
+        ss.stop_date,
+        ss.stop_man_name,
+        ss.stop_from,
+        ssd.stop_reason,
+        ss.status,
+
+        sss.lot_id,
+        sss.lot_number,
+        sss.product_date,
+        sss.valid_date,
+        sss.shelf_id,
+        sss.shelf_name,
+        sss.shelf_status_desc,
+        sss.quantity
+        FROM
+        saas_stop_sale ss
+        LEFT JOIN saas_stop_sale_detail ssd ON ss.id = ssd.stop_id
+        LEFT JOIN saas_stop_sale_shelf sss ON ss.id = sss.stop_id AND ssd.id = sss.dtl_id
+        LEFT JOIN saas_goods goo ON ssd.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON sss.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (ss.enterprise_id = #{enterpriseId} OR ss.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and ss.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlStopSaleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </select>
+
+    <!-- <查询商品-停售通知报表商品数量>-->
+    <select id="getGoodsStopSaleReportQuantityTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsStopSaleVO"
+            resultType="java.math.BigDecimal">
+        SELECT
+          sum(sss.quantity)
+        FROM
+        saas_stop_sale ss
+        LEFT JOIN saas_stop_sale_detail ssd ON ss.id = ssd.stop_id
+        LEFT JOIN saas_stop_sale_shelf sss ON ss.id = sss.stop_id AND ssd.id = sss.dtl_id
+        LEFT JOIN saas_goods goo ON ssd.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON sss.enterprise_id = se.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (ss.enterprise_id = #{enterpriseId} OR ss.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and ss.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlStopSaleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询商品-解停通知报表数据>-->
+    <select id="getGoodsStartSaleReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsStartSaleVO"
+            resultMap="GoodsStartSaleReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.spirit_drug_type,
+        goo.formulation_type,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        ss.code AS start_code,
+        ss.start_date,
+        ss.start_man_name,
+        ss.start_from,
+        ssd.start_reason,
+        ss.status,
+
+        sss.lot_id,
+        sss.lot_number,
+        sss.product_date,
+        sss.valid_date,
+        sss.shelf_id,
+        sss.shelf_name,
+        sss.shelf_status_desc,
+        sss.quantity
+        FROM
+        saas_start_sale ss
+        LEFT JOIN saas_start_sale_detail ssd ON ss.id = ssd.start_id
+        LEFT JOIN saas_start_sale_shelf sss ON ss.id = sss.start_id AND ssd.id = sss.dtl_id
+        LEFT JOIN saas_goods goo ON ssd.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON sss.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (ss.enterprise_id = #{enterpriseId} OR ss.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and ss.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlStartSaleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+    </select>
+
+    <!-- <查询商品-解停通知报表商品数量>-->
+    <select id="getGoodsStartSaleReportQuantityTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportGoodsStartSaleVO"
+            resultType="java.math.BigDecimal">
+        SELECT
+        sum(sss.quantity)
+        FROM
+        saas_start_sale ss
+        LEFT JOIN saas_start_sale_detail ssd ON ss.id = ssd.start_id
+        LEFT JOIN saas_start_sale_shelf sss ON ss.id = sss.start_id AND ssd.id = sss.dtl_id
+        LEFT JOIN saas_goods goo ON ssd.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON sss.enterprise_id = se.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (ss.enterprise_id = #{enterpriseId} OR ss.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and ss.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlStartSaleOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询盘点记录报表数据>-->
+    <select id="getInventoryRecordReport"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportInventoryRecordVO"
+            resultMap="InventoryRecordReportMap">
+        SELECT
+        goo.id,
+        goo.code,
+        goo.barcode,
+        goo.name,
+        goo.generic_name,
+        goo.dosage_id,
+        goo.dosage_name,
+        goo.unit_id,
+        goo.unit_name,
+        goo.specification,
+        goo.manufacturer_id,
+        goo.manufacturer,
+        goo.place,
+        goo.approval_number,
+        goo.business_variety,
+        goo.goods_attribute,
+        goo.domestic_import,
+        goo.management_scope_name,
+        goo.special_drug,
+        goo.in_charge_drug,
+        goo.spirit_drug_type,
+        goo.formulation_type,
+        goo.limit_quantity,
+        goo.storage_temp,
+        goo.storage_condition_name,
+        goo.quality_period,
+        goo.quality_period_unit,
+
+        gc.name AS category_name,
+
+        se.id AS enterprise_id,
+        se.code AS enterprise_code,
+        se.name AS enterprise_name,
+
+        inv.code AS inv_code,
+        inv.create_time,
+        inv.creater_name,
+        inv.register_date,
+        inv.register_man_name,
+        inv.inv_date,
+        inv.inv_man_name,
+        inv.second_inv_man_name,
+        inv.post_date,
+        inv.post_man_name,
+        inv.status,
+
+        ins.quantity,
+        ins.inv_quantity,
+        ins.diff_quantity,
+        ins.unit_price,
+        ins.amount,
+        ins.real_amount,
+        ins.diff_amount,
+        ins.tax_rate_id,
+        ins.tax_rate,
+        ins.notax_price,
+        ins.notax_amount,
+        ins.real_notax_amount,
+        ins.diff_notax_amount,
+        ins.tax_amount,
+        ins.real_tax_amount,
+        ins.diff_tax_amount,
+        ins.retail_price,
+        ins.retail_amount,
+        ins.real_retail_amount,
+        ins.diff_retail_amount,
+        ins.lot_id,
+        ins.lot_number,
+        ins.product_date,
+        ins.valid_date,
+        ins.shelf_id,
+        ins.shelf_name,
+        ins.shelf_status_desc
+
+        FROM
+        saas_inventory inv
+        LEFT JOIN saas_inventory_detail ind ON inv.id = ind.inv_id
+        LEFT JOIN saas_inventory_shelf ins ON inv.id = ins.inv_id AND ind.id = ins.dtl_id
+        LEFT JOIN saas_goods goo ON ins.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON ins.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (inv.enterprise_id = #{enterpriseId} OR inv.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and inv.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlInvOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+
+    <!-- <查询盘点记录报表数据,计算合计>-->
+    <select id="getInventoryRecordReportTotal"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.RequestReportInventoryRecordVO"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.InventoryRecordReportTotalVO">
+        SELECT
+        sum(ins.quantity) AS quantityTotal,
+        sum(ins.inv_quantity) AS invQuantityTotal,
+        sum(ins.diff_quantity) AS diffQuantityTotal,
+        sum(ins.amount) AS amountTotal,
+        sum(ins.real_amount) AS realAmountTotal,
+        sum(ins.diff_amount) AS diffAmountTotal,
+        sum(ins.notax_amount) AS notaxAmountTotal,
+        sum(ins.real_notax_amount) AS realNotaxAmountTotal,
+        sum(ins.diff_notax_amount) AS diffNotaxAmountTotal,
+        sum(ins.tax_amount) AS taxAmountTotal,
+        sum(ins.real_tax_amount) AS realTaxAmountTotal,
+        sum(ins.diff_tax_amount) AS diffTaxAmountTotal,
+        sum(ins.retail_amount) AS retailAmountTotal,
+        sum(ins.real_retail_amount) AS realRetailAmountTotal,
+        sum(ins.diff_retail_amount) AS diffRetailAmountTotal
+        FROM
+        saas_inventory inv
+        LEFT JOIN saas_inventory_detail ind ON inv.id = ind.inv_id
+        LEFT JOIN saas_inventory_shelf ins ON inv.id = ins.inv_id AND ind.id = ins.dtl_id
+        LEFT JOIN saas_goods goo ON ins.goods_id = goo.id
+        LEFT JOIN saas_enterprise se ON ins.enterprise_id = se.id
+        WHERE 1=1
+        <choose>
+            <when test="type == 1">
+                and (inv.enterprise_id = #{enterpriseId} OR inv.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and inv.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlInvOrder"></include>
+        <include refid="whereSqlGoods"></include>
+    </select>
+</mapper>

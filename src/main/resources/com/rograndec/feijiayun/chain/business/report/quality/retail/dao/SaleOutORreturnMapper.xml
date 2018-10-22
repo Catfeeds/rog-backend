@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.quality.retail.dao.SaleOutORreturnMapper">
+  
+  <!-- 销售出库/退货 -->
+  <select id="getSaleOutORreturn" parameterType="com.rograndec.feijiayun.chain.business.report.quality.retail.vo.SaleOutORreturnParamVO" resultType="com.rograndec.feijiayun.chain.business.report.quality.retail.vo.SaleOutORreturnVO">
+	SELECT
+	se.code AS enterpriseCode,
+	se.name AS enterpriseName,
+	sale.daily_time as dailyTime,
+	sale.sale_date as saleDate,
+	sale.code as saleCode,
+	sale.sale_mode as saleMode,
+	sale.stand_code as standCode,
+	sale.member_card_code as memberCardCode,
+	payee.`team_name` as teamName,
+	payee.payee_name as payeeName,
+	clerk.cargo_area_name as cargoAreaName,
+	clerk.clerk_name as clerkName,
+	shelf.shelf_id as shelfId,
+	shelf.lot_number as lotNumber,
+	DATE_FORMAT(shelf.product_date,'%Y-%m-%d') as productDate,
+	DATE_FORMAT(shelf.valid_date,'%Y-%m-%d') as validDate,
+	shelf.shelf_name as shelfName,
+	shelf.quantity,
+	shelf.unit_price as unitPrice,
+	shelf.line_discount as lineDiscount,
+	shelf.`amount`,
+	shelf.whole_discount as wholeDiscount,
+	shelf.line_discount_amount as lineDiscountAmount,
+	shelf.real_price as realPrice,
+	shelf.real_amount as realAmount,
+	shelf.tax_rate as taxRate,
+	shelf.notax_real_price as notaxRealPrice,
+	shelf.notax_real_amount as notaxRealAmount,
+	shelf.tax_amount as taxAmount,
+	goods.id as goodsId,
+	goods.code AS goodsCode,
+	goods.barcode,
+	goods.name AS goodsName,
+	goods.generic_name AS goodsGenericName,
+	goods.dosage_id AS dosageId,
+	goods.dosage_name AS dosageName,
+	goods.unit_id AS unitId,
+	goods.unit_name AS unitName,
+	goods.specification as goodsSpecification,
+	goods.manufacturer_id AS manufacturerId,
+	goods.manufacturer,
+	goods.place AS goodsPlace,
+	goods.approval_number AS approvalNumber,
+	goods.business_variety AS businessVariety,
+	goods.goods_attribute AS goodsAttribute,
+	goods.domestic_import AS domesticImport,
+	goods.management_scope_name AS managementScopeName,
+	goods.special_drug AS specialDrug,
+	goods.in_charge_drug AS inChargeDrug,
+	goods.limit_quantity AS limitQuantity,
+	goods.storage_temp AS storageTemp,
+	goods.storage_condition_name AS storageConditionName,
+	goods.quality_period AS qualityPeriod,
+	goods.quality_period_unit AS qualityPeriodUnit,
+	sa.job_area AS jobArea,
+    sa.job_type AS jobType,
+	sgc.name as categoryName
+	FROM
+	saas_sale sale
+	JOIN saas_sale_detail dtl
+	ON dtl.`sale_id` = sale.id
+	JOIN saas_sale_shelf shelf
+	ON shelf.sale_dtl_id = dtl.id
+	AND shelf.`sale_id` = sale.`id`
+	JOIN saas_goods goods
+	ON shelf.goods_id = goods.`id`
+	JOIN saas_warehouse_shelf sh
+    ON sh.id = shelf.`shelf_id`
+  	JOIN saas_warehouse_cargo_area sa
+    ON sa.id = sh.cargo_area_id
+	LEFT JOIN saas_pos_payee payee
+	ON sale.`payee_id` = payee.payee_id
+	LEFT JOIN saas_pos_clerk clerk
+	ON dtl.`clerk_id` = clerk.clerk_id
+	LEFT JOIN saas_enterprise se
+	ON sale.enterprise_id = se.id
+	  INNER JOIN saas_goods_category sgc
+	  ON sgc.id = goods.category_id AND (goods.enterprise_id = sgc.enterprise_id or sgc.enterprise_id=0)
+	WHERE 1 = 1
+
+	<choose>
+		<when test="saleType == 0">
+			AND sale.sale_type = 0
+		</when>
+		<otherwise>
+			AND sale.sale_type = 1
+		</otherwise>
+	</choose>
+	<choose>
+		<when test="parentId == 0">
+			and (sale.`parent_id` = #{enterpriseId} or sale.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and sale.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+
+	<if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY ${order} ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY sale.id desc
+    </if>  
+    <if test="start != null">
+		limit #{start},#{pageSize}
+	</if>      
+  </select>
+  
+  <select id="countSaleOutORreturn" parameterType="com.rograndec.feijiayun.chain.business.report.quality.retail.vo.SaleOutORreturnParamVO" resultType="java.lang.Integer">
+	SELECT
+	count(1)
+	FROM
+	saas_sale sale
+	JOIN saas_sale_detail dtl
+	ON dtl.`sale_id` = sale.id
+	JOIN saas_sale_shelf shelf
+	ON shelf.sale_dtl_id = dtl.id
+	AND shelf.`sale_id` = sale.`id`
+	JOIN saas_goods goods
+	ON shelf.goods_id = goods.`id`
+	JOIN saas_warehouse_shelf sh
+    ON sh.id = shelf.`shelf_id`
+  	JOIN saas_warehouse_cargo_area sa
+    ON sa.id = sh.cargo_area_id
+	LEFT JOIN saas_pos_payee payee
+	ON sale.`payee_id` = payee.payee_id
+	LEFT JOIN saas_pos_clerk clerk
+	ON dtl.`clerk_id` = clerk.clerk_id
+	LEFT JOIN saas_enterprise se
+	ON sale.enterprise_id = se.id
+	  INNER JOIN saas_goods_category sgc
+	  ON sgc.id = goods.category_id AND (goods.enterprise_id = sgc.enterprise_id or sgc.enterprise_id=0)
+	WHERE 1 = 1
+
+	<choose>
+		<when test="saleType == 0">
+			AND sale.sale_type = 0
+		</when>
+		<otherwise>
+			AND sale.sale_type = 1
+		</otherwise>
+	</choose>
+	<choose>
+		<when test="parentId == 0">
+			and (sale.`parent_id` = #{enterpriseId} or sale.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and sale.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+  </select>
+  
+  <sql id="whereSqlGoods">
+	<if test="businessVariety!=null">and goods.business_variety =#{businessVariety}</if>
+	<if test="param!=null and param!=''">
+		AND (
+            INSTR(goods.name ,#{param})
+            OR INSTR(goods.code ,#{param})
+            OR INSTR(goods.pinyin_code ,#{param})
+            OR INSTR(goods.approval_number ,#{param})
+            OR INSTR(goods.barcode ,#{param})
+            OR INSTR(goods.generic_name ,#{param})
+        )
+	</if>
+	<if test="chainType!=null">and se.chain_type=#{chainType}</if>
+    <if test="enterpriseCode!=null and enterpriseCode!=''">and se.code like  CONCAT('%',#{enterpriseCode},'%')</if>
+    <if test="enterpriseName!=null and enterpriseName!=''">and se.name like  CONCAT('%',#{enterpriseName},'%')</if>
+    <if test="startDate!=null">and DATE_FORMAT(sale.daily_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate},'%Y-%m-%d')</if>
+    <if test="endDate!=null">and DATE_FORMAT(sale.daily_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate},'%Y-%m-%d')</if>
+    <if test="saleCode !=null">and sale.code=#{saleCode}</if>
+    <if test="saleMode !=null">and sale.sale_mode=#{saleMode}</if>
+	<if test="categoryId!=null">and goods.category_id=#{categoryId}</if>
+	<if test="domesticImport!=null">and goods.domestic_import=#{domesticImport}</if>
+	<if test="storageTemp!=null">and goods.storage_temp=#{storageTemp}</if>
+	<if test="storageConditionName!=null and storageConditionName!=''">and goods.storage_condition_name like
+		CONCAT('%',#{storageConditionName},'%')</if>
+	<if test="registeredTrademark!=null and registeredTrademark!=''">and goods.registered_trademark like
+		CONCAT('%',#{registeredTrademark},'%')</if>
+	<if test="brand!=null and brand!=''">and goods.brand like CONCAT('%',#{brand},'%')</if>
+	<if test="goodsAttribute!=null">and goods.goods_attribute=#{goodsAttribute}</if>
+	<if test="prescriptionDrug!=null">and goods.prescription_drug=#{prescriptionDrug}</if>
+	<if test="otcType!=null">and goods.otc_type=#{otcType}</if>
+	<if test="specialDrug!=null">and goods.special_drug=#{specialDrug}</if>
+	<if test="inChargeDrug!=null">and goods.in_charge_drug=#{inChargeDrug}</if>
+	<if test="managementScopeId!=null">and goods.management_scope_id=#{managementScopeId}</if>
+	<if test="spiritDrugType!=null">and goods.spirit_drug_type=#{spiritDrugType}</if>
+    <if test="formulationType!=null">and goods.formulation_type=#{formulationType}</if>
+  </sql>
+  
+  <select id="sumSaleOutORreturn" parameterType="com.rograndec.feijiayun.chain.business.report.quality.retail.vo.SaleOutORreturnParamVO" resultType="com.rograndec.feijiayun.chain.business.report.quality.retail.vo.SaleOutORreturnTotalVO">
+	SELECT
+	SUM(quantity) AS quantityTotal,
+	SUM(amount) AS amountTotal,
+	SUM(real_amount) AS realAmountTotal,
+	SUM(notax_real_amount) AS notaxRealAmountTotal,
+	SUM(tax_amount) AS taxAmountTotal
+	FROM (
+	SELECT
+	shelf.quantity,
+	shelf.`amount`,
+	shelf.real_amount,
+	shelf.notax_real_amount,
+	shelf.tax_amount
+	FROM
+	saas_sale sale
+	JOIN saas_sale_detail dtl
+	ON dtl.`sale_id` = sale.id
+	JOIN saas_sale_shelf shelf
+	ON shelf.sale_dtl_id = dtl.id
+	AND shelf.`sale_id` = sale.`id`
+	JOIN saas_goods goods
+	ON shelf.goods_id = goods.`id`
+	LEFT JOIN saas_pos_payee payee
+	ON sale.`payee_id` = payee.payee_id
+	LEFT JOIN saas_pos_clerk clerk
+	ON dtl.`clerk_id` = clerk.clerk_id
+	LEFT JOIN saas_enterprise se
+	ON sale.enterprise_id = se.id
+	  INNER JOIN saas_goods_category sgc
+	  ON sgc.id = goods.category_id AND (goods.enterprise_id = sgc.enterprise_id or sgc.enterprise_id=0)
+	WHERE 1 = 1
+	
+	<choose>
+		<when test="saleType == 0">
+			AND sale.sale_type = 0
+		</when>
+		<otherwise>
+			AND sale.sale_type = 1
+		</otherwise>
+	</choose>
+	<choose>
+		<when test="parentId == 0">
+			and (sale.`parent_id` = #{enterpriseId} or sale.`enterprise_id` = #{enterpriseId}) 
+		</when>
+		<otherwise>
+			and sale.enterprise_id = #{enterpriseId}
+		</otherwise>
+	</choose>
+	<include refid="whereSqlGoods"></include>
+	
+	) tab
+  </select>
+  
+  
+  
+</mapper>

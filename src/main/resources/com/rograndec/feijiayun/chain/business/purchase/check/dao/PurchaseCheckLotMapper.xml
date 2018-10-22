@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.purchase.check.dao.PurchaseCheckLotMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.purchase.check.entity.PurchaseCheckLot">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="check_dtl_id" jdbcType="BIGINT" property="checkDtlId" />
+    <result column="check_id" jdbcType="BIGINT" property="checkId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    <result column="test_report_ids" jdbcType="VARCHAR" property="testReportIds" />
+    <result column="check_project_ids" jdbcType="VARCHAR" property="checkProjectIds" />
+    <result column="receive_quantity" jdbcType="DECIMAL" property="receiveQuantity" />
+    <result column="sampling_quantity" jdbcType="DECIMAL" property="samplingQuantity" />
+    <result column="qualified_quantity" jdbcType="DECIMAL" property="qualifiedQuantity" />
+    <result column="conclusion_ids" jdbcType="VARCHAR" property="conclusionIds" />
+    <result column="unqualified_quantity" jdbcType="DECIMAL" property="unqualifiedQuantity" />
+    <result column="unqualified_reason_ids" jdbcType="VARCHAR" property="unqualifiedReasonIds" />
+    <result column="measures_ids" jdbcType="VARCHAR" property="measuresIds" />
+    <result column="unclear_quantity" jdbcType="DECIMAL" property="unclearQuantity" />
+    <result column="clear_quantity" jdbcType="DECIMAL" property="clearQuantity" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="StayInstorageDetailVO" type="com.rograndec.feijiayun.chain.business.purchase.instorage.vo.StayInstorageDetailVO">
+    <result column="check_id" jdbcType="BIGINT" property="id" />
+    <result column="check_dtl_id" jdbcType="BIGINT" property="checkDtlId" />
+    <result column="purchase_order_dtl_id" jdbcType="BIGINT" property="purchaseOrderDtlId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+	<result column="quantity" jdbcType="DECIMAL" property="receiveQuantity" />
+	<result column="de_line_num" jdbcType="INTEGER" property="lineNum" />
+	<collection property="checkLotDetailList" ofType="com.rograndec.feijiayun.chain.business.purchase.instorage.vo.CheckLotDetailVO">
+	    <result column="check_lot_id" jdbcType="BIGINT" property="checkLotId" />
+	    <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+	    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+	    <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+	    <result column="qualified_quantity" jdbcType="DECIMAL" property="qualifiedQuantity" />
+	    <result column="unqualified_quantity" jdbcType="DECIMAL" property="unqualifiedQuantity" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, check_dtl_id, check_id, order_type, goods_id, lot_number, 
+    product_date, valid_date, test_report_ids, check_project_ids, receive_quantity, sampling_quantity, 
+    qualified_quantity, conclusion_ids, unqualified_quantity, unqualified_reason_ids, 
+    measures_ids, unclear_quantity, clear_quantity, line_num, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_check_lot
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_purchase_check_lot
+    where id in
+    	<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+  
+  <select id="selectStayInstorageDetailListByCheckId" parameterType="java.lang.Long" resultMap="StayInstorageDetailVO">
+    select 
+    l.check_id, l.id as check_lot_id, d.id as check_dtl_id, 
+    d.purchase_order_dtl_id, l.goods_id, d.goods_code, 
+    d.goods_generic_name, d.dosage_name, d.goods_specification,
+    d.manufacturer, d.unit_name, d.quantity, l.lot_number, l.product_date, 
+    l.valid_date, l.qualified_quantity, l.unqualified_quantity, 
+    d.line_num as de_line_num
+    from saas_purchase_check_lot l left join saas_purchase_check_detail d
+    on l.check_dtl_id = d.id
+    where l.check_id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_purchase_check_lot
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.purchase.check.entity.PurchaseCheckLot" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_check_lot (id, enterprise_id, parent_id, 
+      check_dtl_id, check_id, order_type, 
+      goods_id, lot_number, product_date, 
+      valid_date, test_report_ids, check_project_ids, 
+      receive_quantity, sampling_quantity, qualified_quantity, 
+      conclusion_ids, unqualified_quantity, unqualified_reason_ids, 
+      measures_ids, unclear_quantity, clear_quantity, 
+      line_num, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{checkDtlId,jdbcType=BIGINT}, #{checkId,jdbcType=BIGINT}, #{orderType,jdbcType=INTEGER}, 
+      #{goodsId,jdbcType=BIGINT}, #{lotNumber,jdbcType=VARCHAR}, #{productDate,jdbcType=TIMESTAMP}, 
+      #{validDate,jdbcType=TIMESTAMP}, #{testReportIds,jdbcType=VARCHAR}, #{checkProjectIds,jdbcType=VARCHAR}, 
+      #{receiveQuantity,jdbcType=DECIMAL}, #{samplingQuantity,jdbcType=DECIMAL}, #{qualifiedQuantity,jdbcType=DECIMAL}, 
+      #{conclusionIds,jdbcType=VARCHAR}, #{unqualifiedQuantity,jdbcType=DECIMAL}, #{unqualifiedReasonIds,jdbcType=VARCHAR}, 
+      #{measuresIds,jdbcType=VARCHAR}, #{unclearQuantity,jdbcType=DECIMAL}, #{clearQuantity,jdbcType=DECIMAL}, 
+      #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into saas_purchase_check_lot (enterprise_id, parent_id,
+    check_dtl_id, check_id, order_type,
+    goods_id, lot_number, product_date,
+    valid_date, test_report_ids, check_project_ids,
+    receive_quantity, sampling_quantity, qualified_quantity,
+    conclusion_ids, unqualified_quantity, unqualified_reason_ids,
+    measures_ids, unclear_quantity, clear_quantity,
+    line_num, status, remark,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code,
+    modifier_name, update_time)
+    VALUES
+    <foreach collection="list" item="purchaseCheckLots" index="index" separator=",">
+      ( #{purchaseCheckLots.enterpriseId,jdbcType=BIGINT}, #{purchaseCheckLots.parentId,jdbcType=BIGINT},
+      #{purchaseCheckLots.checkDtlId,jdbcType=BIGINT}, #{purchaseCheckLots.checkId,jdbcType=BIGINT}, #{purchaseCheckLots.orderType,jdbcType=INTEGER},
+      #{purchaseCheckLots.goodsId,jdbcType=BIGINT}, #{purchaseCheckLots.lotNumber,jdbcType=VARCHAR}, #{purchaseCheckLots.productDate,jdbcType=TIMESTAMP},
+      #{purchaseCheckLots.validDate,jdbcType=TIMESTAMP}, #{purchaseCheckLots.testReportIds,jdbcType=VARCHAR}, #{purchaseCheckLots.checkProjectIds,jdbcType=VARCHAR},
+      #{purchaseCheckLots.receiveQuantity,jdbcType=DECIMAL}, #{purchaseCheckLots.samplingQuantity,jdbcType=DECIMAL}, #{purchaseCheckLots.qualifiedQuantity,jdbcType=DECIMAL},
+      #{purchaseCheckLots.conclusionIds,jdbcType=VARCHAR}, #{purchaseCheckLots.unqualifiedQuantity,jdbcType=DECIMAL}, #{purchaseCheckLots.unqualifiedReasonIds,jdbcType=VARCHAR},
+      #{purchaseCheckLots.measuresIds,jdbcType=VARCHAR}, #{purchaseCheckLots.unclearQuantity,jdbcType=DECIMAL}, #{purchaseCheckLots.clearQuantity,jdbcType=DECIMAL},
+      #{purchaseCheckLots.lineNum,jdbcType=INTEGER}, #{purchaseCheckLots.status,jdbcType=INTEGER}, #{purchaseCheckLots.remark,jdbcType=VARCHAR},
+      #{purchaseCheckLots.createrId,jdbcType=BIGINT}, #{purchaseCheckLots.createrCode,jdbcType=VARCHAR}, #{purchaseCheckLots.createrName,jdbcType=VARCHAR},
+      #{purchaseCheckLots.createTime,jdbcType=TIMESTAMP}, #{purchaseCheckLots.modifierId,jdbcType=BIGINT}, #{purchaseCheckLots.modifierCode,jdbcType=VARCHAR},
+      #{purchaseCheckLots.modifierName,jdbcType=VARCHAR}, #{purchaseCheckLots.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.check.entity.PurchaseCheckLot" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_purchase_check_lot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="checkDtlId != null">
+        check_dtl_id,
+      </if>
+      <if test="checkId != null">
+        check_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="lotNumber != null">
+        lot_number,
+      </if>
+      <if test="productDate != null">
+        product_date,
+      </if>
+      <if test="validDate != null">
+        valid_date,
+      </if>
+      <if test="testReportIds != null">
+        test_report_ids,
+      </if>
+      <if test="checkProjectIds != null">
+        check_project_ids,
+      </if>
+      <if test="receiveQuantity != null">
+        receive_quantity,
+      </if>
+      <if test="samplingQuantity != null">
+        sampling_quantity,
+      </if>
+      <if test="qualifiedQuantity != null">
+        qualified_quantity,
+      </if>
+      <if test="conclusionIds != null">
+        conclusion_ids,
+      </if>
+      <if test="unqualifiedQuantity != null">
+        unqualified_quantity,
+      </if>
+      <if test="unqualifiedReasonIds != null">
+        unqualified_reason_ids,
+      </if>
+      <if test="measuresIds != null">
+        measures_ids,
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity,
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="checkDtlId != null">
+        #{checkDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="checkId != null">
+        #{checkId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNumber != null">
+        #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testReportIds != null">
+        #{testReportIds,jdbcType=VARCHAR},
+      </if>
+      <if test="checkProjectIds != null">
+        #{checkProjectIds,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveQuantity != null">
+        #{receiveQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="samplingQuantity != null">
+        #{samplingQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="qualifiedQuantity != null">
+        #{qualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="conclusionIds != null">
+        #{conclusionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unqualifiedQuantity != null">
+        #{unqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unqualifiedReasonIds != null">
+        #{unqualifiedReasonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="measuresIds != null">
+        #{measuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unclearQuantity != null">
+        #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.purchase.check.entity.PurchaseCheckLot">
+    update saas_purchase_check_lot
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="checkDtlId != null">
+        check_dtl_id = #{checkDtlId,jdbcType=BIGINT},
+      </if>
+      <if test="checkId != null">
+        check_id = #{checkId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNumber != null">
+        lot_number = #{lotNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        product_date = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validDate != null">
+        valid_date = #{validDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testReportIds != null">
+        test_report_ids = #{testReportIds,jdbcType=VARCHAR},
+      </if>
+      <if test="checkProjectIds != null">
+        check_project_ids = #{checkProjectIds,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveQuantity != null">
+        receive_quantity = #{receiveQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="samplingQuantity != null">
+        sampling_quantity = #{samplingQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="qualifiedQuantity != null">
+        qualified_quantity = #{qualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="conclusionIds != null">
+        conclusion_ids = #{conclusionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unqualifiedQuantity != null">
+        unqualified_quantity = #{unqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unqualifiedReasonIds != null">
+        unqualified_reason_ids = #{unqualifiedReasonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="measuresIds != null">
+        measures_ids = #{measuresIds,jdbcType=VARCHAR},
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.purchase.check.entity.PurchaseCheckLot">
+    update saas_purchase_check_lot
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      check_dtl_id = #{checkDtlId,jdbcType=BIGINT},
+      check_id = #{checkId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      lot_number = #{lotNumber,jdbcType=VARCHAR},
+      product_date = #{productDate,jdbcType=TIMESTAMP},
+      valid_date = #{validDate,jdbcType=TIMESTAMP},
+      test_report_ids = #{testReportIds,jdbcType=VARCHAR},
+      check_project_ids = #{checkProjectIds,jdbcType=VARCHAR},
+      receive_quantity = #{receiveQuantity,jdbcType=DECIMAL},
+      sampling_quantity = #{samplingQuantity,jdbcType=DECIMAL},
+      qualified_quantity = #{qualifiedQuantity,jdbcType=DECIMAL},
+      conclusion_ids = #{conclusionIds,jdbcType=VARCHAR},
+      unqualified_quantity = #{unqualifiedQuantity,jdbcType=DECIMAL},
+      unqualified_reason_ids = #{unqualifiedReasonIds,jdbcType=VARCHAR},
+      measures_ids = #{measuresIds,jdbcType=VARCHAR},
+      unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update> 
+  <update id="updateStatusFinishedByCheckId">
+    update saas_purchase_check_lot
+    set 
+      status = #{status,jdbcType=INTEGER},unclear_quantity=0,clear_quantity=receive_quantity
+    where check_id = #{checkId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByEnterpriseIdByCheckId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_check_lot
+    where check_id = #{id,jdbcType=BIGINT}
+    AND enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+  </select>
+  <select id="getPurchaseCheckReportPageList" resultType="com.rograndec.feijiayun.chain.business.report.quality.purchase.vo.purchase.PurchaseCheckReportPageVO">
+    SELECT
+		spc.code,
+		spc.check_date AS checkDate,
+		spc.supplier_code AS supplierCode,
+		spc.supplier_name AS supplierName,
+		spc.supplier_saler_name AS supplierSalerName,
+		spc.supplier_saler_phone AS supplierSalerPhone,
+		spc.checker_name AS checkerName,
+		spc.second_checker_name AS secondCheckerName,
+		spc.purchase_order_id AS purchaseOrderId,
+		spo.`code` AS purchaseOrderCode,
+		spc.base_order_code AS baseOrderCode,
+		spcd.goods_code AS goodsCode,
+		spcd.barcode AS barcode,
+		spcd.goods_name AS goodsName,
+		spcd.goods_generic_name AS goodsGenericName,
+		spcd.dosage_name AS dosageName,
+		spcd.unit_name AS unitName,
+		spcd.goods_specification AS goodsSpecification,
+		spcd.manufacturer,
+		spcd.goods_place AS goodsPlace,
+		spcd.approval_number AS approvalNumber,
+        spcl.lot_number AS lotNumber,
+        DATE_FORMAT(spcl.product_date,'%Y-%m-%d') AS productDate,
+        DATE_FORMAT(spcl.valid_date,'%Y-%m-%d') AS validDate,
+        spcl.check_project_ids AS checkProjectIds,
+        spcl.receive_quantity AS receiveQuantity,
+        spcl.sampling_quantity AS samplingQuantity,
+        spcl.qualified_quantity AS qualifiedQuantity,
+        spcl.conclusion_ids AS conclusionIds,
+        spcl.unqualified_quantity AS unqualifiedQuantity,
+        spcl.unqualified_reason_ids AS unqualifiedReasonIds,
+        spcl.measures_ids AS measuresIds,
+        spcl.status,
+		sg.management_scope_name AS managementScopeName,
+		sg.limit_quantity AS limitQuantity,
+		sg.storage_condition_name AS storageConditionName,
+        sg.business_variety AS businessVariety,
+        sg.goods_attribute AS goodsAttribute,
+        sg.prescription_drug AS prescriptionDrug,
+        sg.otc_type AS otcType,
+        sg.domestic_import AS domesticImport,
+        sg.special_drug AS specialDrug,
+        sg.spirit_drug_type AS spiritDrugType,
+        sg.in_charge_drug AS inChargeDrug,
+        sg.formulation_type AS formulationType,
+        sg.storage_temp AS storageTemp,
+        sg.quality_period_unit AS qualityPeriodUnit,
+		sgc.`name` AS categoryName,
+		sg.quality_period AS qualityPeriod,
+        spcl.remark
+    FROM saas_purchase_check_lot spcl
+    LEFT JOIN saas_purchase_check_detail spcd ON spcd.id = spcl.check_dtl_id
+    LEFT JOIN saas_purchase_check spc ON spc.id = spcd.check_id
+    LEFT JOIN saas_purchase_order spo ON spo.id = spc.purchase_order_id
+    LEFT JOIN saas_goods sg ON sg.id = spcd.goods_id
+    LEFT JOIN saas_goods_category sgc ON sgc.id = sg.category_id
+    where spcl.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.key != null and paramForListVO.key != ''">
+      AND (
+      INSTR(sg.code ,#{paramForListVO.key})
+      OR INSTR(sg.barcode ,#{paramForListVO.key})
+      OR INSTR(sg.pinyin_code ,#{paramForListVO.key})
+      OR INSTR(sg.name ,#{paramForListVO.key})
+      OR INSTR(sg.generic_name ,#{paramForListVO.key})
+      OR INSTR(sg.approval_number ,#{paramForListVO.key})
+      )
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null and paramForListVO.startDate != '' and paramForListVO.endDate != ''">
+      and spc.check_date between #{paramForListVO.startDate} and #{paramForListVO.endDate}
+    </if>
+    <if test="paramForListVO.businessVariety != null and paramForListVO.businessVariety != ''">
+      and sg.business_variety = #{paramForListVO.businessVariety}
+    </if>
+    <if test="paramForListVO.supplierCode != null and paramForListVO.supplierCode != ''">
+      and spc.supplier_code = #{paramForListVO.supplierCode}
+    </if>
+    <if test="paramForListVO.supplierName != null and paramForListVO.supplierName != ''">
+      and INSTR(spc.supplier_name , #{paramForListVO.supplierName})
+    </if>
+    <if test="paramForListVO.code != null and paramForListVO.code != ''">
+      and spc.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.checkerName != null and paramForListVO.checkerName != ''">
+      and INSTR(spc.checker_name , #{paramForListVO.checkerName})
+    </if>
+    <if test="paramForListVO.secondCheckerName != null and paramForListVO.secondCheckerName != ''">
+      and INSTR(spc.second_checker_name , #{paramForListVO.secondCheckerName})
+    </if>
+    <if test="paramForListVO.status != null and paramForListVO.status != ''">
+      and spcl.status = #{paramForListVO.status}
+    </if>
+    <if test="paramForListVO.categoryId != null and paramForListVO.categoryId != ''">
+      and sg.category_id = #{paramForListVO.categoryId}
+    </if>
+    <if test="paramForListVO.domesticImport != null and paramForListVO.domesticImport != ''">
+      and sg.domestic_import = #{paramForListVO.domesticImport}
+    </if>
+    <if test="paramForListVO.storageTemp != null and paramForListVO.storageTemp != ''">
+      and sg.storage_temp = #{paramForListVO.storageTemp}
+    </if>
+    <if test="paramForListVO.storageConditionName != null and paramForListVO.storageConditionName != ''">
+      and sg.storage_condition_name = #{paramForListVO.storageConditionName}
+    </if>
+    <if test="paramForListVO.registeredTrademark != null and paramForListVO.registeredTrademark != ''">
+      and sg.registered_trademark = #{paramForListVO.registeredTrademark}
+    </if>
+    <if test="paramForListVO.brand != null and paramForListVO.brand != ''">
+      and sg.brand = #{paramForListVO.brand}
+    </if>
+    <if test="paramForListVO.goodsAttribute != null and paramForListVO.goodsAttribute != ''">
+      and sg.goods_attribute = #{paramForListVO.goodsAttribute}
+    </if>
+    <if test="paramForListVO.prescriptionDrug != null and paramForListVO.prescriptionDrug != ''">
+      and sg.prescription_drug = #{paramForListVO.prescriptionDrug}
+    </if>
+    <if test="paramForListVO.otcType != null and paramForListVO.otcType != ''">
+      and sg.otc_type = #{paramForListVO.otcType}
+    </if>
+    <if test="paramForListVO.managementScopeId != null and paramForListVO.managementScopeId != ''">
+      and sg.management_scope_id = #{paramForListVO.managementScopeId}
+    </if>
+    <if test="paramForListVO.specialDrug != null and paramForListVO.specialDrug != ''">
+      and sg.special_drug = #{paramForListVO.specialDrug}
+    </if>
+    <if test="paramForListVO.spiritDrugType != null and paramForListVO.spiritDrugType != ''">
+      and sg.spirit_drug_type = #{paramForListVO.spiritDrugType}
+    </if>
+    <if test="paramForListVO.inChargeDrug != null and paramForListVO.inChargeDrug != ''">
+      and sg.in_charge_drug = #{paramForListVO.inChargeDrug}
+    </if>
+    <if test="paramForListVO.formulationType != null and paramForListVO.formulationType != ''">
+      and sg.formulation_type = #{paramForListVO.formulationType}
+    </if>
+    <if test="paramForListVO.orderName != null and paramForListVO.orderType!=null">
+      order by #{paramForListVO.orderName} #{paramForListVO.orderType}
+    </if>
+    <if test="paramForListVO.pageStart != null and paramForListVO.pageSize != null">
+      limit #{paramForListVO.pageStart},#{paramForListVO.pageSize}
+    </if>
+
+  </select>
+  <select id="getPurchaseCheckReportPageCount" resultType="java.lang.Integer">
+    SELECT
+    count(1)
+    FROM saas_purchase_check_lot spcl
+    LEFT JOIN saas_purchase_check_detail spcd ON spcd.id = spcl.check_dtl_id
+    LEFT JOIN saas_purchase_check spc ON spc.id = spcd.check_id
+    LEFT JOIN saas_purchase_order spo ON spo.id = spc.purchase_order_id
+    LEFT JOIN saas_goods sg ON sg.id = spcd.goods_id
+    LEFT JOIN saas_goods_category sgc ON sgc.id = sg.category_id
+    where spcl.enterprise_id = #{enterpriseId}
+    <if test="paramForListVO.key != null and paramForListVO.key != ''">
+      AND (
+      INSTR(sg.code ,#{paramForListVO.key})
+      OR INSTR(sg.barcode ,#{paramForListVO.key})
+      OR INSTR(sg.pinyin_code ,#{paramForListVO.key})
+      OR INSTR(sg.name ,#{paramForListVO.key})
+      OR INSTR(sg.generic_name ,#{paramForListVO.key})
+      OR INSTR(sg.approval_number ,#{paramForListVO.key})
+      )
+    </if>
+    <if test="paramForListVO.startDate != null and paramForListVO.endDate != null and paramForListVO.startDate != '' and paramForListVO.endDate != ''">
+      and spc.check_date between #{paramForListVO.startDate} and #{paramForListVO.endDate}
+    </if>
+    <if test="paramForListVO.businessVariety != null and paramForListVO.businessVariety != ''">
+      and sg.business_variety = #{paramForListVO.businessVariety}
+    </if>
+    <if test="paramForListVO.supplierCode != null and paramForListVO.supplierCode != ''">
+      and spc.supplier_code = #{paramForListVO.supplierCode}
+    </if>
+    <if test="paramForListVO.supplierName != null and paramForListVO.supplierName != ''">
+      and INSTR(spc.supplier_name , #{paramForListVO.supplierName})
+    </if>
+    <if test="paramForListVO.code != null and paramForListVO.code != ''">
+      and spc.code = #{paramForListVO.code}
+    </if>
+    <if test="paramForListVO.checkerName != null and paramForListVO.checkerName != ''">
+      and INSTR(spc.checker_name , #{paramForListVO.checkerName})
+    </if>
+    <if test="paramForListVO.secondCheckerName != null and paramForListVO.secondCheckerName != ''">
+      and INSTR(spc.second_checker_name , #{paramForListVO.secondCheckerName})
+    </if>
+    <if test="paramForListVO.status != null and paramForListVO.status != ''">
+      and spcl.status = #{paramForListVO.status}
+    </if>
+    <if test="paramForListVO.categoryId != null and paramForListVO.categoryId != ''">
+      and sg.category_id = #{paramForListVO.categoryId}
+    </if>
+    <if test="paramForListVO.domesticImport != null and paramForListVO.domesticImport != ''">
+      and sg.domestic_import = #{paramForListVO.domesticImport}
+    </if>
+    <if test="paramForListVO.storageTemp != null and paramForListVO.storageTemp != ''">
+      and sg.storage_temp = #{paramForListVO.storageTemp}
+    </if>
+    <if test="paramForListVO.storageConditionName != null and paramForListVO.storageConditionName != ''">
+      and sg.storage_condition_name = #{paramForListVO.storageConditionName}
+    </if>
+    <if test="paramForListVO.registeredTrademark != null and paramForListVO.registeredTrademark != ''">
+      and sg.registered_trademark = #{paramForListVO.registeredTrademark}
+    </if>
+    <if test="paramForListVO.brand != null and paramForListVO.brand != ''">
+      and sg.brand = #{paramForListVO.brand}
+    </if>
+    <if test="paramForListVO.goodsAttribute != null and paramForListVO.goodsAttribute != ''">
+      and sg.goods_attribute = #{paramForListVO.goodsAttribute}
+    </if>
+    <if test="paramForListVO.prescriptionDrug != null and paramForListVO.prescriptionDrug != ''">
+      and sg.prescription_drug = #{paramForListVO.prescriptionDrug}
+    </if>
+    <if test="paramForListVO.otcType != null and paramForListVO.otcType != ''">
+      and sg.otc_type = #{paramForListVO.otcType}
+    </if>
+    <if test="paramForListVO.managementScopeId != null and paramForListVO.managementScopeId != ''">
+      and sg.management_scope_id = #{paramForListVO.managementScopeId}
+    </if>
+    <if test="paramForListVO.specialDrug != null and paramForListVO.specialDrug != ''">
+      and sg.special_drug = #{paramForListVO.specialDrug}
+    </if>
+    <if test="paramForListVO.spiritDrugType != null and paramForListVO.spiritDrugType != ''">
+      and sg.spirit_drug_type = #{paramForListVO.spiritDrugType}
+    </if>
+    <if test="paramForListVO.inChargeDrug != null and paramForListVO.inChargeDrug != ''">
+      and sg.in_charge_drug = #{paramForListVO.inChargeDrug}
+    </if>
+    <if test="paramForListVO.formulationType != null and paramForListVO.formulationType != ''">
+      and sg.formulation_type = #{paramForListVO.formulationType}
+    </if>
+    <if test="paramForListVO.orderName != null and paramForListVO.orderType!=null">
+      order by ${paramForListVO.orderName} ${paramForListVO.orderType}
+    </if>
+  </select>
+
+  <select id="selectByDtlId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_purchase_check_lot
+    where check_dtl_id = #{id}
+  </select>
+</mapper>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.pos.dao.PosSetMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosSet">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="unified_flag" jdbcType="INTEGER" property="unifiedFlag" />
+    <result column="prescription_sale_register" jdbcType="INTEGER" property="prescriptionSaleRegister" />
+    <result column="special_sale_register" jdbcType="INTEGER" property="specialSaleRegister" />
+    <result column="near_period_sale_tips" jdbcType="INTEGER" property="nearPeriodSaleTips" />
+    <result column="incompatibility_sale_register" jdbcType="INTEGER" property="incompatibilitySaleRegister" />
+    <result column="ch_medicine_limit" jdbcType="INTEGER" property="chMedicineLimit" />
+    <result column="low_price_tips" jdbcType="INTEGER" property="lowPriceTips" />
+    <result column="zero_price_tips" jdbcType="INTEGER" property="zeroPriceTips" />
+    <result column="clerk_force_register" jdbcType="INTEGER" property="clerkForceRegister" />
+    <result column="excessive_sale" jdbcType="INTEGER" property="excessiveSale" />
+    <result column="near_period_sale" jdbcType="INTEGER" property="nearPeriodSale" />
+    <result column="near_period_sale_days" jdbcType="INTEGER" property="nearPeriodSaleDays" />
+    <result column="ch_prescription_register" jdbcType="INTEGER" property="chPrescriptionRegister" />
+    <result column="ch_medicine_qty" jdbcType="INTEGER" property="chMedicineQty" />
+    <result column="show_activity_logo" jdbcType="INTEGER" property="showActivityLogo" />
+    <result column="auto_maling" jdbcType="INTEGER" property="autoMaling" />
+    <result column="auto_maling_type" jdbcType="INTEGER" property="autoMalingType" />
+    <result column="small_ticket_style" jdbcType="INTEGER" property="smallTicketStyle" />
+    <result column="print_copiess" jdbcType="INTEGER" property="printCopiess" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, unified_flag, prescription_sale_register, special_sale_register, 
+    near_period_sale_tips, incompatibility_sale_register, ch_medicine_limit, low_price_tips, 
+    zero_price_tips, clerk_force_register, excessive_sale, near_period_sale, near_period_sale_days, 
+    ch_prescription_register, ch_medicine_qty, show_activity_logo, auto_maling, auto_maling_type, 
+    small_ticket_style, print_copiess, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_pos_set
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_pos_set
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosSet">
+    insert into saas_pos_set (id, enterprise_id, unified_flag, 
+      prescription_sale_register, special_sale_register, 
+      near_period_sale_tips, incompatibility_sale_register, 
+      ch_medicine_limit, low_price_tips, zero_price_tips, 
+      clerk_force_register, excessive_sale, near_period_sale, 
+      near_period_sale_days, ch_prescription_register, 
+      ch_medicine_qty, show_activity_logo, auto_maling, 
+      auto_maling_type, small_ticket_style, print_copiess, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{unifiedFlag,jdbcType=INTEGER}, 
+      #{prescriptionSaleRegister,jdbcType=INTEGER}, #{specialSaleRegister,jdbcType=INTEGER}, 
+      #{nearPeriodSaleTips,jdbcType=INTEGER}, #{incompatibilitySaleRegister,jdbcType=INTEGER}, 
+      #{chMedicineLimit,jdbcType=INTEGER}, #{lowPriceTips,jdbcType=INTEGER}, #{zeroPriceTips,jdbcType=INTEGER}, 
+      #{clerkForceRegister,jdbcType=INTEGER}, #{excessiveSale,jdbcType=INTEGER}, #{nearPeriodSale,jdbcType=INTEGER}, 
+      #{nearPeriodSaleDays,jdbcType=INTEGER}, #{chPrescriptionRegister,jdbcType=INTEGER}, 
+      #{chMedicineQty,jdbcType=INTEGER}, #{showActivityLogo,jdbcType=INTEGER}, #{autoMaling,jdbcType=INTEGER}, 
+      #{autoMalingType,jdbcType=INTEGER}, #{smallTicketStyle,jdbcType=INTEGER}, #{printCopiess,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosSet" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_pos_set
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="unifiedFlag != null">
+        unified_flag,
+      </if>
+      <if test="prescriptionSaleRegister != null">
+        prescription_sale_register,
+      </if>
+      <if test="specialSaleRegister != null">
+        special_sale_register,
+      </if>
+      <if test="nearPeriodSaleTips != null">
+        near_period_sale_tips,
+      </if>
+      <if test="incompatibilitySaleRegister != null">
+        incompatibility_sale_register,
+      </if>
+      <if test="chMedicineLimit != null">
+        ch_medicine_limit,
+      </if>
+      <if test="lowPriceTips != null">
+        low_price_tips,
+      </if>
+      <if test="zeroPriceTips != null">
+        zero_price_tips,
+      </if>
+      <if test="clerkForceRegister != null">
+        clerk_force_register,
+      </if>
+      <if test="excessiveSale != null">
+        excessive_sale,
+      </if>
+      <if test="nearPeriodSale != null">
+        near_period_sale,
+      </if>
+      <if test="nearPeriodSaleDays != null">
+        near_period_sale_days,
+      </if>
+      <if test="chPrescriptionRegister != null">
+        ch_prescription_register,
+      </if>
+      <if test="chMedicineQty != null">
+        ch_medicine_qty,
+      </if>
+      <if test="showActivityLogo != null">
+        show_activity_logo,
+      </if>
+      <if test="autoMaling != null">
+        auto_maling,
+      </if>
+      <if test="autoMalingType != null">
+        auto_maling_type,
+      </if>
+      <if test="smallTicketStyle != null">
+        small_ticket_style,
+      </if>
+      <if test="printCopiess != null">
+        print_copiess,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="unifiedFlag != null">
+        #{unifiedFlag,jdbcType=INTEGER},
+      </if>
+      <if test="prescriptionSaleRegister != null">
+        #{prescriptionSaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="specialSaleRegister != null">
+        #{specialSaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSaleTips != null">
+        #{nearPeriodSaleTips,jdbcType=INTEGER},
+      </if>
+      <if test="incompatibilitySaleRegister != null">
+        #{incompatibilitySaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="chMedicineLimit != null">
+        #{chMedicineLimit,jdbcType=INTEGER},
+      </if>
+      <if test="lowPriceTips != null">
+        #{lowPriceTips,jdbcType=INTEGER},
+      </if>
+      <if test="zeroPriceTips != null">
+        #{zeroPriceTips,jdbcType=INTEGER},
+      </if>
+      <if test="clerkForceRegister != null">
+        #{clerkForceRegister,jdbcType=INTEGER},
+      </if>
+      <if test="excessiveSale != null">
+        #{excessiveSale,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSale != null">
+        #{nearPeriodSale,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSaleDays != null">
+        #{nearPeriodSaleDays,jdbcType=INTEGER},
+      </if>
+      <if test="chPrescriptionRegister != null">
+        #{chPrescriptionRegister,jdbcType=INTEGER},
+      </if>
+      <if test="chMedicineQty != null">
+        #{chMedicineQty,jdbcType=INTEGER},
+      </if>
+      <if test="showActivityLogo != null">
+        #{showActivityLogo,jdbcType=INTEGER},
+      </if>
+      <if test="autoMaling != null">
+        #{autoMaling,jdbcType=INTEGER},
+      </if>
+      <if test="autoMalingType != null">
+        #{autoMalingType,jdbcType=INTEGER},
+      </if>
+      <if test="smallTicketStyle != null">
+        #{smallTicketStyle,jdbcType=INTEGER},
+      </if>
+      <if test="printCopiess != null">
+        #{printCopiess,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosSet">
+    update saas_pos_set
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="unifiedFlag != null">
+        unified_flag = #{unifiedFlag,jdbcType=INTEGER},
+      </if>
+      <if test="prescriptionSaleRegister != null">
+        prescription_sale_register = #{prescriptionSaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="specialSaleRegister != null">
+        special_sale_register = #{specialSaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSaleTips != null">
+        near_period_sale_tips = #{nearPeriodSaleTips,jdbcType=INTEGER},
+      </if>
+      <if test="incompatibilitySaleRegister != null">
+        incompatibility_sale_register = #{incompatibilitySaleRegister,jdbcType=INTEGER},
+      </if>
+      <if test="chMedicineLimit != null">
+        ch_medicine_limit = #{chMedicineLimit,jdbcType=INTEGER},
+      </if>
+      <if test="lowPriceTips != null">
+        low_price_tips = #{lowPriceTips,jdbcType=INTEGER},
+      </if>
+      <if test="zeroPriceTips != null">
+        zero_price_tips = #{zeroPriceTips,jdbcType=INTEGER},
+      </if>
+      <if test="clerkForceRegister != null">
+        clerk_force_register = #{clerkForceRegister,jdbcType=INTEGER},
+      </if>
+      <if test="excessiveSale != null">
+        excessive_sale = #{excessiveSale,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSale != null">
+        near_period_sale = #{nearPeriodSale,jdbcType=INTEGER},
+      </if>
+      <if test="nearPeriodSaleDays != null">
+        near_period_sale_days = #{nearPeriodSaleDays,jdbcType=INTEGER},
+      </if>
+      <if test="chPrescriptionRegister != null">
+        ch_prescription_register = #{chPrescriptionRegister,jdbcType=INTEGER},
+      </if>
+      <if test="chMedicineQty != null">
+        ch_medicine_qty = #{chMedicineQty,jdbcType=INTEGER},
+      </if>
+      <if test="showActivityLogo != null">
+        show_activity_logo = #{showActivityLogo,jdbcType=INTEGER},
+      </if>
+      <if test="autoMaling != null">
+        auto_maling = #{autoMaling,jdbcType=INTEGER},
+      </if>
+      <if test="autoMalingType != null">
+        auto_maling_type = #{autoMalingType,jdbcType=INTEGER},
+      </if>
+      <if test="smallTicketStyle != null">
+        small_ticket_style = #{smallTicketStyle,jdbcType=INTEGER},
+      </if>
+      <if test="printCopiess != null">
+        print_copiess = #{printCopiess,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosSet">
+    update saas_pos_set
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      unified_flag = #{unifiedFlag,jdbcType=INTEGER},
+      prescription_sale_register = #{prescriptionSaleRegister,jdbcType=INTEGER},
+      special_sale_register = #{specialSaleRegister,jdbcType=INTEGER},
+      near_period_sale_tips = #{nearPeriodSaleTips,jdbcType=INTEGER},
+      incompatibility_sale_register = #{incompatibilitySaleRegister,jdbcType=INTEGER},
+      ch_medicine_limit = #{chMedicineLimit,jdbcType=INTEGER},
+      low_price_tips = #{lowPriceTips,jdbcType=INTEGER},
+      zero_price_tips = #{zeroPriceTips,jdbcType=INTEGER},
+      clerk_force_register = #{clerkForceRegister,jdbcType=INTEGER},
+      excessive_sale = #{excessiveSale,jdbcType=INTEGER},
+      near_period_sale = #{nearPeriodSale,jdbcType=INTEGER},
+      near_period_sale_days = #{nearPeriodSaleDays,jdbcType=INTEGER},
+      ch_prescription_register = #{chPrescriptionRegister,jdbcType=INTEGER},
+      ch_medicine_qty = #{chMedicineQty,jdbcType=INTEGER},
+      show_activity_logo = #{showActivityLogo,jdbcType=INTEGER},
+      auto_maling = #{autoMaling,jdbcType=INTEGER},
+      auto_maling_type = #{autoMalingType,jdbcType=INTEGER},
+      small_ticket_style = #{smallTicketStyle,jdbcType=INTEGER},
+      print_copiess = #{printCopiess,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 按企业获取POS设置数据 -->
+  <select id="findByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_pos_set
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} order by update_time desc
+  </select>
+
+</mapper>

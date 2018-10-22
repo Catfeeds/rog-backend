@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.set.dao.EnterpriseQualificationMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.entity.EnterpriseQualification">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="suitable_unit" jdbcType="INTEGER" property="suitableUnit" />
+    <result column="type_must" jdbcType="INTEGER" property="typeMust" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="control_type" jdbcType="INTEGER" property="controlType" />
+    <result column="code_must" jdbcType="INTEGER" property="codeMust" />
+    <result column="valid_until_must" jdbcType="INTEGER" property="validUntilMust" />
+    <result column="file_must" jdbcType="INTEGER" property="fileMust" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="business_variety" jdbcType="VARCHAR" property="businessVariety" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="SeqBase_Column_List">
+    seq.id, seq.enterprise_id, seq.sys_type, seq.suitable_unit, seq.type_must, seq.code, seq.name, seq.control_type,
+    seq.code_must, seq.valid_until_must, seq.file_must, seq.status, seq.remark, seq.creater_id, seq.creater_code,
+    seq.creater_name, seq.create_time, seq.modifier_id, seq.modifier_code, seq.modifier_name, seq.update_time
+  </sql>
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, sys_type, suitable_unit, type_must, code, name, control_type, 
+    code_must, valid_until_must, file_must, status, business_variety, remark, creater_id, creater_code,
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_enterprise_qualification
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.EnterpriseQualification" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_enterprise_qualification (id, enterprise_id, sys_type, 
+      suitable_unit, type_must, code, 
+      name, control_type, code_must, 
+      valid_until_must, file_must, status, business_variety,
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{sysType,jdbcType=INTEGER}, 
+      #{suitableUnit,jdbcType=INTEGER}, #{typeMust,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{controlType,jdbcType=INTEGER}, #{codeMust,jdbcType=INTEGER}, 
+      #{validUntilMust,jdbcType=INTEGER}, #{fileMust,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{businessVariety,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.EnterpriseQualification" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_enterprise_qualification
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+      <if test="suitableUnit != null">
+        suitable_unit,
+      </if>
+      <if test="typeMust != null">
+        type_must,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="controlType != null">
+        control_type,
+      </if>
+      <if test="codeMust != null">
+        code_must,
+      </if>
+      <if test="validUntilMust != null">
+        valid_until_must,
+      </if>
+      <if test="fileMust != null">
+        file_must,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="businessVariety != null">
+        business_variety,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="suitableUnit != null">
+        #{suitableUnit,jdbcType=INTEGER},
+      </if>
+      <if test="typeMust != null">
+        #{typeMust,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="controlType != null">
+        #{controlType,jdbcType=INTEGER},
+      </if>
+      <if test="codeMust != null">
+        #{codeMust,jdbcType=INTEGER},
+      </if>
+      <if test="validUntilMust != null">
+        #{validUntilMust,jdbcType=INTEGER},
+      </if>
+      <if test="fileMust != null">
+        #{fileMust,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="businessVariety != null">
+        #{businessVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.EnterpriseQualification">
+    update saas_enterprise_qualification
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="suitableUnit != null">
+        suitable_unit = #{suitableUnit,jdbcType=INTEGER},
+      </if>
+      <if test="typeMust != null">
+        type_must = #{typeMust,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="controlType != null">
+        control_type = #{controlType,jdbcType=INTEGER},
+      </if>
+      <if test="codeMust != null">
+        code_must = #{codeMust,jdbcType=INTEGER},
+      </if>
+      <if test="validUntilMust != null">
+        valid_until_must = #{validUntilMust,jdbcType=INTEGER},
+      </if>
+      <if test="fileMust != null">
+        file_must = #{fileMust,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="businessVariety != null">
+        business_variety = #{businessVariety,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.EnterpriseQualification">
+    update saas_enterprise_qualification
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      sys_type = #{sysType,jdbcType=INTEGER},
+      suitable_unit = #{suitableUnit,jdbcType=INTEGER},
+      type_must = #{typeMust,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      control_type = #{controlType,jdbcType=INTEGER},
+      code_must = #{codeMust,jdbcType=INTEGER},
+      valid_until_must = #{validUntilMust,jdbcType=INTEGER},
+      file_must = #{fileMust,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      business_variety = #{businessVariety,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectEntrepriseOptionalQualification2WarmSet" resultMap="BaseResultMap">
+    select
+    <include refid="SeqBase_Column_List" />
+    from saas_enterprise_qualification seq,saas_enterprise se
+    where se.id = #{enterpriseId} and seq.enterprise_id = se.id
+    and seq.status = '1'
+    <if test="typeMust != null">
+      and seq.type_must = #{typeMust}
+    </if>
+    and (seq.suitable_unit = '0' or seq.suitable_unit = #{suitableUnit})
+    union
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = '0'
+    and sys_type = '1'
+    and status = '1'
+    <if test="typeMust != null">
+      and type_must = #{typeMust}
+    </if>
+    and (suitable_unit = '0' or suitable_unit = #{suitableUnit})
+  </select>
+
+
+  <select id="selectEntrepriseOptionalQualification" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = #{enterpriseId}
+    and status = '1'
+    <if test="typeMust != null">
+      and type_must = #{typeMust}
+    </if>
+    and (suitable_unit = '0' or suitable_unit = #{suitableUnit})
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = '0'
+    and sys_type = '1'
+    and status = '1'
+    <if test="typeMust != null">
+      and type_must = #{typeMust}
+    </if>
+    and (suitable_unit = '0' or suitable_unit = #{suitableUnit})
+  </select>
+  
+  <select id="getEnterpriseQualificationById" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = #{parentId}
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where sys_type = '1'
+    order by id desc
+  </select>
+  
+  <select id="getEnterpriseQualification" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = #{enterpriseId}
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where sys_type = '1'
+    order by id desc
+  </select>
+
+  <select id="getDefaultEnterpriseQulification" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where sys_type = '1'
+    and status = '1'
+  </select>
+
+  <select id="getEnterpriseQulificationByCodes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where code IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and status = '1'
+  </select>
+
+  <insert id="addEnterpriseQualification">
+  	insert into saas_enterprise_qualification (enterprise_id, sys_type, 
+      suitable_unit, type_must, code, 
+      name, control_type, code_must, 
+      valid_until_must, file_must, status, 
+      remark, business_variety, creater_id, creater_code,
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{user.enterpriseId}, '0', 
+      #{enterpriseQualification.suitableUnit,jdbcType=INTEGER}, #{enterpriseQualification.typeMust,jdbcType=INTEGER}, #{enterpriseQualification.code,jdbcType=VARCHAR}, 
+      #{enterpriseQualification.name,jdbcType=VARCHAR}, #{enterpriseQualification.controlType,jdbcType=INTEGER}, #{enterpriseQualification.codeMust,jdbcType=INTEGER}, 
+      #{enterpriseQualification.validUntilMust,jdbcType=INTEGER}, #{enterpriseQualification.fileMust,jdbcType=INTEGER}, #{enterpriseQualification.status,jdbcType=INTEGER}, 
+      #{enterpriseQualification.remark,jdbcType=VARCHAR}, #{enterpriseQualification.businessVariety,jdbcType=VARCHAR}, #{user.userId}, #{user.userCode},
+      #{user.userName}, NOW(),#{user.userId}, #{user.userCode}, 
+      #{user.userName}, NOW()
+      )
+  </insert>
+  
+  <update id="updateEnterpriseQualification">
+  	update saas_enterprise_qualification
+    set 
+      suitable_unit = #{enterpriseQualification.suitableUnit,jdbcType=INTEGER},
+      type_must = #{enterpriseQualification.typeMust,jdbcType=INTEGER},
+      name = #{enterpriseQualification.name,jdbcType=VARCHAR},
+      control_type = #{enterpriseQualification.controlType,jdbcType=INTEGER},
+      code_must = #{enterpriseQualification.codeMust,jdbcType=INTEGER},
+      valid_until_must = #{enterpriseQualification.validUntilMust,jdbcType=INTEGER},
+      file_must = #{enterpriseQualification.fileMust,jdbcType=INTEGER},
+      status = #{enterpriseQualification.status,jdbcType=INTEGER},
+      remark = #{enterpriseQualification.remark,jdbcType=VARCHAR},
+      business_variety = #{enterpriseQualification.businessVariety,jdbcType=VARCHAR},
+      modifier_id = #{user.userId},
+      modifier_code = #{user.userCode},
+      modifier_name = #{user.userName},
+      update_time = NOW()
+    where id = #{enterpriseQualification.id,jdbcType=BIGINT}
+  </update>
+  <select id="findEnterpriseQualificationSelectorByEnterpriseId" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification seq
+    where seq.enterprise_id = #{enterpriseId}
+    and (seq.suitable_unit = '0' or seq.suitable_unit = '3') and seq.type_must = '0'
+    and seq.status = '1'
+    <if test="#{id} != null">
+      AND NOT EXISTS(SELECT sqc.qualification_id FROM  saas_supplier_qualification_config sqc WHERE sqc.qualification_id = seq.id AND sqc.supplier_id= #{id})
+    </if>
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification seq
+    where seq.sys_type = '1'
+    and (seq.suitable_unit = '0' or seq.suitable_unit = '3') and seq.type_must = '0'
+    and seq.status = '1'
+    <if test="#{id} != null">
+      AND NOT EXISTS(SELECT sqc.qualification_id FROM  saas_supplier_qualification_config sqc WHERE sqc.qualification_id = seq.id AND sqc.supplier_id= #{id})
+    </if>
+  </select>
+  <select id="hasEnterPriseCode"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where code = #{code}
+    and (enterprise_id = #{enterpriseId} or sys_type = '1')
+  </select>
+  <select id="hasEnterpriseName"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where name = #{name}
+    and (enterprise_id = #{enterpriseId} or sys_type = '1')
+  </select>
+  <select id="queryDefEnterpriseQualificationList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_enterprise_qualification
+    where enterprise_id = 0 and sys_type = 1
+  </select>
+  <select id="checkDeteleEnterpriseData" resultType="java.lang.Long">
+    SELECT
+    count(1)
+    from saas_enterprise_qualification_config eqc
+    LEFT JOIN saas_enterprise_qualification eq ON eq.id = eqc.qualification_id
+    where eqc.qualification_id = #{id} AND  sys_type = 0
+  </select>
+  <select id="checkDeteleUserData" resultType="java.lang.Long">
+    SELECT
+    count(1)
+    from saas_user_qualification_config uqc
+    LEFT JOIN saas_user_qualification uq ON uq.id = uqc.qualification_id
+    where uqc.qualification_id = #{id} AND uq.sys_type = 0
+  </select>
+  <select id="checkDeteleGoodsData" resultType="java.lang.Long">
+    SELECT
+    count(1)
+    from saas_goods_qualification_config gqc
+    LEFT JOIN saas_goods_qualification gq ON gq.id = gqc.qualification_id
+    where gqc.qualification_id = #{id} AND gq.sys_type = 0
+  </select>
+</mapper>

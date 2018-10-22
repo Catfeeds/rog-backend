@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.approval.dao.ApprovalFlowActionDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="approval_flow_action_id" jdbcType="BIGINT" property="approvalFlowActionId" />
+    <result column="flow_id" jdbcType="BIGINT" property="flowId" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="approval_time" jdbcType="TIMESTAMP" property="approvalTime" />
+    <result column="approval_stage" jdbcType="VARCHAR" property="approvalStage" />
+    <result column="approval_role_id" jdbcType="BIGINT" property="approvalRoleId" />
+    <result column="approval_role_name" jdbcType="VARCHAR" property="approvalRoleName" />
+    <result column="approval_org_id" jdbcType="BIGINT" property="approvalOrgId" />
+    <result column="approval_org_name" jdbcType="VARCHAR" property="approvalOrgName" />
+    <result column="approver_id" jdbcType="BIGINT" property="approverId" />
+    <result column="approver_name" jdbcType="VARCHAR" property="approverName" />
+    <result column="approval_opinion" jdbcType="VARCHAR" property="approvalOpinion" />
+    <result column="approval_result" jdbcType="INTEGER" property="approvalResult" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+
+  <resultMap id="ApprovalFlowActionDetailListVOMap" type="com.rograndec.feijiayun.chain.business.system.approval.vo.ApprovalFlowActionDetailListVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="approval_flow_action_id" jdbcType="BIGINT" property="approvalFlowActionId" />
+    <result column="flow_id" jdbcType="BIGINT" property="flowId" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="approval_time" jdbcType="TIMESTAMP" property="approvalTime" />
+    <result column="approval_stage" jdbcType="VARCHAR" property="approvalStage" />
+    <result column="approval_role_id" jdbcType="BIGINT" property="approvalRoleId" />
+    <result column="approval_role_name" jdbcType="VARCHAR" property="approvalRoleName" />
+    <result column="approval_org_id" jdbcType="BIGINT" property="approvalOrgId" />
+    <result column="approval_org_name" jdbcType="VARCHAR" property="approvalOrgName" />
+    <result column="approver_id" jdbcType="BIGINT" property="approverId" />
+    <result column="approver_name" jdbcType="VARCHAR" property="approverName" />
+    <result column="approval_opinion" jdbcType="VARCHAR" property="approvalOpinion" />
+    <result column="approval_result" jdbcType="INTEGER" property="approvalResult" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="detailId" jdbcType="BIGINT" property="detailId" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, approval_flow_action_id, flow_id, level, start_time, approval_time, 
+    approval_stage, approval_org_id, approval_org_name,
+    approval_role_id, approval_role_name, approver_id, approver_name, approval_opinion, approval_result, 
+    status
+  </sql>
+
+  <sql id="BBase_Column_List">
+    b.id, b.enterprise_id, b.approval_flow_action_id, b.flow_id, b.level, b.start_time, b.approval_time,
+    b.approval_stage, b.approval_org_id, b.approval_org_name,
+    b.approval_role_id, b.approval_role_name, b.approver_id, b.approver_name, b.approval_opinion, b.approval_result,
+    b.status,d.id AS detailId
+  </sql>
+
+  <select id="getMustApprovalActionList" resultMap="ApprovalFlowActionDetailListVOMap">
+    SELECT
+      <include refid="BBase_Column_List"/>
+    FROM
+    saas_approval_flow_action a,
+    saas_approval_flow_action_detail b,
+    saas_approval_flow_detail d
+    where
+    a.id = b.approval_flow_action_id
+    AND b.status in (0,-1) AND a.enterprise_id = #{vo.enterpriseId} AND d.flow_id=b.flow_id AND d.level = b.level
+    <if test="vo.content != null">
+      and a.content = #{vo.content}
+    </if>
+    <if test="vo.statusRecom != null">
+      and a.status_recom in (0,-1)
+    </if>
+
+    <if test="vo.roleIdsStr != null and vo.roleIdsStr != ''">
+      and ( (b.approver_id=0 and b.approval_role_id in (${vo.roleIdsStr})) or   b.approver_id=#{vo.currentUserId} )
+    </if>
+
+    <if test="vo.name != null and vo.name != ''">
+      and a.flow_id in
+      (
+      select c.id from saas_approval_flow c where c.`name` like '%${vo.name}%'
+      )
+    </if>
+    <if test="vo.startOrgId != null and vo.startOrgId != 0">
+      and a.start_org_id = #{vo.startOrgId}
+    </if>
+    <if test="vo.starterName != null and vo.starterName != ''">
+      and a.starter_name like '%${vo.starterName}%'
+    </if>
+    <if test="vo.approvalOrgId != null and vo.approvalOrgId != 0">
+      and b.approval_org_id=#{vo.approvalOrgId}
+    </if>
+    <if test="vo.approverName != null and vo.approverName != ''">
+      and b.approver_name like '%${vo.approverName}%'
+    </if>
+  order by a.id desc
+  </select>
+
+
+  <select id="selectByActionFlowId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action_detail
+    where approval_flow_action_id = #{flowId,jdbcType=BIGINT}
+    ORDER BY level
+  </select>
+
+  <select id="selectByActionFlowIdDesc" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action_detail
+    where approval_flow_action_id = #{flowId,jdbcType=BIGINT}
+    ORDER BY level ${desc}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectFirstApprovalAction" resultMap="BaseResultMap">
+    SELECT
+    actionDtl.approval_flow_action_id,
+        actionDtl.level,
+        actionDtl.approval_time,
+        actionDtl.approval_stage,
+        actionDtl.approver_name,
+        actionDtl.approval_opinion,
+        actionDtl.approval_result
+        FROM
+        saas_approval_flow_action actions
+        LEFT JOIN saas_approval_flow_action_detail actionDtl ON actions.id = actionDtl.approval_flow_action_id
+        WHERE
+        1 = 1
+        and actions.status_recom = #{statusRecom}
+        AND actions.content = #{name}
+        AND actions.data_id = #{dataId}
+        AND actions.enterprise_id = #{enterpriseId}
+        ORDER BY actions.id,actionDtl.level
+  </select>
+
+
+  <select id="selectAdjustByApprovalFlowAction" parameterType="java.util.Map"  resultMap="BaseResultMap">
+    SELECT safd.* FROM saas_price_adjust spa ,
+    saas_price_adjust_detail sad ,
+    saas_price_order spo,
+    saas_approval_flow_action safa,
+    saas_approval_flow_action_detail safd
+    where spa.id = sad.adjust_id
+    AND  spo.id = spa.price_order_id
+    AND  safa.data_id = spa.id
+    AND  safd.approval_flow_action_id = safa.id
+    AND  safa.content= #{content,jdbcType=VARCHAR}
+    AND  spa.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    AND  sad.goods_id= #{goodsId,jdbcType=BIGINT}
+    order by safd.id desc;
+  </select>
+
+
+  <select id="selectByActionIds" resultMap="BaseResultMap">
+    SELECT sad.* from
+  saas_approval_flow_action_detail sad ,
+  (select max(sad1.id) as id,sad1.approval_flow_action_id from saas_approval_flow_action_detail sad1
+      where sad1.approval_flow_action_id in
+
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+      GROUP BY sad1.approval_flow_action_id) sd where sad.id=sd.id
+  </select>
+
+  <select id="getActionDetailListByIdForWeb" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+		b.flow_id,
+		b.`level`,
+		c.approval_stage,b.approval_time,
+		case when b.approval_org_id is null then c.org_id else b.approval_org_id end as approval_org_id,
+		case when b.approval_org_name is null then c.org_name else b.approval_org_name end as approval_org_name,
+		case when b.approver_id is null then c.approver_id else b.approver_id end as approver_id,
+		case when b.approver_name is null then c.approver_name else b.approver_name end as approver_name,
+		b.approval_opinion,b.approval_result
+	from 
+	(select 
+		a.flow_id,
+		a.`level`,
+		a.approval_stage,a.approval_time,
+		a.approval_org_id,a.approval_org_name,
+		a.approver_id,a.approver_name,
+		a.approval_opinion,a.approval_result
+	from saas_approval_flow_action_detail a where a.approval_flow_action_id = #{actionId,jdbcType=BIGINT}) b right join saas_approval_flow_detail c
+	on b.flow_id=c.flow_id and b.`level` = c.`level`
+	order by c.`level`
+  </select>
+  
+  <select id="getActionDetailListById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action_detail
+    where approval_flow_action_id = #{actionId,jdbcType=BIGINT}  AND status = 0
+    order by `level` desc
+  </select>
+
+  <select id="getActionDetailListByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action_detail
+    where approval_flow_action_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    order by `level`
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_approval_flow_action_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+    insert into saas_approval_flow_action_detail (
+    	enterprise_id, approval_flow_action_id, 
+		flow_id, level, start_time, approval_stage, 
+		approval_org_id, approval_org_name, 
+		approval_role_id, approval_role_name, 
+		approver_id, approver_name, 
+		approval_opinion, approval_result, status)
+    values (#{enterpriseId,jdbcType=BIGINT}, #{approvalFlowActionId,jdbcType=BIGINT}, 
+      #{flowId,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, now(), #{approvalStage,jdbcType=VARCHAR},
+      #{approvalOrgId,jdbcType=BIGINT}, #{approvalOrgName,jdbcType=VARCHAR}, 
+      #{approvalRoleId,jdbcType=BIGINT}, #{approvalRoleName,jdbcType=VARCHAR},
+      #{approverId,jdbcType=BIGINT}, #{approverName,jdbcType=VARCHAR}, 
+      #{approvalOpinion,jdbcType=VARCHAR}, #{approvalResult,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_approval_flow_action_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="approvalFlowActionId != null">
+        approval_flow_action_id,
+      </if>
+      <if test="flowId != null">
+        flow_id,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="approvalTime != null">
+        approval_time,
+      </if>
+      <if test="approvalStage != null">
+        approval_stage,
+      </if>
+      <if test="approvalOrgId != null">
+        approval_org_id,
+      </if>
+       <if test="approvalOrgName != null">
+         approval_org_name,
+      </if>
+
+      <if test="approvalRoleId != null">
+        approval_role_id,
+      </if>
+      <if test="approvalRoleName != null">
+        approval_role_name,
+      </if>
+
+      <if test="approverId != null">
+        approver_id,
+      </if>
+
+      <if test="approverName != null">
+        approver_name,
+      </if>
+
+
+      <if test="approvalOpinion != null">
+        approval_opinion,
+      </if>
+      <if test="approvalResult != null">
+        approval_result,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalFlowActionId != null">
+        #{approvalFlowActionId,jdbcType=BIGINT},
+      </if>
+      <if test="flowId != null">
+        #{flowId,jdbcType=BIGINT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalTime != null">
+        #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalStage != null">
+        #{approvalStage,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalOrgId != null">
+        #{approvalOrgId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalOrgName != null">
+        #{approvalOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalRoleId != null">
+        #{approvalRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalRoleName != null">
+        #{approvalRoleName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="approverId != null">
+        #{approverId,jdbcType=BIGINT},
+      </if>
+      <if test="approverName != null">
+        #{approverName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="approvalOpinion != null">
+        #{approvalOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalResult != null">
+        #{approvalResult,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+    update saas_approval_flow_action_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalFlowActionId != null">
+        approval_flow_action_id = #{approvalFlowActionId,jdbcType=BIGINT},
+      </if>
+      <if test="flowId != null">
+        flow_id = #{flowId,jdbcType=BIGINT},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalTime != null">
+        approval_time = #{approvalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approvalStage != null">
+        approval_stage = #{approvalStage,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalOrgId != null">
+        approval_org_id = #{approvalOrgId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalOrgName != null">
+        approval_org_name = #{approvalOrgName,jdbcType=BIGINT},
+      </if>
+      <if test="approvalRoleId != null">
+        approval_role_id = #{approvalRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalRoleName != null">
+        approval_role_name = #{approvalRoleName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="approverId != null">
+        approver_id = #{approverId,jdbcType=BIGINT},
+      </if>
+      <if test="approverName != null">
+        approver_name = #{approverName,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalOpinion != null">
+        approval_opinion = #{approvalOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalResult != null">
+        approval_result = #{approvalResult,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+    update saas_approval_flow_action_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      approval_flow_action_id = #{approvalFlowActionId,jdbcType=BIGINT},
+      flow_id = #{flowId,jdbcType=BIGINT},
+      level = #{level,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      approval_time = #{approvalTime,jdbcType=TIMESTAMP},
+      approval_stage = #{approvalStage,jdbcType=VARCHAR},
+      approval_org_id = #{approvalOrgId,jdbcType=BIGINT},
+      approver_id = #{approverId,jdbcType=BIGINT},
+      approval_opinion = #{approvalOpinion,jdbcType=VARCHAR},
+      approval_result = #{approvalResult,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateAuditResult" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+    update saas_approval_flow_action_detail
+    set 
+      approval_opinion = #{approvalOpinion,jdbcType=VARCHAR},
+      approval_result = #{approvalResult,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      approval_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

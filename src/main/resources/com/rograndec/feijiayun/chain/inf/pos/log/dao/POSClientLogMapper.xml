@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.log.dao.POSClientLogMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="client_type" jdbcType="INTEGER" property="clientType" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="pc_mac" jdbcType="VARCHAR" property="pcMac" />
+    <result column="terminal_code" jdbcType="VARCHAR" property="terminalCode" />
+    <result column="log_date" jdbcType="TIMESTAMP" property="logDate" />
+    <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, client_type, enterprise_id, pc_mac, terminal_code, log_date, upload_date
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_client_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_client_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    insert into saas_client_log (id, client_type, enterprise_id, 
+      pc_mac, terminal_code, log_date, 
+      upload_date, content)
+    values (#{id,jdbcType=BIGINT}, #{clientType,jdbcType=INTEGER}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{pcMac,jdbcType=VARCHAR}, #{terminalCode,jdbcType=VARCHAR}, #{logDate,jdbcType=TIMESTAMP}, 
+      #{uploadDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    insert into saas_client_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientType != null">
+        client_type,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="pcMac != null">
+        pc_mac,
+      </if>
+      <if test="terminalCode != null">
+        terminal_code,
+      </if>
+      <if test="logDate != null">
+        log_date,
+      </if>
+      <if test="uploadDate != null">
+        upload_date,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientType != null">
+        #{clientType,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="pcMac != null">
+        #{pcMac,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalCode != null">
+        #{terminalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="logDate != null">
+        #{logDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadDate != null">
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    update saas_client_log
+    <set>
+      <if test="clientType != null">
+        client_type = #{clientType,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="pcMac != null">
+        pc_mac = #{pcMac,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalCode != null">
+        terminal_code = #{terminalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="logDate != null">
+        log_date = #{logDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadDate != null">
+        upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    update saas_client_log
+    set client_type = #{clientType,jdbcType=INTEGER},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      pc_mac = #{pcMac,jdbcType=VARCHAR},
+      terminal_code = #{terminalCode,jdbcType=VARCHAR},
+      log_date = #{logDate,jdbcType=TIMESTAMP},
+      upload_date = #{uploadDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.inf.pos.log.entity.POSClientLog">
+    update saas_client_log
+    set client_type = #{clientType,jdbcType=INTEGER},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      pc_mac = #{pcMac,jdbcType=VARCHAR},
+      terminal_code = #{terminalCode,jdbcType=VARCHAR},
+      log_date = #{logDate,jdbcType=TIMESTAMP},
+      upload_date = #{uploadDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <cache />
+</mapper>

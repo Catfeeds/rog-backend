@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.warehouse.dao.WarehouseAreaMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseArea">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="warehouse_id" jdbcType="BIGINT" property="warehouseId" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="temp_low_limit" jdbcType="DECIMAL" property="tempLowLimit" />
+    <result column="temp_high_limit" jdbcType="DECIMAL" property="tempHighLimit" />
+    <result column="humidity_low_limit" jdbcType="DECIMAL" property="humidityLowLimit" />
+    <result column="humidity_high_limit" jdbcType="DECIMAL" property="humidityHighLimit" />
+    <result column="acreage" jdbcType="DECIMAL" property="acreage" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="manager_id" jdbcType="BIGINT" property="managerId" />
+    <result column="manager_code" jdbcType="VARCHAR" property="managerCode" />
+    <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.basic.warehouse.vo.ResponseWarehouseAreaVO" extends="BaseResultMap">
+    <!--自定义-->
+    <result column="warehouseName" jdbcType="VARCHAR" property="warehouseName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, warehouse_id, sys_type,type, code, name, temp_low_limit, temp_high_limit,
+    humidity_low_limit, humidity_high_limit, acreage, status, remark, manager_id, manager_code,
+    manager_name,creater_id, creater_code,
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_warehouse_area
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_warehouse_area
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseArea" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_warehouse_area (id, enterprise_id, parent_id,
+      warehouse_id, sys_type,type, code,
+      name, temp_low_limit, temp_high_limit,
+      humidity_low_limit, humidity_high_limit, acreage,
+      status, remark, manager_id, manager_code,
+    manager_name,creater_id,
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT},
+      #{warehouseId,jdbcType=BIGINT},#{sysType,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{tempLowLimit,jdbcType=DECIMAL}, #{tempHighLimit,jdbcType=DECIMAL},
+      #{humidityLowLimit,jdbcType=DECIMAL}, #{humidityHighLimit,jdbcType=DECIMAL}, #{acreage,jdbcType=DECIMAL},
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{managerId,jdbcType=BIGINT},
+      #{managerCode,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT},
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseArea" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_warehouse_area
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="tempLowLimit != null">
+        temp_low_limit,
+      </if>
+      <if test="tempHighLimit != null">
+        temp_high_limit,
+      </if>
+      <if test="humidityLowLimit != null">
+        humidity_low_limit,
+      </if>
+      <if test="humidityHighLimit != null">
+        humidity_high_limit,
+      </if>
+      <if test="acreage != null">
+        acreage,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="managerId != null">
+        manager_id,
+      </if>
+      <if test="managerCode != null">
+        manager_code,
+      </if>
+      <if test="managerName != null">
+        manager_name,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tempLowLimit != null">
+        #{tempLowLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="tempHighLimit != null">
+        #{tempHighLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="humidityLowLimit != null">
+        #{humidityLowLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="humidityHighLimit != null">
+        #{humidityHighLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="acreage != null">
+        #{acreage,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="managerCode != null">
+        #{managerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null">
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseArea">
+    update saas_warehouse_area
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="tempLowLimit != null">
+        temp_low_limit = #{tempLowLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="tempHighLimit != null">
+        temp_high_limit = #{tempHighLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="humidityLowLimit != null">
+        humidity_low_limit = #{humidityLowLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="humidityHighLimit != null">
+        humidity_high_limit = #{humidityHighLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="acreage != null">
+        acreage = #{acreage,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        manager_id = #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="managerCode != null">
+        manager_code = #{managerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null">
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseArea">
+    update saas_warehouse_area
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      sys_type = #{sysType,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      temp_low_limit = #{tempLowLimit,jdbcType=DECIMAL},
+      temp_high_limit = #{tempHighLimit,jdbcType=DECIMAL},
+      humidity_low_limit = #{humidityLowLimit,jdbcType=DECIMAL},
+      humidity_high_limit = #{humidityHighLimit,jdbcType=DECIMAL},
+      acreage = #{acreage,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=BIGINT},
+      manager_code = #{managerCode,jdbcType=VARCHAR},
+      manager_name = #{managerName,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getWarehouseAreaByEnterpId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM  saas_warehouse_area WHERE enterprise_id = #{enterpriseId} and status = 1
+  </select>
+
+  <select id="getWarehouseAreaByParam" resultMap="BaseResultMapVO">
+
+    SELECT area.id, area.enterprise_id, area.parent_id, area.warehouse_id, area.sys_type,area.type, area.code, area.name,
+    area.temp_low_limit, area.temp_high_limit,
+    area.humidity_low_limit, area.humidity_high_limit, area.acreage, area.status, area.remark,area.manager_id,area.manager_name,
+    (SELECT name from saas_warehouse hu where hu.id = area.warehouse_id) as warehouseName
+    FROM saas_warehouse_area area
+    where area.enterprise_id = #{enterpriseId}
+    <if test="areaVO.status != null">
+      AND area.status = #{areaVO.status}
+    </if>
+    <if test="warehouseId != null">
+      AND area.warehouse_id = #{warehouseId}
+    </if>
+    <if test="areaVO.codeOrder == 0">
+      ORDER BY area.id desc,area.code desc
+    </if>
+    <if test=" areaVO.codeOrder == 1">
+      ORDER BY area.code
+    </if>
+
+  </select>
+
+  <select id="getWarehouseAreaByCodeName" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM
+    saas_warehouse_area
+    WHERE
+    enterprise_id = #{enterpriseId}
+    <if test="code != null">
+      and code = #{code}
+    </if>
+    <if test="name != null">
+      and
+      name = #{name}
+    </if>
+
+  </select>
+
+</mapper>

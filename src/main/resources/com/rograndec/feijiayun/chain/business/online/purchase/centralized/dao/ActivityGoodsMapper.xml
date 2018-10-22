@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.online.purchase.centralized.dao.ActivityGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.online.purchase.centralized.entity.ActivityGoods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="pinyin_code" jdbcType="VARCHAR" property="pinyinCode" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    <result column="central_purchasing_price" jdbcType="DECIMAL" property="centralPurchasingPrice" />
+    <result column="inventory_quantity" jdbcType="INTEGER" property="inventoryQuantity" />
+    <result column="picture_address" jdbcType="VARCHAR" property="pictureAddress" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="label_description" jdbcType="VARCHAR" property="labelDescription" />
+    <result column="old_purchasing_price" jdbcType="DECIMAL" property="oldPurchasingPrice" />
+    <result column="gc_id1" jdbcType="INTEGER" property="gcId1" />
+    <result column="gc_id2" jdbcType="INTEGER" property="gcId2" />
+    <result column="gc_name1" jdbcType="VARCHAR" property="gcName1" />
+    <result column="gc_name2" jdbcType="VARCHAR" property="gcName2" />
+    <result column="dosage_id" jdbcType="INTEGER" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="otc_type" jdbcType="INTEGER" property="otcType" />
+    <result column="brands" jdbcType="VARCHAR" property="brands" />
+    <result column="sub_brand" jdbcType="VARCHAR" property="subBrand" />
+    <result column="medical_insurance" jdbcType="INTEGER" property="medicalInsurance" />
+    <result column="domestic_import" jdbcType="INTEGER" property="domesticImport" />
+    <result column="restricted_quantity" jdbcType="INTEGER" property="restrictedQuantity" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="policy_price" jdbcType="DECIMAL" property="policyPrice" />
+    <result column="cost_price" jdbcType="DECIMAL" property="costPrice" />
+    <result column="can_split" jdbcType="INTEGER" property="canSplit" />
+    <result column="middle_package" jdbcType="INTEGER" property="middlePackage" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, activity_id, goods_id, goods_name, pinyin_code, specification, unit_name, manufacturer, 
+    retail_price, central_purchasing_price, inventory_quantity, picture_address, approval_number, 
+    label, label_description, old_purchasing_price, gc_id1, gc_id2, gc_name1, gc_name2, 
+    dosage_id, dosage_name, otc_type, brands, sub_brand, medical_insurance, domestic_import, 
+    restricted_quantity, level, policy_price, cost_price, can_split, middle_package, 
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_activity_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from saas_activity_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.centralized.entity.ActivityGoods">
+    insert into saas_activity_goods (id, activity_id, goods_id, 
+      goods_name, pinyin_code, specification, 
+      unit_name, manufacturer, retail_price, 
+      central_purchasing_price, inventory_quantity, 
+      picture_address, approval_number, label, 
+      label_description, old_purchasing_price, gc_id1, 
+      gc_id2, gc_name1, gc_name2, 
+      dosage_id, dosage_name, otc_type, 
+      brands, sub_brand, medical_insurance, 
+      domestic_import, restricted_quantity, level, 
+      policy_price, cost_price, can_split, 
+      middle_package, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{pinyinCode,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{unitName,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, #{retailPrice,jdbcType=DECIMAL}, 
+      #{centralPurchasingPrice,jdbcType=DECIMAL}, #{inventoryQuantity,jdbcType=INTEGER}, 
+      #{pictureAddress,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, 
+      #{labelDescription,jdbcType=VARCHAR}, #{oldPurchasingPrice,jdbcType=DECIMAL}, #{gcId1,jdbcType=INTEGER}, 
+      #{gcId2,jdbcType=INTEGER}, #{gcName1,jdbcType=VARCHAR}, #{gcName2,jdbcType=VARCHAR}, 
+      #{dosageId,jdbcType=INTEGER}, #{dosageName,jdbcType=VARCHAR}, #{otcType,jdbcType=INTEGER}, 
+      #{brands,jdbcType=VARCHAR}, #{subBrand,jdbcType=VARCHAR}, #{medicalInsurance,jdbcType=INTEGER}, 
+      #{domesticImport,jdbcType=INTEGER}, #{restrictedQuantity,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{policyPrice,jdbcType=DECIMAL}, #{costPrice,jdbcType=DECIMAL}, #{canSplit,jdbcType=INTEGER}, 
+      #{middlePackage,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.centralized.entity.ActivityGoods">
+    insert into saas_activity_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="pinyinCode != null">
+        pinyin_code,
+      </if>
+      <if test="specification != null">
+        specification,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="retailPrice != null">
+        retail_price,
+      </if>
+      <if test="centralPurchasingPrice != null">
+        central_purchasing_price,
+      </if>
+      <if test="inventoryQuantity != null">
+        inventory_quantity,
+      </if>
+      <if test="pictureAddress != null">
+        picture_address,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+      <if test="labelDescription != null">
+        label_description,
+      </if>
+      <if test="oldPurchasingPrice != null">
+        old_purchasing_price,
+      </if>
+      <if test="gcId1 != null">
+        gc_id1,
+      </if>
+      <if test="gcId2 != null">
+        gc_id2,
+      </if>
+      <if test="gcName1 != null">
+        gc_name1,
+      </if>
+      <if test="gcName2 != null">
+        gc_name2,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="otcType != null">
+        otc_type,
+      </if>
+      <if test="brands != null">
+        brands,
+      </if>
+      <if test="subBrand != null">
+        sub_brand,
+      </if>
+      <if test="medicalInsurance != null">
+        medical_insurance,
+      </if>
+      <if test="domesticImport != null">
+        domestic_import,
+      </if>
+      <if test="restrictedQuantity != null">
+        restricted_quantity,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="policyPrice != null">
+        policy_price,
+      </if>
+      <if test="costPrice != null">
+        cost_price,
+      </if>
+      <if test="canSplit != null">
+        can_split,
+      </if>
+      <if test="middlePackage != null">
+        middle_package,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyinCode != null">
+        #{pinyinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="retailPrice != null">
+        #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="centralPurchasingPrice != null">
+        #{centralPurchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryQuantity != null">
+        #{inventoryQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="pictureAddress != null">
+        #{pictureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="labelDescription != null">
+        #{labelDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPurchasingPrice != null">
+        #{oldPurchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="gcId1 != null">
+        #{gcId1,jdbcType=INTEGER},
+      </if>
+      <if test="gcId2 != null">
+        #{gcId2,jdbcType=INTEGER},
+      </if>
+      <if test="gcName1 != null">
+        #{gcName1,jdbcType=VARCHAR},
+      </if>
+      <if test="gcName2 != null">
+        #{gcName2,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=INTEGER},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="otcType != null">
+        #{otcType,jdbcType=INTEGER},
+      </if>
+      <if test="brands != null">
+        #{brands,jdbcType=VARCHAR},
+      </if>
+      <if test="subBrand != null">
+        #{subBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalInsurance != null">
+        #{medicalInsurance,jdbcType=INTEGER},
+      </if>
+      <if test="domesticImport != null">
+        #{domesticImport,jdbcType=INTEGER},
+      </if>
+      <if test="restrictedQuantity != null">
+        #{restrictedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="policyPrice != null">
+        #{policyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="costPrice != null">
+        #{costPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="canSplit != null">
+        #{canSplit,jdbcType=INTEGER},
+      </if>
+      <if test="middlePackage != null">
+        #{middlePackage,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.centralized.entity.ActivityGoods">
+    update saas_activity_goods
+    <set>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyinCode != null">
+        pinyin_code = #{pinyinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null">
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="retailPrice != null">
+        retail_price = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="centralPurchasingPrice != null">
+        central_purchasing_price = #{centralPurchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inventoryQuantity != null">
+        inventory_quantity = #{inventoryQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="pictureAddress != null">
+        picture_address = #{pictureAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        label = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="labelDescription != null">
+        label_description = #{labelDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPurchasingPrice != null">
+        old_purchasing_price = #{oldPurchasingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="gcId1 != null">
+        gc_id1 = #{gcId1,jdbcType=INTEGER},
+      </if>
+      <if test="gcId2 != null">
+        gc_id2 = #{gcId2,jdbcType=INTEGER},
+      </if>
+      <if test="gcName1 != null">
+        gc_name1 = #{gcName1,jdbcType=VARCHAR},
+      </if>
+      <if test="gcName2 != null">
+        gc_name2 = #{gcName2,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=INTEGER},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="otcType != null">
+        otc_type = #{otcType,jdbcType=INTEGER},
+      </if>
+      <if test="brands != null">
+        brands = #{brands,jdbcType=VARCHAR},
+      </if>
+      <if test="subBrand != null">
+        sub_brand = #{subBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalInsurance != null">
+        medical_insurance = #{medicalInsurance,jdbcType=INTEGER},
+      </if>
+      <if test="domesticImport != null">
+        domestic_import = #{domesticImport,jdbcType=INTEGER},
+      </if>
+      <if test="restrictedQuantity != null">
+        restricted_quantity = #{restrictedQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="policyPrice != null">
+        policy_price = #{policyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="costPrice != null">
+        cost_price = #{costPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="canSplit != null">
+        can_split = #{canSplit,jdbcType=INTEGER},
+      </if>
+      <if test="middlePackage != null">
+        middle_package = #{middlePackage,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.centralized.entity.ActivityGoods">
+    update saas_activity_goods
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      pinyin_code = #{pinyinCode,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      retail_price = #{retailPrice,jdbcType=DECIMAL},
+      central_purchasing_price = #{centralPurchasingPrice,jdbcType=DECIMAL},
+      inventory_quantity = #{inventoryQuantity,jdbcType=INTEGER},
+      picture_address = #{pictureAddress,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      label = #{label,jdbcType=VARCHAR},
+      label_description = #{labelDescription,jdbcType=VARCHAR},
+      old_purchasing_price = #{oldPurchasingPrice,jdbcType=DECIMAL},
+      gc_id1 = #{gcId1,jdbcType=INTEGER},
+      gc_id2 = #{gcId2,jdbcType=INTEGER},
+      gc_name1 = #{gcName1,jdbcType=VARCHAR},
+      gc_name2 = #{gcName2,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=INTEGER},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      otc_type = #{otcType,jdbcType=INTEGER},
+      brands = #{brands,jdbcType=VARCHAR},
+      sub_brand = #{subBrand,jdbcType=VARCHAR},
+      medical_insurance = #{medicalInsurance,jdbcType=INTEGER},
+      domestic_import = #{domesticImport,jdbcType=INTEGER},
+      restricted_quantity = #{restrictedQuantity,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      policy_price = #{policyPrice,jdbcType=DECIMAL},
+      cost_price = #{costPrice,jdbcType=DECIMAL},
+      can_split = #{canSplit,jdbcType=INTEGER},
+      middle_package = #{middlePackage,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="queryParams"  resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_activity_goods
+    where activity_id = #{id}
+    <if test="gcName1 != null">
+      and gc_name1 = #{gcName1}
+    </if>
+    <if test="gcName2 != null">
+      and gc_name2 = #{gcName2}
+    </if>
+    <if test="manufacturer != null">
+      and manufacturer = #{manufacturer}
+    </if>
+    <if test="searchValues != null">
+      AND (
+      manufacturer like concat('%', #{searchValues},'%')
+      OR goods_name like concat('%', #{searchValues},'%')
+      OR approval_number like concat('%', #{searchValues},'%')
+      )
+    </if>
+  </select>
+  <select id="selectByActivityId"  resultType="com.rograndec.feijiayun.chain.business.online.purchase.centralized.vo.SelectActivityGoodsVO">
+      select
+      activity_id AS id,
+      goods_id AS goodsId,
+      goods_name AS goodsName,
+      specification,
+      manufacturer,
+      policy_price AS policyPrice,
+      cost_price AS costPrice,
+      retail_price AS retailPrice,
+      restricted_quantity AS restrictedQuantity,
+      gc_name1 AS gcName1,
+      gc_name2 AS gcName2,
+      can_split AS canSplit,
+      middle_package AS middlePackage,
+      inventory_quantity AS inventoryQuantity,
+      picture_address AS pictureAddress
+      from saas_activity_goods
+      where activity_id = #{id}
+      <if test="gcName1 != null">
+        and gc_name1 = #{gcName1}
+      </if>
+      <if test="gcName2 != null">
+        and gc_name2 = #{gcName2}
+      </if>
+      <if test="manufacturer != null">
+        and manufacturer = #{manufacturer}
+      </if>
+      <if test="searchValues != null">
+        AND (
+        manufacturer like concat('%', #{searchValues},'%')
+        OR goods_name like concat('%', #{searchValues},'%')
+        OR approval_number like concat('%', #{searchValues},'%')
+        OR specification like concat('%', #{searchValues},'%')
+        )
+      </if>
+      order by level asc
+      limit #{start},#{pageSize}
+  </select>
+  <select id="checkRepeat"  resultType="java.lang.Integer">
+    select FIND_IN_SET(#{dataTwo},#{dataS}) from dual
+  </select>
+  <select id="selectByActivityIdAndGoodsId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_activity_goods
+    where activity_id = #{activityId}
+    AND goods_id = #{goodsId}
+  </select>
+</mapper>

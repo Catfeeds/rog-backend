@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.goodshandle.dao.GoodsDestroyMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsDestroy">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="destroy_date" jdbcType="TIMESTAMP" property="destroyDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="destroy_man_id" jdbcType="BIGINT" property="destroyManId" />
+    <result column="destroy_man_code" jdbcType="VARCHAR" property="destroyManCode" />
+    <result column="destroy_man_name" jdbcType="VARCHAR" property="destroyManName" />
+    <result column="destroy_goods" jdbcType="INTEGER" property="destroyGoods" />
+    <result column="destroy_reason" jdbcType="INTEGER" property="destroyReason" />
+    <result column="destroy_time" jdbcType="VARCHAR" property="destroyTime" />
+    <result column="destroy_mode" jdbcType="VARCHAR" property="destroyMode" />
+    <result column="destroy_unit" jdbcType="VARCHAR" property="destroyUnit" />
+    <result column="destroy_place" jdbcType="VARCHAR" property="destroyPlace" />
+    <result column="monitor" jdbcType="VARCHAR" property="monitor" />
+    <result column="second_monitor" jdbcType="VARCHAR" property="secondMonitor" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+    <resultMap id="GoodsDestroyRVO" type="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyRVO">
+     <id column="id" jdbcType="BIGINT" property="id" />
+     <result column="order_type" jdbcType="INTEGER" property="orderType" />
+     <result column="destroy_date" jdbcType="TIMESTAMP" property="destroyDate" />
+     <result column="code" jdbcType="VARCHAR" property="code" />
+     <result column="destroy_man_id" jdbcType="BIGINT" property="destroyManId" />
+     <result column="destroy_man_code" jdbcType="VARCHAR" property="destroyManCode" />
+     <result column="destroy_man_name" jdbcType="VARCHAR" property="destroyManName" />
+     <result column="destroy_goods" jdbcType="INTEGER" property="destroyGoods" />
+     <result column="destroy_reason" jdbcType="INTEGER" property="destroyReason" />
+     <result column="destroy_time" jdbcType="VARCHAR" property="destroyTime" />
+     <result column="destroy_mode" jdbcType="VARCHAR" property="destroyMode" />
+     <result column="destroy_unit" jdbcType="VARCHAR" property="destroyUnit" /> 
+     <result column="destroy_place" jdbcType="VARCHAR" property="destroyPlace" />
+     <result column="monitor" jdbcType="VARCHAR" property="monitor" />
+     <result column="second_monitor" jdbcType="VARCHAR" property="secondMonitor" />
+     <result column="quantity_total" jdbcType="BIGINT" property="quantityTotal" />
+     <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+     <result column="status" jdbcType="INTEGER" property="status" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <collection property="goodsDestroyDetailRVOList" ofType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyDetailRVO">
+     <id column="detail_id" jdbcType="BIGINT" property="id" />
+     <result column="detail_destroy_id" jdbcType="BIGINT" property="destroyId" />
+     <result column="detail_order_type" jdbcType="INTEGER" property="orderType" />
+     <result column="detail_destroy_code" jdbcType="VARCHAR" property="destroyCode" />
+     <result column="detail_destroy_date" jdbcType="TIMESTAMP" property="destroyDate" />
+     <result column="detail_goods_id" jdbcType="BIGINT" property="goodsId" />
+     <result column="detail_goods_code" jdbcType="VARCHAR" property="goodsCode" />
+     <result column="detail_barcode" jdbcType="VARCHAR" property="barcode" />
+     <result column="detail_goods_name" jdbcType="VARCHAR" property="goodsName" />
+     <result column="detail_goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+     <result column="detail_dosage_id" jdbcType="BIGINT" property="dosageId" />
+     <result column="detail_dosage_name" jdbcType="VARCHAR" property="dosageName" />
+     <result column="detail_unit_id" jdbcType="BIGINT" property="unitId" />
+     <result column="detail_unit_name" jdbcType="VARCHAR" property="unitName" />
+     <result column="detail_goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+     <result column="detail_manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+     <result column="detail_manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+     <result column="detail_goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+     <result column="detail_approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+     <result column="detail_quantity" jdbcType="BIGINT" property="quantity" />
+     <result column="detail_line_num" jdbcType="INTEGER" property="lineNum" />
+     <result column="detail_status" jdbcType="INTEGER" property="status" />
+     <result column="detail_remark" jdbcType="VARCHAR" property="remark" />
+     <collection property="goodsDestroyShelfRVOList" ofType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyShelfRVO">
+     <id column="shelf_id" jdbcType="BIGINT" property="id" />
+     <result column="shelf_dtl_id" jdbcType="BIGINT" property="dtlId" />
+     <result column="shelf_destroy_id" jdbcType="BIGINT" property="destroyId" />
+     <result column="shelf_goods_id" jdbcType="BIGINT" property="goodsId" />
+     <result column="shelf_lot_id" jdbcType="BIGINT" property="lotId" />
+     <result column="shelf_lot_number" jdbcType="VARCHAR" property="lotNumber" />
+     <result column="shelf_product_date" jdbcType="TIMESTAMP" property="productDate" />
+     <result column="shelf_valid_date" jdbcType="TIMESTAMP" property="validDate" />
+     <result column="shelf_shelf_id" jdbcType="BIGINT" property="shelfId" />
+     <result column="shelf_shelf_name" jdbcType="VARCHAR" property="shelfName" />
+     <result column="shelf_shelf_status_desc" jdbcType="BIGINT" property="shelfStatusDesc" />
+     <result column="shelf_quantity" jdbcType="VARCHAR" property="quantity" />
+     <result column="shelf_line_num" jdbcType="INTEGER" property="lineNum" />
+     <result column="shelf_status" jdbcType="INTEGER" property="status" />
+     <result column="shelf_remark" jdbcType="VARCHAR" property="remark" />
+     </collection>
+    </collection>
+  </resultMap>
+   <select id="selectById" parameterType="java.lang.Long" resultMap="GoodsDestroyRVO">
+    select 
+    destroy.id,destroy.order_type,destroy.destroy_date,destroy.code,
+    destroy.destroy_man_id,destroy.destroy_man_code,destroy.destroy_man_name,
+    destroy.destroy_goods,destroy.destroy_reason,destroy.destroy_time,destroy.destroy_mode,
+    destroy.destroy_unit,destroy.destroy_place,destroy.monitor,destroy.second_monitor,
+    destroy.quantity_total,destroy.varieties_quantity,destroy.status,destroy.remark,
+   detail.id as detail_id,detail.destroy_id as detail_destroy_id,detail.order_type as detail_order_type,
+   detail.destroy_code as detail_destroy_code,detail.destroy_date as detail_destroy_date,
+   detail.goods_id as detail_goods_id,detail.goods_code as detail_goods_code,detail.barcode as detail_barcode,
+   detail.goods_name as detail_goods_name,detail.goods_generic_name as detail_goods_generic_name,
+   detail.dosage_id as detail_dosage_id,detail.dosage_name as detail_dosage_name,
+   detail.unit_id as detail_unit_id,detail.unit_name as detail_unit_name,
+   detail.goods_specification as detail_goods_specification,
+   detail.manufacturer_id as detail_manufacturer_id,detail.manufacturer as detail_manufacturer,
+   detail.goods_place as detail_goods_place,detail.approval_number as detail_approval_number,
+   detail.quantity as detail_quantity,detail.line_num as detail_line_num,
+   detail.status as detail_status,detail.remark as detail_remark,
+   shelf.id as shelf_id,
+   shelf.dtl_id as shelf_dtl_id,shelf.destroy_id as shelf_destroy_id,
+   shelf.goods_id as shelf_goods_id,shelf.lot_id as shelf_lot_id,
+   shelf.shelf_status_desc as shelf_shelf_status_desc,
+   shelf.lot_number as shelf_lot_number,shelf.product_date as shelf_product_date,
+   shelf.valid_date as shelf_valid_date,
+   shelf.shelf_id as shelf_shelf_id,shelf.shelf_name as shelf_shelf_name,
+   shelf.line_num as shelf_line_num,shelf.remark as shelf_remark,
+   shelf.quantity as shelf_quantity,shelf.status as shelf_status
+   from saas_goods_destroy destroy
+   LEFT JOIN saas_goods_destroy_detail detail ON detail.destroy_id = destroy.id
+   LEFT JOIN saas_goods_destroy_shelf shelf ON shelf.dtl_id = detail.id
+   where destroy.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectGoodsDestroyList" parameterType="java.util.Map" resultMap="GoodsDestroyRVO">
+    select
+    <include refid="Base_Column_List" />
+    from saas_goods_destroy
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+
+    <if test="destroyManName != null">
+    	and destroy_man_name = #{destroyManName,jdbcType=VARCHAR}
+    </if>
+    <if test="destroyGoods != null">
+    	and destroy_goods = #{destroyGoods,jdbcType=VARCHAR}
+    </if>
+    <if test="destroyReason != null">
+        and destroy_reason = #{destroyReason,jdbcType=INTEGER}
+    </if>
+     <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+	<if test="startDate != null" > 
+	    and destroy_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null" > 
+	    and destroy_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+	<choose>
+        <when test="sortField != null and sort != null">
+             order by ${sortField}  ${sort}
+        </when>
+        <otherwise>
+            order by destroy_date desc,code desc
+        </otherwise>
+    </choose>
+	    limit ${pageNo},${pageSize}
+  </select>
+  
+   <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_goods_destroy
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="destroyManName != null">
+    	and destroy_man_name = #{destroyManName,jdbcType=VARCHAR}
+    </if>
+    <if test="destroyGoods != null">
+    	and destroy_goods = #{destroyGoods,jdbcType=VARCHAR}
+    </if>
+    <if test="destroyReason != null">
+        and destroy_reason = #{destroyReason,jdbcType=INTEGER}
+    </if>
+    <if test="status != null">
+        and status = #{status,jdbcType=INTEGER}
+    </if>
+	<if test="startDate != null" > 
+	    and destroy_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null" > 
+	    and destroy_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+  </select>
+  
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, destroy_date, code, destroy_man_id, destroy_man_code, 
+    destroy_man_name, destroy_goods, destroy_reason, destroy_time, destroy_mode, destroy_unit, 
+    destroy_place, monitor, second_monitor, quantity_total, varieties_quantity, status, 
+    remark,amount_total,notax_amount_total,tax_amount_total, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code,
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_destroy
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_destroy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsDestroy" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_goods_destroy (id, enterprise_id, parent_id, 
+      order_type, destroy_date, code, 
+      destroy_man_id, destroy_man_code, destroy_man_name, 
+      destroy_goods, destroy_reason, destroy_time, 
+      destroy_mode, destroy_unit, destroy_place, 
+      monitor, second_monitor, quantity_total, 
+      varieties_quantity, status, remark, amount_total,notax_amount_total,tax_amount_total,
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{destroyDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{destroyManId,jdbcType=BIGINT}, #{destroyManCode,jdbcType=VARCHAR}, #{destroyManName,jdbcType=VARCHAR}, 
+      #{destroyGoods,jdbcType=INTEGER}, #{destroyReason,jdbcType=INTEGER}, #{destroyTime,jdbcType=VARCHAR}, 
+      #{destroyMode,jdbcType=VARCHAR}, #{destroyUnit,jdbcType=VARCHAR}, #{destroyPlace,jdbcType=VARCHAR}, 
+      #{monitor,jdbcType=VARCHAR}, #{secondMonitor,jdbcType=VARCHAR}, #{quantityTotal,jdbcType=DECIMAL}, 
+      #{varietiesQuantity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{amountTotal,jdbcType=DECIMAL}, #{notaxAmountTotal,jdbcType=DECIMAL}, #{taxAmountTotal,jdbcType=DECIMAL},
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsDestroy">
+    insert into saas_goods_destroy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="destroyDate != null">
+        destroy_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="destroyManId != null">
+        destroy_man_id,
+      </if>
+      <if test="destroyManCode != null">
+        destroy_man_code,
+      </if>
+      <if test="destroyManName != null">
+        destroy_man_name,
+      </if>
+      <if test="destroyGoods != null">
+        destroy_goods,
+      </if>
+      <if test="destroyReason != null">
+        destroy_reason,
+      </if>
+      <if test="destroyTime != null">
+        destroy_time,
+      </if>
+      <if test="destroyMode != null">
+        destroy_mode,
+      </if>
+      <if test="destroyUnit != null">
+        destroy_unit,
+      </if>
+      <if test="destroyPlace != null">
+        destroy_place,
+      </if>
+      <if test="monitor != null">
+        monitor,
+      </if>
+      <if test="secondMonitor != null">
+        second_monitor,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="destroyDate != null">
+        #{destroyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyManId != null">
+        #{destroyManId,jdbcType=BIGINT},
+      </if>
+      <if test="destroyManCode != null">
+        #{destroyManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyManName != null">
+        #{destroyManName,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyGoods != null">
+        #{destroyGoods,jdbcType=INTEGER},
+      </if>
+      <if test="destroyReason != null">
+        #{destroyReason,jdbcType=INTEGER},
+      </if>
+      <if test="destroyTime != null">
+        #{destroyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyMode != null">
+        #{destroyMode,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyUnit != null">
+        #{destroyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyPlace != null">
+        #{destroyPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="monitor != null">
+        #{monitor,jdbcType=VARCHAR},
+      </if>
+      <if test="secondMonitor != null">
+        #{secondMonitor,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+        <if test="amountTotal != null">
+            #{amountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="notaxAmountTotal != null">
+            #{notaxAmountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="taxAmountTotal != null">
+            #{taxAmountTotal,jdbcType=DECIMAL},
+        </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsDestroy">
+    update saas_goods_destroy
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="destroyDate != null">
+        destroy_date = #{destroyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyManId != null">
+        destroy_man_id = #{destroyManId,jdbcType=BIGINT},
+      </if>
+      <if test="destroyManCode != null">
+        destroy_man_code = #{destroyManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyManName != null">
+        destroy_man_name = #{destroyManName,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyGoods != null">
+        destroy_goods = #{destroyGoods,jdbcType=INTEGER},
+      </if>
+      <if test="destroyReason != null">
+        destroy_reason = #{destroyReason,jdbcType=INTEGER},
+      </if>
+      <if test="destroyTime != null">
+        destroy_time = #{destroyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyMode != null">
+        destroy_mode = #{destroyMode,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyUnit != null">
+        destroy_unit = #{destroyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="destroyPlace != null">
+        destroy_place = #{destroyPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="monitor != null">
+        monitor = #{monitor,jdbcType=VARCHAR},
+      </if>
+      <if test="secondMonitor != null">
+        second_monitor = #{secondMonitor,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+        <if test="amountTotal != null">
+            amount_total = #{amountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="notaxAmountTotal != null">
+            notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="taxAmountTotal != null">
+            tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+        </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsDestroy">
+    update saas_goods_destroy
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      destroy_date = #{destroyDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      destroy_man_id = #{destroyManId,jdbcType=BIGINT},
+      destroy_man_code = #{destroyManCode,jdbcType=VARCHAR},
+      destroy_man_name = #{destroyManName,jdbcType=VARCHAR},
+      destroy_goods = #{destroyGoods,jdbcType=INTEGER},
+      destroy_reason = #{destroyReason,jdbcType=INTEGER},
+      destroy_time = #{destroyTime,jdbcType=VARCHAR},
+      destroy_mode = #{destroyMode,jdbcType=VARCHAR},
+      destroy_unit = #{destroyUnit,jdbcType=VARCHAR},
+      destroy_place = #{destroyPlace,jdbcType=VARCHAR},
+      monitor = #{monitor,jdbcType=VARCHAR},
+      second_monitor = #{secondMonitor,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查询用户信息 -->
+  <select id="selectUserList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.UserDestroyVO">
+	  	SELECT user.id,user.name FROM saas_user user LEFT JOIN saas_user_personal person ON user.id=person.user_id where user.enterprise_id = #{enterpriseId}
+  </select>
+  <!-- 查询商品信息 
+    <select id="selectGoodsList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyVO">
+       SELECT goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        shelf.id as shelfId,shelf.name as shelfName,
+	stock.quantity as quantity,stock.usable_quantity as usableQuantity,
+	case   
+        when  area.job_area = 0 then '合格'  
+        when  area.job_area = 1 then '待处理'  
+        when  area.job_area = 2 then '不合格'  
+        else '其他'  
+        end as shelfStatusDesc,
+        lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validDate
+        FROM saas_goods goods 
+        RIGHT JOIN saas_stock stock ON goods.id=stock.goods_id and stock.enterprise_id=#{enterpriseId}
+        LEFT JOIN saas_lot_number lot ON stock.lot_id = lot.id and lot.enterprise_id=#{enterpriseId}
+        LEFT JOIN saas_warehouse_shelf shelf ON shelf.id=stock.shelf_id and shelf.enterprise_id=#{enterpriseId}
+        LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId}  
+        where goods.enterprise_id=#{parentId}  
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+        and stock.usable_quantity &gt; 0
+        <if test="param != null">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	    </if>
+	    <if test="specialDrug == 1">
+	    and goods.special_drug in(0,1,2,3)
+	    </if>
+	    <if test="jobArea !=null and jobArea != ''">
+	    and area.job_area = #{jobArea}
+	    </if>
+   </select>-->
+   <!-- 查询商品信息加上了加盟店的逻辑 -->
+   <select id="selectGoodsList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyVO">
+       SELECT goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.barcode as barcode,
+        shelf.id as shelfId,shelf.name as shelfName,
+	stock.quantity as quantity,stock.usable_quantity as usableQuantity,
+	case   
+        when  area.job_area = 0 then '合格'  
+        when  area.job_area = 1 then '待处理'  
+        when  area.job_area = 2 then '不合格'  
+        else '其他'  
+        end as shelfStatusDesc,
+        lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validDate
+        FROM  saas_stock stock
+        LEFT JOIN saas_goods goods ON goods.id=stock.goods_id
+        LEFT JOIN saas_lot_number lot ON stock.lot_id = lot.id
+        LEFT JOIN saas_warehouse_shelf shelf ON shelf.id=stock.shelf_id
+        LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id
+        where stock.enterprise_id=#{enterpriseId}  
+        and goods.approve_status = 1 and goods.status = 1 and goods.valid_flag = 1
+        and stock.usable_quantity &gt; 0
+        <if test="param != null">
+	    and (goods.name like concat('%', #{param},'%') or goods.code like concat('%', #{param},'%') or goods.generic_name like concat('%', #{param},'%') or goods.barcode like concat('%', #{param},'%') or goods.approval_number like concat('%', #{param},'%'))
+	    </if>
+	    <if test="specialDrug == 1">
+	    and goods.special_drug in(0,1,2,3)
+	    </if>
+	    <if test="jobArea !=null and jobArea != ''">
+	    and area.job_area = #{jobArea}
+	    </if>
+   </select>
+   <select id="selectGoods" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.GoodsDestroyVO">
+       SELECT goods.id as goodsId,goods.code as goodsCode,goods.name as goodsName,goods.generic_name as goodsGenericName,
+        goods.dosage_name as dosageName,goods.dosage_id as dosageId,goods.unit_id as unitId,goods.unit_name as unitName,
+        goods.specification as goodsSpecification,goods.manufacturer_id as manufacturerId,goods.manufacturer as manufacturer,
+        goods.place as goodsPlace,goods.approval_number as approvalNumber,goods.valid_until as validDate,goods.barcode as barcode,
+        shelf.id as shelfId,shelf.name as shelfName,
+	stock.quantity as quantity,stock.usable_quantity as usableQuantity,
+	case   
+        when  area.job_area = 0 then '合格'  
+        when  area.job_area = 1 then '待处理'  
+        when  area.job_area = 2 then '不合格'  
+        else '其他'  
+        end as shelfStatusDesc,
+         lot.id as lotId,lot.lot_num as lotNum,lot.product_date as productDate,lot.valid_until as validDate
+        FROM saas_goods goods 
+        RIGHT JOIN saas_stock stock ON goods.id=stock.goods_id
+        LEFT JOIN saas_lot_number lot ON stock.lot_id = lot.id
+        LEFT JOIN saas_warehouse_shelf shelf ON shelf.id=stock.shelf_id 
+        LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id  
+        where 1 = 1
+        <if test="goodsId != null">
+	    and goods.id=#{goodsId}
+	    </if>
+   </select>
+   <select id="selectStockList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.StockDestroyVO">
+	  	SELECT shelf.id as shelfId,shelf.name as shelfName,
+	  	stock.quantity as quantity,stock.usable_quantity as usableQuantity,
+        stock.lock_quantity  as lockQuantity,
+	  	case   
+        when  area.job_area = 0 then '合格'  
+        when  area.job_area = 1 then '待处理'  
+        when  area.job_area = 2 then '不合格'  
+        else '其他'  
+        end as shelfStatusDesc,
+        lot.id as lotId,lot.lot_num as lotNumber,lot.product_date as productDate,lot.valid_until as validDate
+        FROM saas_stock stock 
+	  	LEFT JOIN saas_warehouse_shelf shelf ON shelf.id=stock.shelf_id and shelf.enterprise_id=#{enterpriseId}
+	  	LEFT JOIN saas_warehouse_cargo_area area ON area.id=shelf.cargo_area_id and area.enterprise_id=#{enterpriseId}
+	<!--   	LEFT JOIN saas_lot_number lot on stock.goods_id=lot.goods_id  -->
+	    LEFT JOIN saas_lot_number lot on stock.lot_id=lot.id and lot.enterprise_id=#{enterpriseId}
+	  	where 
+	  	stock.goods_id = #{goodsId} 
+	    and stock.lot_id = #{lotId}
+	  	and stock.enterprise_id=#{enterpriseId}
+	    and stock.usable_quantity &gt; 0
+	  	<if test="jobArea !=null  ">
+	    and area.job_area = #{jobArea}
+	    </if>
+  </select>
+</mapper>

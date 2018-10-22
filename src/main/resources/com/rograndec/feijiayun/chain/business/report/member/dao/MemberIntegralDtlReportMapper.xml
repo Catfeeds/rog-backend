@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.member.dao.MemberIntegralDtlReportMapper">
+  
+  <!-- 查询条件 -->
+  <sql id="whereSql">
+		  <if test="parentId != null and parentId != 0">
+			and smi.`enterprise_id` = #{enterpriseId} 
+		  </if>
+		  <if test="parentId == null or parentId == 0">
+			and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+		  </if>
+		  <if test="param != null and param != ''">
+	        and (
+	        INSTR(smi.card_code,#{param})
+	        or  INSTR(smi.member_name,#{param})
+	        or  INSTR(smi.mobile_phone,#{param})
+	        )
+	      </if>
+		  <if test="chainType != null">
+			and sep.chain_type=#{chainType}
+		  </if>
+		  <if test="enterpriseCode != null and enterpriseCode != ''">
+			and sep.code=#{enterpriseCode}
+		  </if>
+		  <if test="enterpriseName != null and enterpriseName != ''">
+			and sep.name=#{enterpriseName}
+		  </if>
+		  <!-- 如果销售日期不为空则只检索销售单数据 -->
+		  <if test="startTime != null or endTime != null">
+			and sir.change_type in (5,6)
+		  </if>  	
+  </sql>
+  
+  <!-- 会员积分明细 -->
+  <select id="getIntegralDtl" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralDtlVO">
+	SELECT
+	smi.card_code AS cardCode,
+	smi.member_name AS memberName,
+	smi.mobile_phone AS mobilePhone,
+	DATE_FORMAT(sir.base_order_date, '%Y-%m-%d') AS showDate,
+	CASE WHEN sir.change_type=0 THEN '增加积分'
+	WHEN sir.change_type=1 THEN '减少积分'
+	WHEN sir.change_type=3 THEN '积分清零'
+	WHEN sir.change_type=4 THEN '开卡'
+	WHEN sir.change_type=5 THEN '销售付款'
+	WHEN sir.change_type=6 THEN '销退收款'
+	END AS changeType,
+	sir.base_order_code AS showCode,
+	sir.creater_name AS createrName,
+	sep.`code` AS enterpriseCode,
+	sep.`name` AS enterpriseName,
+	sir.change_integral AS changeIntegral,
+	sir.new_current_integral AS currentIntegral
+	FROM
+	saas_member_info smi
+	JOIN saas_integral_record sir
+	ON smi.id = sir.`member_id`
+	JOIN saas_enterprise sep
+	ON smi.`enterprise_id` = sep.id
+	WHERE 1=1
+	<include refid="whereSql"></include>
+    <if test="startTime != null">
+    	and DATE_FORMAT(sir.base_order_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sir.base_order_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+
+    <if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY ${order} ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY cardCode asc
+    </if>
+	<if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  
+  <select id="countIntegralDtl" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="java.lang.Integer">
+	SELECT
+	count(1)
+	FROM
+	saas_member_info smi
+	JOIN saas_integral_record sir
+	ON smi.id = sir.`member_id`
+	JOIN saas_enterprise sep
+	ON smi.`enterprise_id` = sep.id
+	WHERE 1=1
+	<include refid="whereSql"></include>
+    <if test="startTime != null">
+    	and DATE_FORMAT(sir.base_order_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sir.base_order_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+	
+  </select>
+  
+  
+  
+</mapper>

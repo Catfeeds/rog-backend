@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.account.dao.AgingYFReportMapper">
+
+	<!-- 查询条件 -->
+	<sql id="whereSql">
+		where 1=1
+		and status != 3
+		and unclear_amount_total != 0
+		<!-- and finance_account_type = 3 -->
+		<!-- 总部/加盟店只看自己的数据 -->
+		<if test="enterpriseId != null">
+			and enterprise_id = #{enterpriseId}
+		</if>
+		<if test="companyCode != null">
+			and INSTR(supplier_code,#{companyCode})
+		</if>
+		<if test="companyName != null">
+			and INSTR(supplier_name,#{companyName})
+		</if>
+	</sql>
+	
+	<sql id="andBillDate">
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(bill_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</sql>
+	
+	<sql id="andPostDate">
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(post_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</sql>
+	
+	<!-- 期初应付数据 -->
+	<sql id="qcSql">
+		SELECT
+		dtl.id,
+		dtl.supplier_id,
+		dtl.supplier_code AS supplierCode,
+		dtl.supplier_name AS supplierName,
+		op.payment_date AS orderDate,
+		op.order_type AS orderType,
+		op.CODE AS orderCode,
+		-dtl.amount AS orderAmountTotal,
+		-dtl.clear_amount AS clearAmountTotal,
+		-dtl.unclear_amount AS unclearAmountTotal
+		FROM
+		saas_opening_payment_detail dtl
+		JOIN saas_opening_payment op
+		ON dtl.payment_id = op.id
+		WHERE 1=1
+		and dtl.unclear_amount != 0
+		AND dtl.enterprise_id =#{enterpriseId}
+		<if test="companyCode != null">
+			and INSTR(dtl.supplier_code,#{companyCode})
+		</if>
+		<if test="companyName != null">
+			and INSTR(dtl.supplier_name,#{companyName})
+		</if>
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(op.payment_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</sql>
+	
+	<!-- 主sql -->
+	<sql id="selectSql">
+		SELECT * FROM
+		(
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		bill_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_prepay_invoice  
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL 
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		bill_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_payment_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		post_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_payment_voucher 
+		<include refid="whereSql"></include>
+		<include refid="andPostDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(<include refid="qcSql"></include>)
+		)
+		tab
+		
+		UNION ALL
+		
+		SELECT 
+		id,
+		supplier_id,
+		supplierCode,
+		supplierName,
+		'合计' AS orderDate,
+		'' AS orderType,
+		'' AS orderCode,
+		SUM(orderAmountTotal) AS orderAmountTotal,
+		SUM(clearAmountTotal) AS clearAmountTotal,
+		SUM(unclearAmountTotal) AS unclearAmountTotal
+		FROM
+		(
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		bill_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_prepay_invoice  
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL 
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		bill_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_payment_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT 
+		id,
+		supplier_id,
+		supplier_code AS supplierCode,
+		supplier_name AS supplierName,
+		post_date AS orderDate,
+		order_type AS orderType,
+		CODE AS orderCode,
+		amount_total AS orderAmountTotal,
+		clear_amount_total AS clearAmountTotal,
+		unclear_amount_total AS unclearAmountTotal
+		FROM saas_payment_voucher 
+		<include refid="whereSql"></include>
+		<include refid="andPostDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(<include refid="qcSql"></include>)
+		)tab 
+		GROUP BY supplier_id 
+	</sql>
+	
+	
+	<!-- 期初应付数据 -->
+	<sql id="countqcSql">
+		SELECT
+		dtl.id,
+		dtl.supplier_id
+		FROM
+		saas_opening_payment_detail dtl
+		JOIN saas_opening_payment op
+		ON dtl.payment_id = op.id
+		WHERE 1=1
+		and dtl.unclear_amount != 0
+		AND dtl.enterprise_id =#{enterpriseId}
+		<if test="companyCode != null">
+			and INSTR(dtl.supplier_code,#{companyCode})
+		</if>
+		<if test="companyName != null">
+			and INSTR(dtl.supplier_name,#{companyName})
+		</if>
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(op.payment_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+	</sql>
+	
+	<sql id="countSql">
+		SELECT id FROM
+		(
+		(SELECT
+		id,
+        supplier_id 
+		FROM saas_prepay_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT
+		id,
+        supplier_id 
+		FROM saas_payment_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT
+		id,
+        supplier_id 
+		FROM saas_payment_voucher
+		<include refid="whereSql"></include>
+		<include refid="andPostDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(<include refid="countqcSql"></include>)
+		)
+		tab
+	
+		UNION ALL
+	
+		SELECT
+		id
+		FROM
+		(
+		(SELECT
+		id,
+		supplier_id
+		FROM saas_prepay_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT
+		id,
+		supplier_id
+		FROM saas_payment_invoice
+		<include refid="whereSql"></include>
+		<include refid="andBillDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(SELECT
+		id,
+		supplier_id
+		FROM saas_payment_voucher
+		<include refid="whereSql"></include>
+		<include refid="andPostDate"></include>
+		ORDER BY id ASC)
+		UNION ALL
+		(<include refid="countqcSql"></include>)
+		)tab
+		GROUP BY supplier_id 
+	</sql>
+	
+	<select id="getAgingYFDtl" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AgingVO">
+		SELECT 
+		*
+		FROM
+		(
+		<include refid="selectSql"></include>
+		)tt
+		ORDER BY supplierCode,orderDate ASC
+		<if test="start != null">
+	      limit #{start},#{pageSize}
+	    </if>
+	</select>
+
+	<select id="countAgingYFDtl" resultType="java.lang.Integer">
+		SELECT 
+		count(1)
+		FROM
+		(
+		<include refid="countSql"></include>
+		)tt
+	</select>
+
+
+</mapper>

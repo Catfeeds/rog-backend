@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.keytable.dao.StockLockRecordMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.keytable.entity.StockLockRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="lot_id" jdbcType="BIGINT" property="lotId" />
+    <result column="lot_num" jdbcType="VARCHAR" property="lotNum" />
+    <result column="lock_quantity" jdbcType="DECIMAL" property="lockQuantity" />
+    <result column="shelf_id" jdbcType="BIGINT" property="shelfId" />
+    <result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, base_order_id, base_order_type, base_order_code, base_order_date, 
+    goods_id, goods_code, goods_name, lot_id, lot_num, lock_quantity, shelf_id, shelf_name, 
+    creater_id, creater_code, creater_name, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_stock_lock_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_stock_lock_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.keytable.entity.StockLockRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_stock_lock_record (id, enterprise_id, parent_id, 
+      base_order_id, base_order_type, base_order_code, 
+      base_order_date, goods_id, goods_code, 
+      goods_name, lot_id, lot_num, 
+      lock_quantity, shelf_id, shelf_name, 
+      creater_id, creater_code, creater_name, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{baseOrderId,jdbcType=BIGINT}, #{baseOrderType,jdbcType=INTEGER}, #{baseOrderCode,jdbcType=VARCHAR}, 
+      #{baseOrderDate,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{lotId,jdbcType=BIGINT}, #{lotNum,jdbcType=VARCHAR}, 
+      #{lockQuantity,jdbcType=DECIMAL}, #{shelfId,jdbcType=BIGINT}, #{shelfName,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.keytable.entity.StockLockRecord" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_stock_lock_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="lotId != null">
+        lot_id,
+      </if>
+      <if test="lotNum != null">
+        lot_num,
+      </if>
+      <if test="lockQuantity != null">
+        lock_quantity,
+      </if>
+      <if test="shelfId != null">
+        shelf_id,
+      </if>
+      <if test="shelfName != null">
+        shelf_name,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null">
+        #{lotId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNum != null">
+        #{lotNum,jdbcType=VARCHAR},
+      </if>
+      <if test="lockQuantity != null">
+        #{lockQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfId != null">
+        #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.keytable.entity.StockLockRecord">
+    update saas_stock_lock_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null">
+        lot_id = #{lotId,jdbcType=BIGINT},
+      </if>
+      <if test="lotNum != null">
+        lot_num = #{lotNum,jdbcType=VARCHAR},
+      </if>
+      <if test="lockQuantity != null">
+        lock_quantity = #{lockQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfId != null">
+        shelf_id = #{shelfId,jdbcType=BIGINT},
+      </if>
+      <if test="shelfName != null">
+        shelf_name = #{shelfName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.keytable.entity.StockLockRecord">
+    update saas_stock_lock_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      lot_id = #{lotId,jdbcType=BIGINT},
+      lot_num = #{lotNum,jdbcType=VARCHAR},
+      lock_quantity = #{lockQuantity,jdbcType=DECIMAL},
+      shelf_id = #{shelfId,jdbcType=BIGINT},
+      shelf_name = #{shelfName,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByParamMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from saas_stock_lock_record
+    <where>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      </if>
+      <if test="parentId != null">
+        AND parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderId != null">
+        AND base_order_id = #{baseOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderType != null">
+        AND base_order_type = #{baseOrderType,jdbcType=INTEGER}
+      </if>
+      <if test="goodsId != null">
+        AND goods_id = #{goodsId,jdbcType=BIGINT}
+      </if>
+      <if test="lotId != null">
+        AND lot_id = #{lotId,jdbcType=BIGINT}
+      </if>
+      <if test="shelfId != null">
+        AND shelf_id = #{shelfId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectStockLok" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.keytable.vo.StockLockRecordVO">
+    SELECT
+      sslr.id AS stockLockRecordId,
+      sslr.goods_id AS goodsId,
+      sslr.goods_code AS goodsCode,
+      sslr.goods_name AS goodsName,
+      lon.product_date AS productDate,
+      lon.valid_until AS validDate,
+      sslr.lot_id AS lotId,
+      sslr.lot_num AS lotNum,
+      sslr.shelf_id AS shelfId,
+      sslr.shelf_name AS shelfName,
+      SUM(sslr.lock_quantity) AS usableQuantity,
+      ss.quantity AS quantity,
+      ss.shelf_status_desc AS shelfStatusDesc
+    FROM
+      saas_stock_lock_record sslr ,
+      saas_lot_number lon,
+      saas_stock ss
+    where sslr.lot_id=lon.id AND ss.shelf_id=sslr.shelf_id AND ss.lot_id = sslr.lot_id AND ss.goods_id=sslr.goods_id AND
+    ss.inventory_status=0
+      <if test="enterpriseId != null">
+        AND sslr.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+        AND lon.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+        AND ss.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+      </if>
+      <if test="goodsId != null">
+        AND sslr.goods_id = #{goodsId,jdbcType=BIGINT}
+      </if>
+      <if test="lotNum != null">
+        AND sslr.lot_num = #{lotNum,jdbcType=VARCHAR}
+      </if>
+      <if test="baseOrderId != null">
+        AND sslr.base_order_id = #{baseOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="list != null">
+        AND sslr.lot_id  in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
+      GROUP BY sslr.goods_id,sslr.lot_id,sslr.shelf_id ,sslr.enterprise_id
+      order by lon.valid_until asc , lon.id asc
+  </select>
+
+
+    <select id="selectFatherStockOccupy"
+            resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockOccupyPageVO">
+      /**
+        占用库存（总部）--购进退出 + 配货单[通过企业ID + 货位ID + 商品ID + 批号ID 以及所属状态确定一条展示记录]
+       */
+      SELECT
+
+      aa.enterPriseId,
+      aa.parentId,
+      aa.enterpriseCode,
+      aa.enterpriseName,
+      aa.goodsId,
+      aa.goodsCode,
+      aa.barcode,
+      aa.pinyinCode,
+      aa.goodsName,
+      aa.goodsGenericName,
+      aa.approvalNumber,
+      aa.dosageName,
+      aa.goodsSpecification,
+      aa.unitName,
+      aa.manufacturer,
+      aa.goodsPlace,
+      aa.lotId,
+      aa.lotNum,
+      aa.productDate,
+      aa.validUntil,
+      aa.shelfId,
+      aa.shelfName
+
+      from
+        (SELECT
+              DISTINCT e.id as enterPriseId,
+              e.parent_id as parentId,
+              e.code as enterpriseCode,
+              e.name as enterpriseName,
+              g.id as goodsId,
+              g.code as goodsCode,
+              g.barcode as barcode,
+              g.pinyin_code as pinyinCode,
+              g.name as goodsName,
+              g.generic_name as goodsGenericName,
+              g.approval_number as approvalNumber,
+              g.dosage_name as dosageName,
+              g.specification as goodsSpecification,
+              g.unit_name as unitName,
+              g.manufacturer as manufacturer,
+              g.place as goodsPlace,
+              l.id as lotId,
+              l.lot_num as lotNum,
+              l.product_date as productDate,
+              l.valid_until as validUntil,
+              s.id as shelfId,
+              s.name as shelfName
+              FROM saas_stock_lock_record r,saas_enterprise e,saas_goods g,saas_lot_number l,saas_warehouse_shelf s
+              where r.enterprise_id = e.id and e.chain_type!=2
+              AND r.goods_id = g.id
+              AND r.lot_id = l.id
+              AND r.shelf_id = s.id
+        ) as aa
+        WHERE (aa.enterPriseId = #{loginEnterpriseId} or aa.parentId = #{loginEnterpriseId})
+      <if test="param != null and param != ''">
+        and (
+        INSTR(aa.goodsName,#{param})
+        or INSTR(aa.goodsCode,#{param})
+        or INSTR(aa.pinyinCode,#{param})
+        or INSTR(aa.approvalNumber,#{param})
+        or INSTR(aa.barcode,#{param})
+        or INSTR(aa.goodsGenericName,#{param}))
+      </if>
+      <if test="enterpriseId != null">
+        and aa.enterPriseId = #{enterpriseId}
+      </if>
+      <choose>
+        <when test="order != null and sort != null">
+          order by aa.${order} ${sort}
+        </when>
+        <otherwise>
+          order by goodsId desc
+        </otherwise>
+      </choose>
+      <if test="start != null and pageSize != null">
+        limit #{start},#{pageSize}
+      </if>
+    </select>
+  <select id="selectSonStockOccupy"
+          resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockOccupyPageVO">
+     /**
+        占用库存（分部）--配进退出
+      */
+    SELECT
+
+    aa.enterPriseId,
+    aa.parentId,
+    aa.enterpriseCode,
+    aa.enterpriseName,
+    aa.goodsId,
+    aa.goodsCode,
+    aa.barcode,
+    aa.pinyinCode,
+    aa.goodsName,
+    aa.goodsGenericName,
+    aa.approvalNumber,
+    aa.dosageName,
+    aa.goodsSpecification,
+    aa.unitName,
+    aa.manufacturer,
+    aa.goodsPlace,
+    aa.lotId,
+    aa.lotNum,
+    aa.productDate,
+    aa.validUntil,
+    aa.shelfId,
+    aa.shelfName
+
+    from
+    (SELECT
+    DISTINCT e.id as enterPriseId,
+    e.parent_id as parentId,
+    e.code as enterpriseCode,
+    e.name as enterpriseName,
+    g.id as goodsId,
+    g.code as goodsCode,
+    g.barcode as barcode,
+    g.pinyin_code as pinyinCode,
+    g.name as goodsName,
+    g.generic_name as goodsGenericName,
+    g.approval_number as approvalNumber,
+    g.dosage_name as dosageName,
+    g.specification as goodsSpecification,
+    g.unit_name as unitName,
+    g.manufacturer as manufacturer,
+    g.place as goodsPlace,
+    l.id as lotId,
+    l.lot_num as lotNum,
+    l.product_date as productDate,
+    l.valid_until as validUntil,
+    s.id as shelfId,
+    s.name as shelfName
+    FROM saas_stock_lock_record r,saas_enterprise e,saas_goods g,saas_lot_number l,saas_warehouse_shelf s
+    where r.enterprise_id = e.id
+    AND r.goods_id = g.id
+    AND r.lot_id = l.id
+    AND r.shelf_id = s.id
+    ) as aa
+    WHERE aa.enterPriseId = #{loginEnterpriseId}
+    <if test="param != null and param != ''">
+      and (
+      INSTR(aa.goodsName,#{param})
+      or INSTR(aa.goodsCode,#{param})
+      or INSTR(aa.pinyinCode,#{param})
+      or INSTR(aa.approvalNumber,#{param})
+      or INSTR(aa.barcode,#{param})
+      or INSTR(aa.goodsGenericName,#{param}))
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by aa.${order} ${sort}
+      </when>
+      <otherwise>
+        order by goodsId desc
+      </otherwise>
+    </choose>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectAllLockRecord"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_stock_lock_record
+  </select>
+  <select id="selectStockLockByCode"
+          resultType="com.rograndec.feijiayun.chain.business.keytable.vo.StockLockRecordVO">
+    SELECT
+    sslr.id AS stockLockRecordId,
+    sslr.goods_id AS goodsId,
+    sslr.goods_code AS goodsCode,
+    sslr.goods_name AS goodsName,
+    lon.product_date AS productDate,
+    lon.valid_until AS validDate,
+    sslr.lot_id AS lotId,
+    sslr.lot_num AS lotNum,
+    sslr.shelf_id AS shelfId,
+    sslr.shelf_name AS shelfName,
+    SUM(sslr.lock_quantity) AS usableQuantity,
+    ss.quantity AS quantity,
+    ss.shelf_status_desc AS shelfStatusDesc
+    FROM
+    saas_stock_lock_record sslr ,
+    saas_lot_number lon,
+    saas_stock ss
+    where sslr.lot_id=lon.id AND ss.shelf_id=sslr.shelf_id AND ss.lot_id = sslr.lot_id AND ss.goods_id=sslr.goods_id AND
+    ss.inventory_status = 0 AND sslr.base_order_code = #{code}
+    GROUP BY sslr.goods_id,sslr.lot_id,sslr.shelf_id ,sslr.enterprise_id;
+  </select>
+  <select id="selectByGoodsIdAndLotIdAndShelfId"
+          resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM saas_stock_lock_record
+    where enterprise_id = #{enterpriseId}
+    AND goods_id = #{goodsId}
+    AND lot_id = #{lotId}
+    AND shelf_id = #{shelfId}
+    AND base_order_id = #{baseOrderId}
+    AND base_order_code = #{baseOrderCode}
+  </select>
+
+  <select id="selectByGoodsIdAndLotId" resultType="com.rograndec.feijiayun.chain.business.keytable.vo.StockShelfVO">
+    SELECT
+    stocklock.goods_id AS goodsId,
+    stocklock.goods_code AS goodsCode,
+    stocklock.goods_name AS goodsName,
+    stocklock.lot_id AS lotId,
+    stocklock.lot_num AS lotNumber,
+    stocklock.shelf_id AS shelfId,
+    stocklock.shelf_name AS shelfName,
+   SUM(stocklock.lock_quantity) AS quality,
+	stock.quantity AS usableQuantity,
+    stock.shelf_status_desc AS qualityState
+
+    FROM saas_stock_lock_record  stocklock
+    LEFT JOIN
+    saas_stock stock
+    ON  stocklock.lot_id = stock.lot_id AND stocklock.shelf_id = stock.shelf_id
+    AND stocklock.goods_id = stock.goods_id
+    where stocklock.enterprise_id = #{enterpriseId}
+    AND stocklock.goods_id = #{goodsId}
+    AND stocklock.lot_id = #{lotId}
+    AND stocklock.base_order_id = #{baseOrderId}
+    group by stocklock.lot_id
+
+  </select>
+  <select id="selectByLockId"
+          resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM saas_stock_lock_record
+    WHERE base_order_id = #{baseOrderId}
+    AND base_order_code =  #{baseOrderCode}
+  </select>
+    <select id="selectFatherTotalRecord" resultType="java.lang.Integer">
+      SELECT
+      count(*)
+
+      from
+      (SELECT
+      DISTINCT e.id as enterPriseId,
+      e.parent_id as parentId,
+      e.code as enterpriseCode,
+      e.name as enterpriseName,
+      g.id as goodsId,
+      g.code as goodsCode,
+      g.barcode as barcode,
+      g.pinyin_code as pinyinCode,
+      g.name as goodsName,
+      g.generic_name as goodsGenericName,
+      g.approval_number as approvalNumber,
+      g.dosage_name as dosageName,
+      g.specification as goodsSpecification,
+      g.unit_name as unitName,
+      g.manufacturer as manufacturer,
+      g.place as goodsPlace,
+      l.id as lotId,
+      l.lot_num as lotNum,
+      l.product_date as productDate,
+      l.valid_until as validUntil,
+      s.id as shelfId,
+      s.name as shelfName
+      FROM saas_stock_lock_record r,saas_enterprise e,saas_goods g,saas_lot_number l,saas_warehouse_shelf s
+      where r.enterprise_id = e.id
+      AND r.goods_id = g.id
+      AND r.lot_id = l.id
+      AND r.shelf_id = s.id
+      ) as aa
+      WHERE (aa.enterPriseId = #{loginEnterpriseId} or aa.parentId = #{loginEnterpriseId})
+      <if test="param != null and param != ''">
+        and (
+        INSTR(aa.goodsName,#{param})
+        or INSTR(aa.goodsCode,#{param})
+        or INSTR(aa.pinyinCode,#{param})
+        or INSTR(aa.approvalNumber,#{param})
+        or INSTR(aa.barcode,#{param})
+        or INSTR(aa.goodsGenericName,#{param}))
+      </if>
+      <if test="enterpriseId != null">
+        and aa.enterPriseId = #{enterpriseId}
+      </if>
+      <choose>
+        <when test="order != null and sort != null">
+          order by aa.${order} ${sort}
+        </when>
+        <otherwise>
+          order by goodsId desc
+        </otherwise>
+      </choose>
+    </select>
+  <select id="selectSonTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    from
+    (SELECT
+    DISTINCT e.id as enterPriseId,
+    e.parent_id as parentId,
+    e.code as enterpriseCode,
+    e.name as enterpriseName,
+    g.id as goodsId,
+    g.code as goodsCode,
+    g.barcode as barcode,
+    g.pinyin_code as pinyinCode,
+    g.name as goodsName,
+    g.generic_name as goodsGenericName,
+    g.approval_number as approvalNumber,
+    g.dosage_name as dosageName,
+    g.specification as goodsSpecification,
+    g.unit_name as unitName,
+    g.manufacturer as manufacturer,
+    g.place as goodsPlace,
+    l.id as lotId,
+    l.lot_num as lotNum,
+    l.product_date as productDate,
+    l.valid_until as validUntil,
+    s.id as shelfId,
+    s.name as shelfName
+    FROM saas_stock_lock_record r,saas_enterprise e,saas_goods g,saas_lot_number l,saas_warehouse_shelf s
+    where r.enterprise_id = e.id
+    AND r.goods_id = g.id
+    AND r.lot_id = l.id
+    AND r.shelf_id = s.id
+    ) as aa
+    WHERE aa.enterPriseId = #{loginEnterpriseId}
+    <if test="param != null and param != ''">
+      and (
+      INSTR(aa.goodsName,#{param})
+      or INSTR(aa.goodsCode,#{param})
+      or INSTR(aa.pinyinCode,#{param})
+      or INSTR(aa.approvalNumber,#{param})
+      or INSTR(aa.barcode,#{param})
+      or INSTR(aa.goodsGenericName,#{param}))
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by aa.${order} ${sort}
+      </when>
+      <otherwise>
+        order by goodsId desc
+      </otherwise>
+    </choose>
+  </select>
+  
+  <select id="selectLockVOByParamMap" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.keytable.vo.StockLockRecordVO">
+     SELECT
+      sslr.id AS stockLockRecordId,
+      sslr.goods_id AS goodsId,
+      sslr.goods_code AS goodsCode,
+      sslr.goods_name AS goodsName,
+      lon.product_date AS productDate,
+      lon.valid_until AS validDate,
+      sslr.lot_id AS lotId,
+      sslr.lot_num AS lotNum,
+      sslr.shelf_id AS shelfId,
+      sslr.shelf_name AS shelfName,
+      sslr.lock_quantity AS usableQuantity,
+      ss.quantity AS quantity,
+      ss.shelf_status_desc AS shelfStatusDesc
+    FROM
+      saas_stock_lock_record sslr ,
+      saas_lot_number lon,
+      saas_stock ss
+    where sslr.lot_id=lon.id AND ss.shelf_id=sslr.shelf_id AND ss.lot_id = sslr.lot_id AND ss.goods_id=sslr.goods_id
+      <if test="enterpriseId != null">
+        AND sslr.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      </if>
+      <if test="parentId != null">
+        AND sslr.parent_id = #{parentId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderId != null">
+        AND sslr.base_order_id = #{baseOrderId,jdbcType=BIGINT}
+      </if>
+      <if test="baseOrderType != null">
+        AND sslr.base_order_type = #{baseOrderType,jdbcType=INTEGER}
+      </if>
+      <if test="goodsId != null">
+        AND sslr.goods_id = #{goodsId,jdbcType=BIGINT}
+      </if>
+  </select>
+</mapper>

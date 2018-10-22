@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.account.dao.AdjustPriceAnalysisMapper">
+
+	<!-- 查询条件 -->
+	<sql id="whereSql">
+		<if test="code != null and code !=''">
+			and a.`supplier_code` = #{code}
+		</if>
+		<if test="name != null and name !=''">
+			and INSTR(a.`supplier_name`,#{name})
+		</if>
+		and a.`status` != #{status}
+	</sql>
+	
+	<!-- 查询条件 -->
+	<sql id="receiveWhereSql">
+		<if test="code != null and code !=''">
+			and a.`purchase_unit_code` = #{code}
+		</if>
+		<if test="name != null and name !=''">
+			and INSTR(a.`purchase_unit_name`,#{name})
+		</if>
+		and a.`status` != #{status}
+	</sql>
+	
+	<sql id="billDate">
+		<if test="startDate != null and endDate != null">
+		AND DATE(a.`bill_date`) BETWEEN DATE(#{startDate}) AND DATE(#{endDate})
+		</if>
+	</sql>
+	
+	<sql id="postDate">
+		<if test="startDate != null and endDate != null">
+		AND DATE(a.`post_date`) BETWEEN DATE(#{startDate}) AND DATE(#{endDate})
+		</if>
+	</sql>
+	
+	<!-- 排序条件 -->
+	<sql id="orderBySql">
+		<choose>
+			<when
+				test="(order != null and sort != null) and (order != '' and sort != '')">
+				ORDER BY ${order} ${sort}
+			</when>
+			<otherwise>
+				ORDER BY billDate asc,`code` asc
+			</otherwise>
+		</choose>
+		<if test="start != null">
+	      LIMIT #{start},#{pageSize}
+	    </if>
+	</sql>
+	<!-- 预付判断条件 -->
+	<sql id="andPrepaySql">
+		AND EXISTS(SELECT 1 FROM `saas_prepay_invoice_account` t WHERE b.`id`= t.`invoice_dtl_id` AND t.`diff_amount` !=0)
+	</sql>
+	 <select id="queryAdjustPriceList" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceVO">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId}
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		UNION ALL
+		(SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`)
+		UNION ALL
+		(SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`post_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`)
+		<include refid="orderBySql"></include>
+	</select>
+	
+	<select id="getAdjustPriceTotalRecord" resultType="java.lang.Integer">
+		SELECT COUNT(id) FROM (
+		SELECT a.`id`
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId}
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		UNION ALL
+		(SELECT a.`id`
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`)
+		UNION ALL
+		(SELECT a.`id`
+		FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`)
+		) aa
+	</select>
+	
+	<select id="getAdjustPriceListTotal" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceTotalVO">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId}
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		UNION ALL
+		(SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		)
+		UNION ALL
+		(SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+		)
+	</select>
+	
+	<!-- 预付发票 -->
+	<sql id="prepayInvoice">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} 
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	
+	<!-- 应付发票 -->
+	<sql id="paymentInvoice">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	
+	<!-- 应付贷项凭证 -->
+	<sql id="paymentVoucher">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`post_date` AS billDate,a.`supplier_id` AS unitId,
+		a.`supplier_code` AS unitCode,a.`supplier_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	
+	<select id="queryAdjustPriceListByType" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceVO">
+		<!-- 2201-预付发票 -->
+		<if test="type == 2201 ">
+		<include refid="prepayInvoice"></include>
+		</if>
+		<!-- 2202-应付发票-->
+		<if test="type == 2202 ">
+		<include refid="paymentInvoice"></include>
+		</if>
+		<!-- 2203-应付贷项凭证-->
+		<if test="type == 2203 ">
+		<include refid="paymentVoucher"></include>
+		</if>
+	</select>
+	
+	<!-- 预付发票 -->
+	<sql id="prepayInvoicePage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId}
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应付发票 -->
+	<sql id="paymentInvoicePage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应付贷项凭证 -->
+	<sql id="paymentVoucherPage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		 FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+	</sql>
+	
+	<select id="getAdjustPriceTotalRecordByType" resultType="java.lang.Integer">
+		<!-- 2201-预付发票 -->
+		<if test="type == 2201 ">
+		<include refid="prepayInvoicePage"></include>
+		</if>
+		<!-- 2202-应付发票-->
+		<if test="type == 2202 ">
+		<include refid="paymentInvoicePage"></include>
+		</if>
+		<!-- 2203-应付贷项凭证-->
+		<if test="type == 2203 ">
+		<include refid="paymentVoucherPage"></include>
+		</if>
+	</select>
+	
+	<!-- 预付发票 -->
+	<sql id="prepayInvoiceDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`bill_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		
+		b.`unit_price` AS unitPrice,t.`account_amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		t.`account_notax_amount` AS notaxAmount,t.`account_tax_amount` AS taxAmount ,t.`diff_amount` AS diffAmount,
+		t.`diff_notax_amount` AS diffNotaxAmount,t.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount,
+
+		f.`lot_number` AS lotNumber,f.`product_date` AS productDate,f.`valid_date` AS validDate,
+		t.`account_quantity` AS quantity
+		
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		LEFT JOIN `saas_prepay_invoice_account` t ON t.`invoice_dtl_id` = b.`id`
+		<choose>
+			<when test="chainType == 0">
+				LEFT JOIN `saas_purchase_in_storage_detail` d ON d.`id` = t.`base_dtl_id`
+				LEFT JOIN `saas_purchase_in_storage_shelf` f ON f.`id` = t.`base_shelf_dtl_id`
+			</when>
+			<otherwise>
+				LEFT JOIN `saas_distr_in_detail` d ON d.`id` = t.`base_dtl_id`
+				LEFT JOIN `saas_distr_in_shelf` f ON f.`id` = t.`base_shelf_dtl_id`
+			</otherwise>
+		</choose>
+		WHERE a.id = #{id} AND t.`diff_amount` != 0
+
+	</sql>
+	
+	<!-- 应付发票 -->
+	<sql id="paymentInvoiceDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`bill_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		b.`lot_number` AS lotNumber,b.`product_date` AS productDate,b.`valid_date` AS validDate,
+		b.`quantity` AS quantity, b.`unit_price` AS unitPrice,b.`amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		b.`notax_amount` AS notaxAmount,b.`tax_amount` AS taxAmount ,b.`diff_amount` AS diffAmount,
+		b.`diff_notax_amount` AS diffNotaxAmount,b.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount
+		
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		<choose>
+			<when test="chainType == 0">
+				LEFT JOIN `saas_purchase_in_storage_detail` d ON d.`id` = b.`base_dtl_id`
+			</when>
+			<otherwise>
+				LEFT JOIN `saas_distr_in_detail` d ON d.`id` = b.`base_dtl_id`
+			</otherwise>
+		</choose>
+		WHERE a.id = #{id} AND b.`diff_amount` != 0
+
+	</sql>
+	
+	<!-- 应付贷项凭证-->
+	<sql id="paymentVoucherDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`post_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		b.`lot_number` AS lotNumber,b.`product_date` AS productDate,b.`valid_date` AS validDate,
+		b.`quantity` AS quantity, b.`unit_price` AS unitPrice,b.`amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		b.`notax_amount` AS notaxAmount,b.`tax_amount` AS taxAmount ,b.`diff_amount` AS diffAmount,
+		b.`diff_notax_amount` AS diffNotaxAmount,b.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount
+		FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		<choose>
+			<when test="chainType == 0">
+				LEFT JOIN `saas_purchase_return_out_detail` d ON d.`id` = b.`base_dtl_id`
+			</when>
+			<otherwise>
+				LEFT JOIN `saas_distr_in_return_out_detail` d ON d.id = b.`base_dtl_id`
+			</otherwise>
+		</choose>
+		WHERE a.id = #{id} AND b.`diff_amount` != 0
+
+	</sql>
+	
+	<select id="queryAdjustPriceDetailList" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceDetail">
+		<!-- 2201-预付发票 -->
+		<if test="type == 2201 ">
+		<include refid="prepayInvoiceDetail"></include>
+		</if>
+		<!-- 2202-应付发票-->
+		<if test="type == 2202 ">
+		<include refid="paymentInvoiceDetail"></include>
+		</if>
+		<!-- 2203-应付贷项凭证-->
+		<if test="type == 2203 ">
+		<include refid="paymentVoucherDetail"></include>
+		</if>
+	</select>
+	
+	<!-- 预付发票 -->
+	<sql id="prepayInvoiceTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_prepay_invoice` a 
+		LEFT JOIN `saas_prepay_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} 
+		<include refid="andPrepaySql"></include>
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应付发票 -->
+	<sql id="paymentInvoiceTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_invoice` a 
+		LEFT JOIN `saas_payment_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="billDate"></include>
+
+	</sql>
+	
+	<!-- 应付贷项凭证-->
+	<sql id="paymentVoucherTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_payment_voucher` a 
+		LEFT JOIN `saas_payment_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="whereSql"></include>
+		<include refid="postDate"></include>
+
+	</sql>
+	
+	<select id="getAdjustPriceListByTypeTotal" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceTotalVO">
+		<!-- 2201-预付发票 -->
+		<if test="type == 2201 ">
+		<include refid="prepayInvoiceTotal"></include>
+		</if>
+		<!-- 2202-应付发票-->
+		<if test="type == 2202 ">
+		<include refid="paymentInvoiceTotal"></include>
+		</if>
+		<!-- 2203-应付贷项凭证-->
+		<if test="type == 2203 ">
+		<include refid="paymentVoucherTotal"></include>
+		</if>
+	</select>
+	<!--应收发票模块  -->
+	
+	<!-- 预收判断条件 -->
+	<sql id="andAdvanceReceivableSql">
+		AND EXISTS(SELECT 1 FROM `saas_advance_receivable_invoice_account` t WHERE b.`id`= t.`invoice_dtl_id` AND t.`diff_amount` !=0)
+	</sql>
+	
+	 <select id="queryReceiveAdjustPriceList" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceVO">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal ,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` =#{enterpriseId} 
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		UNION ALL
+		(SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`)
+		UNION ALL 
+		(SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`post_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`)
+		<include refid="orderBySql"></include>
+	</select>
+	
+	<select id="getReceiveAdjustPriceTotalRecord" resultType="java.lang.Integer">
+		SELECT COUNT(id) FROM (
+		SELECT a.`id` 
+		 FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} 
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		UNION ALL
+		(SELECT a.`id`
+		 FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`)
+		UNION ALL 
+		(SELECT a.`id`
+		 FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`)
+		) aa
+	</select>
+	
+	<select id="getReceiveAdjustPriceListTotal" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceTotalVO">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` =#{enterpriseId} 
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		UNION ALL
+		(SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		  FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		)
+		UNION ALL
+		(SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+		)
+	</select>
+	
+	<!-- 预收发票 -->
+	<sql id="receivePrepayInvoice">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} 
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	
+	<!-- 应收发票 -->
+	<sql id="receivePaymentInvoice">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`bill_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	
+	<!-- 应收贷项凭证 -->
+	<sql id="receivePaymentVoucher">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,
+		a.`post_date` AS billDate,a.`purchase_unit_id` AS unitId,
+		a.`purchase_unit_code` AS unitCode,a.`purchase_unit_name` AS unitName,
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+		GROUP BY a.`id`
+		<include refid="orderBySql"></include>
+	</sql>
+	<!-- 2301-预收发票,2302-应收发票,2303-应收贷项凭证 -->
+	<select id="queryReceiveAdjustPriceListByType" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceVO">
+		<!-- 2301-预收发票 -->
+		<if test="type == 2301 ">
+		<include refid="receivePrepayInvoice"></include>
+		</if>
+		<!-- 2302-应收发票-->
+		<if test="type == 2302 ">
+		<include refid="receivePaymentInvoice"></include>
+		</if>
+		<!-- 2303-应收贷项凭证 -->
+		<if test="type == 2303 ">
+		<include refid="receivePaymentVoucher"></include>
+		</if>
+	</select>
+	
+	<!-- 预付发票 -->
+	<sql id="receivePrepayInvoicePage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		  FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId}
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应付发票 -->
+	<sql id="receivePaymentInvoicePage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		 FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应收贷项凭证  -->
+	<sql id="receivePaymentVoucherPage">
+		SELECT COUNT(DISTINCT(a.`id`))
+		  FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+	</sql>
+	<!-- 2301-预收发票,2302-应收发票,2303-应收贷项凭证 -->
+	<select id="getReceiveAdjustPriceTotalRecordByType" resultType="java.lang.Integer">
+		<!-- 2301-预收发票-->
+		<if test="type == 2301 ">
+		<include refid="receivePrepayInvoicePage"></include>
+		</if>
+		<!-- 2302-应收发票-->
+		<if test="type == 2302 ">
+		<include refid="receivePaymentInvoicePage"></include>
+		</if>
+		<!-- 2303-应收贷项凭证-->
+		<if test="type == 2303 ">
+		<include refid="receivePaymentVoucherPage"></include>
+		</if>
+	</select>
+	
+	<!-- 预收发票 -->
+	<sql id="receivePrepayInvoiceDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`bill_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		
+		b.`unit_price` AS unitPrice,t.`account_amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		t.`account_notax_amount` AS notaxAmount,t.`account_tax_amount` AS taxAmount ,t.`diff_amount` AS diffAmount,
+		t.`diff_notax_amount` AS diffNotaxAmount,t.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount,
+		
+		f.`lot_number` AS lotNumber,f.`product_date` AS productDate,f.`valid_date` AS validDate,
+		t.`account_quantity` AS quantity
+		
+		FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		LEFT JOIN `saas_advance_receivable_invoice_account` t ON t.`invoice_dtl_id` = b.`id`
+		LEFT JOIN `saas_distr_out_detail` d ON d.`id` = t.`base_dtl_id`
+		LEFT JOIN `saas_distr_out_shelf` f ON f.`id` = t.`base_shelf_dtl_id`
+		WHERE a.id = #{id} AND t.`diff_amount` != 0
+	</sql>
+	
+	<!-- 应收发票 -->
+	<sql id="receivePaymentInvoiceDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`bill_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		b.`lot_number` AS lotNumber,b.`product_date` AS productDate,b.`valid_date` AS validDate,
+		b.`quantity` AS quantity, b.`unit_price` AS unitPrice,b.`amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		b.`notax_amount` AS notaxAmount,b.`tax_amount` AS taxAmount ,b.`diff_amount` AS diffAmount,
+		b.`diff_notax_amount` AS diffNotaxAmount,b.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount
+		
+		 FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		LEFT JOIN `saas_distr_out_detail` d ON d.`id` = b.`base_dtl_id`
+		WHERE a.id = #{id} AND b.`diff_amount` != 0
+
+	</sql>
+	
+	<!-- 应收贷项凭证-->
+	<sql id="receivePaymentVoucherDetail">
+		SELECT a.`id` ,a.`code`,a.`order_type` AS orderType,a.`post_date` AS billDate,
+		b.`goods_id` AS goodsId,b.`goods_code` AS goodsCode,b.`barcode` AS barcode,b.`goods_name` AS goodsName,
+		b.`goods_generic_name` AS goodsGenericName,b.`dosage_id` AS dosageId,b.`dosage_name` AS dosageName,
+		b.`unit_id` AS unitId,b.`unit_name` AS unitName,b.`goods_specification` AS goodsSpecification,
+		b.`manufacturer_id` AS manufacturerId,b.`manufacturer` AS manufacturer,b.`goods_place` AS goodsPlace,
+		b.`approval_number` AS approvalNumber,
+		b.`lot_number` AS lotNumber,b.`product_date` AS productDate,b.`valid_date` AS validDate,
+		b.`quantity` AS quantity, b.`unit_price` AS unitPrice,b.`amount` AS amount,
+		b.`tax_rate_id` AS taxRateId,b.`tax_rate` AS taxRate ,b.`notax_price` AS notaxPrice,
+		b.`notax_amount` AS notaxAmount,b.`tax_amount` AS taxAmount ,b.`diff_amount` AS diffAmount,
+		b.`diff_notax_amount` AS diffNotaxAmount,b.`diff_tax_amount` AS diffTaxAmount ,
+		
+		d.`real_price` AS baseUnitPrice,d.`real_amount` AS baseAmount,d.`tax_rate_id` AS baseTaxRateId,d.`tax_rate` AS baseTaxRate,
+		d.`notax_real_price` AS baseNotaxPrice,d.`notax_real_amount` AS baseNotaxAmount,d.`tax_amount` AS baseTaxAmount
+		
+		FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		LEFT JOIN `saas_distr_return_in_detail` d ON d.`id` = b.`base_dtl_id`
+		WHERE a.id = #{id} AND b.`diff_amount` != 0
+
+	</sql>
+	
+	<select id="queryReceiveAdjustPriceDetailList" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceDetail">
+		<!-- 2301-预收发票-->
+		<if test="type == 2301 ">
+		<include refid="receivePrepayInvoiceDetail"></include>
+		</if>
+		<!-- 2302-应收发票-->
+		<if test="type == 2302 ">
+		<include refid="receivePaymentInvoiceDetail"></include>
+		</if>
+		<!-- 2303-应收贷项凭证-->
+		<if test="type == 2303 ">
+		<include refid="receivePaymentVoucherDetail"></include>
+		</if>
+	</select>
+	
+	<!-- 预收发票 -->
+	<sql id="receivePrepayInvoiceTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		FROM `saas_advance_receivable_invoice` a 
+		LEFT JOIN `saas_advance_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` =#{enterpriseId} 
+		<include refid="andAdvanceReceivableSql"></include>
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+	</sql>
+	
+	<!-- 应收发票 -->
+	<sql id="receivePaymentInvoiceTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		  FROM `saas_receivable_invoice` a 
+		LEFT JOIN `saas_receivable_invoice_detail` b ON b.`invoice_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="billDate"></include>
+
+	</sql>
+	
+	<!-- 应收贷项凭证-->
+	<sql id="receivePaymentVoucherTotal">
+		SELECT 
+		SUM(b.`amount`) AS amountTotal,SUM(b.`notax_amount`) AS notaxAmountTotal,
+		SUM(b.`tax_amount`) AS taxAmountTotal,SUM(b.`diff_amount`) AS diffAmountTotal,
+		SUM(b.`diff_notax_amount`) AS diffNotaxAmountTotal,SUM(b.`diff_tax_amount`) AS diffTaxAmountTotal
+		 FROM `saas_receivable_voucher` a 
+		LEFT JOIN `saas_receivable_voucher_detail` b ON b.`voucher_id` = a.`id`
+		WHERE a.`enterprise_id` = #{enterpriseId} AND b.`diff_amount` != 0
+		<include refid="receiveWhereSql"></include>
+		<include refid="postDate"></include>
+
+	</sql>
+	
+	<select id="getReceiveAdjustPriceListByTypeTotal" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AdjustPriceTotalVO">
+		<!-- 2301-预收发票-->
+		<if test="type == 2301 ">
+		<include refid="receivePrepayInvoiceTotal"></include>
+		</if>
+		<!-- 2302-应收发票-->
+		<if test="type == 2302 ">
+		<include refid="receivePaymentInvoiceTotal"></include>
+		</if>
+		<!-- 2303-应收贷项凭证-->
+		<if test="type == 2303 ">
+		<include refid="receivePaymentVoucherTotal"></include>
+		</if>
+	</select>
+	
+</mapper>

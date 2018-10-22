@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.account.dao.FinanceBalanceReportMapper">
+
+	<!-- 查询条件 -->
+	<sql id="whereSql">
+		<!-- 总部/加盟店只看自己的数据 -->
+		<if test="enterpriseId != null">
+			and enterprise_id = #{enterpriseId}
+		</if>
+		<!-- 应付/应收数据 -->
+		<if test="accountCode != null">
+			and account_code = #{accountCode}
+		</if>
+		<if test="param != null and param !=''">
+			and (
+			INSTR(sub_account_code,#{param})
+			or INSTR(sub_account_name,#{param})
+			)
+		</if>
+		group by sub_account_id
+	</sql>
+
+	<select id="getFinanceBalance" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.FinanceBalanceVO">
+		select
+		id,
+		sub_account_code as subAccountCode,
+		sub_account_name as subAccountName,
+		sum(debit_amount) as debitAmount,
+		sum(credit_amount) as creditAmount,
+		sum(balance) as balance
+		FROM
+		saas_finance_balance
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		<choose>
+			<when
+				test="(order != null and sort != null) and (order != '' and sort != '')">
+				ORDER BY ${order} ${sort}
+			</when>
+			<otherwise>
+				ORDER BY subAccountCode asc
+			</otherwise>
+		</choose>
+		<if test="start != null">
+	      limit #{start},#{pageSize}
+	    </if>
+	</select>
+
+	<select id="countFinanceBalance" resultType="java.lang.Integer">
+		select count(1)
+		from(
+		select
+		id
+		FROM
+		saas_finance_balance
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		)tab
+	</select>
+
+	<select id="sumFinanceBalance" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.FinanceBalanceTotalVO">
+		select 
+		sum(debitAmountTotal) as debitAmountTotal,
+		sum(creditAmountTotal) as creditAmountTotal,
+		sum(balanceTotal) as balanceTotal
+		from(
+		select
+		sum(debit_amount) as debitAmountTotal,
+		sum(credit_amount) as creditAmountTotal,
+		sum(balance) as balanceTotal
+		FROM
+		saas_finance_balance
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		)tabsum
+	</select>
+
+</mapper>

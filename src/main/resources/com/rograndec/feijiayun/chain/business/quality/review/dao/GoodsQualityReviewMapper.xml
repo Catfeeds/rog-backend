@@ -1,0 +1,1294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.quality.review.dao.GoodsQualityReviewMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.quality.review.entity.GoodsQualityReview">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="review_code" jdbcType="VARCHAR" property="reviewCode" />
+    <result column="review_date" jdbcType="TIMESTAMP" property="reviewDate" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="valid_until" jdbcType="TIMESTAMP" property="validUntil" />
+    <result column="domestic_import_desc" jdbcType="VARCHAR" property="domesticImportDesc" />
+    <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName" />
+    <result column="special_drug_desc" jdbcType="VARCHAR" property="specialDrugDesc" />
+    <result column="in_charge_drug_desc" jdbcType="VARCHAR" property="inChargeDrugDesc" />
+    <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity" />
+    <result column="storage_temp_desc" jdbcType="VARCHAR" property="storageTempDesc" />
+    <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName" />
+    <result column="quality_period_desc" jdbcType="INTEGER" property="qualityPeriodDesc" />
+    <result column="goods_attribute_desc" jdbcType="VARCHAR" property="goodsAttributeDesc" />
+    <result column="supplier_ids" jdbcType="VARCHAR" property="supplierIds" />
+    <result column="supplier_names" jdbcType="VARCHAR" property="supplierNames" />
+    <result column="order_count" jdbcType="INTEGER" property="orderCount" />
+    <result column="order_quanlity" jdbcType="DECIMAL" property="orderQuanlity" />
+    <result column="arrival_count" jdbcType="INTEGER" property="arrivalCount" />
+    <result column="receive_quanlity" jdbcType="DECIMAL" property="receiveQuanlity" />
+    <result column="reject_quanlity" jdbcType="DECIMAL" property="rejectQuanlity" />
+    <result column="receive_qualified_rate" jdbcType="DECIMAL" property="receiveQualifiedRate" />
+    <result column="check_batch" jdbcType="INTEGER" property="checkBatch" />
+    <result column="check_qualified_quantity" jdbcType="DECIMAL" property="checkQualifiedQuantity" />
+    <result column="check_unqualified_quantity" jdbcType="DECIMAL" property="checkUnqualifiedQuantity" />
+    <result column="check_qualified_rate" jdbcType="DECIMAL" property="checkQualifiedRate" />
+    <result column="purchase_return_count" jdbcType="INTEGER" property="purchaseReturnCount" />
+    <result column="purchase_return_batch" jdbcType="INTEGER" property="purchaseReturnBatch" />
+    <result column="purchase_return_quantity" jdbcType="DECIMAL" property="purchaseReturnQuantity" />
+    <result column="sale_count" jdbcType="INTEGER" property="saleCount" />
+    <result column="sale_batch" jdbcType="INTEGER" property="saleBatch" />
+    <result column="sale_quantity" jdbcType="DECIMAL" property="saleQuantity" />
+    <result column="sale_return_count" jdbcType="INTEGER" property="saleReturnCount" />
+    <result column="sale_return_batch" jdbcType="INTEGER" property="saleReturnBatch" />
+    <result column="sale_return_quantity" jdbcType="DECIMAL" property="saleReturnQuantity" />
+    <result column="destroy_count" jdbcType="INTEGER" property="destroyCount" />
+    <result column="destroy_batch" jdbcType="INTEGER" property="destroyBatch" />
+    <result column="destroy_quantity" jdbcType="DECIMAL" property="destroyQuantity" />
+    <result column="complain_count" jdbcType="INTEGER" property="complainCount" />
+    <result column="complain_batch" jdbcType="INTEGER" property="complainBatch" />
+    <result column="adverse_reaction_count" jdbcType="INTEGER" property="adverseReactionCount" />
+    <result column="adverse_reaction_batch" jdbcType="INTEGER" property="adverseReactionBatch" />
+    <result column="recall_quantity" jdbcType="DECIMAL" property="recallQuantity" />
+    <result column="recall_batch" jdbcType="INTEGER" property="recallBatch" />
+    <result column="recover_quantity" jdbcType="INTEGER" property="recoverQuantity" />
+    <result column="recover_batch" jdbcType="INTEGER" property="recoverBatch" />
+    <result column="business_opinion" jdbcType="VARCHAR" property="businessOpinion" />
+    <result column="business_review_time" jdbcType="TIMESTAMP" property="businessReviewTime" />
+    <result column="business_reviewer" jdbcType="VARCHAR" property="businessReviewer" />
+    <result column="quality_opinion" jdbcType="VARCHAR" property="qualityOpinion" />
+    <result column="quality_review_time" jdbcType="TIMESTAMP" property="qualityReviewTime" />
+    <result column="quality_reviewer" jdbcType="VARCHAR" property="qualityReviewer" />
+    <result column="manager_opinion" jdbcType="VARCHAR" property="managerOpinion" />
+    <result column="manager_review_time" jdbcType="TIMESTAMP" property="managerReviewTime" />
+    <result column="manager_reviewer" jdbcType="VARCHAR" property="managerReviewer" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, review_code, review_date, start_date, end_date, goods_id, 
+    goods_code, barcode, goods_name, goods_generic_name, dosage_id, dosage_name, unit_id, 
+    unit_name, goods_specification, manufacturer_id, manufacturer, goods_place, approval_number, 
+    valid_until, domestic_import_desc, management_scope_name, special_drug_desc, in_charge_drug_desc, 
+    limit_quantity, storage_temp_desc, storage_condition_name, quality_period_desc, goods_attribute_desc, 
+    supplier_ids, supplier_names, order_count, order_quanlity, arrival_count, receive_quanlity, 
+    reject_quanlity, receive_qualified_rate, check_batch, check_qualified_quantity, check_unqualified_quantity, 
+    check_qualified_rate, purchase_return_count, purchase_return_batch, purchase_return_quantity, 
+    sale_count, sale_batch, sale_quantity, sale_return_count, sale_return_batch, sale_return_quantity, 
+    destroy_count, destroy_batch, destroy_quantity, complain_count, complain_batch, adverse_reaction_count, 
+    adverse_reaction_batch, recall_quantity, recall_batch, recover_quantity, recover_batch, 
+    business_opinion, business_review_time, business_reviewer, quality_opinion, quality_review_time, 
+    quality_reviewer, manager_opinion, manager_review_time, manager_reviewer, status, 
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+
+  <sql id="whereSql">
+    <where>
+      1=1
+      <choose>
+        <when test="chainType == 0">
+          <if test="enterpriseId != null and parentId != null">
+            and (enterprise_id = #{enterpriseId} or parent_id = #{parentId})
+          </if>
+        </when>
+        <when test="chainType == 1">
+          <if test="enterpriseId != null">
+            and enterprise_id = #{enterpriseId}
+          </if>
+        </when>
+       <when test="chainType == 2">
+         <if test="parentId != null and enterpriseId != null">
+           and (enterprise_id = #{enterpriseId}
+           or
+           enterprise_id = #{parentId})
+         </if>
+       </when>
+      </choose>
+      <if test="param != null and param != ''">
+        and (
+        INSTR(goods_name,#{param})
+        or INSTR(goods_code,#{param})
+        or INSTR(approval_number,#{param})
+        or INSTR(barcode,#{param})
+        or INSTR(goods_generic_name,#{param}))
+      </if>
+      <if test="sort == null and order == null">
+        order by id desc, review_date desc,review_code desc
+      </if>
+      <if test="order != null and sort != null">
+        order by ${order}  ${sort}
+      </if>
+
+    </where>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_quality_review
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_quality_review
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.quality.review.entity.GoodsQualityReview" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_quality_review (id, enterprise_id, parent_id, 
+      review_code, review_date, start_date, 
+      end_date, goods_id, goods_code, 
+      barcode, goods_name, goods_generic_name, 
+      dosage_id, dosage_name, unit_id, 
+      unit_name, goods_specification, manufacturer_id, 
+      manufacturer, goods_place, approval_number, 
+      valid_until, domestic_import_desc, management_scope_name, 
+      special_drug_desc, in_charge_drug_desc, limit_quantity, 
+      storage_temp_desc, storage_condition_name, 
+      quality_period_desc, goods_attribute_desc, 
+      supplier_ids, supplier_names, order_count, 
+      order_quanlity, arrival_count, receive_quanlity, 
+      reject_quanlity, receive_qualified_rate, check_batch, 
+      check_qualified_quantity, check_unqualified_quantity, 
+      check_qualified_rate, purchase_return_count, 
+      purchase_return_batch, purchase_return_quantity, 
+      sale_count, sale_batch, sale_quantity, 
+      sale_return_count, sale_return_batch, sale_return_quantity, 
+      destroy_count, destroy_batch, destroy_quantity, 
+      complain_count, complain_batch, adverse_reaction_count, 
+      adverse_reaction_batch, recall_quantity, recall_batch, 
+      recover_quantity, recover_batch, business_opinion, 
+      business_review_time, business_reviewer, 
+      quality_opinion, quality_review_time, quality_reviewer, 
+      manager_opinion, manager_review_time, manager_reviewer, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{reviewCode,jdbcType=VARCHAR}, #{reviewDate,jdbcType=TIMESTAMP}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsGenericName,jdbcType=VARCHAR}, 
+      #{dosageId,jdbcType=BIGINT}, #{dosageName,jdbcType=VARCHAR}, #{unitId,jdbcType=BIGINT}, 
+      #{unitName,jdbcType=VARCHAR}, #{goodsSpecification,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{goodsPlace,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{validUntil,jdbcType=TIMESTAMP}, #{domesticImportDesc,jdbcType=VARCHAR}, #{managementScopeName,jdbcType=VARCHAR}, 
+      #{specialDrugDesc,jdbcType=VARCHAR}, #{inChargeDrugDesc,jdbcType=VARCHAR}, #{limitQuantity,jdbcType=DECIMAL}, 
+      #{storageTempDesc,jdbcType=VARCHAR}, #{storageConditionName,jdbcType=VARCHAR}, 
+      #{qualityPeriodDesc,jdbcType=INTEGER}, #{goodsAttributeDesc,jdbcType=VARCHAR}, 
+      #{supplierIds,jdbcType=VARCHAR}, #{supplierNames,jdbcType=VARCHAR}, #{orderCount,jdbcType=INTEGER}, 
+      #{orderQuanlity,jdbcType=DECIMAL}, #{arrivalCount,jdbcType=INTEGER}, #{receiveQuanlity,jdbcType=DECIMAL}, 
+      #{rejectQuanlity,jdbcType=DECIMAL}, #{receiveQualifiedRate,jdbcType=DECIMAL}, #{checkBatch,jdbcType=INTEGER}, 
+      #{checkQualifiedQuantity,jdbcType=DECIMAL}, #{checkUnqualifiedQuantity,jdbcType=DECIMAL}, 
+      #{checkQualifiedRate,jdbcType=DECIMAL}, #{purchaseReturnCount,jdbcType=INTEGER}, 
+      #{purchaseReturnBatch,jdbcType=INTEGER}, #{purchaseReturnQuantity,jdbcType=DECIMAL}, 
+      #{saleCount,jdbcType=INTEGER}, #{saleBatch,jdbcType=INTEGER}, #{saleQuantity,jdbcType=DECIMAL}, 
+      #{saleReturnCount,jdbcType=INTEGER}, #{saleReturnBatch,jdbcType=INTEGER}, #{saleReturnQuantity,jdbcType=DECIMAL}, 
+      #{destroyCount,jdbcType=INTEGER}, #{destroyBatch,jdbcType=INTEGER}, #{destroyQuantity,jdbcType=DECIMAL}, 
+      #{complainCount,jdbcType=INTEGER}, #{complainBatch,jdbcType=INTEGER}, #{adverseReactionCount,jdbcType=INTEGER}, 
+      #{adverseReactionBatch,jdbcType=INTEGER}, #{recallQuantity,jdbcType=DECIMAL}, #{recallBatch,jdbcType=INTEGER}, 
+      #{recoverQuantity,jdbcType=INTEGER}, #{recoverBatch,jdbcType=INTEGER}, #{businessOpinion,jdbcType=VARCHAR}, 
+      #{businessReviewTime,jdbcType=TIMESTAMP}, #{businessReviewer,jdbcType=VARCHAR}, 
+      #{qualityOpinion,jdbcType=VARCHAR}, #{qualityReviewTime,jdbcType=TIMESTAMP}, #{qualityReviewer,jdbcType=VARCHAR}, 
+      #{managerOpinion,jdbcType=VARCHAR}, #{managerReviewTime,jdbcType=TIMESTAMP}, #{managerReviewer,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.quality.review.entity.GoodsQualityReview" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_quality_review
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="reviewCode != null">
+        review_code,
+      </if>
+      <if test="reviewDate != null">
+        review_date,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="goodsPlace != null">
+        goods_place,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="validUntil != null">
+        valid_until,
+      </if>
+      <if test="domesticImportDesc != null">
+        domestic_import_desc,
+      </if>
+      <if test="managementScopeName != null">
+        management_scope_name,
+      </if>
+      <if test="specialDrugDesc != null">
+        special_drug_desc,
+      </if>
+      <if test="inChargeDrugDesc != null">
+        in_charge_drug_desc,
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity,
+      </if>
+      <if test="storageTempDesc != null">
+        storage_temp_desc,
+      </if>
+      <if test="storageConditionName != null">
+        storage_condition_name,
+      </if>
+      <if test="qualityPeriodDesc != null">
+        quality_period_desc,
+      </if>
+      <if test="goodsAttributeDesc != null">
+        goods_attribute_desc,
+      </if>
+      <if test="supplierIds != null">
+        supplier_ids,
+      </if>
+      <if test="supplierNames != null">
+        supplier_names,
+      </if>
+      <if test="orderCount != null">
+        order_count,
+      </if>
+      <if test="orderQuanlity != null">
+        order_quanlity,
+      </if>
+      <if test="arrivalCount != null">
+        arrival_count,
+      </if>
+      <if test="receiveQuanlity != null">
+        receive_quanlity,
+      </if>
+      <if test="rejectQuanlity != null">
+        reject_quanlity,
+      </if>
+      <if test="receiveQualifiedRate != null">
+        receive_qualified_rate,
+      </if>
+      <if test="checkBatch != null">
+        check_batch,
+      </if>
+      <if test="checkQualifiedQuantity != null">
+        check_qualified_quantity,
+      </if>
+      <if test="checkUnqualifiedQuantity != null">
+        check_unqualified_quantity,
+      </if>
+      <if test="checkQualifiedRate != null">
+        check_qualified_rate,
+      </if>
+      <if test="purchaseReturnCount != null">
+        purchase_return_count,
+      </if>
+      <if test="purchaseReturnBatch != null">
+        purchase_return_batch,
+      </if>
+      <if test="purchaseReturnQuantity != null">
+        purchase_return_quantity,
+      </if>
+      <if test="saleCount != null">
+        sale_count,
+      </if>
+      <if test="saleBatch != null">
+        sale_batch,
+      </if>
+      <if test="saleQuantity != null">
+        sale_quantity,
+      </if>
+      <if test="saleReturnCount != null">
+        sale_return_count,
+      </if>
+      <if test="saleReturnBatch != null">
+        sale_return_batch,
+      </if>
+      <if test="saleReturnQuantity != null">
+        sale_return_quantity,
+      </if>
+      <if test="destroyCount != null">
+        destroy_count,
+      </if>
+      <if test="destroyBatch != null">
+        destroy_batch,
+      </if>
+      <if test="destroyQuantity != null">
+        destroy_quantity,
+      </if>
+      <if test="complainCount != null">
+        complain_count,
+      </if>
+      <if test="complainBatch != null">
+        complain_batch,
+      </if>
+      <if test="adverseReactionCount != null">
+        adverse_reaction_count,
+      </if>
+      <if test="adverseReactionBatch != null">
+        adverse_reaction_batch,
+      </if>
+      <if test="recallQuantity != null">
+        recall_quantity,
+      </if>
+      <if test="recallBatch != null">
+        recall_batch,
+      </if>
+      <if test="recoverQuantity != null">
+        recover_quantity,
+      </if>
+      <if test="recoverBatch != null">
+        recover_batch,
+      </if>
+      <if test="businessOpinion != null">
+        business_opinion,
+      </if>
+      <if test="businessReviewTime != null">
+        business_review_time,
+      </if>
+      <if test="businessReviewer != null">
+        business_reviewer,
+      </if>
+      <if test="qualityOpinion != null">
+        quality_opinion,
+      </if>
+      <if test="qualityReviewTime != null">
+        quality_review_time,
+      </if>
+      <if test="qualityReviewer != null">
+        quality_reviewer,
+      </if>
+      <if test="managerOpinion != null">
+        manager_opinion,
+      </if>
+      <if test="managerReviewTime != null">
+        manager_review_time,
+      </if>
+      <if test="managerReviewer != null">
+        manager_reviewer,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewCode != null">
+        #{reviewCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="validUntil != null">
+        #{validUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domesticImportDesc != null">
+        #{domesticImportDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="managementScopeName != null">
+        #{managementScopeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDrugDesc != null">
+        #{specialDrugDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inChargeDrugDesc != null">
+        #{inChargeDrugDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="limitQuantity != null">
+        #{limitQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="storageTempDesc != null">
+        #{storageTempDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="storageConditionName != null">
+        #{storageConditionName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityPeriodDesc != null">
+        #{qualityPeriodDesc,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAttributeDesc != null">
+        #{goodsAttributeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierIds != null">
+        #{supplierIds,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNames != null">
+        #{supplierNames,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null">
+        #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderQuanlity != null">
+        #{orderQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalCount != null">
+        #{arrivalCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveQuanlity != null">
+        #{receiveQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="rejectQuanlity != null">
+        #{rejectQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="receiveQualifiedRate != null">
+        #{receiveQualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="checkBatch != null">
+        #{checkBatch,jdbcType=INTEGER},
+      </if>
+      <if test="checkQualifiedQuantity != null">
+        #{checkQualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="checkUnqualifiedQuantity != null">
+        #{checkUnqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="checkQualifiedRate != null">
+        #{checkQualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseReturnCount != null">
+        #{purchaseReturnCount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseReturnBatch != null">
+        #{purchaseReturnBatch,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseReturnQuantity != null">
+        #{purchaseReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="saleCount != null">
+        #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="saleBatch != null">
+        #{saleBatch,jdbcType=INTEGER},
+      </if>
+      <if test="saleQuantity != null">
+        #{saleQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="saleReturnCount != null">
+        #{saleReturnCount,jdbcType=INTEGER},
+      </if>
+      <if test="saleReturnBatch != null">
+        #{saleReturnBatch,jdbcType=INTEGER},
+      </if>
+      <if test="saleReturnQuantity != null">
+        #{saleReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="destroyCount != null">
+        #{destroyCount,jdbcType=INTEGER},
+      </if>
+      <if test="destroyBatch != null">
+        #{destroyBatch,jdbcType=INTEGER},
+      </if>
+      <if test="destroyQuantity != null">
+        #{destroyQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="complainCount != null">
+        #{complainCount,jdbcType=INTEGER},
+      </if>
+      <if test="complainBatch != null">
+        #{complainBatch,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionCount != null">
+        #{adverseReactionCount,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionBatch != null">
+        #{adverseReactionBatch,jdbcType=INTEGER},
+      </if>
+      <if test="recallQuantity != null">
+        #{recallQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="recallBatch != null">
+        #{recallBatch,jdbcType=INTEGER},
+      </if>
+      <if test="recoverQuantity != null">
+        #{recoverQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="recoverBatch != null">
+        #{recoverBatch,jdbcType=INTEGER},
+      </if>
+      <if test="businessOpinion != null">
+        #{businessOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="businessReviewTime != null">
+        #{businessReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessReviewer != null">
+        #{businessReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOpinion != null">
+        #{qualityOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityReviewTime != null">
+        #{qualityReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityReviewer != null">
+        #{qualityReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="managerOpinion != null">
+        #{managerOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="managerReviewTime != null">
+        #{managerReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerReviewer != null">
+        #{managerReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.quality.review.entity.GoodsQualityReview">
+    update saas_goods_quality_review
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="reviewCode != null">
+        review_code = #{reviewCode,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="validUntil != null">
+        valid_until = #{validUntil,jdbcType=TIMESTAMP},
+      </if>
+      <if test="domesticImportDesc != null">
+        domestic_import_desc = #{domesticImportDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="managementScopeName != null">
+        management_scope_name = #{managementScopeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDrugDesc != null">
+        special_drug_desc = #{specialDrugDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inChargeDrugDesc != null">
+        in_charge_drug_desc = #{inChargeDrugDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="limitQuantity != null">
+        limit_quantity = #{limitQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="storageTempDesc != null">
+        storage_temp_desc = #{storageTempDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="storageConditionName != null">
+        storage_condition_name = #{storageConditionName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityPeriodDesc != null">
+        quality_period_desc = #{qualityPeriodDesc,jdbcType=INTEGER},
+      </if>
+      <if test="goodsAttributeDesc != null">
+        goods_attribute_desc = #{goodsAttributeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierIds != null">
+        supplier_ids = #{supplierIds,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNames != null">
+        supplier_names = #{supplierNames,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null">
+        order_count = #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="orderQuanlity != null">
+        order_quanlity = #{orderQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="arrivalCount != null">
+        arrival_count = #{arrivalCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveQuanlity != null">
+        receive_quanlity = #{receiveQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="rejectQuanlity != null">
+        reject_quanlity = #{rejectQuanlity,jdbcType=DECIMAL},
+      </if>
+      <if test="receiveQualifiedRate != null">
+        receive_qualified_rate = #{receiveQualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="checkBatch != null">
+        check_batch = #{checkBatch,jdbcType=INTEGER},
+      </if>
+      <if test="checkQualifiedQuantity != null">
+        check_qualified_quantity = #{checkQualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="checkUnqualifiedQuantity != null">
+        check_unqualified_quantity = #{checkUnqualifiedQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="checkQualifiedRate != null">
+        check_qualified_rate = #{checkQualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseReturnCount != null">
+        purchase_return_count = #{purchaseReturnCount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseReturnBatch != null">
+        purchase_return_batch = #{purchaseReturnBatch,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseReturnQuantity != null">
+        purchase_return_quantity = #{purchaseReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="saleCount != null">
+        sale_count = #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="saleBatch != null">
+        sale_batch = #{saleBatch,jdbcType=INTEGER},
+      </if>
+      <if test="saleQuantity != null">
+        sale_quantity = #{saleQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="saleReturnCount != null">
+        sale_return_count = #{saleReturnCount,jdbcType=INTEGER},
+      </if>
+      <if test="saleReturnBatch != null">
+        sale_return_batch = #{saleReturnBatch,jdbcType=INTEGER},
+      </if>
+      <if test="saleReturnQuantity != null">
+        sale_return_quantity = #{saleReturnQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="destroyCount != null">
+        destroy_count = #{destroyCount,jdbcType=INTEGER},
+      </if>
+      <if test="destroyBatch != null">
+        destroy_batch = #{destroyBatch,jdbcType=INTEGER},
+      </if>
+      <if test="destroyQuantity != null">
+        destroy_quantity = #{destroyQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="complainCount != null">
+        complain_count = #{complainCount,jdbcType=INTEGER},
+      </if>
+      <if test="complainBatch != null">
+        complain_batch = #{complainBatch,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionCount != null">
+        adverse_reaction_count = #{adverseReactionCount,jdbcType=INTEGER},
+      </if>
+      <if test="adverseReactionBatch != null">
+        adverse_reaction_batch = #{adverseReactionBatch,jdbcType=INTEGER},
+      </if>
+      <if test="recallQuantity != null">
+        recall_quantity = #{recallQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="recallBatch != null">
+        recall_batch = #{recallBatch,jdbcType=INTEGER},
+      </if>
+      <if test="recoverQuantity != null">
+        recover_quantity = #{recoverQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="recoverBatch != null">
+        recover_batch = #{recoverBatch,jdbcType=INTEGER},
+      </if>
+      <if test="businessOpinion != null">
+        business_opinion = #{businessOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="businessReviewTime != null">
+        business_review_time = #{businessReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessReviewer != null">
+        business_reviewer = #{businessReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityOpinion != null">
+        quality_opinion = #{qualityOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityReviewTime != null">
+        quality_review_time = #{qualityReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityReviewer != null">
+        quality_reviewer = #{qualityReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="managerOpinion != null">
+        manager_opinion = #{managerOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="managerReviewTime != null">
+        manager_review_time = #{managerReviewTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerReviewer != null">
+        manager_reviewer = #{managerReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.quality.review.entity.GoodsQualityReview">
+    update saas_goods_quality_review
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      review_code = #{reviewCode,jdbcType=VARCHAR},
+      review_date = #{reviewDate,jdbcType=TIMESTAMP},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=BIGINT},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=BIGINT},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      valid_until = #{validUntil,jdbcType=TIMESTAMP},
+      domestic_import_desc = #{domesticImportDesc,jdbcType=VARCHAR},
+      management_scope_name = #{managementScopeName,jdbcType=VARCHAR},
+      special_drug_desc = #{specialDrugDesc,jdbcType=VARCHAR},
+      in_charge_drug_desc = #{inChargeDrugDesc,jdbcType=VARCHAR},
+      limit_quantity = #{limitQuantity,jdbcType=DECIMAL},
+      storage_temp_desc = #{storageTempDesc,jdbcType=VARCHAR},
+      storage_condition_name = #{storageConditionName,jdbcType=VARCHAR},
+      quality_period_desc = #{qualityPeriodDesc,jdbcType=INTEGER},
+      goods_attribute_desc = #{goodsAttributeDesc,jdbcType=VARCHAR},
+      supplier_ids = #{supplierIds,jdbcType=VARCHAR},
+      supplier_names = #{supplierNames,jdbcType=VARCHAR},
+      order_count = #{orderCount,jdbcType=INTEGER},
+      order_quanlity = #{orderQuanlity,jdbcType=DECIMAL},
+      arrival_count = #{arrivalCount,jdbcType=INTEGER},
+      receive_quanlity = #{receiveQuanlity,jdbcType=DECIMAL},
+      reject_quanlity = #{rejectQuanlity,jdbcType=DECIMAL},
+      receive_qualified_rate = #{receiveQualifiedRate,jdbcType=DECIMAL},
+      check_batch = #{checkBatch,jdbcType=INTEGER},
+      check_qualified_quantity = #{checkQualifiedQuantity,jdbcType=DECIMAL},
+      check_unqualified_quantity = #{checkUnqualifiedQuantity,jdbcType=DECIMAL},
+      check_qualified_rate = #{checkQualifiedRate,jdbcType=DECIMAL},
+      purchase_return_count = #{purchaseReturnCount,jdbcType=INTEGER},
+      purchase_return_batch = #{purchaseReturnBatch,jdbcType=INTEGER},
+      purchase_return_quantity = #{purchaseReturnQuantity,jdbcType=DECIMAL},
+      sale_count = #{saleCount,jdbcType=INTEGER},
+      sale_batch = #{saleBatch,jdbcType=INTEGER},
+      sale_quantity = #{saleQuantity,jdbcType=DECIMAL},
+      sale_return_count = #{saleReturnCount,jdbcType=INTEGER},
+      sale_return_batch = #{saleReturnBatch,jdbcType=INTEGER},
+      sale_return_quantity = #{saleReturnQuantity,jdbcType=DECIMAL},
+      destroy_count = #{destroyCount,jdbcType=INTEGER},
+      destroy_batch = #{destroyBatch,jdbcType=INTEGER},
+      destroy_quantity = #{destroyQuantity,jdbcType=DECIMAL},
+      complain_count = #{complainCount,jdbcType=INTEGER},
+      complain_batch = #{complainBatch,jdbcType=INTEGER},
+      adverse_reaction_count = #{adverseReactionCount,jdbcType=INTEGER},
+      adverse_reaction_batch = #{adverseReactionBatch,jdbcType=INTEGER},
+      recall_quantity = #{recallQuantity,jdbcType=DECIMAL},
+      recall_batch = #{recallBatch,jdbcType=INTEGER},
+      recover_quantity = #{recoverQuantity,jdbcType=INTEGER},
+      recover_batch = #{recoverBatch,jdbcType=INTEGER},
+      business_opinion = #{businessOpinion,jdbcType=VARCHAR},
+      business_review_time = #{businessReviewTime,jdbcType=TIMESTAMP},
+      business_reviewer = #{businessReviewer,jdbcType=VARCHAR},
+      quality_opinion = #{qualityOpinion,jdbcType=VARCHAR},
+      quality_review_time = #{qualityReviewTime,jdbcType=TIMESTAMP},
+      quality_reviewer = #{qualityReviewer,jdbcType=VARCHAR},
+      manager_opinion = #{managerOpinion,jdbcType=VARCHAR},
+      manager_review_time = #{managerReviewTime,jdbcType=TIMESTAMP},
+      manager_reviewer = #{managerReviewer,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="getGoods" resultType="com.rograndec.feijiayun.chain.business.quality.review.vo.GoodsReviewVO">
+
+    SELECT
+    id as goodsId,
+    CODE as goodsCode,
+    business_variety AS  businessVariety,
+    barcode ,
+    generic_name AS goodsGenericName ,
+    NAME AS goodsName,
+    goods_attribute AS goodsAttribute ,
+    dosage_id AS dosageId ,
+    dosage_name AS dosageName ,
+    specification AS  goodsSpecification,
+    unit_id AS unitId ,
+    unit_name AS unitName ,
+    manufacturer_id AS  manufacturerId,
+    manufacturer ,
+    place as goodsPlace,
+    approval_number AS approvalNumber ,
+    valid_until AS validUntil ,
+    management_scope_id AS managementScopeId ,
+    management_scope_name AS managementScopeName ,
+    domestic_import AS domesticImport ,
+    quality_period AS qualityPeriod ,
+    quality_period_unit AS qualityPeriodUnit ,
+    special_drug AS specialDrug ,
+    in_charge_drug AS inChargeDrug ,
+    limit_quantity AS limitQuantity ,
+    storage_temp AS storageTemp ,
+    storage_condition_name AS storageConditionName,
+    prescription_drug AS prescriptionDrug,
+    otc_type AS  otcType,
+    cosmetics AS  cosmetics,
+    spirit_drug_type as spiritDrugType,
+    formulation_type as formulationType
+
+
+    FROM  saas_goods
+    where 1=1
+    <choose>
+    <when test="paramVO.chainType == 2">
+      <if test="paramVO.enterpriseId != null and paramVO.parentId != null">
+        and enterprise_id = #{paramVO.parentId}
+        and owner_id in ( #{paramVO.parentId},#{paramVO.enterpriseId})
+      </if>
+    </when>
+    <otherwise>
+      <if test="paramVO.enterpriseId != null">
+        and enterprise_id = #{paramVO.enterpriseId} and owner_id = #{paramVO.enterpriseId}
+      </if>
+    </otherwise>
+  </choose>
+    <if test="param != null and param != ''">
+      and (
+      INSTR(name,#{param})
+      or INSTR(code,#{param})
+      or INSTR(pinyin_code,#{param})
+      or INSTR(approval_number,#{param})
+      or INSTR(barcode,#{param})
+      or INSTR(generic_name,#{param}))
+    </if>
+    limit 100
+
+  </select>
+
+  <select id="selectPageList" resultType="com.rograndec.feijiayun.chain.business.quality.review.vo.ReviewPageVO">
+
+    SELECT
+    id, review_code as reviewCode, review_date as reviewDate, start_date as startDate, end_date as endDate, goods_id as goodsId,
+    goods_code as goodsCode, barcode, goods_name as goodsName , goods_generic_name as goodsGenericName , dosage_id as dosageId,
+    dosage_name as dosageName , unit_id as unitId,
+    unit_name as nuitName, goods_specification as goodsSpecification, manufacturer_id as manufacturerId,
+    manufacturer, goods_place as goodsPlace, approval_number as approvalNumber,
+    valid_until as validUntil, domestic_import_desc as domesticImportDesc, management_scope_name as managementScopeName,
+    special_drug_desc as specialDrugDesc, in_charge_drug_desc as inChargeDrugDesc,
+    limit_quantity as limitQuantity, storage_temp_desc as storageTempDesc,
+    storage_condition_name as  storageConditionName, quality_period_desc as qualityPeriodDesc,
+    goods_attribute_desc as goodsAttributeDesc,
+    enterprise_id as enterpriseId
+
+    FROM saas_goods_quality_review
+    <include refid="whereSql"></include>
+    <if test="pageStart != null">
+      limit #{pageStart},#{pageSize}
+    </if>
+
+  </select>
+
+  <select id="selectPageListCount" resultType="java.lang.Integer">
+    SELECT
+      count(*)
+    FROM saas_goods_quality_review
+    <include refid="whereSql"></include>
+  </select>
+
+  <!-- 查询投诉 -->
+  <select id="selectComplainCountByGIDBtwDate" resultType="java.lang.Integer">
+    SELECT count(1) as count
+    from saas_complain
+    WHERE enterprise_id = #{eId} AND goods_id = #{goodsId}
+    and  complain_date between #{startDate} and #{endDate}
+  </select>
+
+  <!--查询不良反应报告-->
+  <select id="selectAdverseReactionCountByGIDBtwDate"  resultType="java.lang.Integer">
+
+    select count(1)
+    from saas_adverse_reaction_report report
+    left join saas_adverse_reaction_doubt_goods doubt on doubt.report_id = report.id
+    left join saas_adverse_reaction_together_goods tger  ON tger.report_id = report.id
+    WHERE report.enterprise_id = #{eId} AND doubt.goods_id = #{goodsId} or tger.goods_id = #{goodsId}
+    and  report.report_date between #{startDate} and #{endDate}
+
+  </select>
+
+  <!--查询召回记录-->
+  <select id="selectRecallSumByGIDBtwDate" resultType="java.util.Map">
+    SELECT   IFNULL(SUM(quantity),0) as quantity ,count(DISTINCT lot_id) as count
+    FROM  saas_recall_record_detail
+    WHERE enterprise_id = #{eId} and goods_id = #{goodsId}
+    and recall_date between #{startDate} and #{endDate}
+
+  </select>
+
+  <!--查询追回记录-->
+  <select id="selectRecoverSumByGIDBtwDate" resultType="java.util.Map">
+
+    SELECT   IFNULL(SUM(recover_quantity),0) as quantity ,count(DISTINCT lot_id) as count
+    FROM  saas_recover_record_detail
+    WHERE enterprise_id = #{eId} and goods_id = #{goodsId}
+    and recover_date between #{startDate} and #{endDate}
+  </select>
+
+  <!--查询销毁记录-->
+  <select id="selectDestoryByGIDBtwDate" resultType="java.util.Map">
+
+    select count(DISTINCT dtl.destroy_id) as count ,IFNULL(sum( dtl.quantity),0) as quantity , COUNT(DISTINCT shelf.lot_id) as batch
+
+    FROM  saas_goods_destroy_detail dtl
+    join saas_goods_destroy_shelf  shelf  ON shelf.dtl_id = dtl.id
+
+    WHERE dtl.enterprise_id = #{eId} and dtl.goods_id = #{goodsId}
+    and dtl.destroy_date
+    between #{startDate} and #{endDate}
+  </select>
+
+  <!--查询销售/销退-->
+  <select id="selectSaleByGIDBtwDate" resultType="java.util.Map">
+
+    select
+    count(sale.id) as count,
+    count(shelf.lot_id) as batch,
+    IFNULL(sum(quantity_total),0) as quantity,
+    IFNULL(sum(can_return_quantity_total),0) as returnQuantity
+    FROM  saas_sale  sale
+    JOIN  saas_sale_shelf shelf  ON shelf.sale_id = sale.id
+    WHERE sale.enterprise_id = #{eId}
+    and shelf.goods_id = #{goodsId}
+    and sale.sale_type = #{saleType}
+    and sale.sale_date
+    BETWEEN #{startDate} and #{endDate}
+
+
+
+  </select>
+
+  <!--查询购进退出-->
+  <select id="selectPurchaseReturnByGIDBtwDate" resultType="java.util.Map">
+
+    SELECT
+    COUNT(DISTINCT lot_id) as batch,
+    COUNT(DISTINCT return_id) as count,
+    IFNULL(sum(quantity),0) as quantity
+
+    FROM   saas_purchase_return_detail
+    WHERE enterprise_id = #{eId} AND goods_id = #{goodsId}
+    and return_date
+    BETWEEN #{startDate} and #{endDate}
+
+  </select>
+
+
+  <!--查询验收-->
+  <select id="selectCheckByGIDBtwDate" resultType="java.util.Map">
+    SELECT
+    count(DISTINCT lot.lot_number) as batch,
+    IFNULL(sum(dtl.qualified_quantity),0) as qualifiedQuantity,
+    IFNULL(sum(dtl.unqualified_quantity),0) as unqualifiedQuantity
+
+    FROM saas_purchase_check_detail  dtl
+    JOIN saas_purchase_check_lot  lot on lot.check_dtl_id = dtl.id
+    WHERE dtl.enterprise_id = #{eId}
+    AND dtl.goods_id = #{goodsId}
+    and dtl.check_date
+    BETWEEN #{startDate} and #{endDate}
+
+  </select>
+
+  <!--查询订单笔数-->
+  <select id="selectOrderCountByGIDBtwDate" resultType="java.util.Map">
+
+    SELECT count(DISTINCT order_id) as count,SUM(quantity) as quantity
+
+    FROM saas_purchase_order_detail
+    WHERE enterprise_id = #{eId} AND goods_id = #{goodsId}
+    AND order_date
+    BETWEEN #{startDate} and #{endDate}
+
+  </select>
+
+  <!--查询到货笔数，数量和拒收数量-->
+  <select id="selectReceiveByGIDBtwDate" resultType="java.util.Map">
+
+    SELECT
+    count(DISTINCT receive_id) AS arrivalCount ,
+    IFNULL(SUM(refuse_quantity) , 0) AS refuseQuantity ,
+    IFNULL(sum(receive_quantity), 0) AS receiveQuantity
+    FROM
+    saas_purchase_receive_detail
+    WHERE
+    enterprise_id = #{eId}
+    AND goods_id = #{goodsId}
+    AND receive_date
+    BETWEEN #{startDate} and #{endDate}
+
+  </select>
+
+
+  <!--查询供货单位-->
+  <select id="selectSupplierByGIDBtwDate"
+          resultType="com.rograndec.feijiayun.chain.business.purchase.order.entity.PurchaseOrder">
+
+    SELECT  DISTINCT o.supplier_id as supplierId, o.supplier_name as supplierName
+    FROM saas_purchase_order  o
+    JOIN saas_purchase_order_detail dtl  on dtl.order_id = o.id
+
+    WHERE o.enterprise_id = #{eId} AND dtl.goods_id = #{goodsId}
+    AND o.status != #{orderStatus}
+    AND o.order_date
+    BETWEEN #{startDate} and #{endDate}
+
+  </select>
+</mapper>

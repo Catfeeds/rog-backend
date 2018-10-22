@@ -1,0 +1,1142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.chgoods.dao.GoodsLoadMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.chgoods.entity.GoodsLoad">
+    <id column="Id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="load_date" jdbcType="TIMESTAMP" property="loadDate" />
+    <result column="load_man_id" jdbcType="BIGINT" property="loadManId" />
+    <result column="load_man_code" jdbcType="VARCHAR" property="loadManCode" />
+    <result column="load_man_name" jdbcType="VARCHAR" property="loadManName" />
+    <result column="audit_man_id" jdbcType="BIGINT" property="auditManId" />
+    <result column="audit_man_code" jdbcType="VARCHAR" property="auditManCode" />
+    <result column="audit_man_name" jdbcType="VARCHAR" property="auditManName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, enterprise_id, parent_id, order_type, code, load_date, load_man_id, load_man_code, 
+    load_man_name, audit_man_id, audit_man_code, audit_man_name, quantity_total, varieties_quantity, 
+    status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_load
+    where Id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_load
+    where Id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.storage.chgoods.entity.GoodsLoad" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_load (Id, enterprise_id, parent_id, 
+      order_type, code, load_date, 
+      load_man_id, load_man_code, load_man_name, 
+      audit_man_id, audit_man_code, audit_man_name, 
+      quantity_total, varieties_quantity, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{loadDate,jdbcType=TIMESTAMP}, 
+      #{loadManId,jdbcType=BIGINT}, #{loadManCode,jdbcType=VARCHAR}, #{loadManName,jdbcType=VARCHAR}, 
+      #{auditManId,jdbcType=BIGINT}, #{auditManCode,jdbcType=VARCHAR}, #{auditManName,jdbcType=VARCHAR}, 
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.storage.chgoods.entity.GoodsLoad" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_goods_load
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="loadDate != null">
+        load_date,
+      </if>
+      <if test="loadManId != null">
+        load_man_id,
+      </if>
+      <if test="loadManCode != null">
+        load_man_code,
+      </if>
+      <if test="loadManName != null">
+        load_man_name,
+      </if>
+      <if test="auditManId != null">
+        audit_man_id,
+      </if>
+      <if test="auditManCode != null">
+        audit_man_code,
+      </if>
+      <if test="auditManName != null">
+        audit_man_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="loadDate != null">
+        #{loadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loadManId != null">
+        #{loadManId,jdbcType=BIGINT},
+      </if>
+      <if test="loadManCode != null">
+        #{loadManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loadManName != null">
+        #{loadManName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManId != null">
+        #{auditManId,jdbcType=BIGINT},
+      </if>
+      <if test="auditManCode != null">
+        #{auditManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManName != null">
+        #{auditManName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.chgoods.entity.GoodsLoad">
+    update saas_goods_load
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="loadDate != null">
+        load_date = #{loadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loadManId != null">
+        load_man_id = #{loadManId,jdbcType=BIGINT},
+      </if>
+      <if test="loadManCode != null">
+        load_man_code = #{loadManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loadManName != null">
+        load_man_name = #{loadManName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManId != null">
+        audit_man_id = #{auditManId,jdbcType=BIGINT},
+      </if>
+      <if test="auditManCode != null">
+        audit_man_code = #{auditManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManName != null">
+        audit_man_name = #{auditManName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.chgoods.entity.GoodsLoad">
+    update saas_goods_load
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      load_date = #{loadDate,jdbcType=TIMESTAMP},
+      load_man_id = #{loadManId,jdbcType=BIGINT},
+      load_man_code = #{loadManCode,jdbcType=VARCHAR},
+      load_man_name = #{loadManName,jdbcType=VARCHAR},
+      audit_man_id = #{auditManId,jdbcType=BIGINT},
+      audit_man_code = #{auditManCode,jdbcType=VARCHAR},
+      audit_man_name = #{auditManName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="queryCountByParams" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_goods_load
+    where
+    enterprise_id = #{enterpriseId}
+    <if test="startTimes != null and endTimes != null">
+      and load_date between #{startTimes} and #{endTimes}
+    </if>
+    <if test="code != null and code != ''">
+      AND ( code = #{code})
+    </if>
+    <if test="loadManName != null and loadManName != ''">
+      AND INSTR( load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null and auditManName != ''">
+      AND INSTR( audit_man_name , #{auditManName})
+    </if>
+  </select>
+  <select id="selectByParams"
+          resultType="com.rograndec.feijiayun.chain.business.storage.chgoods.vo.ChGoodsLoadOrderListVO">
+    select
+    id,
+    code,
+    date_format(load_date, '%Y-%m-%d') AS loadDate,
+    load_man_name AS loadManName,
+    audit_man_name AS auditManName,
+    remark
+    from saas_goods_load
+    where
+    enterprise_id = #{enterpriseId}
+    <if test="startTimes != null and endTimes != null">
+      and load_date between #{startTimes} and #{endTimes}
+    </if>
+    <if test="code != null and code != ''">
+      AND ( code = #{code})
+    </if>
+    <if test="loadManName != null and loadManName != ''">
+      AND INSTR( load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null and auditManName != ''">
+      AND INSTR( audit_man_name , #{auditManName})
+    </if>
+    <if test="orderName != null and orderType!=null">
+      ORDER BY ${orderName} ${orderType}
+    </if>
+    limit #{start},#{pageSize}
+  </select>
+  <select id="selectByDtlParams"
+          resultType="com.rograndec.feijiayun.chain.business.storage.chgoods.vo.ChGoodsLoadOrderDtlListVO">
+    select
+    id,
+    code,
+    date_format(load_date, '%Y-%m-%d') AS loadDate,
+    load_man_name AS loadManName,
+    audit_man_name AS auditManName
+    from saas_goods_load
+    where
+    enterprise_id = #{enterpriseId}
+    AND id = #{id}
+  </select>
+  <select id="selectGoodsStockList" parameterType="java.util.Map" resultType="com.rograndec.feijiayun.chain.business.storage.chgoods.vo.GoodsStockListVO">
+    SELECT
+    s.id,
+    s.goods_id AS goodsId,
+    g.`code` AS goodsCode,
+    g.generic_name AS goodsGenericName,
+    g.dosage_name AS dosageName,
+    g.specification AS goodsSpecification,
+    g.unit_name AS unitName,
+    g.place,
+    g.manufacturer,
+    s.lot_id AS lotId,
+    s.lot_num AS lotNumber,
+    n.product_date AS productDate,
+    n.valid_until AS validDate,
+    s.shelf_id AS shelfId,
+    s.shelf_name AS shelfName,
+    s.shelf_status_desc AS shelfStatusDesc,
+    s.usable_quantity AS quantity
+    FROM
+    saas_stock s
+    LEFT JOIN saas_goods g ON g.id = s.goods_id
+    LEFT JOIN saas_lot_number n ON n.id = s.lot_id
+    WHERE
+    s.enterprise_id = #{enterpriseId}
+    AND s.usable_quantity > 0
+    and g.business_variety = 0
+    and g.goods_attribute in(1,2)
+    and	s.inventory_status = 0
+
+    <if test=" param != null">
+      AND (
+      INSTR(g.code ,#{param})
+      OR INSTR(g.barcode ,#{param})
+      OR INSTR(g.pinyin_code ,#{param})
+      OR INSTR(g.name ,#{param})
+      OR INSTR(g.generic_name ,#{param})
+      OR INSTR(g.approval_number ,#{param})
+      )
+    </if>
+  </select>
+
+  <select id="selectFatherQuantity" resultType="java.math.BigDecimal">
+    SELECT
+    sum(d.quantity)
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_enterprise u
+    ON u.id = d.enterprise_id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test=" param != null ">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and u.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(u.code , #{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(u.name , #{enterpriseName})
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code , #{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectSonQuantity" resultType="java.math.BigDecimal">
+    SELECT
+    sum(d.quantity)
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE d.enterprise_id = #{enterpriseId}
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test="param != null">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code , #{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectFatherGoodLoadReport"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodLoadReportPageVO">
+    /**
+    搜寻中药装斗报表（总部）
+    */
+    SELECT
+    d.id as id,
+    u.code as enterpriseCode,
+    u.name as enterpriseName,
+    d.load_date as loadDate,
+    d.load_code as code,
+    l.load_man_name as loadManName,
+    l.audit_man_name as auditManName,
+    d.goods_id as goodsId,
+    d.goods_code as goodsCode,
+    d.barcode as barcode,
+    d.goods_name as goodsName,
+    d.goods_generic_name as goodsGenericName,
+    d.dosage_id as dosageId,
+    d.dosage_name as dosageName,
+    d.goods_specification as goodsSpecification,
+    d.unit_id as unitId,
+    d.unit_name as unitName,
+    d.manufacturer_id as manufacturerId,
+    d.manufacturer as manufacturer,
+    d.goods_place as goodsPlace,
+    d.approval_number as approvalNumber,
+    d.lot_number as lotNum,
+    d.product_date as productDate,
+    d.valid_date as validDate,
+    d.src_shelf_id as srcShelfId,
+    d.src_shelf_name as srcShelfName,
+    d.src_shelf_status_desc as srcShelfStatusDesc,
+    d.target_shelf_id as targetShelfId,
+    d.target_shelf_name as targetShelfName,
+    d.target_shelf_status_desc as targetShelfStatusDesc,
+    d.quantity as quantity,
+    d.remark as remark,
+    l.status as status,
+    g.business_variety as businessVariety,
+    g.category_id as categoryId,
+    (
+    SELECT
+    cate.name
+    FROM
+    saas_goods_category cate
+    WHERE
+    cate.id = g.category_id
+    ) AS categoryName,
+    g.goods_attribute as goodsAttribute,
+    g.prescription_drug as prescriptionDrug,
+    g.otc_type as otcType,
+    g.cosmetics as cosmetics,
+    g.domestic_import as domesticImport,
+    g.management_scope_id as managementScopeId,
+    g.management_scope_name as managementScopeName,
+    g.special_drug as specialDrug,
+    g.spirit_drug_type as spiritDrugType,
+    g.formulation_type as formulationType,
+    g.in_charge_drug as inChargeDrug,
+    g.limit_quantity as limitQuantity,
+    g.storage_temp as storageTemp,
+    g.storage_condition_name as storageConditionName,
+    g.quality_period as qualityPeriod,
+    g.quality_period_unit as qualityPeriodUnit
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_enterprise u
+    ON u.id = d.enterprise_id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test="param != null">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and u.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(u.code , #{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(u.name , #{enterpriseName})
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code ,#{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectSonGoodLoadReport"
+          resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodLoadReportPageVO">
+    /**
+    搜寻中药装斗报表（分部）
+    */
+    SELECT
+    d.id as id,
+    d.load_date as loadDate,
+    d.load_code as code,
+    l.load_man_name as loadManName,
+    l.audit_man_name as auditManName,
+    d.goods_id as goodsId,
+    d.goods_code as goodsCode,
+    d.barcode as barcode,
+    d.goods_name as goodsName,
+    d.goods_generic_name as goodsGenericName,
+    d.dosage_id as dosageId,
+    d.dosage_name as dosageName,
+    d.goods_specification as goodsSpecification,
+    d.unit_id as unitId,
+    d.unit_name as unitName,
+    d.manufacturer_id as manufacturerId,
+    d.manufacturer as manufacturer,
+    d.goods_place as goodsPlace,
+    d.approval_number as approvalNumber,
+    d.lot_number as lotNum,
+    d.product_date as productDate,
+    d.valid_date as validDate,
+    d.src_shelf_id as srcShelfId,
+    d.src_shelf_name as srcShelfName,
+    d.src_shelf_status_desc as srcShelfStatusDesc,
+    d.target_shelf_id as targetShelfId,
+    d.target_shelf_name as targetShelfName,
+    d.target_shelf_status_desc as targetShelfStatusDesc,
+    d.quantity as quantity,
+    d.remark as remark,
+    l.status as status,
+    g.business_variety as businessVariety,
+    g.category_id as categoryId,
+    (
+    SELECT
+    cate.name
+    FROM
+    saas_goods_category cate
+    WHERE
+    cate.id = g.category_id
+    ) AS categoryName,
+    g.goods_attribute as goodsAttribute,
+    g.prescription_drug as prescriptionDrug,
+    g.otc_type as otcType,
+    g.cosmetics as cosmetics,
+    g.domestic_import as domesticImport,
+    g.management_scope_id as managementScopeId,
+    g.management_scope_name as managementScopeName,
+    g.special_drug as specialDrug,
+    g.spirit_drug_type as spiritDrugType,
+    g.formulation_type as formulationType,
+    g.in_charge_drug as inChargeDrug,
+    g.limit_quantity as limitQuantity,
+    g.storage_temp as storageTemp,
+    g.storage_condition_name as storageConditionName,
+    g.quality_period as qualityPeriod,
+    g.quality_period_unit as qualityPeriodUnit
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE d.enterprise_id = #{enterpriseId}
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test="param != null">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code , #{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+  <select id="selectFatherStastic" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_enterprise u
+    ON u.id = d.enterprise_id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test="param != null">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    <if test="chainType != null">
+      and u.chain_type = #{chainType}
+    </if>
+    <if test="enterpriseCode != null">
+      and INSTR(u.code , #{enterpriseCode})
+    </if>
+    <if test="enterpriseName != null">
+      and INSTR(u.name , #{enterpriseName})
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code ,#{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectSonStastic" resultType="java.lang.Integer">
+    SELECT
+    count(*)
+    FROM saas_goods_load_detail d
+    LEFT JOIN saas_goods_load l
+    ON d.load_id = l.id
+    LEFT JOIN saas_goods g
+    ON g.id = d.goods_id
+    WHERE d.enterprise_id = #{enterpriseId}
+    <if test="businessVariety != null">
+      and g.business_variety = #{businessVariety}
+    </if>
+    <if test="param != null">
+      AND (
+      INSTR(d.goods_code ,#{param})
+      OR INSTR(d.barcode ,#{param})
+      OR INSTR(d.goods_name ,#{param})
+      OR INSTR(d.goods_generic_name ,#{param})
+      OR INSTR(d.approval_number ,#{param})
+      )
+    </if>
+    /**
+    起始时间----终止时间
+    */
+    <if test="startTime != null">
+      and d.load_date &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and d.load_date &lt;= #{endTime}
+    </if>
+    <if test="code != null">
+      and INSTR(d.load_code , #{code})
+    </if>
+    <if test="loadManName != null">
+      and INSTR(l.load_man_name , #{loadManName})
+    </if>
+    <if test="auditManName != null">
+      and INSTR(l.audit_man_name , #{auditManName})
+    </if>
+    <if test="status != null">
+      and l.status = #{status}
+    </if>
+    <if test="categoryId != null">
+      and g.category_id = #{categoryId}
+    </if>
+    <if test="domesticImport != null">
+      and g.domestic_import = #{domesticImport}
+    </if>
+    <if test="storageTemp != null">
+      and g.storage_temp = #{storageTemp}
+    </if>
+    <if test="storageConditionName != null">
+      and INSTR(g.storage_condition_name , #{storageConditionName})
+    </if>
+    <if test="registeredTrademark != null">
+      and INSTR(g.registered_trademark , #{registeredTrademark})
+    </if>
+    <if test="brand != null">
+      and INSTR(g.brand , #{brand})
+    </if>
+    <if test="goodsAttribute != null">
+      and g.goods_attribute = #{goodsAttribute}
+    </if>
+    <if test="prescriptionDrug != null">
+      and g.prescription_drug = #{prescriptionDrug}
+    </if>
+    <if test="otcType != null">
+      and g.otc_type = #{otcType}
+    </if>
+    <if test="managementScopeId != null">
+      and g.management_scope_id = #{managementScopeId}
+    </if>
+    <if test="specialDrug != null">
+      and g.special_drug = #{specialDrug}
+    </if>
+    <if test="inChargeDrug != null">
+      and g.in_charge_drug = #{inChargeDrug}
+    </if>
+    <if test="spiritDrugType != null">
+      and g.spirit_drug_type = #{spiritDrugType}
+    </if>
+    <if test="formulationType != null">
+      and g.formulation_type = #{formulationType}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by d.${order} ${sort}
+      </when>
+      <otherwise>
+        order by d.id desc
+      </otherwise>
+    </choose>
+
+  </select>
+</mapper>

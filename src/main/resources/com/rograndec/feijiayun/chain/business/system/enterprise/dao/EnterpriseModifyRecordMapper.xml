@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.enterprise.dao.EnterpriseModifyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="key_id" jdbcType="BIGINT" property="keyId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecordWithBLOBs">
+    <result column="column_en_name" jdbcType="LONGVARCHAR" property="columnEnName" />
+    <result column="column_ch_name" jdbcType="LONGVARCHAR" property="columnChName" />
+    <result column="old_content" jdbcType="LONGVARCHAR" property="oldContent" />
+    <result column="new_content" jdbcType="LONGVARCHAR" property="newContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, table_name, key_id, reason, modifier_id, modifier_code, 
+    modifier_name, update_time, remark, creater_id, creater_code, creater_name, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    column_en_name, column_ch_name, old_content, new_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_enterprise_modify_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_enterprise_modify_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecordWithBLOBs">
+    insert into saas_enterprise_modify_record (id, enterprise_id, parent_id, 
+      table_name, key_id, reason, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      column_en_name, column_ch_name, old_content, 
+      new_content)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{tableName,jdbcType=VARCHAR}, #{keyId,jdbcType=BIGINT}, #{reason,jdbcType=VARCHAR}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{columnEnName,jdbcType=LONGVARCHAR}, #{columnChName,jdbcType=LONGVARCHAR}, #{oldContent,jdbcType=LONGVARCHAR}, 
+      #{newContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecordWithBLOBs">
+    insert into saas_enterprise_modify_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="keyId != null">
+        key_id,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+		create_time,
+	  </if>
+      <if test="columnEnName != null">
+        column_en_name,
+      </if>
+      <if test="columnChName != null">
+        column_ch_name,
+      </if>
+      <if test="oldContent != null">
+        old_content,
+      </if>
+      <if test="newContent != null">
+        new_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyId != null">
+        #{keyId,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+		#{createTime,jdbcType=TIMESTAMP},
+	  </if>
+      <if test="columnEnName != null">
+        #{columnEnName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="columnChName != null">
+        #{columnChName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="oldContent != null">
+        #{oldContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newContent != null">
+        #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecordWithBLOBs">
+    update saas_enterprise_modify_record
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyId != null">
+        key_id = #{keyId,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="columnEnName != null">
+        column_en_name = #{columnEnName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="columnChName != null">
+        column_ch_name = #{columnChName,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="oldContent != null">
+        old_content = #{oldContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newContent != null">
+        new_content = #{newContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecordWithBLOBs">
+    update saas_enterprise_modify_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      key_id = #{keyId,jdbcType=BIGINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      column_en_name = #{columnEnName,jdbcType=LONGVARCHAR},
+      column_ch_name = #{columnChName,jdbcType=LONGVARCHAR},
+      old_content = #{oldContent,jdbcType=LONGVARCHAR},
+      new_content = #{newContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.EnterpriseModifyRecord">
+    update saas_enterprise_modify_record
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      key_id = #{keyId,jdbcType=BIGINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectEnterpriseModifyRecord" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from saas_enterprise_modify_record
+    where enterprise_id = #{entrepriseId}
+    order by id desc limit #{start},#{pageSize}
+  </select>
+  
+  <select id="queryCountByEnterpriseId" resultType ="java.lang.Long">
+    select 
+    count(1)
+    from saas_enterprise_modify_record
+    where enterprise_id = #{entrepriseId}
+  </select>
+  
+</mapper>

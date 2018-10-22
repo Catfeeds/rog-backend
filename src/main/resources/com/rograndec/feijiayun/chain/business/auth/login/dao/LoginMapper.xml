@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rograndec.feijiayun.chain.business.auth.login.dao.LoginMapper">
+    <resultMap type="com.rograndec.feijiayun.chain.common.vo.UserVO" id="userMap">
+        <id property="userId" column="userId"/>
+        <result property="userCode" column="userCode"/>
+        <result property="userName" column="userName"/>
+        <result property="loginAccount" column="loginAccount"/>
+        <result property="password" column="password"/>
+        <result property="enterpriseId" column="enterpriseId"/>
+        <result property="enterpriseCode" column="enterpriseCode"/>
+        <result property="enterpriseName" column="enterpriseName"/>
+        <result property="parentId" column="parentId"/>
+        <result property="parentCode" column="parentCode"/>
+        <result property="parentName" column="parentName"/>
+        <result property="chainType" column="chainType"/>
+        <result property="rgtUserId" column="rgtUserId"/>
+        <result property="rgtEnterpriseId" column="rgtEnterpriseId"/>
+        <result property="approveStatus" column="approveStatus"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    
+    <select id="findUserByLoginAccount" parameterType="java.lang.String" resultMap="userMap">
+    	<![CDATA[ 
+	        SELECT
+				u.id AS userId,
+				u.`code` AS userCode,
+				u.`name` AS userName,
+				ua.login_account AS loginAccount,
+				ua.`password`,
+				u.enterprise_id AS enterpriseId,
+				u.rgt_user_id as rgtUserId,
+				e.rgt_enterprise_id as rgtEnterpriseId,
+				e.`code` AS enterpriseCode,
+				e.`name` AS enterpriseName,
+				u.parent_id AS parentId,
+				p.CODE AS parentCode,
+				p.NAME AS parentName,
+				e.chain_type AS chainType,
+				u.approve_status AS approveStatus,
+				u.status as status
+
+			FROM
+				saas_user u
+			INNER JOIN saas_enterprise e ON u.enterprise_id = e.id
+			LEFT JOIN saas_enterprise p ON e.parent_id = p.id
+			INNER JOIN saas_user_administration ua ON ua.user_id = u.id
+			WHERE
+				ua.login_account = #{loginAccount}
+    	]]>
+	</select>
+	
+	<!-- POS登录验证是否为款员 -->
+	<select id="findUserByPOSLoginAccount" parameterType="java.lang.String" resultMap="userMap">
+    	<![CDATA[ 
+	        SELECT
+				u.id AS userId,
+				u.`code` AS userCode,
+				u.`name` AS userName,
+				ua.login_account AS loginAccount,
+				ua.`password`,
+				u.enterprise_id AS enterpriseId,
+				e.`code` AS enterpriseCode,
+				e.`name` AS enterpriseName,
+				u.parent_id AS parentId,
+				p.CODE AS parentCode,
+				p.NAME AS parentName,
+				e.chain_type AS chainType,
+				u.approve_status AS approveStatus,
+				u.status as status
+			FROM
+				saas_user u
+			INNER JOIN saas_enterprise e 
+		    	ON u.enterprise_id = e.id 
+		    LEFT JOIN saas_enterprise p 
+		    ON e.parent_id = p.id 
+		    INNER JOIN saas_user_administration ua 
+		    	ON ua.user_id = u.id 
+		  	INNER JOIN saas_pos_payee pa
+		    	ON pa.`payee_id` = u.id
+			WHERE
+				ua.login_account = #{loginAccount}
+    	]]>
+	</select>
+</mapper>

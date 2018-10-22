@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.finance.account.dao.AccountsDtlReportMapper">
+
+	<!-- 查询条件 -->
+	<sql id="whereSql">
+		<!-- 总部/加盟店只看自己的数据 -->
+		<if test="enterpriseId != null">
+			and a.enterprise_id = #{enterpriseId}
+		</if>
+		<!-- 应付/应收数据 -->
+		<if test="accountCode != null">
+			and a.account_code = #{accountCode} 
+		</if>
+		<if test="startDate != null and endDate !=null">
+			and DATE_FORMAT(a.order_date,'%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="companyCode != null">
+			and INSTR(a.sub_account_code,#{companyCode})
+		</if>
+		<if test="companyName != null">
+			and INSTR(a.sub_account_name,#{companyName})
+		</if>
+	</sql>
+	
+	<sql id="selectSql">
+		(SELECT
+		b.year AS kjyear,
+		b.month AS kjmonth,
+		a.id,
+		a.sub_account_id,
+		a.order_date AS orderDate,
+		a.order_code AS orderCode,
+		a.order_type AS orderType,
+		a.base_operator_name AS baseOperatorName,
+		a.remark,
+		'1' AS subAccountCodeAndName,
+		a.sub_account_code AS subAccountCode,
+		a.sub_account_name AS subAccountName,
+		a.debit_amount AS debitAmount,
+		a.credit_amount AS creditAmount,
+		a.balance
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date,
+		d.status
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id =#{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		ORDER BY a.id ASC
+		)
+		UNION ALL
+		(
+		SELECT
+		b.year AS kjyear,
+		b.month AS kjmonth,
+		a.id,
+		a.sub_account_id,
+		'' AS orderDate,
+		'' AS orderCode,
+		'' AS orderType,
+		'' AS baseOperatorName,
+		'期初余额' AS remark,
+		'0' AS subAccountCodeAndName,
+		a.sub_account_code AS subAccountCode,
+		a.sub_account_name AS subAccountName,
+		'' AS debitAmount,
+		'' AS creditAmount,
+		(a.balance+a.credit_amount-a.debit_amount) AS balance
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date,
+		d.status
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id =#{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id
+		ORDER BY a.id ASC		
+		)
+		UNION ALL
+		(
+		<include refid="monthTotalSql"></include>
+		)
+		UNION ALL
+		(
+		SELECT
+		t.kjyear,
+		t.kjmonth,
+		t.t.id,
+		t.sub_account_id,
+		'' AS orderDate,
+		'' AS orderCode,
+		'' AS orderType,
+		'' AS baseOperatorName,
+		'本年累计' AS remark,
+		'3' AS subAccountCodeAndName,
+		t.subAccountCode,
+		t.subAccountName,
+		SUM(t.debitAmount) AS debitAmount,
+		SUM(t.creditAmount) AS creditAmount,
+		'' balance
+		FROM
+		(
+		<include refid="monthTotalSql"></include>
+		)t 
+		JOIN
+		(
+		<include refid="monthTotalSql"></include>
+		)tt 
+		ON t.id >= tt.id AND t.sub_account_id=tt.sub_account_id AND t.kjyear = tt.kjyear
+		GROUP BY t.sub_account_id,t.kjyear,t.kjmonth,t.debitAmount,t.creditAmount
+		)
+	</sql>
+	
+	<!-- 本月合计的数据 -->
+	<sql id="monthTotalSql">
+		SELECT
+		b.year AS kjyear,
+		b.month AS kjmonth,
+		a.id,
+		a.sub_account_id,
+		'' AS orderDate,
+		'' AS orderCode,
+		'' AS orderType,
+		'' AS baseOperatorName,
+		'本月合计' AS remark,
+		'2' AS subAccountCodeAndName,
+		a.sub_account_code AS subAccountCode,
+		a.sub_account_name AS subAccountName,
+		SUM(a.debit_amount) AS debitAmount,
+		SUM(a.credit_amount) AS creditAmount,
+		'' balance
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date,
+		d.status
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id =#{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id,b.month
+		ORDER BY a.id ASC
+	</sql>
+	
+	
+	
+	<!-- count -->
+	<sql id="countSql">
+		(SELECT
+		a.id
+		FROM
+		saas_finance_voucher a
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		ORDER BY a.id ASC
+		)
+		
+		UNION ALL
+		(
+		SELECT
+		a.id
+		FROM
+		saas_finance_voucher a
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id
+		ORDER BY a.id ASC
+		)
+		
+		UNION ALL
+		(
+		SELECT
+		a.id
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id =#{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id,b.month
+		ORDER BY a.id ASC		
+		)
+		
+		UNION ALL
+		(
+		SELECT
+		a.id
+		FROM
+		saas_finance_voucher a
+		LEFT JOIN 
+		(
+		SELECT
+		d.enterprise_id,
+		d.parent_id,
+		d.year,
+		d.month,
+		d.start_date,
+		d.end_date
+		FROM
+		saas_accounting_period_detail d
+		WHERE d.enterprise_id =#{enterpriseId}
+		) b
+		ON a.enterprise_id = b.enterprise_id
+		AND DATE_FORMAT(b.start_date, '%Y-%m-%d') &lt;= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		AND DATE_FORMAT(b.end_date, '%Y-%m-%d') >= DATE_FORMAT(a.order_date,'%Y-%m-%d')
+		WHERE 1=1
+		<include refid="whereSql"></include>
+		GROUP BY a.sub_account_id,b.year,b.month
+		ORDER BY a.id ASC
+		)
+	</sql>
+	
+
+	<select id="getAccountsDtl" resultType="com.rograndec.feijiayun.chain.business.report.finance.account.vo.AccountsDtlVO">
+		select
+		*
+		from
+		(
+		<include refid="selectSql"></include>
+		)tab
+		ORDER BY sub_account_id,kjmonth,subAccountCodeAndName,orderDate ASC
+		<if test="start != null">
+	      limit #{start},#{pageSize}
+	    </if>
+	</select>
+
+	<select id="countAccountsDtl" resultType="java.lang.Integer">
+		select 
+		count(1)
+		FROM
+		(
+		<include refid="countSql"></include>
+		)tabcount
+		order by id
+	</select>
+
+
+</mapper>

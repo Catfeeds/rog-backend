@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.equipment.dao.EquipmentMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="specification_model" jdbcType="VARCHAR" property="specificationModel" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="factory_number" jdbcType="VARCHAR" property="factoryNumber" />
+    <result column="classify_number" jdbcType="VARCHAR" property="classifyNumber" />
+    <result column="measure_range" jdbcType="VARCHAR" property="measureRange" />
+    <result column="accuracy_class" jdbcType="VARCHAR" property="accuracyClass" />
+    <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+    <result column="purchase_date" jdbcType="TIMESTAMP" property="purchaseDate" />
+    <result column="purchaser" jdbcType="VARCHAR" property="purchaser" />
+    <result column="purchase_quantity" jdbcType="INTEGER" property="purchaseQuantity" />
+    <result column="purchase_price" jdbcType="DECIMAL" property="purchasePrice" />
+    <result column="purchase_amount" jdbcType="DECIMAL" property="purchaseAmount" />
+    <result column="year_limit" jdbcType="INTEGER" property="yearLimit" />
+    <result column="year_limit_unit" jdbcType="INTEGER" property="yearLimitUnit" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="config_site" jdbcType="VARCHAR" property="configSite" />
+    <result column="dept_id" jdbcType="BIGINT" property="deptId" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="check_period" jdbcType="INTEGER" property="checkPeriod" />
+    <result column="check_period_unit" jdbcType="INTEGER" property="checkPeriodUnit" />
+    <result column="clean_period" jdbcType="INTEGER" property="cleanPeriod" />
+    <result column="clean_period_unit" jdbcType="INTEGER" property="cleanPeriodUnit" />
+    <result column="maintaince_period" jdbcType="INTEGER" property="maintaincePeriod" />
+    <result column="maintaince_period_unit" jdbcType="INTEGER" property="maintaincePeriodUnit" />
+    <result column="calibration_period" jdbcType="INTEGER" property="calibrationPeriod" />
+    <result column="calibration_period_unit" jdbcType="INTEGER" property="calibrationPeriodUnit" />
+    <result column="docimasy_period" jdbcType="INTEGER" property="docimasyPeriod" />
+    <result column="docimasy_period_unit" jdbcType="INTEGER" property="docimasyPeriodUnit" />
+    <result column="validate_period" jdbcType="INTEGER" property="validatePeriod" />
+    <result column="validate_period_unit" jdbcType="INTEGER" property="validatePeriodUnit" />
+    <result column="charge_man_id" jdbcType="BIGINT" property="chargeManId" />
+    <result column="charge_man_code" jdbcType="VARCHAR" property="chargeManCode" />
+    <result column="charge_man_name" jdbcType="VARCHAR" property="chargeManName" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, enterprise_code, enterprise_name, parent_id, type_id, type_code, 
+    type_name, code, name, specification_model, manufacturer, factory_number, classify_number, 
+    measure_range, accuracy_class, product_date, purchase_date, purchaser, purchase_quantity, 
+    purchase_price, purchase_amount, year_limit, year_limit_unit, purpose, config_site, 
+    dept_id, dept_code, dept_name, check_period, check_period_unit, clean_period, clean_period_unit, 
+    maintaince_period, maintaince_period_unit, calibration_period, calibration_period_unit, 
+    docimasy_period, docimasy_period_unit, validate_period, validate_period_unit, charge_man_id, 
+    charge_man_code, charge_man_name, file_id, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <sql id="Report_Column_List">
+    a.id,a.enterprise_id,a.enterprise_code,a.enterprise_name,a.parent_id,a.type_id,a.type_code,
+    a.type_name,a.code,a.name,a.specification_model,a.manufacturer,a.factory_number,a.classify_number,
+    a.measure_range,a.accuracy_class,a.product_date,a.purchase_date,a.purchaser,a.purchase_quantity,
+    a.purchase_price,a.purchase_amount,a.year_limit,a.year_limit_unit,a.purpose,a.config_site,
+    a.dept_id,a.dept_code,a.dept_name,a.check_period,a.check_period_unit,a.clean_period,a.clean_period_unit,
+    a.maintaince_period,a.maintaince_period_unit,a.calibration_period,a.calibration_period_unit,
+    a.docimasy_period,a.docimasy_period_unit,a.validate_period,a.validate_period_unit,a.charge_man_id,
+    a.charge_man_code,a.charge_man_name,a.file_id,a.status,a.remark,a.creater_id,a.creater_code,
+    a.creater_name,a.create_time,a.modifier_id,a.modifier_code,a.modifier_name,a.update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_equipment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_equipment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+    insert into saas_equipment (id, enterprise_id, enterprise_code, 
+      enterprise_name, parent_id, type_id, 
+      type_code, type_name, code, 
+      name, specification_model, manufacturer, 
+      factory_number, classify_number, measure_range, 
+      accuracy_class, product_date, purchase_date, 
+      purchaser, purchase_quantity, purchase_price, 
+      purchase_amount, year_limit, year_limit_unit, 
+      purpose, config_site, dept_id, 
+      dept_code, dept_name, check_period, 
+      check_period_unit, clean_period, clean_period_unit, 
+      maintaince_period, maintaince_period_unit, 
+      calibration_period, calibration_period_unit, 
+      docimasy_period, docimasy_period_unit, validate_period, 
+      validate_period_unit, charge_man_id, charge_man_code, 
+      charge_man_name, file_id, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{enterpriseCode,jdbcType=VARCHAR}, 
+      #{enterpriseName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, 
+      #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{specificationModel,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, 
+      #{factoryNumber,jdbcType=VARCHAR}, #{classifyNumber,jdbcType=VARCHAR}, #{measureRange,jdbcType=VARCHAR}, 
+      #{accuracyClass,jdbcType=VARCHAR}, #{productDate,jdbcType=TIMESTAMP}, #{purchaseDate,jdbcType=TIMESTAMP}, 
+      #{purchaser,jdbcType=VARCHAR}, #{purchaseQuantity,jdbcType=INTEGER}, #{purchasePrice,jdbcType=DECIMAL}, 
+      #{purchaseAmount,jdbcType=DECIMAL}, #{yearLimit,jdbcType=INTEGER}, #{yearLimitUnit,jdbcType=INTEGER}, 
+      #{purpose,jdbcType=VARCHAR}, #{configSite,jdbcType=VARCHAR}, #{deptId,jdbcType=BIGINT}, 
+      #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{checkPeriod,jdbcType=INTEGER}, 
+      #{checkPeriodUnit,jdbcType=INTEGER}, #{cleanPeriod,jdbcType=INTEGER}, #{cleanPeriodUnit,jdbcType=INTEGER}, 
+      #{maintaincePeriod,jdbcType=INTEGER}, #{maintaincePeriodUnit,jdbcType=INTEGER}, 
+      #{calibrationPeriod,jdbcType=INTEGER}, #{calibrationPeriodUnit,jdbcType=INTEGER}, 
+      #{docimasyPeriod,jdbcType=INTEGER}, #{docimasyPeriodUnit,jdbcType=INTEGER}, #{validatePeriod,jdbcType=INTEGER}, 
+      #{validatePeriodUnit,jdbcType=INTEGER}, #{chargeManId,jdbcType=BIGINT}, #{chargeManCode,jdbcType=VARCHAR}, 
+      #{chargeManName,jdbcType=VARCHAR}, #{fileId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+    insert into saas_equipment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code,
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="specificationModel != null">
+        specification_model,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="factoryNumber != null">
+        factory_number,
+      </if>
+      <if test="classifyNumber != null">
+        classify_number,
+      </if>
+      <if test="measureRange != null">
+        measure_range,
+      </if>
+      <if test="accuracyClass != null">
+        accuracy_class,
+      </if>
+      <if test="productDate != null">
+        product_date,
+      </if>
+      <if test="purchaseDate != null">
+        purchase_date,
+      </if>
+      <if test="purchaser != null">
+        purchaser,
+      </if>
+      <if test="purchaseQuantity != null">
+        purchase_quantity,
+      </if>
+      <if test="purchasePrice != null">
+        purchase_price,
+      </if>
+      <if test="purchaseAmount != null">
+        purchase_amount,
+      </if>
+      <if test="yearLimit != null">
+        year_limit,
+      </if>
+      <if test="yearLimitUnit != null">
+        year_limit_unit,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="configSite != null">
+        config_site,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="checkPeriod != null">
+        check_period,
+      </if>
+      <if test="checkPeriodUnit != null">
+        check_period_unit,
+      </if>
+      <if test="cleanPeriod != null">
+        clean_period,
+      </if>
+      <if test="cleanPeriodUnit != null">
+        clean_period_unit,
+      </if>
+      <if test="maintaincePeriod != null">
+        maintaince_period,
+      </if>
+      <if test="maintaincePeriodUnit != null">
+        maintaince_period_unit,
+      </if>
+      <if test="calibrationPeriod != null">
+        calibration_period,
+      </if>
+      <if test="calibrationPeriodUnit != null">
+        calibration_period_unit,
+      </if>
+      <if test="docimasyPeriod != null">
+        docimasy_period,
+      </if>
+      <if test="docimasyPeriodUnit != null">
+        docimasy_period_unit,
+      </if>
+      <if test="validatePeriod != null">
+        validate_period,
+      </if>
+      <if test="validatePeriodUnit != null">
+        validate_period_unit,
+      </if>
+      <if test="chargeManId != null">
+        charge_man_id,
+      </if>
+      <if test="chargeManCode != null">
+        charge_man_code,
+      </if>
+      <if test="chargeManName != null">
+        charge_man_name,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseCode != null">
+        #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specificationModel != null">
+        #{specificationModel,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryNumber != null">
+        #{factoryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyNumber != null">
+        #{classifyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="measureRange != null">
+        #{measureRange,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracyClass != null">
+        #{accuracyClass,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseDate != null">
+        #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaser != null">
+        #{purchaser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseQuantity != null">
+        #{purchaseQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePrice != null">
+        #{purchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseAmount != null">
+        #{purchaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearLimit != null">
+        #{yearLimit,jdbcType=INTEGER},
+      </if>
+      <if test="yearLimitUnit != null">
+        #{yearLimitUnit,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="configSite != null">
+        #{configSite,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPeriod != null">
+        #{checkPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="checkPeriodUnit != null">
+        #{checkPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="cleanPeriod != null">
+        #{cleanPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="cleanPeriodUnit != null">
+        #{cleanPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintaincePeriod != null">
+        #{maintaincePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="maintaincePeriodUnit != null">
+        #{maintaincePeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="calibrationPeriod != null">
+        #{calibrationPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="calibrationPeriodUnit != null">
+        #{calibrationPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="docimasyPeriod != null">
+        #{docimasyPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="docimasyPeriodUnit != null">
+        #{docimasyPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="validatePeriod != null">
+        #{validatePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="validatePeriodUnit != null">
+        #{validatePeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="chargeManId != null">
+        #{chargeManId,jdbcType=BIGINT},
+      </if>
+      <if test="chargeManCode != null">
+        #{chargeManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeManName != null">
+        #{chargeManName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+    update saas_equipment
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null">
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specificationModel != null">
+        specification_model = #{specificationModel,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryNumber != null">
+        factory_number = #{factoryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyNumber != null">
+        classify_number = #{classifyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="measureRange != null">
+        measure_range = #{measureRange,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracyClass != null">
+        accuracy_class = #{accuracyClass,jdbcType=VARCHAR},
+      </if>
+      <if test="productDate != null">
+        product_date = #{productDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseDate != null">
+        purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaser != null">
+        purchaser = #{purchaser,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseQuantity != null">
+        purchase_quantity = #{purchaseQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePrice != null">
+        purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseAmount != null">
+        purchase_amount = #{purchaseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="yearLimit != null">
+        year_limit = #{yearLimit,jdbcType=INTEGER},
+      </if>
+      <if test="yearLimitUnit != null">
+        year_limit_unit = #{yearLimitUnit,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="configSite != null">
+        config_site = #{configSite,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=BIGINT},
+      </if>
+      <if test="deptCode != null">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPeriod != null">
+        check_period = #{checkPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="checkPeriodUnit != null">
+        check_period_unit = #{checkPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="cleanPeriod != null">
+        clean_period = #{cleanPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="cleanPeriodUnit != null">
+        clean_period_unit = #{cleanPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="maintaincePeriod != null">
+        maintaince_period = #{maintaincePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="maintaincePeriodUnit != null">
+        maintaince_period_unit = #{maintaincePeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="calibrationPeriod != null">
+        calibration_period = #{calibrationPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="calibrationPeriodUnit != null">
+        calibration_period_unit = #{calibrationPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="docimasyPeriod != null">
+        docimasy_period = #{docimasyPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="docimasyPeriodUnit != null">
+        docimasy_period_unit = #{docimasyPeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="validatePeriod != null">
+        validate_period = #{validatePeriod,jdbcType=INTEGER},
+      </if>
+      <if test="validatePeriodUnit != null">
+        validate_period_unit = #{validatePeriodUnit,jdbcType=INTEGER},
+      </if>
+      <if test="chargeManId != null">
+        charge_man_id = #{chargeManId,jdbcType=BIGINT},
+      </if>
+      <if test="chargeManCode != null">
+        charge_man_code = #{chargeManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeManName != null">
+        charge_man_name = #{chargeManName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+    update saas_equipment
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      type_id = #{typeId,jdbcType=BIGINT},
+      type_code = #{typeCode,jdbcType=VARCHAR},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      specification_model = #{specificationModel,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      factory_number = #{factoryNumber,jdbcType=VARCHAR},
+      classify_number = #{classifyNumber,jdbcType=VARCHAR},
+      measure_range = #{measureRange,jdbcType=VARCHAR},
+      accuracy_class = #{accuracyClass,jdbcType=VARCHAR},
+      product_date = #{productDate,jdbcType=TIMESTAMP},
+      purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      purchaser = #{purchaser,jdbcType=VARCHAR},
+      purchase_quantity = #{purchaseQuantity,jdbcType=INTEGER},
+      purchase_price = #{purchasePrice,jdbcType=DECIMAL},
+      purchase_amount = #{purchaseAmount,jdbcType=DECIMAL},
+      year_limit = #{yearLimit,jdbcType=INTEGER},
+      year_limit_unit = #{yearLimitUnit,jdbcType=INTEGER},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      config_site = #{configSite,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=BIGINT},
+      dept_code = #{deptCode,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      check_period = #{checkPeriod,jdbcType=INTEGER},
+      check_period_unit = #{checkPeriodUnit,jdbcType=INTEGER},
+      clean_period = #{cleanPeriod,jdbcType=INTEGER},
+      clean_period_unit = #{cleanPeriodUnit,jdbcType=INTEGER},
+      maintaince_period = #{maintaincePeriod,jdbcType=INTEGER},
+      maintaince_period_unit = #{maintaincePeriodUnit,jdbcType=INTEGER},
+      calibration_period = #{calibrationPeriod,jdbcType=INTEGER},
+      calibration_period_unit = #{calibrationPeriodUnit,jdbcType=INTEGER},
+      docimasy_period = #{docimasyPeriod,jdbcType=INTEGER},
+      docimasy_period_unit = #{docimasyPeriodUnit,jdbcType=INTEGER},
+      validate_period = #{validatePeriod,jdbcType=INTEGER},
+      validate_period_unit = #{validatePeriodUnit,jdbcType=INTEGER},
+      charge_man_id = #{chargeManId,jdbcType=BIGINT},
+      charge_man_code = #{chargeManCode,jdbcType=VARCHAR},
+      charge_man_name = #{chargeManName,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="whereSql">
+    <where>
+      <choose>
+        <when test="list != null">
+          enterprise_id IN
+          <foreach collection="list" index="index" item="item" open="("
+                   separator="," close=")">
+            #{item}
+          </foreach>
+        </when>
+        <otherwise>
+          enterprise_id=#{enterpriseId}
+        </otherwise>
+      </choose>
+      <!--<if test="1==1">and (parent_id=#{enterpriseId} or enterprise_id=#{enterpriseId})</if>-->
+      <if test="typeId != null">and type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        code LIKE CONCAT('%',#{code},'%')
+        or
+        name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+    </where>
+  </sql>
+  <select id="countListEquipmentData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultType="int">
+    select
+      count(1)
+    from saas_equipment
+    <include refid="whereSql"/>
+  </select>
+  <select id="listEquipmentData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+    select
+    equipment.id, equipment.enterprise_id, equipment.enterprise_code, equipment.enterprise_name, equipment.parent_id, equipment.type_id, equipment.type_code,
+    equipment.type_name, equipment.code, equipment.name, equipment.specification_model, equipment.manufacturer, equipment.factory_number, equipment.classify_number,
+    equipment.measure_range, equipment.accuracy_class, equipment.product_date, equipment.purchase_date, equipment.purchaser, equipment.purchase_quantity,
+    equipment.purchase_price, equipment.purchase_amount, equipment.year_limit, equipment.year_limit_unit, equipment.purpose, equipment.config_site,
+    equipment.dept_id, equipment.dept_code, equipment.dept_name, equipment.check_period, equipment.check_period_unit, equipment.clean_period, equipment.clean_period_unit,
+    equipment.maintaince_period, equipment.maintaince_period_unit, equipment.calibration_period, equipment.calibration_period_unit,
+    equipment.docimasy_period, equipment.docimasy_period_unit, equipment.validate_period, equipment.validate_period_unit, equipment.charge_man_id,
+    equipment.charge_man_code, equipment.charge_man_name, equipment.file_id, equipment.status, equipment.remark, equipment.creater_id, equipment.creater_code,
+    equipment.creater_name, equipment.create_time, equipment.modifier_id, equipment.modifier_code, equipment.modifier_name, equipment.update_time,file.file_name
+    from saas_equipment equipment
+    LEFT  JOIN  saas_file file ON file.id = equipment.file_id
+    <where>
+      <!--<if test="1==1">and (equipment.parent_id=#{enterpriseId} or equipment.enterprise_id=#{enterpriseId})</if>-->
+      <choose>
+        <when test="list != null">
+          equipment.enterprise_id IN
+          <foreach collection="list" index="index" item="item" open="("
+                   separator="," close=")">
+            #{item}
+          </foreach>
+        </when>
+        <otherwise>
+          equipment.enterprise_id=#{enterpriseId}
+        </otherwise>
+      </choose>
+      <if test="typeId != null">and equipment.type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        equipment.code LIKE CONCAT('%',#{code},'%')
+        or
+        equipment.name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+    </where>
+    <if test="sort != null and sort != ''">
+      order by equipment.${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <sql id="whereReportSql">
+    <!--<where>
+      <if test="1==1">and (a.parent_id=#{enterpriseId} or a.enterprise_id=#{enterpriseId})</if>
+      <if test="typeId != null">and a.type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        a.code LIKE CONCAT('%',#{code},'%')
+        or
+        a.name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+	  <if test="chainType!=null">AND b.chain_type=#{chainType}</if>
+	  <if test="enterpriseCode!=null and enterpriseCode!='' ">AND a.enterprise_code LIKE CONCAT('%',#{enterpriseCode},'%')</if>
+	  <if test="enterpriseName!=null and enterpriseName!='' ">AND a.enterprise_name LIKE CONCAT('%',#{enterpriseName},'%')</if>
+    </where>-->
+    <where>
+      <choose>
+        <when test="list != null">
+          a.enterprise_id IN
+          <foreach collection="list" index="index" item="item" open="("
+                   separator="," close=")">
+            #{item}
+          </foreach>
+        </when>
+        <otherwise>
+          a.enterprise_id=#{enterpriseId}
+        </otherwise>
+      </choose>
+      <if test="typeId != null">and a.type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        a.code LIKE CONCAT('%',#{code},'%')
+        or
+        a.name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+      <if test="chainType!=null">AND b.chain_type=#{chainType}</if>
+      <if test="enterpriseCode!=null and enterpriseCode!='' ">AND a.enterprise_code LIKE
+        CONCAT('%',#{enterpriseCode},'%')</if>
+      <if test="enterpriseName!=null and enterpriseName!='' ">AND a.enterprise_name LIKE
+        CONCAT('%',#{enterpriseName},'%')</if>
+    </where>
+  </sql>
+  <select id="countListEquipmentReportData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultType="int">
+    select
+      count(1)
+    from saas_equipment a left join saas_enterprise b
+	  on b.id=a.enterprise_id
+    <include refid="whereReportSql"/>
+  </select>
+  <select id="listEquipmentReportData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+    select
+    <include refid="Report_Column_List" />
+    from saas_equipment a left join saas_enterprise b
+	  on b.id=a.enterprise_id
+    <include refid="whereReportSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+	<select id="listEquipmentPrintData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+		select
+		<include refid="Report_Column_List" />
+		from saas_equipment a left join saas_enterprise b
+		on b.id=a.enterprise_id
+		<include refid="whereReportSql"/>
+		<if test="sort != null and sort != ''">
+			order by ${sort}
+		</if>
+	</select>
+
+  <!--当前企业下部门-->
+  <select id="getDepartment"
+          resultType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.DepartmentVO">
+
+    select id,code,name, parent_dept_id as parentDeptId from saas_department where (enterprise_id = #{enterpriseId} or enterprise_id = 0) and  status = 1
+
+  </select>
+
+  <!-- 检查名称和编码重复 -->
+  <select id="checkRepeat"
+          resultType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.Equipment">
+
+      select id from saas_equipment
+
+      WHERE enterprise_id = #{enterpriseId}
+      and  code = #{code}
+      <if test="id != null">
+        and id != #{id}
+      </if>
+
+  </select>
+    <select id="selectByEnterpriseId"
+            resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      from saas_equipment
+      WHERE enterprise_id = #{enterpriseId}
+
+    </select>
+</mapper>

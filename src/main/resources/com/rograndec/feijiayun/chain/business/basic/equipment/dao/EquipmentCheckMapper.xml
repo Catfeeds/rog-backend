@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.equipment.dao.EquipmentCheckMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentCheck">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="equipment_id" jdbcType="BIGINT" property="equipmentId" />
+    <result column="equipment_code" jdbcType="VARCHAR" property="equipmentCode" />
+    <result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="equipment_status" jdbcType="INTEGER" property="equipmentStatus" />
+    <result column="operate_type" jdbcType="INTEGER" property="operateType" />
+    <result column="operate_org" jdbcType="VARCHAR" property="operateOrg" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="operate_poject" jdbcType="VARCHAR" property="operatePoject" />
+    <result column="technology_man" jdbcType="VARCHAR" property="technologyMan" />
+    <result column="conclusion" jdbcType="VARCHAR" property="conclusion" />
+    <result column="measures" jdbcType="VARCHAR" property="measures" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, enterprise_code, enterprise_name, parent_id, type_id, type_code, 
+    type_name, equipment_id, equipment_code, equipment_name, start_date, end_date, equipment_status, 
+    operate_type, operate_org, operator, operate_poject, technology_man, conclusion, 
+    measures, file_id, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <sql id="Report_Column_List">
+    a.id, a.enterprise_id, a.enterprise_code, a.enterprise_name, a.parent_id, a.type_id, a.type_code,
+    a.type_name, a.equipment_id, a.equipment_code, a.equipment_name, a.start_date, a.end_date, a.equipment_status,
+    a.operate_type, a.operate_org, a.operator, a.operate_poject, a.technology_man, a.conclusion,
+    a.measures, a.file_id, a.status, a.remark, a.creater_id, a.creater_code, a.creater_name, a.create_time,
+    a.modifier_id, a.modifier_code, a.modifier_name, a.update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_equipment_check
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_equipment_check
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentCheck">
+    insert into saas_equipment_check (id, enterprise_id, enterprise_code, 
+      enterprise_name, parent_id, type_id, 
+      type_code, type_name, equipment_id, 
+      equipment_code, equipment_name, start_date, 
+      end_date, equipment_status, operate_type, 
+      operate_org, operator, operate_poject, 
+      technology_man, conclusion, measures, 
+      file_id, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{enterpriseCode,jdbcType=VARCHAR}, 
+      #{enterpriseName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, 
+      #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{equipmentId,jdbcType=BIGINT}, 
+      #{equipmentCode,jdbcType=VARCHAR}, #{equipmentName,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{equipmentStatus,jdbcType=INTEGER}, #{operateType,jdbcType=INTEGER}, 
+      #{operateOrg,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operatePoject,jdbcType=VARCHAR}, 
+      #{technologyMan,jdbcType=VARCHAR}, #{conclusion,jdbcType=VARCHAR}, #{measures,jdbcType=VARCHAR}, 
+      #{fileId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentCheck">
+    insert into saas_equipment_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code,
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="equipmentCode != null">
+        equipment_code,
+      </if>
+      <if test="equipmentName != null">
+        equipment_name,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="equipmentStatus != null">
+        equipment_status,
+      </if>
+      <if test="operateType != null">
+        operate_type,
+      </if>
+      <if test="operateOrg != null">
+        operate_org,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="operatePoject != null">
+        operate_poject,
+      </if>
+      <if test="technologyMan != null">
+        technology_man,
+      </if>
+      <if test="conclusion != null">
+        conclusion,
+      </if>
+      <if test="measures != null">
+        measures,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseCode != null">
+        #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=BIGINT},
+      </if>
+      <if test="equipmentCode != null">
+        #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null">
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentStatus != null">
+        #{equipmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operateType != null">
+        #{operateType,jdbcType=INTEGER},
+      </if>
+      <if test="operateOrg != null">
+        #{operateOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatePoject != null">
+        #{operatePoject,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyMan != null">
+        #{technologyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="measures != null">
+        #{measures,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentCheck">
+    update saas_equipment_check
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="typeCode != null">
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=BIGINT},
+      </if>
+      <if test="equipmentCode != null">
+        equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null">
+        equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="equipmentStatus != null">
+        equipment_status = #{equipmentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operateType != null">
+        operate_type = #{operateType,jdbcType=INTEGER},
+      </if>
+      <if test="operateOrg != null">
+        operate_org = #{operateOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatePoject != null">
+        operate_poject = #{operatePoject,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyMan != null">
+        technology_man = #{technologyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        conclusion = #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="measures != null">
+        measures = #{measures,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.entity.EquipmentCheck">
+    update saas_equipment_check
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      type_id = #{typeId,jdbcType=BIGINT},
+      type_code = #{typeCode,jdbcType=VARCHAR},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      equipment_id = #{equipmentId,jdbcType=BIGINT},
+      equipment_code = #{equipmentCode,jdbcType=VARCHAR},
+      equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      equipment_status = #{equipmentStatus,jdbcType=INTEGER},
+      operate_type = #{operateType,jdbcType=INTEGER},
+      operate_org = #{operateOrg,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      operate_poject = #{operatePoject,jdbcType=VARCHAR},
+      technology_man = #{technologyMan,jdbcType=VARCHAR},
+      conclusion = #{conclusion,jdbcType=VARCHAR},
+      measures = #{measures,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <sql id="whereSql">
+    <where>
+      <choose>
+        <when test="list != null">
+          enterprise_id IN
+          <foreach collection="list" index="index" item="item" open="("
+                   separator="," close=")">
+            #{item}
+          </foreach>
+        </when>
+        <otherwise>
+          enterprise_id=#{enterpriseId}
+        </otherwise>
+      </choose>
+      <!--<if test="1==1">and (parent_id=#{enterpriseId} or enterprise_id=#{enterpriseId})</if>-->
+      <if test="typeId != null">and type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+	      equipment_code LIKE CONCAT('%',#{code},'%')
+        or
+	      equipment_name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+    </where>
+  </sql>
+  <select id="countEquipmentCheckData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultType="int">
+    select
+    count(1)
+    from saas_equipment_check
+    <include refid="whereSql"/>
+  </select>
+  <select id="listEquipmentCheckData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+    select
+    ch.id, ch.enterprise_id, ch.enterprise_code, ch.enterprise_name, ch.parent_id, ch.type_id, ch.type_code,
+    ch.type_name, ch.equipment_id, ch.equipment_code, ch.equipment_name, ch.start_date, ch.end_date, ch.equipment_status,
+    ch.operate_type, ch.operate_org, ch.operator, ch.operate_poject, ch.technology_man, ch.conclusion,
+    ch.measures, ch.file_id, ch.status, ch.remark, ch.creater_id, ch.creater_code, ch.creater_name, ch.create_time,
+    ch.modifier_id, ch.modifier_code, ch.modifier_name, ch.update_time,file_name
+    from saas_equipment_check ch left JOIN saas_file file  on file.id = ch.file_id
+    <where>
+      <choose>
+        <when test="list != null">
+          ch.enterprise_id IN
+          <foreach collection="list" index="index" item="item" open="("
+                   separator="," close=")">
+            #{item}
+          </foreach>
+        </when>
+        <otherwise>
+          ch.enterprise_id=#{enterpriseId}
+        </otherwise>
+      </choose>
+      <if test="typeId != null">and ch.type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        ch.equipment_code LIKE CONCAT('%',#{code},'%')
+        or
+        ch.equipment_name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+    </where>
+    <if test="sort != null and sort != ''">
+      order by ch.${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <sql id="whereReportSql">
+    <!--<where>
+      <if test="1==1">and (a.parent_id=#{enterpriseId} or a.enterprise_id=#{enterpriseId})</if>
+      <if test="typeId != null">and a.type_id=#{typeId}</if>
+      <if test="code != null and code != ''">
+        and (
+        a.equipment_code LIKE CONCAT('%',#{code},'%')
+        or
+        a.equipment_name LIKE CONCAT('%',#{code},'%')
+        )
+      </if>
+      <if test="chainType!=null">AND b.chain_type=#{chainType}</if>
+      <if test="enterpriseCode!=null and enterpriseCode!='' ">AND a.enterprise_code LIKE CONCAT('%',#{enterpriseCode},'%')</if>
+      <if test="enterpriseName!=null and enterpriseName!='' ">AND a.enterprise_name LIKE CONCAT('%',#{enterpriseName},'%')</if>
+    </where>-->
+      <where>
+          <choose>
+              <when test="list != null">
+                  a.enterprise_id IN
+                  <foreach collection="list" index="index" item="item" open="("
+                           separator="," close=")">
+                      #{item}
+                  </foreach>
+              </when>
+              <otherwise>
+                  a.enterprise_id=#{enterpriseId}
+              </otherwise>
+          </choose>
+          <if test="typeId != null">and a.type_id=#{typeId}</if>
+          <if test="code != null and code != ''">
+              and (
+              a.equipment_code LIKE CONCAT('%',#{code},'%')
+              or
+              a.equipment_name LIKE CONCAT('%',#{code},'%')
+              )
+          </if>
+          <if test="chainType!=null">AND b.chain_type=#{chainType}</if>
+          <if test="enterpriseCode!=null and enterpriseCode!='' ">AND a.enterprise_code LIKE
+              CONCAT('%',#{enterpriseCode},'%')</if>
+          <if test="enterpriseName!=null and enterpriseName!='' ">AND a.enterprise_name LIKE
+              CONCAT('%',#{enterpriseName},'%')</if>
+      </where>
+  </sql>
+
+  <select id="countListEquipmentReportData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultType="int">
+    select
+    count(1)
+    from saas_equipment_check a left join saas_enterprise b
+    on b.id=a.enterprise_id
+    <include refid="whereReportSql"/>
+  </select>
+
+  <select id="listEquipmentReportData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+    select
+    <include refid="Report_Column_List" />
+    from saas_equipment_check a left join saas_enterprise b
+    on b.id=a.enterprise_id
+    <include refid="whereReportSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <select id="listEquipmentPrintData" parameterType="com.rograndec.feijiayun.chain.business.basic.equipment.vo.RequestEquipmentListVO" resultMap="BaseResultMap">
+    select
+    <include refid="Report_Column_List" />
+    from saas_equipment_check a left join saas_enterprise b
+    on b.id=a.enterprise_id
+    <include refid="whereReportSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.distr.parent.dao.DistrSendMapper">
+    <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="distr_date" jdbcType="TIMESTAMP" property="distrDate"/>
+        <result column="request_unit_id" jdbcType="BIGINT" property="requestUnitId"/>
+        <result column="request_unit_code" jdbcType="VARCHAR" property="requestUnitCode"/>
+        <result column="request_unit_name" jdbcType="VARCHAR" property="requestUnitName"/>
+        <result column="distr_man_id" jdbcType="BIGINT" property="distrManId"/>
+        <result column="distr_man_code" jdbcType="VARCHAR" property="distrManCode"/>
+        <result column="distr_man_name" jdbcType="VARCHAR" property="distrManName"/>
+        <result column="distr_type" jdbcType="INTEGER" property="distrType"/>
+        <result column="distr_rule" jdbcType="INTEGER" property="distrRule"/>
+        <result column="lack_handle" jdbcType="INTEGER" property="lackHandle"/>
+        <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal"/>
+        <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity"/>
+        <result column="amount_total" jdbcType="DECIMAL" property="amountTotal"/>
+        <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount"/>
+        <result column="whole_discount_amount" jdbcType="DECIMAL" property="wholeDiscountAmount"/>
+        <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal"/>
+        <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal"/>
+        <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="creater_code" jdbcType="VARCHAR" property="createrCode"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId"/>
+        <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode"/>
+        <result column="modifier_name" jdbcType="VARCHAR" property="modifierName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="DistrVo" type="com.rograndec.feijiayun.chain.business.distr.parent.vo.DistrListVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="distr_date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="request_unit_id" jdbcType="BIGINT" property="requestUnitId"/>
+        <result column="request_unit_code" jdbcType="VARCHAR" property="requestUnitCode"/>
+        <result column="request_unit_name" jdbcType="VARCHAR" property="requestUnitName"/>
+        <result column="distr_man_name" jdbcType="VARCHAR" property="sendManName"/>
+        <result column="distr_type" jdbcType="INTEGER" property="distrType"/>
+        <result column="real_amount_total" jdbcType="DECIMAL" property="realAmountTotal"/>
+        <result column="notax_real_amount_total" jdbcType="DECIMAL" property="notaxRealAmountTotal"/>
+        <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, distr_date, request_unit_id, request_unit_code, request_unit_name,
+    distr_man_id, distr_man_code, distr_man_name, distr_type, distr_rule, lack_handle, 
+    quantity_total, varieties_quantity, amount_total, whole_discount, whole_discount_amount, 
+    real_amount_total, notax_real_amount_total, tax_amount_total, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_distr_send
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_distr_send
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+    insert into saas_distr_send (id, enterprise_id, parent_id, 
+      order_type, code, distr_date, 
+      request_unit_id, request_unit_code,
+      request_unit_name, distr_man_id, distr_man_code, 
+      distr_man_name, distr_type, distr_rule, 
+      lack_handle, quantity_total, varieties_quantity, 
+      amount_total, whole_discount, whole_discount_amount, 
+      real_amount_total, notax_real_amount_total, 
+      tax_amount_total, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{distrDate,jdbcType=TIMESTAMP}, 
+      #{requestUnitId,jdbcType=BIGINT}, #{requestUnitCode,jdbcType=VARCHAR},
+      #{requestUnitName,jdbcType=VARCHAR}, #{distrManId,jdbcType=BIGINT}, #{distrManCode,jdbcType=VARCHAR}, 
+      #{distrManName,jdbcType=VARCHAR}, #{distrType,jdbcType=INTEGER}, #{distrRule,jdbcType=INTEGER}, 
+      #{lackHandle,jdbcType=INTEGER}, #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, 
+      #{amountTotal,jdbcType=DECIMAL}, #{wholeDiscount,jdbcType=DECIMAL}, #{wholeDiscountAmount,jdbcType=DECIMAL}, 
+      #{realAmountTotal,jdbcType=DECIMAL}, #{notaxRealAmountTotal,jdbcType=DECIMAL}, 
+      #{taxAmountTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+        insert into saas_distr_send
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="distrDate != null">
+                distr_date,
+            </if>
+            <if test="requestUnitId != null">
+                request_unit_id,
+            </if>
+            <if test="requestUnitCode != null">
+                request_unit_code,
+            </if>
+            <if test="requestUnitName != null">
+                request_unit_name,
+            </if>
+            <if test="distrManId != null">
+                distr_man_id,
+            </if>
+            <if test="distrManCode != null">
+                distr_man_code,
+            </if>
+            <if test="distrManName != null">
+                distr_man_name,
+            </if>
+            <if test="distrType != null">
+                distr_type,
+            </if>
+            <if test="distrRule != null">
+                distr_rule,
+            </if>
+            <if test="lackHandle != null">
+                lack_handle,
+            </if>
+            <if test="quantityTotal != null">
+                quantity_total,
+            </if>
+            <if test="varietiesQuantity != null">
+                varieties_quantity,
+            </if>
+            <if test="amountTotal != null">
+                amount_total,
+            </if>
+            <if test="wholeDiscount != null">
+                whole_discount,
+            </if>
+            <if test="wholeDiscountAmount != null">
+                whole_discount_amount,
+            </if>
+            <if test="realAmountTotal != null">
+                real_amount_total,
+            </if>
+            <if test="notaxRealAmountTotal != null">
+                notax_real_amount_total,
+            </if>
+            <if test="taxAmountTotal != null">
+                tax_amount_total,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createrCode != null">
+                creater_code,
+            </if>
+            <if test="createrName != null">
+                creater_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifierId != null">
+                modifier_id,
+            </if>
+            <if test="modifierCode != null">
+                modifier_code,
+            </if>
+            <if test="modifierName != null">
+                modifier_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="distrDate != null">
+                #{distrDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="requestUnitId != null">
+                #{requestUnitId,jdbcType=BIGINT},
+            </if>
+            <if test="requestUnitCode != null">
+                #{requestUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUnitName != null">
+                #{requestUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="distrManId != null">
+                #{distrManId,jdbcType=BIGINT},
+            </if>
+            <if test="distrManCode != null">
+                #{distrManCode,jdbcType=VARCHAR},
+            </if>
+            <if test="distrManName != null">
+                #{distrManName,jdbcType=VARCHAR},
+            </if>
+            <if test="distrType != null">
+                #{distrType,jdbcType=INTEGER},
+            </if>
+            <if test="distrRule != null">
+                #{distrRule,jdbcType=INTEGER},
+            </if>
+            <if test="lackHandle != null">
+                #{lackHandle,jdbcType=INTEGER},
+            </if>
+            <if test="quantityTotal != null">
+                #{quantityTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="varietiesQuantity != null">
+                #{varietiesQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="amountTotal != null">
+                #{amountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="wholeDiscount != null">
+                #{wholeDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="wholeDiscountAmount != null">
+                #{wholeDiscountAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="realAmountTotal != null">
+                #{realAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="notaxRealAmountTotal != null">
+                #{notaxRealAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="taxAmountTotal != null">
+                #{taxAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+        update saas_distr_send
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="orderType != null">
+                order_type = #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="distrDate != null">
+                distr_date = #{distrDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="requestUnitId != null">
+                request_unit_id = #{requestUnitId,jdbcType=BIGINT},
+            </if>
+            <if test="requestUnitCode != null">
+                request_unit_code = #{requestUnitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUnitName != null">
+                request_unit_name = #{requestUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="distrManId != null">
+                distr_man_id = #{distrManId,jdbcType=BIGINT},
+            </if>
+            <if test="distrManCode != null">
+                distr_man_code = #{distrManCode,jdbcType=VARCHAR},
+            </if>
+            <if test="distrManName != null">
+                distr_man_name = #{distrManName,jdbcType=VARCHAR},
+            </if>
+            <if test="distrType != null">
+                distr_type = #{distrType,jdbcType=INTEGER},
+            </if>
+            <if test="distrRule != null">
+                distr_rule = #{distrRule,jdbcType=INTEGER},
+            </if>
+            <if test="lackHandle != null">
+                lack_handle = #{lackHandle,jdbcType=INTEGER},
+            </if>
+            <if test="quantityTotal != null">
+                quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="varietiesQuantity != null">
+                varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="amountTotal != null">
+                amount_total = #{amountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="wholeDiscount != null">
+                whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+            </if>
+            <if test="wholeDiscountAmount != null">
+                whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="realAmountTotal != null">
+                real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="notaxRealAmountTotal != null">
+                notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="taxAmountTotal != null">
+                tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+    update saas_distr_send
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      distr_date = #{distrDate,jdbcType=TIMESTAMP},
+      request_unit_id = #{requestUnitId,jdbcType=BIGINT},
+      request_unit_code = #{requestUnitCode,jdbcType=VARCHAR},
+      request_unit_name = #{requestUnitName,jdbcType=VARCHAR},
+      distr_man_id = #{distrManId,jdbcType=BIGINT},
+      distr_man_code = #{distrManCode,jdbcType=VARCHAR},
+      distr_man_name = #{distrManName,jdbcType=VARCHAR},
+      distr_type = #{distrType,jdbcType=INTEGER},
+      distr_rule = #{distrRule,jdbcType=INTEGER},
+      lack_handle = #{lackHandle,jdbcType=INTEGER},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      whole_discount_amount = #{wholeDiscountAmount,jdbcType=DECIMAL},
+      real_amount_total = #{realAmountTotal,jdbcType=DECIMAL},
+      notax_real_amount_total = #{notaxRealAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!-- 配货单列表搜索 -->
+    <sql id="distrSendPageWhere">
+        <if test="status != null">
+            and status in
+            <foreach item="item" index="index" collection="status"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="startTime != null and endTime != null">
+            AND distr_date between #{startTime} and #{endTime}
+        </if>
+        <if test="requestUnitCode != null and requestUnitCode != ''">
+            AND request_unit_code LIKE concat('%', #{requestUnitCode},'%')
+        </if>
+        <if test="requestUnitName != null and requestUnitName != ''">
+            AND request_unit_name LIKE concat('%', #{requestUnitName},'%')
+        </if>
+        <if test="distrCode != null and distrCode != ''">
+            AND code LIKE concat('%', #{distrCode},'%')
+        </if>
+        <if test="distrType != null">
+            AND distr_type = #{distrType}
+        </if>
+        <if test="distrManName != null and distrManName != ''">
+            AND distr_man_name LIKE concat('%', #{distrManName},'%')
+        </if>
+    </sql>
+
+
+    <sql id="distrOutPageWhere">
+
+        <if test="statusTwo != null">
+        AND (status = #{statusTwo}  )
+        </if>
+        <if test="requestUnitCode != null and requestUnitCode != ''">
+            AND request_unit_code LIKE concat('%', #{requestUnitCode},'%')
+        </if>
+        <if test="requestUnitName != null and requestUnitName != ''">
+            AND request_unit_name LIKE concat('%', #{requestUnitName},'%')
+        </if>
+        <if test="distrCode != null and distrCode != ''">
+            AND code LIKE concat('%', #{distrCode},'%')
+        </if>
+        <if test="distrType != null">
+            AND distr_type = #{distrType}
+        </if>
+        <if test="distrManName != null and distrManName != ''">
+            AND send_man_name LIKE concat('%', #{distrManName},'%')
+        </if>
+    </sql>
+
+    <select id="getDistrSendPage" resultMap="DistrVo">
+        SELECT
+        id,
+        distr_date,
+        code,
+        request_unit_code,
+        request_unit_name,
+        distr_man_name,
+        distr_type,
+        real_amount_total,
+        notax_real_amount_total,
+        tax_amount_total,
+        status,
+        remark
+        FROM saas_distr_send
+        WHERE enterprise_id = #{enterpriseId}
+
+        <if test="status != null">
+            and status in
+            <foreach item="item" index="index" collection="status"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="startTime != null and endTime != null">
+            AND distr_date between #{startTime} and #{endTime}
+        </if>
+        <if test="requestUnitCode != null and requestUnitCode != ''">
+            AND request_unit_code LIKE concat('%', #{requestUnitCode},'%')
+        </if>
+        <if test="requestUnitName != null and requestUnitName != ''">
+            AND request_unit_name LIKE concat('%', #{requestUnitName},'%')
+        </if>
+        <if test="distrCode != null and distrCode != ''">
+            AND code LIKE concat('%', #{distrCode},'%')
+        </if>
+        <if test="distrType != null">
+            AND distr_type = #{distrType}
+        </if>
+        <if test="distrManName != null and distrManName != ''">
+            AND distr_man_name LIKE concat('%', #{distrManName},'%')
+        </if>
+        <choose>
+            <when test="sort != null and sort!= '' ">
+                order by ${sort}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getDistrSendOrDistrOutPage" resultMap="DistrVo">
+        SELECT
+        id,
+        distr_date,
+        code,
+        request_unit_id,
+        request_unit_code,
+        request_unit_name,
+        distr_man_name,
+        distr_type,
+        real_amount_total,
+        notax_real_amount_total,
+        tax_amount_total,
+        status,
+        remark
+        FROM saas_distr_send
+        WHERE enterprise_id = #{enterpriseId}
+        <include refid="distrSendPageWhere"></include>
+        UNION
+        SELECT
+        id,
+        out_date AS distr_date,
+        code,
+        request_unit_id,
+        request_unit_code,
+        request_unit_name,
+        send_man_name AS distr_man_name,
+        distr_type,
+        real_amount_total,
+        notax_real_amount_total,
+        tax_amount_total,
+        status,
+        remark
+        FROM saas_distr_out
+        WHERE enterprise_id = #{enterpriseId}
+        <include refid="distrOutPageWhere"></include>
+        <choose>
+            <when test="sort != null and sort!= '' ">
+                order by ${sort}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        limit #{pageNo},#{pageSize}
+    </select>
+
+    <select id="getDistrSendOrDistrOutPageCount" resultType="java.lang.Integer">
+        select count(1) from (
+        SELECT
+        id,
+        distr_date,
+        code,
+        request_unit_id,
+        request_unit_code,
+        request_unit_name,
+        distr_man_name,
+        distr_type,
+        real_amount_total,
+        notax_real_amount_total,
+        tax_amount_total,
+        status,
+        remark
+        FROM saas_distr_send
+        WHERE enterprise_id = #{enterpriseId}
+        <include refid="distrSendPageWhere"></include>
+        UNION
+        SELECT
+        id,
+        out_date AS distr_date,
+        code,
+        request_unit_id,
+        request_unit_code,
+        request_unit_name,
+        send_man_name AS distr_man_name,
+        distr_type,
+        real_amount_total,
+        notax_real_amount_total,
+        tax_amount_total,
+        status,
+        remark
+        FROM saas_distr_out
+        WHERE enterprise_id = #{enterpriseId}
+        <include refid="distrOutPageWhere"></include>
+        ) count
+    </select>
+
+    <select id="getSearchResultTotal"
+            resultType="com.rograndec.feijiayun.chain.business.distr.parent.vo.DistrListTotalVO">
+        SELECT
+        sum(real_amount_total) AS totalSumRealAmout,
+        sum(notax_real_amount_total) AS totalSumNotaxRealAmount,
+        sum(tax_amount_total) AS totalSumTaxAmount
+        FROM
+        saas_distr_send
+        WHERE enterprise_id = #{enterpriseId}
+        <include refid="distrSendPageWhere"></include>
+    </select>
+
+    <!--报表专用-->
+    <resultMap id="LackMap" type="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.DistrSendReportVo">
+        <result column="distr_date" jdbcType="TIMESTAMP" property="distrDate"/>
+        <result column="discode" jdbcType="VARCHAR" property="code"/>
+        <result column="request_unit_code" jdbcType="VARCHAR" property="requestUnitCode"/>
+        <result column="request_unit_name" jdbcType="VARCHAR" property="requestUnitName"/>
+        <result column="distr_man_name" jdbcType="VARCHAR" property="distrManName"/>
+        <result column="distr_type" jdbcType="INTEGER" property="distrType"/>
+        <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode"/>
+        <result column="quantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="unit_price" jdbcType="DECIMAL" property="unitPrice"/>
+        <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount"/>
+        <result column="line_discount_amount" jdbcType="DECIMAL" property="lineDiscountAmount"/>
+        <result column="real_price" jdbcType="DECIMAL" property="realPrice"/>
+        <result column="real_amount" jdbcType="DECIMAL" property="realAmount"/>
+        <result column="tax_rate" jdbcType="DECIMAL" property="taxRate"/>
+        <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice"/>
+        <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount"/>
+        <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+    <sql id="reportWhereSql">
+        <where>
+            <if test="enterpriseId!=null">and (a.enterprise_id=#{enterpriseId} or a.parent_id=#{enterpriseId})</if>
+            <if test="startDate!=null and startDate!=''">and a.distr_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+            <if test="endDate!=null and endDate!=''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.distr_date</if>
+            <if test="requestUnitCode!=null and requestUnitCode!=''">and a.request_unit_code like
+                CONCAT('%',#{requestUnitCode},'%')
+            </if>
+            <if test="requestUnitName!=null and requestUnitName!=''">and a.request_unit_name like
+                CONCAT('%',#{requestUnitName},'%')
+            </if>
+            <if test="code!=null and code!=''">and a.code like CONCAT('%',#{code},'%')</if>
+            <if test="distrManName!=null and distrManName!=''">and a.distr_man_name like
+                CONCAT('%',#{distrManName},'%')
+            </if>
+            <if test="distrType!=null and distrType!=''">and a.distr_type=#{distrType}</if>
+            <if test="status!=null and status!=''">and a.`status` =#{status}</if>
+
+            <if test="businessVariety!=null and businessVariety!=''">and c.business_variety =#{businessVariety}</if>
+            <if test="param!=null and param!=''">
+                and (
+                c.code like CONCAT('%',#{param},'%') or
+                c.barcode like CONCAT('%',#{param},'%') or
+                c.name like CONCAT('%',#{param},'%') or
+                c.generic_name like CONCAT('%',#{param},'%') or
+                c.approval_number like CONCAT('%',#{param},'%')
+                )
+            </if>
+            <if test="chainType!=null">and d.chain_type=#{chainType}</if>
+            <if test="enterpriseCode!=null and enterpriseCode!=''">and d.code like CONCAT('%',#{enterpriseCode},'%')
+            </if>
+            <if test="enterpriseName!=null and enterpriseName!=''">and d.name like CONCAT('%',#{enterpriseName},'%')
+            </if>
+            <if test="categoryId!=null">and c.category_id=#{categoryId}</if>
+            <if test="domesticImport!=null">and c.domestic_import=#{domesticImport}</if>
+            <if test="storageTemp!=null">and c.storage_temp=#{storageTemp}</if>
+            <if test="storageConditionName!=null and storageConditionName!=''">and c.storage_condition_name like
+                CONCAT('%',#{storageConditionName},'%')
+            </if>
+            <if test="registeredTrademark!=null and registeredTrademark!=''">and c.registered_trademark like
+                CONCAT('%',#{registeredTrademark},'%')
+            </if>
+            <if test="brand!=null and brand!=''">and c.brand like CONCAT('%',#{brand},'%')</if>
+            <if test="goodsAttribute!=null">and c.goods_attribute=#{goodsAttribute}</if>
+            <if test="prescriptionDrug!=null">and c.prescription_drug=#{prescriptionDrug}</if>
+            <if test="otcType!=null">and c.otc_type=#{otcType}</if>
+            <if test="spiritDrugType!=null">and c.spirit_drug_type=#{spiritDrugType}</if>
+            <if test="formulationType!=null">and c.formulation_type=#{formulationType}</if>
+            <if test="specialDrug!=null">and c.special_drug=#{specialDrug}</if>
+            <if test="inChargeDrug!=null">and c.in_charge_drug=#{inChargeDrug}</if>
+            <if test="managementScopeId!=null">and c.management_scope_id=#{managementScopeId}</if>
+        </where>
+    </sql>
+    <select id="getDistrSendListCount"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrSend"
+            resultType="int">
+        select count(1) from
+        saas_distr_send a
+        INNER join saas_distr_send_detail b on b.distr_id=a.id
+        INNER join saas_goods c on c.id=b.goods_id
+        INNER join saas_enterprise d on d.id=a.enterprise_id
+        INNER join saas_goods_category e on e.id=c.category_id
+        <include refid="reportWhereSql"/>
+    </select>
+    <select id="getDistrSendList"
+            parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrSend"
+            resultMap="LackMap">
+        select
+        b.goods_id,
+        a.distr_date,
+        a.code as discode,
+        a.request_unit_code,
+        a.request_unit_name,
+        b.base_order_code,
+        a.distr_man_name,
+        a.distr_type,
+        b.quantity,
+        b.unit_price,
+        b.line_discount,
+        b.amount,
+        b.whole_discount,
+        b.line_discount_amount,
+        b.real_price,
+        b.real_amount,
+        b.tax_rate,
+        b.notax_real_price,
+        b.notax_real_amount,
+        b.tax_amount,
+        a.`status`,
+        c.code,
+        c.barcode,
+        c.name,
+        c.generic_name,
+        c.dosage_id,
+        c.dosage_name,
+        c.unit_id,
+        c.unit_name,
+        c.specification,
+        c.manufacturer,
+        c.manufacturer_id,
+        c.place,
+        c.approval_number,
+        c.business_variety,
+        e.name as category_name,
+        c.goods_attribute,
+        c.domestic_import,
+        c.management_scope_name,
+        c.special_drug,
+        c.in_charge_drug,
+        c.limit_quantity,
+        c.storage_temp,
+        c.storage_condition_name,
+        c.quality_period,
+        c.quality_period_unit
+        from
+        saas_distr_send a
+        INNER join saas_distr_send_detail b on b.distr_id=a.id
+        INNER join saas_goods c on c.id=b.goods_id
+        INNER join saas_enterprise d on d.id=a.enterprise_id
+        INNER join saas_goods_category e on e.id=c.category_id
+        <include refid="reportWhereSql"/>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+        </if>
+        <if test="pageNo != null and pageSize !=null">
+            limit #{pageNo},#{pageSize}
+        </if>
+
+    </select>
+    <!--报表专用end-->
+    <update id="updateById" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrSend">
+    UPDATE saas_distr_send
+    SET status = ${status}
+    WHERE
+        id = ${baseOrderId}
+    AND enterprise_id = ${enterpriseId}
+  </update>
+  
+  <select id="getStayDistrPickTotalRecord" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.vo.pick.DistrSendRequestVO" resultType ="java.lang.Long">
+    select 
+    	count(1)
+    FROM
+		saas_distr_send 
+	WHERE
+		enterprise_id = #{enterpriseId}
+		and status = #{status}
+	<if test="startDate != null">  
+    	and date_format(distr_date, '%Y-%m-%d') >= date_format(#{startDate}, '%Y-%m-%d')
+    </if>
+    <if test="endDate != null">  
+    	AND date_format(distr_date, '%Y-%m-%d') &lt;= #{endDate}
+    </if>
+    <if test="requestUnitCode != null and requestUnitCode != ''">  
+    	AND INSTR(request_unit_code , #{requestUnitCode})
+    </if>
+	<if test="requestUnitName != null and requestUnitName != ''">  
+    	AND INSTR(request_unit_name , #{requestUnitName})
+    </if>	
+    <if test="code != null and code != ''">  
+    	AND INSTR(code , #{code})
+    </if>
+	<if test="distrManName != null and distrManName != ''">  
+    	AND INSTR(distr_man_name , #{distrManName})
+    </if>
+  </select>	
+  
+  <select id="selectStayDistrPickPage" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.vo.pick.DistrSendRequestVO" 
+  		resultType="com.rograndec.feijiayun.chain.business.distr.parent.vo.pick.DistrSendVO">
+    SELECT
+    	id,
+    	distr_date as distrDate,
+    	code,
+    	request_unit_code as requestUnitCode,
+    	request_unit_name as requestUnitName,
+    	distr_type as distrType,
+    	distr_man_name as distrManName,
+    	status
+	FROM
+		saas_distr_send 
+	WHERE
+		enterprise_id = #{enterpriseId}
+		and status = #{status}
+	<if test="startDate != null">  
+    	and date_format(distr_date, '%Y-%m-%d') >= date_format(#{startDate}, '%Y-%m-%d')
+    </if>
+    <if test="endDate != null">  
+    	AND date_format(distr_date, '%Y-%m-%d') &lt;= #{endDate}
+    </if>
+    <if test="requestUnitCode != null and requestUnitCode != ''">  
+    	AND INSTR(request_unit_code , #{requestUnitCode})
+    </if>
+	<if test="requestUnitName != null and requestUnitName != ''">  
+    	AND INSTR(request_unit_name , #{requestUnitName})
+    </if>	
+    <if test="code != null and code != ''">  
+    	AND INSTR(code , #{code})
+    </if>
+	<if test="distrManName != null and distrManName != ''">  
+    	AND INSTR(distr_man_name , #{distrManName})
+    </if>	
+    <if test="order != null and order != ''">  
+    	order by ${order} ${sort}
+    </if>
+		limit #{start}, #{pageSize}
+  </select>
+</mapper>

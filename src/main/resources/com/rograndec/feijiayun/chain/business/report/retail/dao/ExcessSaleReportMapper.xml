@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.retail.dao.ExcessSaleReportMapper">
+	
+	<resultMap type="com.rograndec.feijiayun.chain.business.report.retail.vo.excesssale.ExcessSaleResultVO" id="ExcessSalePageResultMap">
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    	<result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    	<result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    	<result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    	<result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    	<result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    	<result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    	<result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    	<result column="lot_id" jdbcType="BIGINT" property="lotId" />
+    	<result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+    	<result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+    	<result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+    	<result column="shelf_id" jdbcType="BIGINT" property="shelfId" />
+    	<result column="shelf_name" jdbcType="VARCHAR" property="shelfName" />
+    </resultMap>
+	
+	<select id="selectExcessSalePageByParam" resultMap="ExcessSalePageResultMap">
+    select 
+		de.goods_id,
+		de.goods_code,
+		de.goods_generic_name,
+		de.dosage_name,
+		de.goods_specification,
+		de.unit_name,
+		de.manufacturer,
+		de.goods_place,
+		sh.lot_id,
+		sh.lot_number,
+		sh.product_date,
+		sh.valid_date,
+		sh.shelf_id,
+		sh.shelf_name
+	from saas_sale_shelf sh LEFT JOIN saas_sale_detail de
+		on sh.sale_dtl_id = de.id
+	LEFT JOIN saas_sale sa on sh.sale_id = sa.id
+	left join saas_goods g on sh.goods_id = g.id
+	where sh.enterprise_id = #{enterpriseId}
+	and sa.excessive_sale = '1'
+    <if test="vo.key != null and vo.key !=''">  
+    	and (
+	    		INSTR(sh.goods_code, #{vo.key})
+	    	or INSTR(de.barcode, #{vo.key})
+	    	or INSTR(de.goods_name, #{vo.key})
+	    	or INSTR(de.goods_generic_name, #{vo.key})
+	    	or INSTR(de.approval_number, #{vo.key})
+	    	or INSTR(g.pinyin_code, #{vo.key})
+    	)
+    </if>
+    group by sh.goods_id, sh.lot_id, sh.shelf_id
+    <if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>
+  </select>
+  
+  <select id="selectExcessSaleDetailByParam" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.excesssale.ExcessSaleResultDetailVO">
+    SELECT
+    	d.sale_id as saleId,
+		d.sale_code as saleCode,
+		d.quantity as saleQuantity
+	FROM
+		saas_sale_detail d left join saas_sale s
+		on d.sale_id = s.id
+	WHERE
+		s.excessive_sale = '1'
+		and d.id IN (
+			SELECT
+				sale_dtl_id
+			FROM
+				saas_sale_shelf
+			WHERE
+				enterprise_id = #{enterpriseId}
+			and goods_id = #{goodsId}
+			and lot_id = #{lotId}
+			and shelf_id = #{shelfId}
+		)
+  </select>
+  
+  <select id="queryCountExcessSaleByParam" resultType ="java.lang.Long">
+	 select count(1) from(   
+	    select 
+			sh.goods_id,
+			sh.goods_code,
+			de.goods_generic_name,
+			de.dosage_name,
+			de.goods_specification,
+			de.unit_name,
+			de.manufacturer,
+			de.goods_place,
+			sh.lot_id,
+			sh.lot_number,
+			sh.product_date,
+			sh.valid_date,
+			sh.shelf_id,
+			sh.shelf_name,
+			de.sale_code,
+			de.quantity
+		from saas_sale_shelf sh LEFT JOIN saas_sale_detail de
+			on sh.sale_dtl_id = de.id
+		LEFT JOIN saas_sale sa on sh.sale_id = sa.id
+		left join saas_goods g on sh.goods_id = g.id
+		where sh.enterprise_id = #{enterpriseId}
+		and sa.excessive_sale = '1'
+	    <if test="vo.key != null and vo.key !=''">  
+	    	and (
+		    		INSTR(sh.goods_code, #{vo.key})
+		    	or INSTR(de.barcode, #{vo.key})
+		    	or INSTR(de.goods_name, #{vo.key})
+		    	or INSTR(de.goods_generic_name, #{vo.key})
+		    	or INSTR(de.approval_number, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+	    	)
+	    </if>
+		GROUP BY sh.goods_id, sh.lot_id, sh.shelf_id
+	 )tab1	
+  </select>
+  
+  <select id="queryExcessSalePageByParam" resultType="com.rograndec.feijiayun.chain.business.report.retail.vo.excesssale.ExcessSaleResultTotalVO">
+  	select sum(tab1.quantity) as saleQuantity,
+  			sum(st.quantity) as stockQuantity,
+  			sum(st.usable_quantity) as usableQuantity,
+  			ifnull(sum(tab1.quantity),0) - ifnull(sum(st.quantity),0) as excessSaleQuantity
+  	from (
+	    select 
+	    	de.enterprise_id,
+			de.goods_id,
+			sh.lot_id,
+			sh.shelf_id,
+			de.quantity
+		from saas_sale_shelf sh LEFT JOIN saas_sale_detail de
+			on sh.sale_dtl_id = de.id
+		LEFT JOIN saas_sale sa on sh.sale_id = sa.id
+		left join saas_goods g on sh.goods_id = g.id
+		where sh.enterprise_id = #{enterpriseId}
+		and sa.excessive_sale = '1'
+	    <if test="vo.key != null and vo.key !=''">  
+	    	and (
+		    		INSTR(sh.goods_code, #{vo.key})
+		    	or INSTR(de.barcode, #{vo.key})
+		    	or INSTR(de.goods_name, #{vo.key})
+		    	or INSTR(de.goods_generic_name, #{vo.key})
+		    	or INSTR(de.approval_number, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+	    	)
+	    </if>
+    )tab1 left join saas_stock st
+    	on tab1.enterprise_id = st.enterprise_id
+    	and tab1.goods_id = st.goods_id
+    	and tab1.lot_id = st.lot_id
+    	and tab1.shelf_id = st.shelf_id
+  </select>
+  
+</mapper>

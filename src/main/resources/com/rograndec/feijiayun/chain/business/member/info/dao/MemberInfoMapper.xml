@@ -1,0 +1,1335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.member.info.dao.MemberInfoMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="card_type_id" jdbcType="BIGINT" property="cardTypeId" />
+    <result column="card_type_name" jdbcType="VARCHAR" property="cardTypeName" />
+    <result column="card_code_type" jdbcType="INTEGER" property="cardCodeType" />
+    <result column="card_code" jdbcType="VARCHAR" property="cardCode" />
+    <result column="send_card_time" jdbcType="TIMESTAMP" property="sendCardTime" />
+    <result column="send_card_man_id" jdbcType="BIGINT" property="sendCardManId" />
+    <result column="send_card_man_code" jdbcType="VARCHAR" property="sendCardManCode" />
+    <result column="send_card_man_name" jdbcType="VARCHAR" property="sendCardManName" />
+    <result column="send_card_storer_id" jdbcType="BIGINT" property="sendCardStorerId" />
+    <result column="send_card_storer_code" jdbcType="VARCHAR" property="sendCardStorerCode" />
+    <result column="send_card_storer_name" jdbcType="VARCHAR" property="sendCardStorerName" />
+    <result column="stored_amount" jdbcType="DECIMAL" property="storedAmount" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="password_confirm" jdbcType="VARCHAR" property="passwordConfirm" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="wechat_num" jdbcType="VARCHAR" property="wechatNum" />
+    <result column="qq_num" jdbcType="VARCHAR" property="qqNum" />
+    <result column="adderss" jdbcType="VARCHAR" property="adderss" />
+    <result column="total_integral" jdbcType="DECIMAL" property="totalIntegral" />
+    <result column="current_integral" jdbcType="DECIMAL" property="currentIntegral" />
+    <result column="total_stored_amount" jdbcType="DECIMAL" property="totalStoredAmount" />
+    <result column="current_stored_amount" jdbcType="DECIMAL" property="currentStoredAmount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="memberForPrescVOList" type="com.rograndec.feijiayun.chain.business.member.info.vo.MemberForPrescVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="member_name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, card_type_id, card_type_name, card_code_type, card_code, 
+    send_card_time, send_card_man_id, send_card_man_code, send_card_man_name, send_card_storer_id, 
+    send_card_storer_code, send_card_storer_name, stored_amount, password, password_confirm, 
+    member_name, sex, id_num, birth_date, mobile_phone, email, wechat_num, qq_num, adderss, 
+    total_integral, current_integral, total_stored_amount, current_stored_amount, status, 
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="getMemberInfoPage"
+            resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoPageVO">
+      select
+      m.id as id,
+      m.card_type_name as cardTypeName,
+      s.level_name as levelName,
+      m.card_code as cardCode,
+      m.send_card_time as sendCardTime,
+      m.send_card_storer_name as sendCardStorerName,
+      m.member_name as memberName,
+      m.mobile_phone as mobilePhone,
+      m.total_integral as totalIntegral,
+      m.current_integral as currentIntegral,
+      m.total_stored_amount as totalStoredAmount,
+      m.current_stored_amount as currentStoredAmount,
+      m.status as status
+      from saas_member_info m
+      LEFT JOIN
+      saas_member_card_type s
+      ON m.card_type_id = s.id
+      LEFT JOIN saas_enterprise e
+      on e.id = m.send_card_storer_id
+      where m.enterprise_id = #{enterpriseId}
+      <if test="param != null">
+        and (
+          INSTR(m.card_code,#{param})
+          or
+          INSTR(m.mobile_phone,#{param})
+          or
+          INSTR(m.member_name,#{param})
+        )
+      </if>
+      <if test="cardTypeId != null">
+        and m.card_type_id = #{cardTypeId}
+      </if>
+      <if test="cardLevelId != null">
+        and s.level_id = #{cardLevelId}
+      </if>
+      <if test="startSendCardTime != null">
+        and m.send_card_time &gt;= #{startSendCardTime}
+      </if>
+      <if test="endSendCardTime != null">
+        and m.send_card_time &lt;= #{endSendCardTime}
+      </if>
+      <if test="chainType != null">
+        and e.chain_type = #{chainType}
+      </if>
+      <if test="sendCardStorerName != null">
+        and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+      </if>
+      <if test="sendCardStorerCode != null">
+        and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+      </if>
+      <if test="sendCardManName != null">
+        and INSTR(m.send_card_man_name,#{sendCardManName})
+      </if>
+      <if test="status != null">
+        and m.status = #{status}
+      </if>
+      <choose>
+        <when test="sort != null">
+          order by m.card_code ${sort}
+        </when>
+        <otherwise>
+          order by m.id desc
+        </otherwise>
+      </choose>
+      <if test="pageSize != null">
+        limit #{start},#{pageSize}
+      </if>
+    </select>
+    <select id="selectMemberCardExist" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_member_info
+      where 1=1
+      and enterprise_id = #{enterpriseId}
+      and card_code = #{nowCardCode}
+    </select>
+  <select id="selectIssuingCards"
+          resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoSaveVO">
+    SELECT
+      m.id as id,
+      m.card_type_id as cardTypeId,
+      m.card_type_name as cardTypeName,
+      t.level_name as levelName,
+      t.type as type,
+      t.price_strategy as priceStrategy,
+      t.discount_strategy as discountStrategy,
+      t.amount as amount,
+      t.integral as integral,
+      m.card_code_type as cardCodeType,
+      m.card_code as cardCode,
+      m.stored_amount as storedAmount
+      from saas_member_info m
+      LEFT JOIN
+      saas_member_card_type t
+      on m.card_type_id = t.id
+      and m.enterprise_id = t.enterprise_id
+      where m.id = #{id}
+  </select>
+  <select id="getIntegralRecordPage"
+          resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoPageVO">
+    select
+    m.id as id,
+    m.card_type_name as cardTypeName,
+    s.level_name as levelName,
+    m.card_code as cardCode,
+    m.send_card_time as sendCardTime,
+    m.send_card_storer_name as sendCardStorerName,
+    m.member_name as memberName,
+    m.mobile_phone as mobilePhone,
+    m.total_integral as totalIntegral,
+    m.current_integral as currentIntegral,
+    m.total_stored_amount as totalStoredAmount,
+    m.current_stored_amount as currentStoredAmount,
+    m.status as status
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    on (s.enterprise_id = m.enterprise_id or s.sys_type = '1')
+    AND m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where
+    m.enterprise_id = #{enterpriseId}
+    and (s.type = '0' or s.type = '1')
+    and m.status = '0'
+    <if test="param != null">
+      and (
+      INSTR(m.card_code,#{param})
+      or
+      INSTR(m.mobile_phone,#{param})
+      or
+      INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <choose>
+      <when test="sort != null">
+        order by m.card_code ${sort}
+      </when>
+      <otherwise>
+        order by m.id desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+  <sql id="storedAmountWhere">
+      <if test="param != null and param != ''">
+        and (
+        INSTR(m.card_code,#{param})
+        or
+        INSTR(m.mobile_phone,#{param})
+        or
+        INSTR(m.member_name,#{param})
+        )
+      </if>
+      <if test="cardTypeId != null">
+          and m.card_type_id = #{cardTypeId}
+      </if>
+      <if test="cardLevelId != null">
+          and s.level_id = #{cardLevelId}
+      </if>
+      <if test="startSendCardTime != null">
+          and m.send_card_time &gt;= #{startSendCardTime}
+      </if>
+      <if test="endSendCardTime != null">
+          and m.send_card_time &lt;= #{endSendCardTime}
+      </if>
+      <if test="chainType != null">
+          and e.chain_type = #{chainType}
+      </if>
+      <if test="sendCardStorerName != null and sendCardStorerName != ''">
+        and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+      </if>
+      <if test="sendCardStorerCode != null and sendCardStorerCode != ''">
+        and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+      </if>
+  </sql>
+    
+  <select id="getStoredAmountPage"
+            resultType="com.rograndec.feijiayun.chain.business.member.storedamount.vo.StoredAmountPageVO">
+        select
+        m.id as id,
+        m.card_type_name as cardTypeName,
+        s.level_name as levelName,
+        m.card_code as cardCode,
+        m.send_card_time as sendCardTime,
+        m.send_card_storer_name as sendCardStorerName,
+        m.member_name as memberName,
+        m.mobile_phone as mobilePhone,
+        m.total_integral as totalIntegral,
+        m.current_integral as currentIntegral,
+        m.total_stored_amount as totalStoredAmount,
+        m.current_stored_amount as currentStoredAmount,
+        m.status as status
+        from saas_member_info m
+        LEFT JOIN
+        saas_member_card_type s ON m.card_type_id = s.id
+        LEFT JOIN saas_enterprise e on e.id = m.send_card_storer_id
+        where m.enterprise_id = #{enterpriseId}
+        and m.status = '0'
+        and s.type in (0,2)
+      <include refid="storedAmountWhere"></include>
+  </select>
+
+  <select id="countStoredAmountData" resultType="com.rograndec.feijiayun.chain.business.member.storedamount.vo.StoredAmountTotalVO">
+      SELECT
+      SUM(m.total_stored_amount) AS totalSumStoredAmount,
+      SUM(m.current_stored_amount) AS totalCurrentStoredAmount
+      from saas_member_info m
+      LEFT JOIN
+      saas_member_card_type s
+      on m.card_type_id = s.id
+      where m.enterprise_id = #{enterpriseId}
+      and m.status = '0'
+      and s.type in(0,2)
+      <include refid="storedAmountWhere"></include>
+  </select>
+
+  <select id="selectNewCardId"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where (enterprise_id = #{enterpriseId} or parent_id = #{enterpriseId})
+    and card_code = #{changeCardCode}
+  </select>
+  <select id="judgeCardCode" resultType="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo">
+    SELECT
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where enterprise_id = #{enterpriseId}
+    and status = '1'
+    and card_code = #{changeCardCode}
+    and card_type_id = #{cardTypeId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_member_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo">
+    insert into saas_member_info (id, enterprise_id, parent_id, 
+      card_type_id, card_type_name, card_code_type, 
+      card_code, send_card_time, send_card_man_id, 
+      send_card_man_code, send_card_man_name, send_card_storer_id, 
+      send_card_storer_code, send_card_storer_name, 
+      stored_amount, password, password_confirm, 
+      member_name, sex, id_num, 
+      birth_date, mobile_phone, email, 
+      wechat_num, qq_num, adderss, 
+      total_integral, current_integral, total_stored_amount, 
+      current_stored_amount, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{cardTypeId,jdbcType=BIGINT}, #{cardTypeName,jdbcType=VARCHAR}, #{cardCodeType,jdbcType=INTEGER}, 
+      #{cardCode,jdbcType=VARCHAR}, #{sendCardTime,jdbcType=TIMESTAMP}, #{sendCardManId,jdbcType=BIGINT}, 
+      #{sendCardManCode,jdbcType=VARCHAR}, #{sendCardManName,jdbcType=VARCHAR}, #{sendCardStorerId,jdbcType=BIGINT}, 
+      #{sendCardStorerCode,jdbcType=VARCHAR}, #{sendCardStorerName,jdbcType=VARCHAR}, 
+      #{storedAmount,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{passwordConfirm,jdbcType=VARCHAR}, 
+      #{memberName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{idNum,jdbcType=VARCHAR}, 
+      #{birthDate,jdbcType=TIMESTAMP}, #{mobilePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{wechatNum,jdbcType=VARCHAR}, #{qqNum,jdbcType=VARCHAR}, #{adderss,jdbcType=VARCHAR}, 
+      #{totalIntegral,jdbcType=DECIMAL}, #{currentIntegral,jdbcType=DECIMAL}, #{totalStoredAmount,jdbcType=DECIMAL}, 
+      #{currentStoredAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_member_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="cardTypeId != null">
+        card_type_id,
+      </if>
+      <if test="cardTypeName != null">
+        card_type_name,
+      </if>
+      <if test="cardCodeType != null">
+        card_code_type,
+      </if>
+      <if test="cardCode != null">
+        card_code,
+      </if>
+      <if test="sendCardTime != null">
+        send_card_time,
+      </if>
+      <if test="sendCardManId != null">
+        send_card_man_id,
+      </if>
+      <if test="sendCardManCode != null">
+        send_card_man_code,
+      </if>
+      <if test="sendCardManName != null">
+        send_card_man_name,
+      </if>
+      <if test="sendCardStorerId != null">
+        send_card_storer_id,
+      </if>
+      <if test="sendCardStorerCode != null">
+        send_card_storer_code,
+      </if>
+      <if test="sendCardStorerName != null">
+        send_card_storer_name,
+      </if>
+      <if test="storedAmount != null">
+        stored_amount,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm,
+      </if>
+      <if test="memberName != null">
+        member_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idNum != null">
+        id_num,
+      </if>
+      <if test="birthDate != null">
+        birth_date,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="wechatNum != null">
+        wechat_num,
+      </if>
+      <if test="qqNum != null">
+        qq_num,
+      </if>
+      <if test="adderss != null">
+        adderss,
+      </if>
+      <if test="totalIntegral != null">
+        total_integral,
+      </if>
+      <if test="currentIntegral != null">
+        current_integral,
+      </if>
+      <if test="totalStoredAmount != null">
+        total_stored_amount,
+      </if>
+      <if test="currentStoredAmount != null">
+        current_stored_amount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null">
+        #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeName != null">
+        #{cardTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCodeType != null">
+        #{cardCodeType,jdbcType=INTEGER},
+      </if>
+      <if test="cardCode != null">
+        #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardTime != null">
+        #{sendCardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendCardManId != null">
+        #{sendCardManId,jdbcType=BIGINT},
+      </if>
+      <if test="sendCardManCode != null">
+        #{sendCardManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardManName != null">
+        #{sendCardManName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardStorerId != null">
+        #{sendCardStorerId,jdbcType=BIGINT},
+      </if>
+      <if test="sendCardStorerCode != null">
+        #{sendCardStorerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardStorerName != null">
+        #{sendCardStorerName,jdbcType=VARCHAR},
+      </if>
+      <if test="storedAmount != null">
+        #{storedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adderss != null">
+        #{adderss,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIntegral != null">
+        #{totalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="currentIntegral != null">
+        #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="totalStoredAmount != null">
+        #{totalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStoredAmount != null">
+        #{currentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo">
+    update saas_member_info
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null">
+        card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeName != null">
+        card_type_name = #{cardTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCodeType != null">
+        card_code_type = #{cardCodeType,jdbcType=INTEGER},
+      </if>
+      <if test="cardCode != null">
+        card_code = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardTime != null">
+        send_card_time = #{sendCardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendCardManId != null">
+        send_card_man_id = #{sendCardManId,jdbcType=BIGINT},
+      </if>
+      <if test="sendCardManCode != null">
+        send_card_man_code = #{sendCardManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardManName != null">
+        send_card_man_name = #{sendCardManName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardStorerId != null">
+        send_card_storer_id = #{sendCardStorerId,jdbcType=BIGINT},
+      </if>
+      <if test="sendCardStorerCode != null">
+        send_card_storer_code = #{sendCardStorerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendCardStorerName != null">
+        send_card_storer_name = #{sendCardStorerName,jdbcType=VARCHAR},
+      </if>
+      <if test="storedAmount != null">
+        stored_amount = #{storedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordConfirm != null">
+        password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null">
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNum != null">
+        wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      </if>
+      <if test="qqNum != null">
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="adderss != null">
+        adderss = #{adderss,jdbcType=VARCHAR},
+      </if>
+      <if test="totalIntegral != null">
+        total_integral = #{totalIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="currentIntegral != null">
+        current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      </if>
+      <if test="totalStoredAmount != null">
+        total_stored_amount = #{totalStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentStoredAmount != null">
+        current_stored_amount = #{currentStoredAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.member.info.entity.MemberInfo">
+    update saas_member_info
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      card_type_name = #{cardTypeName,jdbcType=VARCHAR},
+      card_code_type = #{cardCodeType,jdbcType=INTEGER},
+      card_code = #{cardCode,jdbcType=VARCHAR},
+      send_card_time = #{sendCardTime,jdbcType=TIMESTAMP},
+      send_card_man_id = #{sendCardManId,jdbcType=BIGINT},
+      send_card_man_code = #{sendCardManCode,jdbcType=VARCHAR},
+      send_card_man_name = #{sendCardManName,jdbcType=VARCHAR},
+      send_card_storer_id = #{sendCardStorerId,jdbcType=BIGINT},
+      send_card_storer_code = #{sendCardStorerCode,jdbcType=VARCHAR},
+      send_card_storer_name = #{sendCardStorerName,jdbcType=VARCHAR},
+      stored_amount = #{storedAmount,jdbcType=DECIMAL},
+      password = #{password,jdbcType=VARCHAR},
+      password_confirm = #{passwordConfirm,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      birth_date = #{birthDate,jdbcType=TIMESTAMP},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      wechat_num = #{wechatNum,jdbcType=VARCHAR},
+      qq_num = #{qqNum,jdbcType=VARCHAR},
+      adderss = #{adderss,jdbcType=VARCHAR},
+      total_integral = #{totalIntegral,jdbcType=DECIMAL},
+      current_integral = #{currentIntegral,jdbcType=DECIMAL},
+      total_stored_amount = #{totalStoredAmount,jdbcType=DECIMAL},
+      current_stored_amount = #{currentStoredAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByCardTypeId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+      select  id
+      from  saas_member_info
+      where  card_type_id = #{cardTypeId}
+
+  </select>
+  <select id="selectIssuingCardsById"
+          resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoSaveVO">
+    SELECT
+      id as cardTypeId,
+      name as cardTypeName,
+      level_name as levelName,
+      type as type,
+      price_strategy as priceStrategy,
+      discount_strategy as discountStrategy,
+      amount as amount,
+      integral as integral
+      from saas_member_card_type
+      where (enterprise_id = #{enterpriseId} or sys_type = '1')
+      and status = '1'
+      and id = #{id}
+  </select>
+
+
+
+  <select id="getMemberInfoForPresc"
+          resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberForPrescVO">
+    select
+    m.id as id,
+    m.member_name as name,
+    m.sex as sex,
+    m.id_num as idNum,
+    m.birth_date as birthDate,
+    m.mobile_phone as mobilePhone,
+
+    smct.price_strategy as priceStrategy,
+    smct.discount_strategy as discountStrategy
+
+
+    from saas_member_info m
+
+    INNER JOIN saas_member_card_type smct
+    ON smct.id = m.card_type_id
+    where m.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      m.card_code like concat('%', #{param},'%')
+      or
+      m.mobile_phone like concat('%', #{param},'%')
+      or
+      m.member_name like concat('%', #{param},'%')
+      )
+    </if>
+    and
+    m.status = 0
+  </select>
+
+  <select id="selectMemberByCardCode"
+              resultType="com.rograndec.feijiayun.chain.business.member.storedamount.vo.StoredAmountPageVO">
+          select
+          m.id as id,
+          m.card_type_name as cardTypeName,
+          s.level_name as levelName,
+          s.type as type,
+          m.card_code as cardCode,
+          m.send_card_time as sendCardTime,
+          m.send_card_storer_name as sendCardStorerName,
+          m.member_name as memberName,
+          m.mobile_phone as mobilePhone,
+          m.total_integral as totalIntegral,
+          m.current_integral as currentIntegral,
+          m.total_stored_amount as totalStoredAmount,
+          m.current_stored_amount as currentStoredAmount,
+          m.status as status
+          from saas_member_info m
+          LEFT JOIN
+          saas_member_card_type s
+          on m.card_type_id = s.id
+          where m.card_code = #{cardCode}
+          and m.status = '0'
+  </select>
+
+  <select id="selectCurrentStoredAmount" resultType="com.rograndec.feijiayun.chain.business.member.storedamount.vo.StoredAmountPageVO">
+      SELECT
+          m.id as id,
+          m.card_type_name as cardTypeName,
+          s.level_name as levelName,
+          s.type as type,
+          m.card_code as cardCode,
+          m.send_card_time as sendCardTime,
+          m.send_card_storer_name as sendCardStorerName,
+          m.member_name as memberName,
+          m.mobile_phone as mobilePhone,
+          m.total_integral as totalIntegral,
+          m.current_integral as currentIntegral,
+          m.total_stored_amount as totalStoredAmount,
+          m.current_stored_amount as currentStoredAmount,
+          m.password as password,
+          m.password_confirm as passwordConfirm,
+          m.status as status
+          FROM saas_member_info m
+          LEFT JOIN
+          saas_member_card_type s
+          ON m.card_type_id = s.id
+          WHERE m.id = #{id}
+          AND m.status = '0'
+  </select>
+  <select id="getMemberInfoExport"
+          resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoSaveVO">
+    select
+    m.card_type_id as cardTypeId,
+    m.card_type_name as cardTypeName,
+    s.level_name as levelName,
+    s.type as type,
+    s.price_strategy as priceStrategy,
+    s.discount_strategy as discountStrategy,
+    s.amount as amount,
+    s.integral as integral,
+
+    m.card_code as cardCode,
+    m.send_card_time as sendCardTime,
+    m.send_card_storer_name as sendCardStorerName,
+    m.member_name as memberName,
+    m.sex as sex,
+    m.birth_date as birthDate,
+    m.id_num as idNum,
+    m.mobile_phone as mobilePhone,
+    m.email as email,
+    m.wechat_num as wechatNum,
+    m.qq_num as qqNum,
+    m.adderss as adderss,
+    m.total_integral as totalIntegral,
+    m.current_integral as currentIntegral,
+    m.total_stored_amount as totalStoredAmount,
+    m.current_stored_amount as currentStoredAmount,
+    m.status as status
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    ON m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where m.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      INSTR(m.card_code,#{param})
+      or
+      INSTR(m.mobile_phone,#{param})
+      or
+      INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <if test="sendCardManName != null">
+      and INSTR(m.send_card_man_name,#{sendCardManName})
+    </if>
+    <if test="status != null">
+      and m.status = #{status}
+    </if>
+    <if test="sort != null">
+      order by m.card_code ${sort}
+    </if>
+
+  </select>
+
+
+  <select id="getSimpleMemberInfo" resultType="com.rograndec.feijiayun.chain.business.member.info.vo.SimpleMemberInfoVO">
+
+    select
+    m.id as id,
+    m.card_type_id as cardTypeId,
+    m.card_type_name  as cardTypeName,
+    m.member_name as memberName,
+    m.card_code as cardCode,
+
+    m.sex as sex,
+    m.mobile_phone as mobilePhone,
+    m.total_integral  as  totalIntegral,
+    m.current_integral   as currentIntegral
+    from saas_member_info m
+    where  m.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      m.card_code = #{param}
+      or
+      m.mobile_phone =  #{param}
+      or
+      INSTR(m.member_name,#{param})
+      )
+    </if>
+    and
+    m.status = 0
+  </select>
+  <select id="selectRecordTotalIntegral" resultType="java.math.BigDecimal">
+    select
+    sum(m.total_integral)
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    on (s.enterprise_id = m.enterprise_id or s.sys_type = '1')
+    AND m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where m.enterprise_id = #{enterpriseId}
+    and (s.type = '0' or s.type = '1')
+    and m.status = '0'
+    <if test="param != null">
+      and (
+        INSTR(m.card_code,#{param})
+        or
+        INSTR(m.mobile_phone,#{param})
+        or
+        INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <choose>
+      <when test="sort != null">
+        order by m.card_code ${sort}
+      </when>
+      <otherwise>
+        order by m.id desc
+      </otherwise>
+    </choose>
+  </select>
+   <select id="selectRecordCurrentIntegral" resultType="java.math.BigDecimal">
+    select
+    sum(m.current_integral)
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    on (s.enterprise_id = m.enterprise_id or s.sys_type = '1')
+    AND m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where
+    m.enterprise_id = #{enterpriseId}
+    and (s.type = '0' or s.type = '1')
+    and m.status = '0'
+    <if test="param != null">
+      and (
+        INSTR(m.card_code,#{param})
+        or
+        INSTR(m.mobile_phone,#{param})
+        or
+        INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <choose>
+      <when test="sort != null">
+        order by m.card_code ${sort}
+      </when>
+      <otherwise>
+        order by m.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectByEnterpriseId"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where  enterprise_id = #{enterpriseId}
+  </select>
+
+  <select id="getMemberForPresc" resultMap="memberForPrescVOList">
+    SELECT
+    minfo.id,
+    minfo.member_name,
+    minfo.sex,
+    minfo.id_num,
+    minfo.birth_date
+
+    FROM
+    saas_member_info minfo
+    WHERE
+    minfo.enterprise_id = #{enterpriseId}
+    and
+    minfo.id = #{id}
+  </select>
+  
+  <select id="selectByEnterpriseIdAndCode" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} and card_code = #{patientId}
+    UNION ALL
+    select 
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where ${parentId} != 0 and enterprise_id = #{parentId,jdbcType=BIGINT} and card_code = #{patientId}
+    UNION ALL
+    select 
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where ${parentId} != 0 and parent_id = #{parentId,jdbcType=BIGINT} and card_code = #{patientId}
+  </select>
+  <select id="selectMemberCardStatus"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where (enterprise_id = #{enterpriseId} or parent_id = #{enterpriseId})
+    /**
+    未发卡状态
+    */
+    and status = '1'
+    and card_code = #{changeCardCode}
+  </select>
+  <select id="selectMemberCardType"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where (enterprise_id = #{enterpriseId} or parent_id = #{enterpriseId})
+    and card_code = #{changeCardCode}
+    and card_type_id = #{cardTypeId}
+  </select>
+    <select id="selectStasticTotal"
+            resultType="com.rograndec.feijiayun.chain.business.member.info.vo.MemberInfoStasticVO">
+      select
+      sum(m.total_integral) AS stasticTotalIntegral,
+      sum(m.current_integral) AS stasticCurrentIntegral,
+      sum(m.total_stored_amount) AS stasticTotalStoredAmount,
+      sum(m.current_stored_amount) AS stasticCurrentStoredAmount
+      from saas_member_info m
+      LEFT JOIN
+      saas_member_card_type s
+      on s.enterprise_id = m.enterprise_id
+      AND m.card_type_id = s.id
+      LEFT JOIN saas_enterprise e
+      on e.id = m.send_card_storer_id
+      where m.enterprise_id = #{enterpriseId}
+      <if test="param != null">
+        and (
+        INSTR(m.card_code,#{param})
+        or
+        INSTR(m.mobile_phone,#{param})
+        or
+        INSTR(m.member_name,#{param})
+        )
+      </if>
+      <if test="cardTypeId != null">
+        and m.card_type_id = #{cardTypeId}
+      </if>
+      <if test="cardLevelId != null">
+        and s.level_id = #{cardLevelId}
+      </if>
+      <if test="startSendCardTime != null">
+        and m.send_card_time &gt;= #{startSendCardTime}
+      </if>
+      <if test="endSendCardTime != null">
+        and m.send_card_time &lt;= #{endSendCardTime}
+      </if>
+      <if test="chainType != null">
+        and e.chain_type = #{chainType}
+      </if>
+      <if test="sendCardStorerName != null">
+        and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+      </if>
+      <if test="sendCardStorerCode != null">
+        and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+      </if>
+      <if test="sendCardManName != null">
+        and INSTR(m.send_card_man_name,#{sendCardManName})
+      </if>
+      <if test="status != null">
+        and m.status = #{status}
+      </if>
+      <choose>
+        <when test="sort != null">
+          order by m.card_code ${sort}
+        </when>
+        <otherwise>
+          order by m.id desc
+        </otherwise>
+      </choose>
+    </select>
+  <select id="getTotalRecord" resultType="java.lang.Integer">
+    select
+    COUNT(*)
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    ON m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where m.enterprise_id = #{enterpriseId}
+    <if test="param != null">
+      and (
+      INSTR(m.card_code,#{param})
+      or
+      INSTR(m.mobile_phone,#{param})
+      or
+      INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <if test="sendCardManName != null">
+      and INSTR(m.send_card_man_name,#{sendCardManName})
+    </if>
+    <if test="status != null">
+      and m.status = #{status}
+    </if>
+    <choose>
+      <when test="sort != null">
+        order by m.card_code ${sort}
+      </when>
+      <otherwise>
+        order by m.id desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="getIntegralRecordTotal" resultType="java.lang.Integer">
+    select
+    COUNT(*)
+    from saas_member_info m
+    LEFT JOIN
+    saas_member_card_type s
+    on (s.enterprise_id = m.enterprise_id or s.sys_type = '1')
+    AND m.card_type_id = s.id
+    LEFT JOIN saas_enterprise e
+    on e.id = m.send_card_storer_id
+    where
+    m.enterprise_id = #{enterpriseId}
+    and (s.type = '0' or s.type = '1')
+    and m.status = '0'
+    <if test="param != null">
+      and (
+      INSTR(m.card_code,#{param})
+      or
+      INSTR(m.mobile_phone,#{param})
+      or
+      INSTR(m.member_name,#{param})
+      )
+    </if>
+    <if test="cardTypeId != null">
+      and m.card_type_id = #{cardTypeId}
+    </if>
+    <if test="cardLevelId != null">
+      and s.level_id = #{cardLevelId}
+    </if>
+    <if test="startSendCardTime != null">
+      and m.send_card_time &gt;= #{startSendCardTime}
+    </if>
+    <if test="endSendCardTime != null">
+      and m.send_card_time &lt;= #{endSendCardTime}
+    </if>
+    <if test="chainType != null">
+      and e.chain_type = #{chainType}
+    </if>
+    <if test="sendCardStorerName != null">
+      and INSTR(m.send_card_storer_name,#{sendCardStorerName})
+    </if>
+    <if test="sendCardStorerCode != null">
+      and INSTR(m.send_card_storer_code,#{sendCardStorerCode})
+    </if>
+    <choose>
+      <when test="sort != null">
+        order by m.card_code ${sort}
+      </when>
+      <otherwise>
+        order by m.id desc
+      </otherwise>
+    </choose>
+
+  </select>
+  <select id="selectByStoreEnterPriseId"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_member_info
+    where enterprise_id = #{enterpriseId}
+  </select>
+  <select id="listEnterpriseIds" parameterType="java.lang.Long" resultType="java.lang.Long">
+    SELECT `enterprise_id` FROM `saas_enterprise_business` WHERE `member_info` = 0 AND `parent_id` = #{id}
+  </select>
+</mapper>

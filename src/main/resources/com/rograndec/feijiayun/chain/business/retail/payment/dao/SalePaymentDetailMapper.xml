@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.payment.dao.SalePaymentDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.payment.entity.SalePaymentDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="payment_id" jdbcType="BIGINT" property="paymentId" />
+    <result column="pay_type_id" jdbcType="BIGINT" property="payTypeId" />
+    <result column="pay_type_name" jdbcType="VARCHAR" property="payTypeName" />
+    <result column="pay_amount" jdbcType="DECIMAL" property="payAmount" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="diff_amount" jdbcType="DECIMAL" property="diffAmount" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="PaymentVOMap" type="com.rograndec.feijiayun.chain.business.retail.payment.vo.PaymentVO">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="creater_name" jdbcType="VARCHAR" property="payeeName" />
+    <result column="payment_man_name" jdbcType="VARCHAR" property="paymentManName" />
+	<collection property="paymentList" ofType="com.rograndec.feijiayun.chain.business.retail.payment.vo.PaymentListVO">
+	    <result column="pay_type_id" jdbcType="BIGINT" property="payTypeId" />
+	    <result column="pay_type_name" jdbcType="VARCHAR" property="payTypeName" />
+	    <result column="pay_amount" jdbcType="TIMESTAMP" property="payAmount" />
+	    <result column="real_amount" jdbcType="TIMESTAMP" property="realAmount" />
+	    <result column="diff_amount" jdbcType="DECIMAL" property="diffAmount" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, payment_id, pay_type_id, pay_type_name, 
+    pay_amount, real_amount, diff_amount, status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sale_payment_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sale_payment_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.payment.entity.SalePaymentDetail">
+    insert into saas_sale_payment_detail (id, enterprise_id, parent_id, 
+      payment_id, 
+      pay_type_id, pay_type_name, pay_amount, 
+      real_amount, diff_amount, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{paymentId,jdbcType=BIGINT}, 
+      #{payTypeId,jdbcType=BIGINT}, #{payTypeName,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL}, 
+      #{realAmount,jdbcType=DECIMAL}, #{diffAmount,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.payment.entity.SalePaymentDetail">
+    insert into saas_sale_payment_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="paymentId != null">
+        payment_id,
+      </if>
+      
+      <if test="payTypeId != null">
+        pay_type_id,
+      </if>
+      <if test="payTypeName != null">
+        pay_type_name,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+      <if test="realAmount != null">
+        real_amount,
+      </if>
+      <if test="diffAmount != null">
+        diff_amount,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentId != null">
+        #{paymentId,jdbcType=BIGINT},
+      </if>
+      
+      <if test="payTypeId != null">
+        #{payTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="payTypeName != null">
+        #{payTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmount != null">
+        #{diffAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.payment.entity.SalePaymentDetail">
+    update saas_sale_payment_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="paymentId != null">
+        payment_id = #{paymentId,jdbcType=BIGINT},
+      </if>
+      
+      <if test="payTypeId != null">
+        pay_type_id = #{payTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="payTypeName != null">
+        pay_type_name = #{payTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        real_amount = #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="diffAmount != null">
+        diff_amount = #{diffAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.payment.entity.SalePaymentDetail">
+    update saas_sale_payment_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      payment_id = #{paymentId,jdbcType=BIGINT},
+      
+      pay_type_id = #{payTypeId,jdbcType=BIGINT},
+      pay_type_name = #{payTypeName,jdbcType=VARCHAR},
+      pay_amount = #{payAmount,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
+      diff_amount = #{diffAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectPaymentVOByPaymentId" parameterType="java.lang.Long" resultMap="PaymentVOMap">
+    select 
+    	p.id, DATE_FORMAT(p.create_time,'%Y-%m-%d') as create_date,
+    	p.creater_name, p.payment_man_name,
+    	d.pay_type_id, d.pay_type_name,
+    	d.pay_amount, d.real_amount, d.diff_amount
+    from saas_sale_payment_detail d left join saas_sale_payment p
+    on d.payment_id = p.id
+    where d.payment_id = #{id,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

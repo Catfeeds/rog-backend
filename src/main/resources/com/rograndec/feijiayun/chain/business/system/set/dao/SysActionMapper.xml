@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.set.dao.SysActionMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.entity.SysAction">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_action_id" jdbcType="BIGINT" property="parentActionId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="show_order" jdbcType="INTEGER" property="showOrder" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="for_parent" jdbcType="INTEGER" property="forParent" />
+    <result column="for_branch" jdbcType="INTEGER" property="forBranch" />
+    <result column="for_league" jdbcType="INTEGER" property="forLeague" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="is_parent" jdbcType="BIGINT" property="isParent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_action_id, enterprise_id, parent_id, code, name, url, show_order, status, type,for_parent,for_branch,for_league,
+    remark, creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time,icon,is_parent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap" flushCache="true">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectIdAndParentIdAll" resultType="com.rograndec.feijiayun.chain.business.auth.menu.vo.TreeAction">
+   SELECT id,parent_action_id AS parentId from saas_sys_action WHERE status=1 ORDER BY parent_action_id
+  </select>
+
+  <select id="selectByEnterpriseAndType" parameterType="java.lang.Integer" resultType="com.rograndec.feijiayun.chain.common.vo.BaseTreeVO">
+    SELECT
+      id,
+      parent_action_id AS parentId,
+      code,
+      name,
+      remark,
+      url,
+      type,
+      for_parent AS forParent,
+      for_branch AS forBranch,
+      for_league AS forLeague,
+      icon,
+      is_parent AS isParent
+    from saas_sys_action
+    <where>
+      status=1
+      <if test="type != null">
+        AND type = #{type,jdbcType=INTEGER}
+      </if>
+    </where>
+      ORDER BY code
+  </select>
+
+  <select id="selectByEnterpriseIds" resultType="com.rograndec.feijiayun.chain.common.vo.BaseTreeVO">
+    SELECT
+    id,
+    parent_action_id AS parentId,
+    code,
+    name,
+    remark,
+    url,
+    type,
+    for_parent AS forParent,
+    for_branch AS forBranch,
+    for_league AS forLeague,
+    icon,
+    is_parent AS isParent
+    from saas_sys_action
+    <where>
+      status=1
+      AND id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+    ORDER BY code
+  </select>
+
+  <select id="selectByenterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap" flushCache="true">
+    <!--select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    union all-->
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where enterprise_id = 0
+  </select>
+
+  <select id="selectByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMap" flushCache="true">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT} order by code
+  </select>
+  <select id="selectByenterpriseIdByRoleId" parameterType="hashMap" resultMap="BaseResultMap" flushCache="true">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where id in (select action_id from saas_sys_role_action where role_id = #{roleId,jdbcType=BIGINT} and (enterprise_id = #{enterpriseId,jdbcType=BIGINT} or enterprise_id = 0))
+  </select>
+  <select id="selectByenterpriseIdByParentActionId" parameterType="hashMap" resultMap="BaseResultMap" flushCache="true">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and parent_action_id = #{parentActionId,jdbcType=BIGINT}
+    union all
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where enterprise_id = 0
+    and parent_action_id = #{parentActionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_sys_action
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.SysAction" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sys_action (id, parent_action_id, enterprise_id, 
+      parent_id, code, name, 
+      url, show_order, status, type,for_parent,for_branch,for_league,
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,icon,
+      is_parent
+      )
+    values (#{id,jdbcType=BIGINT}, #{parentActionId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{showOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{forParent,jdbcType=INTEGER}, #{forBranch,jdbcType=INTEGER}, #{forLeague,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{icon,jdbcType=VARCHAR},#{isParent,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.SysAction" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_sys_action
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="parentActionId != null">
+        parent_action_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="showOrder != null">
+        show_order,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="forParent != null">
+        for_parent,
+      </if>
+      <if test="forBranch != null">
+        for_branch,
+      </if>
+      <if test="forLeague != null">
+        for_league,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="isParent != null">
+        is_parent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentActionId != null">
+        #{parentActionId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="showOrder != null">
+        #{showOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="forParent != null">
+        #{forParent,jdbcType=INTEGER},
+      </if>
+      <if test="forBranch != null">
+        #{forBranch,jdbcType=INTEGER},
+      </if>
+      <if test="forLeague != null">
+        #{forLeague,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        now(),
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        now(),
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="isParent != null">
+        #{isParent,jdbcType=BIGINT}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.SysAction">
+    update saas_sys_action
+    <set>
+      <if test="parentActionId != null">
+        parent_action_id = #{parentActionId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="showOrder != null">
+        show_order = #{showOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="forParent != null">
+        for_parent = #{forParent,jdbcType=INTEGER},
+      </if>
+      <if test="forBranch != null">
+        for_branch = #{forBranch,jdbcType=INTEGER},
+      </if>
+      <if test="forLeague != null">
+        for_league = #{forLeague,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+
+      <if test="isParent != null">
+        is_parent = #{isParent,jdbcType=BIGINT}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.SysAction">
+    update saas_sys_action
+    set parent_action_id = #{parentActionId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      show_order = #{showOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      for_parent = #{forParent,jdbcType=INTEGER},
+      for_branch = #{forBranch,jdbcType=INTEGER},
+      for_league = #{forLeague,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      icon = #{icon,jdbcType=VARCHAR},
+      is_parent = #{isParent,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByCodeAndEnterpriseIdAndParentId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_sys_action
+    where code = #{code,jdbcType=VARCHAR}
+      and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      and parent_id = #{parentId,jdbcType=BIGINT}
+  </select>
+
+
+</mapper>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.syncdata.dao.POSCountDataSyncMapper">
+
+  <!-- 获取企业数据 -->
+  <select id="countEnterprise" resultType="java.lang.Long">
+	select COUNT(1) from saas_enterprise where id=#{enterpriseId} and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countEnterpriseBusiness" resultType="java.lang.Long">
+	select COUNT(1) from saas_enterprise_business where enterprise_id=#{enterpriseId}
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countGoods" resultType="java.lang.Long">
+	select COUNT(1) from saas_goods where 1=1
+	<choose>
+        <when test="chainType == 2">
+			<if test="enterpriseId != null and parentId != null">
+				and enterprise_id = #{parentId}
+				and owner_id in (#{parentId},#{enterpriseId})
+			</if>
+		</when>
+		<otherwise>
+			<if test="chainType == 0">
+			and enterprise_id = #{enterpriseId} and owner_id = #{enterpriseId}
+			</if>
+			<if test="chainType == 1">
+			and enterprise_id = #{parentId} and owner_id = #{parentId}
+			</if>
+		</otherwise>
+	</choose>
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPriceOrderDetail" resultType="java.lang.Long">
+	select COUNT(1) from saas_price_order_detail where enterprise_id=#{enterpriseId} and status=1
+	<include refid="whereSql"></include>
+  </select>
+ 
+  <select id="countIncompatibilityGoodsOne" resultType="java.lang.Long">
+	select COUNT(1) from saas_incompatibility_goods_one where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) 
+  </select>
+  
+  <select id="countSpecialGoods" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_goods where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSpecialPriceStrategy" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_price_strategy where (enterprise_id = #{enterpriseId} or enterprise_id=#{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSpecialPriceGoods" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_price_goods where (enterprise_id = #{enterpriseId} or enterprise_id = #{parentId}) and status=1
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countLotNumber" resultType="java.lang.Long">
+	select COUNT(1) from saas_lot_number where enterprise_id=#{enterpriseId} 
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countStock" resultType="java.lang.Long">
+	select COUNT(1) from saas_stock stock
+    LEFT JOIN saas_lot_number lot ON lot.id=stock.lot_id AND stock.enterprise_id=lot.enterprise_id
+    LEFT JOIN saas_warehouse_shelf ws ON ws.id=stock.shelf_id AND stock.enterprise_id=ws.enterprise_id
+    LEFT JOIN saas_warehouse_cargo_area wca ON wca.id=ws.cargo_area_id AND stock.enterprise_id=wca.enterprise_id
+    WHERE stock.enterprise_id=#{enterpriseId}
+	AND stock.goods_id = lot.goods_id
+	AND wca.job_type=0
+    and wca.job_area=0
+    <if test="lastSyncTime != null and lastSyncTime != '' ">
+      and DATE_FORMAT(stock.update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+    </if>
+  </select>
+  
+  <select id="countWarehouseShelf" resultType="java.lang.Long">
+	select COUNT(1) from saas_warehouse_shelf
+    WHERE enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countWarehouseCargoArea" resultType="java.lang.Long">
+	select COUNT(1) from saas_warehouse_cargo_area
+    WHERE enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countMemberCardType" resultType="java.lang.Long">
+	select COUNT(1) from saas_member_card_type
+    where (enterprise_id=#{enterpriseId} or enterprise_id=0 or enterprise_id = #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countMemberInfo" resultType="java.lang.Long">
+	select COUNT(1) from saas_member_info
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId})
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPrescriptionRegister" resultType="java.lang.Long">
+	select COUNT(1) from saas_prescription_register
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPrescriptionRegisterDetail" resultType="java.lang.Long">
+	select COUNT(1) from saas_prescription_register_detail
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPrescriptionRegisterShelf" resultType="java.lang.Long">
+	select COUNT(1) from saas_prescription_register_shelf
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSpecialRegister" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_register
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSpecialRegisterDetail" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_register_detail
+    where enterprise_id=#{enterpriseId}
+	<include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSpecialRegisterShelf" resultType="java.lang.Long">
+	select COUNT(1) from saas_special_register_shelf
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPrescriptionSignature" resultType="java.lang.Long">
+	select COUNT(1) from saas_prescription_signature
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countUser" resultType="java.lang.Long">
+	select COUNT(1) from saas_user
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countUserAdministration" resultType="java.lang.Long">
+	select COUNT(1) from saas_user_administration
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countUserPosition" resultType="java.lang.Long">
+	select COUNT(1) from saas_user_position
+    where enterprise_id=#{enterpriseId}
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosition" resultType="java.lang.Long">
+	select COUNT(1) from saas_position
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countSysRole" resultType="java.lang.Long">
+	select COUNT(1) from saas_sys_role 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+   <select id="countUserRole" resultType="java.lang.Long">
+	select COUNT(1) from saas_user_role
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId})
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosSet" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosPayType" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_pay_type 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosBank" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_bank 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosTeam" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_team 
+    where (enterprise_id=#{enterpriseId} or enterprise_id=#{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosClerk" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_clerk 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosPayee" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_payee 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPosPayeeAuth" resultType="java.lang.Long">
+	select COUNT(1) from saas_pos_payee_auth 
+    where enterprise_id=#{enterpriseId} and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countGoodsBusiness" resultType="java.lang.Long">
+	select COUNT(1) from saas_goods_business a JOIN saas_goods b on a.goods_id = b.id
+	where 1=1
+	<include refid="whereGoodsBusiness"></include>
+  </select>
+  
+  <select id="countQualitySet" resultType="java.lang.Long">
+	select COUNT(1) from saas_quality_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId}) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  <select id="countPharmacySet" resultType="java.lang.Long">
+	select COUNT(1) from saas_pharmacy_set 
+    where (enterprise_id = #{enterpriseId} or enterprise_id= #{parentId} or enterprise_id=0) and status=1
+    <include refid="whereSql"></include>
+  </select>
+  
+  
+  <sql id="whereSql">
+  	<include refid="whereANDSql"></include>
+  </sql>
+  
+  <sql id="whereANDSql">
+  	<if test='tableName != "saas_incompatibility_goods_one"'>
+	  	<if test="lastSyncTime != null and lastSyncTime != '' ">
+	    	and	DATE_FORMAT(update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+	    </if>
+    </if>
+  </sql>
+  
+  	<!-- 商品业务表条件 -->
+	<sql id="whereGoodsBusiness">
+		<choose>
+			<!-- 加盟店 -->
+			<when test="chainType == 2">
+				and b.enterprise_id = #{parentId}
+				and b.owner_id in (#{parentId},#{enterpriseId})
+			</when>
+			<otherwise>
+				<!-- 总部 -->
+				<if test="chainType == 0">
+					and b.enterprise_id = #{enterpriseId} and b.owner_id = #{enterpriseId}
+				</if>
+				<!-- 自营店 -->
+				<if test="chainType == 1">
+					and b.enterprise_id = #{parentId} and b.owner_id = #{parentId}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="lastSyncTime != null and lastSyncTime != '' ">
+    		and	DATE_FORMAT(b.update_time,'%Y-%m-%d %H:%i') >= DATE_FORMAT(#{lastSyncTime},'%Y-%m-%d %H:%i')
+    	</if>
+	</sql>
+  
+</mapper>

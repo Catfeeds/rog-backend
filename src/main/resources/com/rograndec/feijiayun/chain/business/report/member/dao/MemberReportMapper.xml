@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.member.dao.MemberReportMapper">
+  
+  <!-- 查询条件 -->
+  <sql id="whereSql">
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId}
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` =#{enterpriseId})
+	</if>
+	<if test="param != null and param != ''">
+		and (
+		INSTR(smi.card_code,#{param})
+		or INSTR(smi.member_name,#{param})
+		or INSTR(smi.mobile_phone,#{param})
+		)
+	</if>
+	<if test="chainType != null">
+		and sep.chain_type=#{chainType}
+	</if>
+	<if test="enterpriseCode != null and enterpriseCode != ''">
+		and sep.code=#{enterpriseCode}
+	</if>
+	<if test="enterpriseName != null and enterpriseName != ''">
+		and sep.name=#{enterpriseName}
+	</if>
+  </sql>
+  
+  <!-- 积分兑换 -->
+  <select id="getIntegralExchange" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeVO">
+	SELECT 
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone,
+	  DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') AS saleDate,
+	  sie.code AS saleCode,
+	  sep.`code` AS enterpriseCode,
+	  sep.`name` AS enterpriseName,
+	  dtl.goods_id AS goodsId,
+	  dtl.`goods_code` AS goodsCode,
+	  dtl.`goods_generic_name` AS goodsGenericName,
+	  dtl.`goods_name` AS goodsName,
+	  dtl.`dosage_name` AS dosageName,
+	  dtl.`goods_specification` AS goodsSpecification,
+	  dtl.`unit_name` AS unitName,
+	  dtl.manufacturer,
+	  dtl.integral_exchange AS integralExchange,
+	  dtl.exchange_quantity AS exchangeQuantity,
+	  dtl.deduct_integral AS deductIntegral
+	FROM
+	  saas_member_info smi	
+	  JOIN saas_integral_exchange sie 
+	    ON sie.member_id = smi.id 
+	  JOIN saas_integral_exchange_dtl dtl 
+	    ON sie.id = dtl.exchange_id   
+	  LEFT JOIN saas_enterprise sep ON smi.`enterprise_id` = sep.id
+	WHERE 1=1
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+    
+    <if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY ${order} ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY smi.id asc
+    </if>
+	<if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  
+  <select id="countIntegralExchange" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="java.lang.Integer">
+	SELECT 
+	  count(1)
+	FROM
+	  saas_member_info smi	
+	  JOIN saas_integral_exchange sie 
+	    ON sie.member_id = smi.id 
+	  JOIN saas_integral_exchange_dtl dtl 
+	    ON sie.id = dtl.exchange_id   
+	  LEFT JOIN saas_enterprise sep ON smi.`enterprise_id` = sep.id
+	WHERE 1=1
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>	
+  </select>
+  
+  <select id="sumIntegralExchange" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeTotalVO">
+	SELECT 
+	 SUM(integral_exchange) AS integralExchangeTotal,
+	 SUM(exchange_quantity) AS exchangeQuantityTotal,
+	 SUM(deduct_integral) AS deductIntegralTotal
+	FROM
+	( SELECT
+		dtl.integral_exchange,
+		dtl.exchange_quantity,
+		dtl.deduct_integral
+	  from	
+	  saas_member_info smi	
+	  JOIN saas_integral_exchange sie  
+	    ON sie.member_id = smi.id 
+	  JOIN saas_integral_exchange_dtl dtl 
+	    ON sie.id = dtl.exchange_id  
+	  LEFT JOIN saas_enterprise sep ON smi.`enterprise_id` = sep.id
+	WHERE 1=1
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sie.exchange_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+	) tab
+  </select>
+  
+  <!-- 会员销售 -->
+  <select id="getMemberSale" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberSaleVO">
+	SELECT 
+	  smi.id,
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone,
+	  DATE_FORMAT(sale.sale_date, '%Y-%m-%d') AS saleDate,
+	  sale.code AS saleCode,
+	  sep.`code` AS enterpriseCode,
+	  sep.`name` AS enterpriseName,
+	  sd.goods_id AS goodsId,
+	  sd.`goods_code` AS goodsCode,
+	  sd.`goods_generic_name` AS goodsGenericName,
+	  sd.`goods_name` AS goodsName,
+	  sd.`dosage_name` AS dosageName,
+	  sd.`goods_specification` AS goodsSpecification,
+	  sd.`unit_name` AS unitName,
+	  sd.manufacturer,
+	  sale.member_integral AS deductIntegral,
+	  sh.lot_number AS lotNumber,
+	  sh.product_date AS productDate,
+	  sh.valid_date AS validUntil,
+	  sh.shelf_name AS shelfName,
+	  sh.quantity,
+	  sh.unit_price AS unitPrice,
+	  sh.amount,
+	  smi.current_integral AS currentIntegral
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_sale sale 
+	    ON smi.id = sale.member_id
+	  JOIN saas_sale_detail sd 
+	    ON sale.id = sd.sale_id
+	  JOIN saas_sale_shelf sh 
+	    ON sd.id = sh.sale_dtl_id
+	  LEFT JOIN saas_enterprise sep 
+	    ON smi.`enterprise_id` = sep.id 
+	WHERE 1 = 1 
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+
+    <if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY ${order} ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY saleDate desc
+    </if>
+    <if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  
+  <select id="countMemberSale" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="java.lang.Integer">
+	SELECT 
+	  count(1)
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_sale sale 
+	    ON smi.id = sale.member_id
+	  JOIN saas_sale_detail sd 
+	    ON sale.id = sd.sale_id
+	  JOIN saas_sale_shelf sh 
+	    ON sd.id = sh.sale_dtl_id
+	  LEFT JOIN saas_enterprise sep 
+	    ON smi.`enterprise_id` = sep.id 
+	WHERE 1 = 1 
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+  </select>
+  
+  <!-- 会员销售 -->
+  <select id="sumMemberSale" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberSaleTotalVO">
+    select 
+	  SUM(sh.quantity) AS quantityTotal,
+  	  SUM(sh.amount) AS amountTotal,
+      SUM(smi.current_integral) AS currentIntegralTotal
+	  FROM
+	  saas_member_info smi 
+	  JOIN saas_sale sale 
+	    ON smi.id = sale.member_id
+	  JOIN saas_sale_detail sd 
+	    ON sale.id = sd.sale_id
+	  JOIN saas_sale_shelf sh 
+	    ON sd.id = sh.sale_dtl_id
+	  LEFT JOIN saas_enterprise sep 
+	    ON smi.`enterprise_id` = sep.id 
+	WHERE 1 = 1 
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+  </select>
+  
+  <!-- 储值付款 -->
+  <select id="getStoredAmount" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberAmountRecordVO">
+  	SELECT 
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone,
+	  DATE_FORMAT(sale.sale_date, '%Y-%m-%d') AS showDate,
+	  sale.code AS showCode,
+	  sep.`code` AS enterpriseCode,
+	  sep.`name` AS enterpriseName,
+	  sale.amount_total AS amountTotal,
+	  sta.change_stored_amount AS changeStoredAmount
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_stored_amount_record sta 
+	    ON sta.member_id = smi.id 
+	  	AND sta.change_type IN(5,6)  
+	  JOIN saas_sale sale 
+	    ON smi.id = sale.member_id
+	    and sta.base_order_code = sale.code
+	  LEFT JOIN saas_enterprise sep 
+	    ON smi.`enterprise_id` = sep.id
+	WHERE 1 = 1 
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if> 
+
+	<if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY ${order} ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY smi.id asc
+    </if>
+    <if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  <select id="countStoredAmount" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="java.lang.Integer">
+  	SELECT 
+	  count(1)
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_stored_amount_record sta 
+	    ON sta.member_id = smi.id 
+	  	AND sta.change_type IN(5,6)  
+	  JOIN saas_sale sale 
+	    ON smi.id = sale.member_id
+	    and sta.base_order_code = sale.code
+	  LEFT JOIN saas_enterprise sep 
+	    ON smi.`enterprise_id` = sep.id 
+	WHERE 1 = 1 
+	<include refid="whereSql"></include> 
+    <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+    </if> 
+  </select>
+  <select id="sumStoredAmount" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberIntegralExchangeParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberAmountRecordTotalVO">
+	SELECT
+	SUM(amount_total) AS amountTotal,
+	SUM(change_stored_amount) AS changeStoredAmountTotal
+	FROM
+	(SELECT
+	sale.amount_total,
+	sta.change_stored_amount
+	FROM
+	saas_member_info smi
+	JOIN saas_stored_amount_record sta
+	ON sta.member_id = smi.id
+	AND sta.change_type IN(5,6)
+	JOIN saas_sale sale
+	ON smi.id = sale.member_id
+	and sta.base_order_code = sale.code
+	LEFT JOIN saas_enterprise sep
+	ON smi.`enterprise_id` = sep.id
+	WHERE 1 = 1 
+	  <include refid="whereSql"></include> 
+      <if test="startTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &gt;=#{startTime}
+      </if>
+      <if test="endTime != null">
+    	and DATE_FORMAT(sale.sale_date,'%Y-%m-%d') &lt;=#{endTime}
+      </if>  
+	  ) tab 
+  </select>
+  
+  <!-- 会员排行 -->
+  <select id="getMemberRanking" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberRankingParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberRankingVO">
+  	SELECT 
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone
+	  <if test="type == 1">
+	  ,SUM(sale.amount_total) AS saleAmount
+	  </if>
+	  <if test="type == 2 or type == 3">
+	  ,smi.total_integral as totalData
+	  ,smi.current_integral as currentData
+	  </if>
+	  <if test="type == 4 or type == 5">
+	  ,smi.total_stored_amount as totalData
+	  ,smi.current_stored_amount as currentData
+	  </if>
+	FROM
+	  saas_member_info smi
+	  LEFT JOIN  saas_sale sale ON sale.member_id=smi.id
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="(order != null and sort != null) and (order != '' and sort != '') ">
+	  <if test="type == 1">
+      ORDER BY saleAmount ${sort}
+      </if>
+      <if test="type != 1">
+      ORDER BY ${order} ${sort}
+      </if>
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      <if test="type == 1">
+      ORDER BY saleAmount desc
+      </if>
+    </if>
+    <if test="top != null and top != ''">
+        limit #{top}
+    </if>
+  </select>
+  <select id="countMemberRanking" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberRankingParamVO" resultType="java.lang.Integer">
+  	SELECT 
+	  count(1)
+	FROM
+	  saas_member_info smi
+	  LEFT JOIN  saas_sale sale ON  sale.member_id=smi.id
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+  </select>
+  <select id="sumMemberRanking" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberRankingParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberRankingTotalVO">
+  	SELECT 
+  	id
+  	<if test="type ==1 ">
+	,SUM(saleAmount) AS saleAmountTotal
+	</if>
+	<if test="type != 0 and type !=1 ">
+	,SUM(totalData) AS totalDataTotal
+	,SUM(currentData) AS currentDataTotal
+	</if>
+	FROM (
+	SELECT 
+	  smi.id
+	  <if test="type ==1 ">	
+	  ,SUM(sale.amount_total) AS saleAmount
+	  </if>
+	  <if test="type == 2 or type == 3">
+	  ,smi.total_integral as totalData
+	  ,smi.current_integral as currentData
+	  </if>
+	  <if test="type == 4 or type == 5">
+	  ,smi.total_stored_amount as totalData
+	  ,smi.current_stored_amount as currentData
+	  </if>
+	FROM
+	  saas_member_info smi  
+	  LEFT JOIN  saas_sale sale ON  sale.member_id=smi.id
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+
+    <if test="top != null and top != ''">
+        limit #{top}
+    </if>
+    )tab
+  </select>
+  
+  <!-- 会员活跃度 -->
+  <select id="getMemberLiveness" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberLivenessParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberLivenessVO">
+  	SELECT 
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone,
+	  COUNT(1) AS saleCount,
+	  SUM(sale.amount_total) AS saleAmount
+	FROM
+	  saas_sale sale
+	  JOIN saas_member_info smi 
+	  ON  sale.member_id=smi.id 
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="startTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+	GROUP BY smi.id
+	<if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY saleCount ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY saleCount desc
+    </if>
+    <if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  <select id="countMemberLiveness" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberLivenessParamVO" resultType="java.lang.Integer">
+  	SELECT 
+	  count(1)
+	FROM
+	(
+	  select sale.id
+	  from
+	  saas_sale sale
+	  JOIN saas_member_info smi 
+	  ON  sale.member_id=smi.id 
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="startTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+	GROUP BY smi.id
+	) tab
+  </select>
+  <select id="sumMemberLiveness" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberLivenessParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberLivenessTotalVO">
+  	SELECT 
+  	sum(saleCount) as saleCountTotal,
+  	sum(saleAmount) as saleAmountTotal
+  	from
+  	(
+  	SELECT 
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.mobile_phone AS mobilePhone,
+	  COUNT(1) AS saleCount,
+	  SUM(sale.amount_total) AS saleAmount
+	FROM
+	  saas_sale sale
+	  JOIN saas_member_info smi 
+	  ON  sale.member_id=smi.id
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="startTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+	GROUP BY smi.id
+	)tab
+  </select>
+  
+  <!-- 会员生日 -->
+  <select id="getMemberBirthDate" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberBirthDateParamVO" resultType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberBirthDateVO">
+  	SELECT 
+	  smi.id,
+	  smi.card_type_name as cardTypeName,
+	  sct.level_name as levelName,
+	  smi.card_code AS cardCode,
+	  smi.member_name AS memberName,
+	  smi.sex, 
+	  DATE_FORMAT(smi.birth_date,'%Y-%m-%d') as birthDate,
+	  smi.id_num as idNum,
+	  smi.mobile_phone as mobilePhone,
+	  smi.email,
+	  smi.wechat_num as wechatNum,
+	  smi.qq_num as qqNum,
+	  smi.total_integral as totalIntegral,
+	  smi.current_integral as currentIntegral,
+	  smi.total_stored_amount as totalStoredAmount,
+	  smi.current_stored_amount as currentStoredAmount
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_member_card_type sct 
+	    ON sct.id = smi.card_type_id 
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="startTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+    <if test="(order != null and sort != null) and (order != '' and sort != '') ">
+      ORDER BY smi.card_code ${sort}
+    </if>
+    <if test="(order == null and sort == null) or (order == '' and sort == '')">
+      ORDER BY smi.card_code asc
+    </if>
+    <if test="start != null">
+		limit #{start},#{pageSize}
+	</if>
+  </select>
+  
+  <select id="countMemberBirthDate" parameterType="com.rograndec.feijiayun.chain.business.report.member.vo.MemberBirthDateParamVO" resultType="java.lang.Integer">
+  	SELECT 
+	  count(1)
+	FROM
+	  saas_member_info smi 
+	  JOIN saas_member_card_type sct 
+	    ON sct.id = smi.card_type_id 
+	WHERE 1 = 1 
+	<if test="parentId != null and parentId != 0">
+		and smi.`enterprise_id` = #{enterpriseId} 
+	</if>
+	<if test="parentId == null or parentId == 0">
+		and (smi.`parent_id` = #{enterpriseId} or smi.`enterprise_id` = #{enterpriseId}) 
+	</if>
+	<if test="startTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+    	and DATE_FORMAT(smi.create_time,'%Y-%m-%d') &lt;=#{endTime}
+    </if>
+  </select>
+  
+</mapper>

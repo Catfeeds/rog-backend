@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.sale.dao.CheckCodeExistsMapper">
+    <select id="isExistsCode" resultType="java.lang.Long" parameterType="hashMap">
+        select count(*) from ${tableName} where enterprise_id = #{enterpriseId}
+        and code in
+        <foreach item="code" index="index" collection="codeList"
+                 open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </select>
+    <select id="isExistsName" resultType="java.lang.Long" parameterType="hashMap">
+        select count(*) from ${tableName} where enterprise_id = #{enterpriseId}
+        and name in
+        <foreach item="name" index="index" collection="nameList"
+                 open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+</mapper>

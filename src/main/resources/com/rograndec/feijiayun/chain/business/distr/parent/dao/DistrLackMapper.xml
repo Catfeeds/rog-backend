@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.distr.parent.dao.DistrLackMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrLack">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="send_date" jdbcType="TIMESTAMP" property="sendDate" />
+    <result column="base_order_id" jdbcType="BIGINT" property="baseOrderId" />
+    <result column="base_order_type" jdbcType="INTEGER" property="baseOrderType" />
+    <result column="base_order_code" jdbcType="VARCHAR" property="baseOrderCode" />
+    <result column="base_order_date" jdbcType="TIMESTAMP" property="baseOrderDate" />
+    <result column="request_unit_id" jdbcType="BIGINT" property="requestUnitId" />
+    <result column="request_unit_code" jdbcType="VARCHAR" property="requestUnitCode" />
+    <result column="request_unit_name" jdbcType="VARCHAR" property="requestUnitName" />
+    <result column="requester_id" jdbcType="BIGINT" property="requesterId" />
+    <result column="requester_code" jdbcType="VARCHAR" property="requesterCode" />
+    <result column="requester_name" jdbcType="VARCHAR" property="requesterName" />
+    <result column="distr_type" jdbcType="INTEGER" property="distrType" />
+    <result column="request_plan_id" jdbcType="BIGINT" property="requestPlanId" />
+    <result column="request_plan_code" jdbcType="VARCHAR" property="requestPlanCode" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, code, send_date, base_order_id, base_order_type, 
+    base_order_code, base_order_date, request_unit_id, request_unit_code, request_unit_name, 
+    requester_id, requester_code, requester_name, distr_type, request_plan_id, request_plan_code, 
+    quantity_total, varieties_quantity, status, remark, creater_id, creater_code, creater_name, create_time,
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_distr_lack
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_distr_lack
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrLack">
+    insert into saas_distr_lack
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="sendDate != null">
+        send_date,
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="requestUnitId != null">
+        request_unit_id,
+      </if>
+      <if test="requestUnitCode != null">
+        request_unit_code,
+      </if>
+      <if test="requestUnitName != null">
+        request_unit_name,
+      </if>
+      <if test="requesterId != null">
+        requester_id,
+      </if>
+      <if test="requesterCode != null">
+        requester_code,
+      </if>
+      <if test="requesterName != null">
+        requester_name,
+      </if>
+      <if test="distrType != null">
+        distr_type,
+      </if>
+      <if test="requestPlanId != null">
+        request_plan_id,
+      </if>
+      <if test="requestPlanCode != null">
+        request_plan_code,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null">
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestUnitId != null">
+        #{requestUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="requestUnitCode != null">
+        #{requestUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUnitName != null">
+        #{requestUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterId != null">
+        #{requesterId,jdbcType=BIGINT},
+      </if>
+      <if test="requesterCode != null">
+        #{requesterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterName != null">
+        #{requesterName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrType != null">
+        #{distrType,jdbcType=INTEGER},
+      </if>
+      <if test="requestPlanId != null">
+        #{requestPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="requestPlanCode != null">
+        #{requestPlanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.entity.DistrLack">
+    update saas_distr_lack
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null">
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="baseOrderId != null">
+        base_order_id = #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type = #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code = #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date = #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestUnitId != null">
+        request_unit_id = #{requestUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="requestUnitCode != null">
+        request_unit_code = #{requestUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUnitName != null">
+        request_unit_name = #{requestUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterId != null">
+        requester_id = #{requesterId,jdbcType=BIGINT},
+      </if>
+      <if test="requesterCode != null">
+        requester_code = #{requesterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requesterName != null">
+        requester_name = #{requesterName,jdbcType=VARCHAR},
+      </if>
+      <if test="distrType != null">
+        distr_type = #{distrType,jdbcType=INTEGER},
+      </if>
+      <if test="requestPlanId != null">
+        request_plan_id = #{requestPlanId,jdbcType=BIGINT},
+      </if>
+      <if test="requestPlanCode != null">
+        request_plan_code = #{requestPlanCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <sql id="whereSql">
+      <where>
+        <if test="startDate!=null and startDate!='' ">
+          and a.send_date>=str_to_date(#{startDate},'%Y-%m-%d %T')
+        </if>
+        <if test="endDate!=null and endDate!='' ">
+          and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.send_date
+        </if>
+        <if test="status!=null and status!='' ">
+          and a.status=#{status}
+        </if>
+        <if test="code!=null and code!='' ">
+          and a.code like CONCAT('%',#{code},'%')
+        </if>
+        <if test="requesterName!=null and requesterName!='' ">
+          and a.requester_name like CONCAT('%',#{requesterName},'%')
+        </if>
+        <if test="requestUnitId != null">
+          and a.request_unit_id = #{requestUnitId}
+        </if>
+        <if test="requestUnitCode!=null and requestUnitCode!='' ">
+          and a.request_unit_code like CONCAT('%',#{requestUnitCode},'%')
+        </if>
+        <if test="requestUnitName!=null and requestUnitName!='' ">
+          and a.request_unit_name like CONCAT('%',#{requestUnitName},'%')
+        </if>
+        <if test="distrType!=null and distrType!='' ">
+          and a.distr_type =#{distrType}
+        </if>
+        <if test="enterpriseId != null  ">
+          and a.enterprise_id = #{enterpriseId}
+        </if>
+      </where>
+  </sql>
+  <select id="countDistrLackData" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.vo.RequestDistrLackPram" resultType="int">
+    select count(1) from saas_distr_lack a
+    <include refid="whereSql"/>
+  </select>
+  <select id="getDistrLackData" parameterType="com.rograndec.feijiayun.chain.business.distr.parent.vo.RequestDistrLackPram" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    saas_distr_lack a
+    <include refid="whereSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <select id="getDistrLackListByEnterpriseId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    lack.id, lack.enterprise_id, lack.parent_id, lack.order_type, lack.code, lack.send_date, lack.base_order_id, lack.base_order_type,
+    lack.base_order_code, lack.base_order_date, lack.request_unit_id, lack.request_unit_code, lack.request_unit_name,
+    lack.requester_id, lack.requester_code, lack.requester_name, lack.distr_type, lack.request_plan_id, lack.request_plan_code,
+    lack.quantity_total, lack.varieties_quantity, lack.status, lack.remark,lack.creater_id, lack.creater_code, lack.creater_name, lack.create_time,
+    lack.modifier_id, lack.modifier_code, lack.modifier_name, lack.update_time
+    from saas_distr_lack lack
+
+    JOIN saas_distr_lack_detail dtl ON dtl.lack_id = lack.id
+    JOIN saas_stock stock on  stock.goods_id = dtl.goods_id and stock.enterprise_id = lack.enterprise_id
+    left join saas_lot_number lot on lot.id=stock.lot_id
+    left join saas_warehouse_shelf ws on ws.id=stock.shelf_id
+    left join saas_warehouse_cargo_area wca on wca.id=ws.cargo_area_id
+
+    where lack.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    AND stock.goods_id = lot.goods_id
+    AND stock.inventory_status = 0
+    AND stock.usable_quantity>0
+    AND wca.job_type=0
+    and wca.job_area=0
+    AND date_format(lot.valid_until, '%Y-%m-%d') >= date_format(now(), '%Y-%m-%d')
+
+    AND lack.status = 31
+    <if test="startTime != null and endTime != null">
+      AND lack.send_date between #{startTime} and #{endTime}
+    </if>
+    <if test="requestUnitId != null">
+      and lack.request_unit_id = #{requestUnitId}
+    </if>
+    ORDER BY lack.id DESC
+  </select>
+
+  <!--报表专用-->
+  <resultMap id="LackMap" type="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.DistrLackReportVo">
+    <result column="send_date" jdbcType="TIMESTAMP" property="sendDate"/>
+    <result column="discode" jdbcType="VARCHAR" property="code"/>
+    <result column="request_unit_code" jdbcType="VARCHAR" property="requestUnitCode"/>
+    <result column="request_unit_name" jdbcType="VARCHAR" property="requestUnitName"/>
+    <result column="requester_name" jdbcType="VARCHAR" property="requesterName"/>
+    <result column="distr_type" jdbcType="INTEGER" property="distrType"/>
+    <result column="request_plan_code" jdbcType="VARCHAR" property="requestPlanCode"/>
+    <result column="request_quantity" jdbcType="DECIMAL" property="requestQuantity"/>
+    <result column="send_quantity" jdbcType="DECIMAL" property="sendQuantity"/>
+    <result column="lack_quantity" jdbcType="DECIMAL" property="lackQuantity"/>
+    <result column="status" jdbcType="INTEGER" property="status"/>
+
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+    <result column="code" jdbcType="VARCHAR" property="goodsCode"/>
+    <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+    <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+    <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+    <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+    <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+    <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+    <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+    <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+    <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+    <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+    <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+    <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+    <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+    <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+    <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+    <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+  </resultMap>
+  <sql id="reportWhereSql">
+    <where>
+      <if test="enterpriseId!=null">and (a.enterprise_id=#{enterpriseId} or a.parent_id=#{enterpriseId})</if>
+      <if test="startDate!=null and startDate!=''">and a.send_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+      <if test="endDate!=null and endDate!=''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.send_date</if>
+      <if test="requestUnitCode!=null and requestUnitCode!=''">and a.request_unit_code like  CONCAT('%',#{requestUnitCode},'%')</if>
+      <if test="requestUnitName!=null and requestUnitName!=''">and a.request_unit_name like  CONCAT('%',#{requestUnitName},'%')</if>
+      <if test="code!=null and code!=''">and a.code like  CONCAT('%',#{code},'%')</if>
+      <if test="requesterName!=null and requesterName!=''">and a.requester_name like  CONCAT('%',#{requesterName},'%')</if>
+      <if test="distrType!=null and distrType!=''">and a.distr_type=#{distrType}</if>
+      <if test="status!=null and status!=''">and a.`status` =#{status}</if>
+
+      <if test="businessVariety!=null and businessVariety!=''">and c.business_variety =#{businessVariety}</if>
+      <if test="param!=null and param!=''">
+        and (
+        c.code like  CONCAT('%',#{param},'%') or
+        c.barcode like  CONCAT('%',#{param},'%') or
+        c.name like  CONCAT('%',#{param},'%') or
+        c.generic_name like  CONCAT('%',#{param},'%') or
+        c.approval_number like  CONCAT('%',#{param},'%')
+        )
+      </if>
+      <if test="chainType!=null">and d.chain_type=#{chainType}</if>
+      <if test="enterpriseCode!=null and enterpriseCode!=''">and d.code like  CONCAT('%',#{enterpriseCode},'%')</if>
+      <if test="enterpriseName!=null and enterpriseName!=''">and d.name like  CONCAT('%',#{enterpriseName},'%')</if>
+      <if test="categoryId!=null">and c.category_id=#{categoryId}</if>
+      <if test="domesticImport!=null">and c.domestic_import=#{domesticImport}</if>
+      <if test="storageTemp!=null">and c.storage_temp=#{storageTemp}</if>
+      <if test="storageConditionName!=null and storageConditionName!=''">and c.storage_condition_name like  CONCAT('%',#{storageConditionName},'%')</if>
+      <if test="registeredTrademark!=null and registeredTrademark!=''">and c.registered_trademark like  CONCAT('%',#{registeredTrademark},'%')</if>
+      <if test="brand!=null and brand!=''">and c.brand like  CONCAT('%',#{brand},'%')</if>
+      <if test="goodsAttribute!=null">and c.goods_attribute=#{goodsAttribute}</if>
+      <if test="prescriptionDrug!=null">and c.prescription_drug=#{prescriptionDrug}</if>
+      <if test="otcType!=null">and c.otc_type=#{otcType}</if>
+      <if test="specialDrug!=null">and c.special_drug=#{specialDrug}</if>
+      <if test="spiritDrugType!=null">and c.spirit_drug_type=#{spiritDrugType}</if>
+      <if test="formulationType!=null">and c.formulation_type=#{formulationType}</if>
+      <if test="inChargeDrug!=null">and c.in_charge_drug=#{inChargeDrug}</if>
+      <if test="managementScopeId!=null">and c.management_scope_id=#{managementScopeId}</if>
+    </where>
+  </sql>
+  <select id="getDistrLackListCount" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrLack" resultType="int">
+    select count(1) from
+    saas_distr_lack a
+    INNER join saas_distr_lack_detail b on b.lack_id=a.id
+    INNER join saas_goods c on c.id=b.goods_id
+    INNER join saas_enterprise d on d.id=a.enterprise_id
+    INNER join saas_goods_category e on e.id=c.category_id
+    <include refid="reportWhereSql"/>
+  </select>
+  <select id="getDistrLackList" parameterType="com.rograndec.feijiayun.chain.business.report.quality.distr.vo.RequestDistrLack" resultMap="LackMap">
+    select
+      b.goods_id,
+      a.send_date,
+      a.code as discode,
+      a.request_unit_code,
+      a.request_unit_name,
+      a.requester_name,
+      a.distr_type,
+      a.request_plan_code,
+      b.request_quantity,
+      b.send_quantity,
+      b.lack_quantity,
+      a.`status`,
+      c.code,
+      c.barcode,
+      c.name,
+      c.generic_name,
+      c.dosage_id,
+      c.dosage_name,
+      c.unit_id,
+      c.unit_name,
+      c.specification,
+      c.manufacturer,
+      c.manufacturer_id,
+      c.place,
+      c.approval_number,
+      c.business_variety,
+      e.name as category_name,
+      c.goods_attribute,
+      c.domestic_import,
+      c.management_scope_name,
+      c.special_drug,
+      c.in_charge_drug,
+      c.limit_quantity,
+      c.storage_temp,
+      c.storage_condition_name,
+      c.quality_period,
+      c.quality_period_unit
+    from
+     saas_distr_lack a
+    INNER join saas_distr_lack_detail b on b.lack_id=a.id
+    INNER join saas_goods c on c.id=b.goods_id
+    INNER join saas_enterprise d on d.id=a.enterprise_id
+    INNER join saas_goods_category e on e.id=c.category_id
+    <include refid="reportWhereSql"/>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+
+  </select>
+  <!--报表专用end-->
+
+</mapper>

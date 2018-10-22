@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.inf.pos.shift.dao.POSShiftMapper">
+
+  <!-- 获取最后一次交班信息 -->
+  <select id="getShiftByEnterpriseId" resultType="com.rograndec.feijiayun.chain.inf.pos.shift.vo.POSShiftVO">
+	  SELECT
+	  id, 
+	  payee_name AS payeeName,
+	  opening_time AS openingTime,
+	  shift_time AS shiftTime,
+	  sale_pens AS salePens,
+	  sale_amount AS saleAmount,
+	  return_pens AS returnPens,
+	  return_amount AS returnAmount,
+	  accept_spare_money AS acceptSpareMoney,
+	  payable_cash AS payableCash,
+	  send_spare_money AS sendSpareMoney,
+	  cash
+	FROM
+	  saas_payee_opening_shift 
+	where enterprise_id=#{enterpriseId} and status=1
+	ORDER BY id DESC 
+	limit 1
+  </select>
+  
+  <!-- 交班校验是否有重复单号 -->
+  <select id="checkDetailOrder" resultType="java.lang.Long">
+    SELECT 
+	COUNT(1)   
+	FROM saas_payee_opening_shift_detail
+	WHERE doc_id = #{docId}
+	and base_order_code = #{baseOrderCode}
+	and enterprise_id = #{enterpriseId}
+  </select>
+  
+  <!-- 校验是否有交班数据 -->
+  <select id="checkShift" resultType="java.lang.Long">
+    SELECT 
+	id   
+	FROM saas_payee_opening_shift
+	WHERE 
+	enterprise_id = #{enterpriseId}
+	and payee_id = #{payeeId}
+	and opening_time = #{openingTime}
+  </select>
+  
+</mapper>

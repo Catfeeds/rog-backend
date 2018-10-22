@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.pos.dao.PosClerkMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosClerk">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="clerk_id" jdbcType="BIGINT" property="clerkId" />
+    <result column="clerk_code" jdbcType="VARCHAR" property="clerkCode" />
+    <result column="clerk_name" jdbcType="VARCHAR" property="clerkName" />
+    <result column="cargo_area_id" jdbcType="BIGINT" property="cargoAreaId" />
+    <result column="cargo_area_code" jdbcType="VARCHAR" property="cargoAreaCode" />
+    <result column="cargo_area_name" jdbcType="VARCHAR" property="cargoAreaName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.retail.pos.vo.PosClerkVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="clerk_id" jdbcType="BIGINT" property="clerkId" />
+    <result column="clerk_code" jdbcType="VARCHAR" property="clerkCode" />
+    <result column="clerk_name" jdbcType="VARCHAR" property="clerkName" />
+    <result column="cargo_area_id" jdbcType="BIGINT" property="cargoAreaId" />
+    <result column="cargo_area_code" jdbcType="VARCHAR" property="cargoAreaCode" />
+    <result column="cargo_area_name" jdbcType="VARCHAR" property="cargoAreaName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, clerk_id, clerk_code, clerk_name, cargo_area_id, cargo_area_code, 
+    cargo_area_name, status, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_pos_clerk
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_pos_clerk
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosClerk">
+    insert into saas_pos_clerk (id, enterprise_id, parent_id, 
+      clerk_id, clerk_code, clerk_name, 
+      cargo_area_id, cargo_area_code, cargo_area_name, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{clerkId,jdbcType=BIGINT}, #{clerkCode,jdbcType=VARCHAR}, #{clerkName,jdbcType=VARCHAR}, 
+      #{cargoAreaId,jdbcType=BIGINT}, #{cargoAreaCode,jdbcType=VARCHAR}, #{cargoAreaName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosClerk" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_pos_clerk
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="clerkId != null">
+        clerk_id,
+      </if>
+      <if test="clerkCode != null">
+        clerk_code,
+      </if>
+      <if test="clerkName != null">
+        clerk_name,
+      </if>
+      <if test="cargoAreaId != null">
+        cargo_area_id,
+      </if>
+      <if test="cargoAreaCode != null">
+        cargo_area_code,
+      </if>
+      <if test="cargoAreaName != null">
+        cargo_area_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkId != null">
+        #{clerkId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkCode != null">
+        #{clerkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkName != null">
+        #{clerkName,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaId != null">
+        #{cargoAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="cargoAreaCode != null">
+        #{cargoAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaName != null">
+        #{cargoAreaName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosClerk">
+    update saas_pos_clerk
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkId != null">
+        clerk_id = #{clerkId,jdbcType=BIGINT},
+      </if>
+      <if test="clerkCode != null">
+        clerk_code = #{clerkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clerkName != null">
+        clerk_name = #{clerkName,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaId != null">
+        cargo_area_id = #{cargoAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="cargoAreaCode != null">
+        cargo_area_code = #{cargoAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cargoAreaName != null">
+        cargo_area_name = #{cargoAreaName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.pos.entity.PosClerk">
+    update saas_pos_clerk
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      clerk_id = #{clerkId,jdbcType=BIGINT},
+      clerk_code = #{clerkCode,jdbcType=VARCHAR},
+      clerk_name = #{clerkName,jdbcType=VARCHAR},
+      cargo_area_id = #{cargoAreaId,jdbcType=BIGINT},
+      cargo_area_code = #{cargoAreaCode,jdbcType=VARCHAR},
+      cargo_area_name = #{cargoAreaName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+	
+  <!-- 按企业获取营业员数据 -->
+  <select id="findByEnterpriseId" parameterType="java.lang.Long" resultMap="BaseResultMapVO">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_pos_clerk
+    where enterprise_id = #{enterpriseId} order by id desc
+  </select>
+  
+  <!-- 验证营业人员 -->
+  <select id="checkPosClerk" resultType ="java.lang.Long">
+    select 
+    count(1)
+    from saas_pos_clerk
+    where enterprise_id = #{enterpriseId} and clerk_id=#{userId}
+  </select>
+  
+  <select id="queryByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_pos_clerk
+    where clerk_id = #{userId,jdbcType=BIGINT}
+  </select>
+  
+   <select id="queryByCargoIds" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.CargoAreaVO">
+    SELECT `id`,`name`
+	FROM `saas_warehouse_cargo_area`
+	WHERE `id` IN 
+	 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+              #{item}       
+     </foreach>
+  </select>
+  
+  <select id="getByTeamId" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.TeamVO">
+    SELECT `id`,`name` FROM `saas_pos_team` WHERE `id`=#{id}
+  </select>
+  
+  <delete id="deleteByUserId" parameterType="java.lang.Long">
+    delete from saas_pos_clerk
+    where clerk_id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+</mapper>

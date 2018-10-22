@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.supplier.dao.SupplierVarietiesMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierVarieties">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="supplier_goods_code" jdbcType="VARCHAR" property="supplierGoodsCode" />
+    <result column="management_mode" jdbcType="INTEGER" property="managementMode" />
+    <result column="agreement_price" jdbcType="DECIMAL" property="agreementPrice" />
+    <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="sole_supplier" jdbcType="INTEGER" property="soleSupplier" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="last_pur_price" jdbcType="DECIMAL" property="lastPurPrice" />
+    <result column="last_pur_tax_rate_id" jdbcType="BIGINT" property="lastPurTaxRateId" />
+    <result column="last_pur_tax_rate" jdbcType="DECIMAL" property="lastPurTaxRate" />
+  </resultMap>
+  <resultMap id="exportMap" type="com.rograndec.feijiayun.chain.business.basic.supplier.vo.SupplierVarietiesExportVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nature" property="nature"/>
+    <result column="supplier_code" property="supplierCode" />
+    <result column="supplier_name" property="supplierName" />
+    <result column="supplier_id" property="supplierId" />
+    <result column="enterprise_id" property="enterpriseId" />
+    <result column="goods_id" property="goodsId" />
+    <result column="goods_code" property="goodsCode" />
+    <result column="goods_name" property="goodsName" />
+    <result column="generic_name" property="genericName" />
+    <result column="barcode" property="barcode"/>
+    <result column="goods_unit_name" property="goodsUnitName" />
+    <result column="goods_place" property="goodsPlace" />
+    <result column="dosage_name" property="dosageName" />
+    <result column="specification" property="specification" />
+    <result column="manufacturer" property="manufacturer" />
+    <result column="approval_number" property="approvalNumber"/>
+    <result column="management_mode" property="managementMode" />
+    <result column="agreement_price" property="agreementPrice" />
+    <result column="tax_rate_id" property="taxRateId" />
+    <result column="tax_rate" property="taxRate" />
+    <result column="supplier_goods_code" property="supplierGoodsCode" />
+    <result column="sole_supplier" property="soleSupplier" />
+    <result column="last_pur_price" jdbcType="DECIMAL" property="lastPurPrice" />
+    <result column="last_pur_tax_rate_id" jdbcType="BIGINT" property="lastPurTaxRateId" />
+    <result column="last_pur_tax_rate" jdbcType="DECIMAL" property="lastPurTaxRate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, supplier_id, enterprise_id,  goods_id, goods_code, goods_name,
+    supplier_goods_code, management_mode, agreement_price, tax_rate_id, tax_rate, sole_supplier,
+    last_pur_price, last_pur_tax_rate_id,last_pur_tax_rate,
+    status, remark, creater_id, creater_code, creater_name, create_time, modifier_id, 
+    modifier_code, modifier_name, update_time
+  </sql>
+
+
+  <sql id="SupplierVarieties_Base_Column_List">
+    sv.id, sv.supplier_id, sv.enterprise_id,  sv.goods_id, sv.goods_code, sv.goods_name,
+    sv.supplier_goods_code, sv.management_mode, sv.agreement_price, sv.tax_rate_id, sv.tax_rate, sv.sole_supplier,
+    sv.last_pur_price, sv.last_pur_tax_rate_id,sv.last_pur_tax_rate,
+    sv.status, sv.remark, sv.creater_id, sv.creater_code, sv.creater_name, sv.create_time, sv.modifier_id,
+    sv.modifier_code, sv.modifier_name, sv.update_time
+  </sql>
+  <select id="selectExport" resultMap="exportMap">
+    <!--select a.id,c.code supplier_code,c.name supplier_name,b.code goods_code,b.name goods_name,
+    b.unit_name goods_unit_name,b.dosage_name,b.specification,b.manufacturer,
+    a.management_mode,a.agreement_price,a.tax_rate,a.supplier_goods_code,a.sole_supplier,
+    a.last_pur_price, a.last_cost_price
+    from saas_supplier_business_varieties a,saas_goods b,saas_supplier c
+    where a.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and a.supplier_id = c.id
+    and a.goods_id = b.id-->
+    select a.id,a.supplier_id,c.code supplier_code,a.enterprise_id enterprise_id,c.name supplier_name,b.code goods_code,b.name goods_name,
+    b.unit_name goods_unit_name,b.dosage_name,b.specification,b.manufacturer,
+    a.management_mode,a.agreement_price,a.tax_rate,a.supplier_goods_code,a.sole_supplier,
+    a.last_pur_price,a.last_pur_tax_rate_id,a.last_pur_tax_rate,a.goods_id
+    from saas_supplier_business_varieties a left join saas_goods b on a.goods_id = b.id
+    left join saas_supplier c on a.supplier_id = c.id
+    <where>
+      c.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="list != null">
+        and c.owner_id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="supplierInfo != null and supplierInfo != ''">
+        and (c.name like CONCAT('%',#{supplierInfo},'%') or c.code like CONCAT('%',#{supplierInfo},'%'))
+      </if>
+      <if test="goodsInfo != null and goodsInfo != ''">
+        and (a.goods_name like CONCAT('%',#{goodsInfo},'%') or a.goods_code like CONCAT('%',#{goodsInfo},'%'))
+      </if>
+    </where>
+  </select>
+
+  <select id="getSupplierVarieByParam"  resultMap="exportMap">
+    select a.id,a.supplier_id,c.code supplier_code,a.enterprise_id enterprise_id,c.name supplier_name,c.nature,  b.code goods_code,b.name goods_name,b.generic_name , b.barcode,b.approval_number ,
+    b.unit_name goods_unit_name,b.dosage_name,b.specification,b.manufacturer,b.place as goodsPlace,
+    a.management_mode,a.agreement_price,a.tax_rate,a.supplier_goods_code,a.sole_supplier,
+    a.last_pur_price,a.last_pur_tax_rate_id,a.last_pur_tax_rate,a.goods_id
+    from saas_supplier_business_varieties a left join saas_goods b on a.goods_id = b.id
+    LEFT JOIN saas_supplier c ON c.id = a.supplier_id
+    where  1=1
+     and
+     a.enterprise_id = #{enterpriseId}
+     and
+     a.status = #{status}
+    <if test="supplierReportVO.param != null and supplierReportVO.param !=''">
+        and (
+        INSTR(c.`code`,#{supplierReportVO.param})
+        or INSTR(c.`name`,#{supplierReportVO.param})
+        or INSTR(c.pinyin ,#{supplierReportVO.param})
+        )
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 0">
+      order by c.nature desc, c.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 1">
+      order by c.nature , c.code
+    </if>
+    <if test="supplierReportVO.natureOrder == 1  and supplierReportVO.supplierCodeOrder == 0">
+      order by c.nature , c.code desc
+    </if>
+    <if test="supplierReportVO.natureOrder == 0 and supplierReportVO.supplierCodeOrder == 1">
+      order by c.nature  desc , c.code desc
+    </if>
+  </select>
+
+  <select id="getSupplierVarieBySupplierId" parameterType="java.lang.Long" resultMap="exportMap">
+    select a.id,a.supplier_id,c.code supplier_code,a.enterprise_id enterprise_id,c.name supplier_name,c.nature,  b.code goods_code,b.name goods_name,b.generic_name , b.barcode,b.approval_number ,
+    b.unit_name goods_unit_name,b.dosage_name,b.specification,b.manufacturer,b.place as goodsPlace,
+    a.management_mode,a.agreement_price,a.tax_rate,a.supplier_goods_code,a.sole_supplier,
+    a.last_pur_price,a.last_pur_tax_rate_id,a.last_pur_tax_rate,a.goods_id
+    from saas_supplier_business_varieties a left join saas_goods b on a.goods_id = b.id
+    LEFT JOIN saas_supplier c ON c.id = a.supplier_id
+    where  1=1
+    <if test="supplierId != null">
+      and  a.supplier_id = #{supplierId,jdbcType=BIGINT}
+    </if>
+    and
+    a.enterprise_id = #{enterpriseId}
+    and
+    a.status = #{status}
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier_business_varieties
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByGoodsIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier_business_varieties
+    where goods_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="getEnterpriseId" resultMap="BaseResultMap">
+    select
+    <include refid="SupplierVarieties_Base_Column_List" />
+    from saas_supplier_business_varieties sv,saas_supplier ss
+    where sv.supplier_id = ss.id AND sv.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="list != null">
+      and  ss.owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+  <select id="selectByEnterpriseId" parameterType="java.util.HashMap" resultMap="exportMap">
+    select a.id,a.supplier_id,c.code supplier_code,a.enterprise_id enterprise_id,c.name supplier_name,a.goods_code,b.generic_name goods_name,
+    b.unit_name goods_unit_name,b.dosage_name,b.specification,b.manufacturer,
+    a.management_mode,a.agreement_price,a.tax_rate_id,a.tax_rate,a.supplier_goods_code,a.sole_supplier,
+    a.last_pur_price,a.last_pur_tax_rate_id,a.last_pur_tax_rate,a.goods_id
+    from saas_supplier_business_varieties a ,saas_goods b, saas_supplier c
+    <where>
+      a.goods_id = b.id
+      AND a.supplier_id = c.id
+      AND c.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="list != null">
+        and c.owner_id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
+        <if test="supplierInfo != null">
+            and (INSTR(c.name,#{supplierInfo}) or INSTR(c.code,#{supplierInfo}))
+        </if>
+        <if test="goodsInfo != null">
+            and (
+            INSTR(b.name, #{goodsInfo})
+            or INSTR(b.code, #{goodsInfo})
+            or INSTR(b.pinyin_code, #{goodsInfo})
+            or INSTR(b.approval_number, #{goodsInfo})
+            or INSTR(b.barcode, #{goodsInfo})
+            or INSTR(b.generic_name, #{goodsInfo})
+            )
+        </if>
+    </where>
+    <if test="orderName != null and orderType!=null">
+      ORDER BY  ${orderName} ${orderType}
+    </if>
+    <if test="pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+
+  </select>
+  <select id="selectCountByEnterpriseId" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select count(*)
+    from saas_supplier_business_varieties a ,saas_goods b, saas_supplier c
+    <where>
+      a.goods_id = b.id
+      AND a.supplier_id = c.id
+      AND c.enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+      <if test="list != null">
+        and c.owner_id IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
+      <if test="supplierInfo != null and supplierInfo !=''">
+        and (INSTR(c.name,#{supplierInfo}) or INSTR(c.code,#{supplierInfo}))
+      </if>
+      <if test="goodsInfo != null and goodsInfo !=''">
+        and (
+        INSTR(b.name, #{goodsInfo})
+        or INSTR(b.code, #{goodsInfo})
+        or INSTR(b.pinyin_code, #{goodsInfo})
+        or INSTR(b.approval_number, #{goodsInfo})
+        or INSTR(b.barcode, #{goodsInfo})
+        or INSTR(b.generic_name, #{goodsInfo})
+        )
+      </if>
+    </where>
+  </select>
+  <!--<select id="selectByEnterpriseId" parameterType="hashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier_business_varieties
+    where enterprise_id = #{enterpriseId}
+    <if test="supplierInfo != '-1'">
+      and supplier_id in (select id from saas_supplier where enterprise_id = #{enterpriseId} and (name like CONCAT('%',#{supplierInfo},'%') or code like CONCAT('%',#{supplierInfo},'%')))
+    </if>
+    <if test="goodsInfo != '-1'">
+      and (goods_name like CONCAT('%',#{goodsInfo},'%') or goods_code like CONCAT('%',#{goodsInfo},'%'))
+    </if>
+    <if test="orderName != null">
+      ORDER BY #{orderName} #{orderType}
+    </if>
+  </select>-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_supplier_business_varieties
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierVarieties">
+    insert into saas_supplier_business_varieties (id, supplier_id, enterprise_id, 
+      goods_id, goods_code,
+      goods_name, supplier_goods_code, management_mode, 
+      agreement_price, tax_rate_id, tax_rate, 
+      sole_supplier, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time,last_pur_price, last_pur_tax_rate_id, last_pur_tax_rate)
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR},
+      #{goodsName,jdbcType=VARCHAR}, #{supplierGoodsCode,jdbcType=VARCHAR}, #{managementMode,jdbcType=INTEGER}, 
+      #{agreementPrice,jdbcType=DECIMAL}, #{taxRateId,jdbcType=BIGINT}, #{taxRate,jdbcType=DECIMAL}, 
+      #{soleSupplier,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},#{lastPurPrice,jdbcType=DECIMAL},
+      #{lastPurTaxRateId,jdbcType=BIGINT}, #{lastPurTaxRate,jdbcType=DECIMAL})
+  </insert>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into saas_supplier_business_varieties
+   ( supplier_id, enterprise_id,
+    goods_id, goods_code,
+    goods_name, supplier_goods_code, management_mode,
+    agreement_price, tax_rate_id, tax_rate,
+    sole_supplier, status, remark,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code,
+    modifier_name, update_time,last_pur_price, last_pur_tax_rate_id,last_pur_tax_rate)
+    VALUES
+      <foreach collection="list" item="supplierVarieties" index="index" separator=",">
+        (
+        #{supplierVarieties.supplierId,jdbcType=BIGINT},
+        #{supplierVarieties.enterpriseId,jdbcType=BIGINT},
+        #{supplierVarieties.goodsId,jdbcType=BIGINT},
+        #{supplierVarieties.goodsCode,jdbcType=VARCHAR},
+        #{supplierVarieties.goodsName,jdbcType=VARCHAR},
+        #{supplierVarieties.supplierGoodsCode,jdbcType=VARCHAR},
+        #{supplierVarieties.managementMode,jdbcType=INTEGER},
+        #{supplierVarieties.agreementPrice,jdbcType=DECIMAL},
+        #{supplierVarieties.taxRateId,jdbcType=BIGINT},
+        #{supplierVarieties.taxRate,jdbcType=DECIMAL},
+        #{supplierVarieties.soleSupplier,jdbcType=INTEGER},
+        #{supplierVarieties.status,jdbcType=INTEGER},
+        #{supplierVarieties.remark,jdbcType=VARCHAR},
+        #{supplierVarieties.createrId,jdbcType=BIGINT},
+        #{supplierVarieties.createrCode,jdbcType=VARCHAR},
+        #{supplierVarieties.createrName,jdbcType=VARCHAR},
+        now(),
+        #{supplierVarieties.modifierId,jdbcType=BIGINT},
+        #{supplierVarieties.modifierCode,jdbcType=VARCHAR},
+        #{supplierVarieties.modifierName,jdbcType=VARCHAR},
+        now(),
+        #{supplierVarieties.lastPurPrice,jdbcType=DECIMAL},
+        #{supplierVarieties.lastPurTaxRateId,jdbcType=BIGINT},
+        #{supplierVarieties.lastPurTaxRate,jdbcType=DECIMAL}
+        )
+      </foreach>
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierVarieties">
+    insert into saas_supplier_business_varieties
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="supplierGoodsCode != null">
+        supplier_goods_code,
+      </if>
+      <if test="managementMode != null">
+        management_mode,
+      </if>
+      <if test="agreementPrice != null">
+        agreement_price,
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="soleSupplier != null">
+        sole_supplier,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="lastPurPrice != null">
+        last_pur_price,
+      </if>
+      <if test="lastPurTaxRateId != null">
+        last_pur_tax_rate_id,
+      </if>
+      <if test="lastPurTaxRate != null">
+        last_pur_tax_rate,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierGoodsCode != null">
+        #{supplierGoodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managementMode != null">
+        #{managementMode,jdbcType=INTEGER},
+      </if>
+      <if test="agreementPrice != null">
+        #{agreementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="soleSupplier != null">
+        #{soleSupplier,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastPurPrice != null">
+        #{lastPurPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastPurTaxRateId != null">
+        #{lastPurTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="lastPurTaxRate != null">
+        #{lastPurTaxRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierVarieties">
+    update saas_supplier_business_varieties
+    <set>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierGoodsCode != null">
+        supplier_goods_code = #{supplierGoodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managementMode != null">
+        management_mode = #{managementMode,jdbcType=INTEGER},
+      </if>
+      <if test="agreementPrice != null">
+        agreement_price = #{agreementPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="soleSupplier != null">
+        sole_supplier = #{soleSupplier,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = now(),
+      </if>
+      <if test="lastPurPrice != null">
+        last_pur_price = #{lastPurPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lastPurTaxRateId != null">
+        last_pur_tax_rate_id = #{lastPurTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="lastPurTaxRate != null">
+        last_pur_tax_rate = #{lastPurTaxRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.SupplierVarieties">
+    update saas_supplier_business_varieties
+    set supplier_id = #{supplierId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      supplier_goods_code = #{supplierGoodsCode,jdbcType=VARCHAR},
+      management_mode = #{managementMode,jdbcType=INTEGER},
+      agreement_price = #{agreementPrice,jdbcType=DECIMAL},
+      tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      tax_rate = #{taxRate,jdbcType=DECIMAL},
+      sole_supplier = #{soleSupplier,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      last_pur_price = #{lastPurPrice,jdbcType=DECIMAL},
+      last_pur_tax_rate_id = #{lastPurTaxRateId,jdbcType=BIGINT},
+      last_pur_tax_rate = #{lastPurTaxRate,jdbcType=DECIMAL},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateLastPurData">
+    update saas_supplier_business_varieties
+    set last_pur_price = #{detail.unitPrice,jdbcType=DECIMAL},
+      last_pur_tax_rate_id = #{detail.taxRateId,jdbcType=BIGINT},
+      last_pur_tax_rate = #{detail.taxRate,jdbcType=DECIMAL}
+    where enterprise_id = #{detail.enterpriseId,jdbcType=BIGINT}
+    	and goods_id = #{detail.goodsId,jdbcType=BIGINT}
+    	and supplier_id = #{supplierId}
+  </update>
+  
+  <select id="selectSupplierVarietiesByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_supplier_business_varieties
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    	and goods_id = #{goodsId,jdbcType=BIGINT}
+    	and supplier_id = #{supplierId}
+  </select>
+</mapper>

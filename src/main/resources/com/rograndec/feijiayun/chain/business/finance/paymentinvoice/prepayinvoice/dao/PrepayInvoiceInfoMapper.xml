@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.dao.PrepayInvoiceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="invoice_id" jdbcType="BIGINT" property="invoiceId" />
+    <result column="invoice_type" jdbcType="INTEGER" property="invoiceType" />
+    <result column="invoice_code" jdbcType="VARCHAR" property="invoiceCode" />
+    <result column="invoice_number" jdbcType="VARCHAR" property="invoiceNumber" />
+    <result column="check_code" jdbcType="VARCHAR" property="checkCode" />
+    <result column="taxpayer_id_code" jdbcType="VARCHAR" property="taxpayerIdCode" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_bank" jdbcType="VARCHAR" property="accountBank" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
+    <result column="company_telephone" jdbcType="VARCHAR" property="companyTelephone" />
+    <result column="company_taxpayer_id_code" jdbcType="VARCHAR" property="companyTaxpayerIdCode" />
+    <result column="company_account_name" jdbcType="VARCHAR" property="companyAccountName" />
+    <result column="company_account_bank" jdbcType="VARCHAR" property="companyAccountBank" />
+    <result column="company_account" jdbcType="VARCHAR" property="companyAccount" />
+    <result column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, invoice_id, invoice_type, invoice_code, invoice_number, 
+    check_code, taxpayer_id_code, account_name, account_bank, account, address, telephone, 
+    company_name, company_address, company_telephone, company_taxpayer_id_code, company_account_name, 
+    company_account_bank, company_account, file_id,remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_prepay_invoice_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByInvoiceId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_prepay_invoice_info
+    where invoice_id = #{invoiceId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_prepay_invoice_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_prepay_invoice_info (id, enterprise_id, parent_id, 
+      invoice_id, invoice_type, invoice_code, 
+      invoice_number, check_code, taxpayer_id_code, 
+      account_name, account_bank, account, 
+      address, telephone, company_name, 
+      company_address, company_telephone, company_taxpayer_id_code, 
+      company_account_name, company_account_bank, 
+      company_account, file_id,remark)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{invoiceId,jdbcType=BIGINT}, #{invoiceType,jdbcType=INTEGER}, #{invoiceCode,jdbcType=VARCHAR}, 
+      #{invoiceNumber,jdbcType=VARCHAR}, #{checkCode,jdbcType=VARCHAR}, #{taxpayerIdCode,jdbcType=VARCHAR}, 
+      #{accountName,jdbcType=VARCHAR}, #{accountBank,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{companyAddress,jdbcType=VARCHAR}, #{companyTelephone,jdbcType=VARCHAR}, #{companyTaxpayerIdCode,jdbcType=VARCHAR}, 
+      #{companyAccountName,jdbcType=VARCHAR}, #{companyAccountBank,jdbcType=VARCHAR}, 
+      #{companyAccount,jdbcType=VARCHAR}, #{fileId,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_prepay_invoice_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="invoiceId != null">
+        invoice_id,
+      </if>
+      <if test="invoiceType != null">
+        invoice_type,
+      </if>
+      <if test="invoiceCode != null">
+        invoice_code,
+      </if>
+      <if test="invoiceNumber != null">
+        invoice_number,
+      </if>
+      <if test="checkCode != null">
+        check_code,
+      </if>
+      <if test="taxpayerIdCode != null">
+        taxpayer_id_code,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="accountBank != null">
+        account_bank,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="companyAddress != null">
+        company_address,
+      </if>
+      <if test="companyTelephone != null">
+        company_telephone,
+      </if>
+      <if test="companyTaxpayerIdCode != null">
+        company_taxpayer_id_code,
+      </if>
+      <if test="companyAccountName != null">
+        company_account_name,
+      </if>
+      <if test="companyAccountBank != null">
+        company_account_bank,
+      </if>
+      <if test="companyAccount != null">
+        company_account,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceType != null">
+        #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceCode != null">
+        #{invoiceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNumber != null">
+        #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCode != null">
+        #{checkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdCode != null">
+        #{taxpayerIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBank != null">
+        #{accountBank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTelephone != null">
+        #{companyTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTaxpayerIdCode != null">
+        #{companyTaxpayerIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccountName != null">
+        #{companyAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccountBank != null">
+        #{companyAccountBank,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccount != null">
+        #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceInfo">
+    update saas_prepay_invoice_info
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceId != null">
+        invoice_id = #{invoiceId,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceType != null">
+        invoice_type = #{invoiceType,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceCode != null">
+        invoice_code = #{invoiceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNumber != null">
+        invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCode != null">
+        check_code = #{checkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxpayerIdCode != null">
+        taxpayer_id_code = #{taxpayerIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBank != null">
+        account_bank = #{accountBank,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTelephone != null">
+        company_telephone = #{companyTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyTaxpayerIdCode != null">
+        company_taxpayer_id_code = #{companyTaxpayerIdCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccountName != null">
+        company_account_name = #{companyAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccountBank != null">
+        company_account_bank = #{companyAccountBank,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAccount != null">
+        company_account = #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.paymentinvoice.prepayinvoice.entity.PrepayInvoiceInfo">
+    update saas_prepay_invoice_info
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      invoice_id = #{invoiceId,jdbcType=BIGINT},
+      invoice_type = #{invoiceType,jdbcType=INTEGER},
+      invoice_code = #{invoiceCode,jdbcType=VARCHAR},
+      invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
+      check_code = #{checkCode,jdbcType=VARCHAR},
+      taxpayer_id_code = #{taxpayerIdCode,jdbcType=VARCHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account_bank = #{accountBank,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      company_telephone = #{companyTelephone,jdbcType=VARCHAR},
+      company_taxpayer_id_code = #{companyTaxpayerIdCode,jdbcType=VARCHAR},
+      company_account_name = #{companyAccountName,jdbcType=VARCHAR},
+      company_account_bank = #{companyAccountBank,jdbcType=VARCHAR},
+      company_account = #{companyAccount,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

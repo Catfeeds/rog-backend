@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.TrainPlanDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlanDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="plan_id" jdbcType="BIGINT" property="planId" />
+    <result column="dept_ids" jdbcType="VARCHAR" property="deptIds" />
+    <result column="position_ids" jdbcType="VARCHAR" property="positionIds" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="train_lesson_hour" jdbcType="DECIMAL" property="trainLessonHour" />
+    <result column="train_performance" jdbcType="VARCHAR" property="trainPerformance" />
+    <result column="examine_item" jdbcType="VARCHAR" property="examineItem" />
+    <result column="examine_method" jdbcType="INTEGER" property="examineMethod" />
+    <result column="examine_start_time" jdbcType="TIMESTAMP" property="examineStartTime" />
+    <result column="examine_end_time" jdbcType="TIMESTAMP" property="examineEndTime" />
+    <result column="examine_result" jdbcType="INTEGER" property="examineResult" />
+    <result column="measures" jdbcType="VARCHAR" property="measures" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="ClickTrainPlanDetailVOMap" type="com.rograndec.feijiayun.chain.business.basic.user.vo.ClickTrainPlanDetailVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="dept_ids" jdbcType="VARCHAR" property="deptIds" />
+    <result column="position_ids" jdbcType="VARCHAR" property="positionIds" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="train_lesson_hour" jdbcType="DECIMAL" property="trainLessonHour" />
+    <result column="train_performance" jdbcType="VARCHAR" property="trainPerformance" />
+    <result column="examine_item" jdbcType="VARCHAR" property="examineItem" />
+    <result column="examine_method" jdbcType="INTEGER" property="examineMethod" />
+    <result column="examine_start_time" jdbcType="TIMESTAMP" property="examineStartTime" />
+    <result column="examine_end_time" jdbcType="TIMESTAMP" property="examineEndTime" />
+    <result column="examine_result" jdbcType="INTEGER" property="examineResult" />
+    <result column="measures" jdbcType="VARCHAR" property="measures" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, plan_id, dept_ids, position_ids, user_id, train_lesson_hour,
+    train_performance, examine_item, examine_method, examine_start_time, examine_end_time, 
+    examine_result, measures, remark, creater_id, creater_code, creater_name, create_time, 
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_train_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_train_plan_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlanDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_train_plan_detail (id, enterprise_id, parent_id, 
+      plan_id, dept_ids, position_ids,
+      user_id, train_lesson_hour, train_performance, 
+      examine_item, examine_method, examine_start_time, 
+      examine_end_time, examine_result, measures, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{planId,jdbcType=BIGINT}, #{deptIds,jdbcType=VARCHAR}, #{positionIds,jdbcType=VARCHAR},
+      #{userId,jdbcType=BIGINT}, #{trainLessonHour,jdbcType=DECIMAL}, #{trainPerformance,jdbcType=VARCHAR}, 
+      #{examineItem,jdbcType=VARCHAR}, #{examineMethod,jdbcType=INTEGER}, #{examineStartTime,jdbcType=TIMESTAMP}, 
+      #{examineEndTime,jdbcType=TIMESTAMP}, #{examineResult,jdbcType=INTEGER}, #{measures,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlanDetail" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_train_plan_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="planId != null">
+        plan_id,
+      </if>
+      <if test="deptIds != null">
+        dept_ids,
+      </if>
+      <if test="positionIds != null">
+        position_ids,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="trainLessonHour != null">
+        train_lesson_hour,
+      </if>
+      <if test="trainPerformance != null">
+        train_performance,
+      </if>
+      <if test="examineItem != null">
+        examine_item,
+      </if>
+      <if test="examineMethod != null">
+        examine_method,
+      </if>
+      <if test="examineStartTime != null">
+        examine_start_time,
+      </if>
+      <if test="examineEndTime != null">
+        examine_end_time,
+      </if>
+      <if test="examineResult != null">
+        examine_result,
+      </if>
+      <if test="measures != null">
+        measures,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="planId != null">
+        #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="deptIds != null">
+        #{deptIds,jdbcType=VARCHAR},
+      </if>
+      <if test="positionIds != null">
+        #{positionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="trainLessonHour != null">
+        #{trainLessonHour,jdbcType=DECIMAL},
+      </if>
+      <if test="trainPerformance != null">
+        #{trainPerformance,jdbcType=VARCHAR},
+      </if>
+      <if test="examineItem != null">
+        #{examineItem,jdbcType=VARCHAR},
+      </if>
+      <if test="examineMethod != null">
+        #{examineMethod,jdbcType=INTEGER},
+      </if>
+      <if test="examineStartTime != null">
+        #{examineStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineEndTime != null">
+        #{examineEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineResult != null">
+        #{examineResult,jdbcType=INTEGER},
+      </if>
+      <if test="measures != null">
+        #{measures,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlanDetail">
+    update saas_train_plan_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="planId != null">
+        plan_id = #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="deptIds != null">
+        dept_ids = #{deptIds,jdbcType=VARCHAR},
+      </if>
+      <if test="positionIds != null">
+        position_ids = #{positionIds,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="trainLessonHour != null">
+        train_lesson_hour = #{trainLessonHour,jdbcType=DECIMAL},
+      </if>
+      <if test="trainPerformance != null">
+        train_performance = #{trainPerformance,jdbcType=VARCHAR},
+      </if>
+      <if test="examineItem != null">
+        examine_item = #{examineItem,jdbcType=VARCHAR},
+      </if>
+      <if test="examineMethod != null">
+        examine_method = #{examineMethod,jdbcType=INTEGER},
+      </if>
+      <if test="examineStartTime != null">
+        examine_start_time = #{examineStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineEndTime != null">
+        examine_end_time = #{examineEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examineResult != null">
+        examine_result = #{examineResult,jdbcType=INTEGER},
+      </if>
+      <if test="measures != null">
+        measures = #{measures,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlanDetail">
+    update saas_train_plan_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      plan_id = #{planId,jdbcType=BIGINT},
+      dept_ids = #{deptIds,jdbcType=VARCHAR},
+      position_ids = #{positionIds,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      train_lesson_hour = #{trainLessonHour,jdbcType=DECIMAL},
+      train_performance = #{trainPerformance,jdbcType=VARCHAR},
+      examine_item = #{examineItem,jdbcType=VARCHAR},
+      examine_method = #{examineMethod,jdbcType=INTEGER},
+      examine_start_time = #{examineStartTime,jdbcType=TIMESTAMP},
+      examine_end_time = #{examineEndTime,jdbcType=TIMESTAMP},
+      examine_result = #{examineResult,jdbcType=INTEGER},
+      measures = #{measures,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByTrainPlanId" resultMap="ClickTrainPlanDetailVOMap">
+  select
+    s.id, s.plan_id, s.dept_ids, s.position_ids,s.user_id, s.train_lesson_hour,
+    s.train_performance, s.examine_item, s.examine_method, s.examine_start_time, s.examine_end_time,
+    s.examine_result, s.measures, s.remark
+  FROM saas_train_plan_detail s
+  WHERE  s.plan_id = #{id}
+  </select>
+  <select id="selectPositionByUserId" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.ClickTrainPlanDetailVO">
+  SELECT
+	GROUP_CONCAT(sp.id) AS positionIds,
+	GROUP_CONCAT(sp. NAME) AS positionNames
+  FROM
+	saas_position sp
+  WHERE
+	exists (SELECT
+			position_id
+		FROM
+			saas_user_position
+		WHERE
+			user_id = #{userId} and sp.id = position_id )
+  </select>
+  <select id="selectDeptByUserId" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.ClickTrainPlanDetailVO">
+  SELECT
+	GROUP_CONCAT(sd.id) AS deptIds,
+	GROUP_CONCAT(sd.NAME) AS deptNames
+  FROM
+	saas_department sd
+  WHERE
+	exists (
+		SELECT
+			dept_id
+		FROM
+			saas_user_dept
+		WHERE
+			user_id = #{userId} and sd.id = dept_id
+	)
+  </select>
+  <select id="selectByPositionIds" resultType="java.lang.String">
+  select
+  GROUP_CONCAT(user_id) user_id
+  from saas_user_position
+  where
+    1 = 1
+    <if test="positionId != null and positionId != ''">
+      AND position_id in
+      <foreach item="item" index="index" collection="positionId"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+  <select id="selectByDeptIds" resultType="java.lang.String">
+    select
+    GROUP_CONCAT(user_id) user_id
+    from saas_user_dept
+    where
+    1 = 1
+    <if test="deptId != null and deptId != ''">
+      AND dept_id in
+      <foreach item="item" index="index" collection="deptId"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+</mapper>

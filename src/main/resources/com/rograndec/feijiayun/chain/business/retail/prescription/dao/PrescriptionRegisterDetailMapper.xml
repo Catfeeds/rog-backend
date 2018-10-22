@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.retail.prescription.dao.PrescriptionRegisterDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.retail.prescription.entity.PrescriptionRegisterDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="register_id" jdbcType="BIGINT" property="registerId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="register_code" jdbcType="VARCHAR" property="registerCode" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="goods_code" jdbcType="VARCHAR" property="goodsCode" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_generic_name" jdbcType="VARCHAR" property="goodsGenericName" />
+    <result column="dosage_id" jdbcType="BIGINT" property="dosageId" />
+    <result column="dosage_name" jdbcType="VARCHAR" property="dosageName" />
+    <result column="unit_id" jdbcType="BIGINT" property="unitId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="goods_specification" jdbcType="VARCHAR" property="goodsSpecification" />
+    <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="goods_place" jdbcType="VARCHAR" property="goodsPlace" />
+    <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+    <result column="single_dose" jdbcType="DECIMAL" property="singleDose" />
+    <result column="quantity" jdbcType="DECIMAL" property="quantity" />
+    <result column="unit_price" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="line_discount" jdbcType="DECIMAL" property="lineDiscount" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="whole_discount" jdbcType="DECIMAL" property="wholeDiscount" />
+    <result column="line_discount_amount" jdbcType="DECIMAL" property="lineDiscountAmount" />
+    <result column="real_price" jdbcType="DECIMAL" property="realPrice" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="tax_rate_id" jdbcType="BIGINT" property="taxRateId" />
+    <result column="tax_rate" jdbcType="DECIMAL" property="taxRate" />
+    <result column="notax_real_price" jdbcType="DECIMAL" property="notaxRealPrice" />
+    <result column="notax_real_amount" jdbcType="DECIMAL" property="notaxRealAmount" />
+    <result column="tax_amount" jdbcType="DECIMAL" property="taxAmount" />
+    <result column="profit" jdbcType="DECIMAL" property="profit" />
+    <result column="notax_profit" jdbcType="DECIMAL" property="notaxProfit" />
+    <result column="profit_rate" jdbcType="DECIMAL" property="profitRate" />
+    <result column="notax_profit_rate" jdbcType="DECIMAL" property="notaxProfitRate" />
+    <result column="unclear_quantity" jdbcType="DECIMAL" property="unclearQuantity" />
+    <result column="clear_quantity" jdbcType="DECIMAL" property="clearQuantity" />
+    <result column="line_num" jdbcType="INTEGER" property="lineNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+    <result column="time_dose_id" jdbcType="BIGINT" property="timeDoseId" />
+    <result column="time_dose_name" jdbcType="VARCHAR" property="timeDoseName" />
+    <result column="usage_id" jdbcType="BIGINT" property="usageId" />
+    <result column="usage_name" jdbcType="VARCHAR" property="usageName" />
+    <result column="use_qty_id" jdbcType="BIGINT" property="useQtyId" />
+    <result column="use_qty_name" jdbcType="VARCHAR" property="useQtyName" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, register_id, order_type, register_code, register_date, 
+    goods_id, goods_code, barcode, goods_name, goods_generic_name, dosage_id, dosage_name, 
+    unit_id, unit_name, goods_specification, manufacturer_id, manufacturer, goods_place, 
+    approval_number, single_dose, quantity, unit_price, line_discount, amount,
+    whole_discount, line_discount_amount, real_price, real_amount,tax_rate_id, tax_rate, notax_real_price,
+    notax_real_amount, tax_amount, profit, notax_profit, profit_rate, notax_profit_rate, 
+    unclear_quantity, clear_quantity, line_num, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time,time_dose_id,time_dose_name,
+    usage_id, usage_name, use_qty_id, use_qty_name
+
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_prescription_register_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_prescription_register_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByGIdAndRId" >
+    delete from saas_prescription_register_detail
+    where goods_id = #{goodsId} and register_id = #{rid}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.retail.prescription.entity.PrescriptionRegisterDetail" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_prescription_register_detail (id, enterprise_id, parent_id, 
+      register_id, order_type, register_code, 
+      register_date, goods_id, goods_code, 
+      barcode, goods_name, goods_generic_name, 
+      dosage_id, dosage_name, unit_id, 
+      unit_name, goods_specification, manufacturer_id, 
+      manufacturer, goods_place, approval_number, 
+      single_dose, quantity, unit_price,
+      line_discount, amount, whole_discount, 
+      line_discount_amount, real_price, real_amount, tax_rate_id,
+      tax_rate, notax_real_price, notax_real_amount, 
+      tax_amount, profit, notax_profit, 
+      profit_rate, notax_profit_rate, unclear_quantity, 
+      clear_quantity, line_num, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time,time_dose_id,time_dose_name,
+      usage_id, usage_name,
+      use_qty_id, use_qty_name
+
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{registerId,jdbcType=BIGINT}, #{orderType,jdbcType=INTEGER}, #{registerCode,jdbcType=VARCHAR}, 
+      #{registerDate,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=BIGINT}, #{goodsCode,jdbcType=VARCHAR}, 
+      #{barcode,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsGenericName,jdbcType=VARCHAR}, 
+      #{dosageId,jdbcType=BIGINT}, #{dosageName,jdbcType=VARCHAR}, #{unitId,jdbcType=BIGINT}, 
+      #{unitName,jdbcType=VARCHAR}, #{goodsSpecification,jdbcType=VARCHAR}, #{manufacturerId,jdbcType=BIGINT}, 
+      #{manufacturer,jdbcType=VARCHAR}, #{goodsPlace,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{singleDose,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL},
+      #{lineDiscount,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{wholeDiscount,jdbcType=DECIMAL}, 
+      #{lineDiscountAmount,jdbcType=DECIMAL}, #{realPrice,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, #{taxRateId,jdbcType=BIGINT},
+      #{taxRate,jdbcType=DECIMAL}, #{notaxRealPrice,jdbcType=DECIMAL}, #{notaxRealAmount,jdbcType=DECIMAL}, 
+      #{taxAmount,jdbcType=DECIMAL}, #{profit,jdbcType=DECIMAL}, #{notaxProfit,jdbcType=DECIMAL}, 
+      #{profitRate,jdbcType=DECIMAL}, #{notaxProfitRate,jdbcType=DECIMAL}, #{unclearQuantity,jdbcType=DECIMAL}, 
+      #{clearQuantity,jdbcType=DECIMAL}, #{lineNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+       #{timeDoseId,jdbcType=BIGINT}, #{timeDoseName,jdbcType=VARCHAR},#{usageId,jdbcType=BIGINT}, #{usageName,jdbcType=VARCHAR},
+      #{useQtyId,jdbcType=BIGINT}, #{useQtyName,jdbcType=VARCHAR}
+
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.retail.prescription.entity.PrescriptionRegisterDetail" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_prescription_register_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="registerId != null">
+        register_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="registerCode != null">
+        register_code,
+      </if>
+      <if test="registerDate != null">
+        register_date,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsCode != null">
+        goods_code,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name,
+      </if>
+      <if test="dosageId != null">
+        dosage_id,
+      </if>
+      <if test="dosageName != null">
+        dosage_name,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification,
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="goodsPlace != null">
+        goods_place,
+      </if>
+      <if test="approvalNumber != null">
+        approval_number,
+      </if>
+      <if test="singleDose != null">
+        single_dose,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="unitPrice != null">
+        unit_price,
+      </if>
+      <if test="lineDiscount != null">
+        line_discount,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount,
+      </if>
+      <if test="lineDiscountAmount != null">
+        line_discount_amount,
+      </if>
+      <if test="realPrice != null">
+        real_price,
+      </if>
+      <if test="realAmount != null">
+        real_amount,
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id,
+      </if>
+      <if test="taxRate != null">
+        tax_rate,
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price,
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount,
+      </if>
+      <if test="taxAmount != null">
+        tax_amount,
+      </if>
+      <if test="profit != null">
+        profit,
+      </if>
+      <if test="notaxProfit != null">
+        notax_profit,
+      </if>
+      <if test="profitRate != null">
+        profit_rate,
+      </if>
+      <if test="notaxProfitRate != null">
+        notax_profit_rate,
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity,
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity,
+      </if>
+      <if test="lineNum != null">
+        line_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+		create_time,
+	  </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="timeDoseId != null">
+        time_dose_id,
+      </if>
+      <if test="timeDoseName != null">
+        time_dose_name,
+      </if>
+      <if test="usageId != null">
+        usage_id,
+      </if>
+      <if test="usageName != null">
+        usage_name,
+      </if>
+
+      <if test="useQtyId != null">
+        use_qty_id,
+      </if>
+      <if test="useQtyName != null">
+        use_qty_name,
+      </if>
+
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="registerId != null">
+        #{registerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="registerCode != null">
+        #{registerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="singleDose != null">
+        #{singleDose,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscount != null">
+        #{lineDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscountAmount != null">
+        #{lineDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realPrice != null">
+        #{realPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealPrice != null">
+        #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="profit != null">
+        #{profit,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfit != null">
+        #{notaxProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="profitRate != null">
+        #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitRate != null">
+        #{notaxProfitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearQuantity != null">
+        #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+		#{createTime,jdbcType=TIMESTAMP},
+	  </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeDoseId != null">
+        #{timeDoseId,jdbcType=BIGINT},
+      </if>
+      <if test="timeDoseName != null">
+        #{timeDoseName,jdbcType=VARCHAR},
+      </if>
+      <if test="usageId != null">
+        #{usageId,jdbcType=BIGINT},
+      </if>
+      <if test="usageName != null">
+        #{usageName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="useQtyId != null">
+        #{useQtyId,jdbcType=BIGINT},
+      </if>
+      <if test="useQtyName != null">
+        #{useQtyName,jdbcType=VARCHAR},
+      </if>
+
+
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.retail.prescription.entity.PrescriptionRegisterDetail">
+    update saas_prescription_register_detail
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="registerId != null">
+        register_id = #{registerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="registerCode != null">
+        register_code = #{registerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsCode != null">
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsGenericName != null">
+        goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageId != null">
+        dosage_id = #{dosageId,jdbcType=BIGINT},
+      </if>
+      <if test="dosageName != null">
+        dosage_name = #{dosageName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=BIGINT},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSpecification != null">
+        goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerId != null">
+        manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPlace != null">
+        goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="singleDose != null">
+        single_dose = #{singleDose,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="unitPrice != null">
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscount != null">
+        line_discount = #{lineDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="wholeDiscount != null">
+        whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineDiscountAmount != null">
+        line_discount_amount = #{lineDiscountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realPrice != null">
+        real_price = #{realPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        real_amount = #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRateId != null">
+        tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="taxRate != null">
+        tax_rate = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealPrice != null">
+        notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxRealAmount != null">
+        notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmount != null">
+        tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="profit != null">
+        profit = #{profit,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfit != null">
+        notax_profit = #{notaxProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="profitRate != null">
+        profit_rate = #{profitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxProfitRate != null">
+        notax_profit_rate = #{notaxProfitRate,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearQuantity != null">
+        unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="clearQuantity != null">
+        clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="lineNum != null">
+        line_num = #{lineNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeDoseId != null">
+        time_dose_id = #{timeDoseId,jdbcType=BIGINT},
+      </if>
+      <if test="timeDoseName != null">
+        time_dose_name = #{timeDoseName,jdbcType=VARCHAR},
+      </if>
+      <if test="usageId != null">
+        usage_id = #{usageId,jdbcType=BIGINT},
+      </if>
+      <if test="usageName != null">
+        usage_name = #{usageName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="useQtyId != null">
+        use_qty_id = #{useQtyId,jdbcType=BIGINT},
+      </if>
+      <if test="useQtyName != null">
+        use_qty_name = #{useQtyName,jdbcType=VARCHAR},
+      </if>
+
+
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.retail.prescription.entity.PrescriptionRegisterDetail">
+    update saas_prescription_register_detail
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      register_id = #{registerId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      register_code = #{registerCode,jdbcType=VARCHAR},
+      register_date = #{registerDate,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_generic_name = #{goodsGenericName,jdbcType=VARCHAR},
+      dosage_id = #{dosageId,jdbcType=BIGINT},
+      dosage_name = #{dosageName,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=BIGINT},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      goods_specification = #{goodsSpecification,jdbcType=VARCHAR},
+      manufacturer_id = #{manufacturerId,jdbcType=BIGINT},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      goods_place = #{goodsPlace,jdbcType=VARCHAR},
+      approval_number = #{approvalNumber,jdbcType=VARCHAR},
+      single_dose = #{singleDose,jdbcType=DECIMAL},
+      quantity = #{quantity,jdbcType=DECIMAL},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      line_discount = #{lineDiscount,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      whole_discount = #{wholeDiscount,jdbcType=DECIMAL},
+      line_discount_amount = #{lineDiscountAmount,jdbcType=DECIMAL},
+      real_price = #{realPrice,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
+      tax_rate_id = #{taxRateId,jdbcType=BIGINT},
+      tax_rate = #{taxRate,jdbcType=DECIMAL},
+      notax_real_price = #{notaxRealPrice,jdbcType=DECIMAL},
+      notax_real_amount = #{notaxRealAmount,jdbcType=DECIMAL},
+      tax_amount = #{taxAmount,jdbcType=DECIMAL},
+      profit = #{profit,jdbcType=DECIMAL},
+      notax_profit = #{notaxProfit,jdbcType=DECIMAL},
+      profit_rate = #{profitRate,jdbcType=DECIMAL},
+      notax_profit_rate = #{notaxProfitRate,jdbcType=DECIMAL},
+      unclear_quantity = #{unclearQuantity,jdbcType=DECIMAL},
+      clear_quantity = #{clearQuantity,jdbcType=DECIMAL},
+      line_num = #{lineNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      time_dose_id = #{timeDoseId,jdbcType=BIGINT},
+      time_dose_name = #{timeDoseName,jdbcType=VARCHAR},
+       usage_id = #{usageId,jdbcType=BIGINT},
+      usage_name = #{usageName,jdbcType=VARCHAR},
+      use_qty_id = #{useQtyId,jdbcType=BIGINT},
+      use_qty_name = #{useQtyName,jdbcType=VARCHAR}
+
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+<select id="getDetailIdsByRId" resultType="java.lang.Long">
+  SELECT goods_id FROM saas_prescription_register_detail detail
+   WHERE  detail.enterprise_id = #{enterpriseId} and
+    detail.register_id =#{rid}
+</select>
+  <select id="getCountVarietiesQuantity" resultType="java.lang.Integer">
+    SELECT sum(detail.register_id) FROM  saas_prescription_register_detail  detail
+    WHERE  detail.register_id = #{registerId}
+     group by detail.register_id
+  </select>
+  <update id="updateStatusByRid" >
+    UPDATE saas_prescription_register_detail SET status = #{status} where enterprise_id = #{enterpriseId} and register_id = #{rid}
+  </update>
+</mapper>

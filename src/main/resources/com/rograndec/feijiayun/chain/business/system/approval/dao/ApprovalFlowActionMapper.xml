@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.approval.dao.ApprovalFlowActionMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="flow_id" jdbcType="BIGINT" property="flowId" />
+    <result column="operation_type" jdbcType="INTEGER" property="operationType" />
+    <result column="data_id" jdbcType="BIGINT" property="dataId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="start_org_id" jdbcType="BIGINT" property="startOrgId" />
+    <result column="start_org_name" jdbcType="VARCHAR" property="startOrgName" />
+    <result column="starter_id" jdbcType="BIGINT" property="starterId" />
+    <result column="starter_name" jdbcType="VARCHAR" property="starterName" />
+    <result column="status_recom" jdbcType="INTEGER" property="statusRecom" />
+    <result column="current_approver" jdbcType="BIGINT" property="currentApprover" />
+    <result column="next_approver" jdbcType="BIGINT" property="nextApprover" />
+    <result column="previous_approver" jdbcType="BIGINT" property="previousApprover" />
+    <result column="current_approver_name" jdbcType="VARCHAR" property="currentApproverName" />
+    <result column="current_approval_stage" jdbcType="VARCHAR" property="currentApprovalStage" />
+    <result column="previous_approver_name" jdbcType="VARCHAR" property="previousApproverName" />
+    <result column="previous_approval_stage" jdbcType="VARCHAR" property="previousApprovalStage" />
+    <result column="next_approver_name" jdbcType="VARCHAR" property="nextApproverName" />
+    <result column="next_approval_stage" jdbcType="VARCHAR" property="nextApprovalStage" />
+    <result column="current_approval_date" jdbcType="TIMESTAMP" property="currentApprovalDate" />
+    <result column="previous_approval_date" jdbcType="TIMESTAMP" property="previousApprovalDate" />
+    <result column="current_approval_role" jdbcType="BIGINT" property="currentApprovalRole" />
+    <result column="previous_approval_role" jdbcType="BIGINT" property="previousApprovalRole" />
+    <result column="next_approval_role" jdbcType="BIGINT" property="nextApprovalRole" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, content, flow_id, operation_type, data_id, code, name, start_time, 
+    start_org_id,start_org_name, starter_id,starter_name, status_recom,
+    current_approver,previous_approver,next_approver
+    ,current_approver_name,current_approval_stage
+    ,previous_approver_name,previous_approval_stage
+    ,next_approver_name,next_approval_stage,current_approval_Date,previous_approval_Date
+    ,current_approval_role,previous_approval_role,next_approval_role
+  </sql>
+  <select id="getUserListByRoleId" resultType="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+    select b.id,b.`name` from saas_user_role a join saas_user b
+	on a.user_id = b.id
+	where a.enterprise_id = #{eId,jdbcType=BIGINT} and a.role_id = #{roleId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+    <select id="selectByDataId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from saas_approval_flow_action
+        where data_id = #{dataId,jdbcType=BIGINT}
+          and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+          and content = #{content,jdbcType=VARCHAR}
+          and status_recom in (0,1,-1)
+    </select>
+
+  <select id="selectBystatusRecoms" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from saas_approval_flow_action
+        where data_id = #{dataId,jdbcType=BIGINT}
+          and enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+          and content = #{content,jdbcType=VARCHAR}
+          and status_recom in
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </select>
+
+
+  <select id="getListByFlowId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where flow_id = #{flowId,jdbcType=BIGINT}
+  </select>
+  <select id="getListByFlowIdStatusRecom" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where flow_id = #{flowId,jdbcType=BIGINT}
+    and status_recom = #{statusRecom,jdbcType=BIGINT} and enterprise_id = #{eId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getListByEnterpriseAndStatusRecom" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where  enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    and status_recom in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <!-- <select id="getActionList" parameterType="com.rograndec.feijiayun.chain.business.system.approval.vo.ApprovalFlowActionVO" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_approval_flow_action
+    where id = #{id,jdbcType=BIGINT}
+  </select> -->
+  
+  <resultMap id="approvalFlowActionList" type="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction">
+     <id property="id" column="id" javaType="long" jdbcType="BIGINT" />
+     <result property="flowId" column="flow_id" javaType="long" jdbcType="BIGINT"/>
+     <result property="content" column="content" javaType="string" jdbcType="VARCHAR"/>
+     <result property="dataId" column="data_id" javaType="long" jdbcType="BIGINT"/>
+     <result property="code" column="code" javaType="string" jdbcType="VARCHAR"/>
+     <result property="name" column="name" javaType="string" jdbcType="VARCHAR"/>
+     <result property="startTime" column="start_time" javaType="Date" jdbcType="TIMESTAMP"/>
+     <result property="startOrgId" column="start_org_id" javaType="long" jdbcType="BIGINT"/>
+     <result property="starterId" column="starter_id" javaType="long" jdbcType="BIGINT"/>
+     <collection property="aFADList" ofType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowActionDetail">
+		<!-- 注意此处column设置为别名，避免与基表重名冲突 -->
+		<id property="id" column="action_detail_id" javaType="long" jdbcType="BIGINT" />
+     	<result property="approvalTime" column="approval_time" javaType="Date" jdbcType="TIMESTAMP"/>
+     	<result property="approvalOrgId" column="approval_org_id" javaType="long" jdbcType="BIGINT"/>
+     	<result property="approverId" column="approver_id" javaType="long" jdbcType="BIGINT"/>
+        <result property="approvalOpinion" column="approval_opinion" javaType="string" jdbcType="VARCHAR"/>
+     	<result property="approvalResult" column="approval_result" javaType="Integer" jdbcType="INTEGER"/>
+     	<result property="level" column="level" javaType="Integer" jdbcType="INTEGER"/>
+        <result property="approvalStage" column="approval_stage" javaType="string" jdbcType="VARCHAR"/>
+     </collection>
+  </resultMap>
+
+
+
+  <select id="getHeadquartersActionList" resultMap="BaseResultMap">
+    select
+    a.id,
+    a.flow_id,
+    a.content,
+    a.data_id,
+    a.code,
+    a.name,
+    a.start_time,
+    a.start_org_id,
+    a.start_org_name,
+    a.starter_id,
+    a.starter_name,
+    a.status_recom
+    ,a.current_approver,previous_approver,next_approver
+    ,a.current_approver_name,current_approval_stage
+    ,a.previous_approver_name,previous_approval_stage
+    ,a.next_approver_name,next_approval_stage
+    from
+    saas_approval_flow_action a ,
+    saas_approval_flow_action_detail b,
+    saas_approval_flow_detail d,
+    saas_enterprise e
+    where  a.id = b.approval_flow_action_id
+    AND d.level=b.level
+    AND d.flow_id = b.flow_id
+    AND e.id = #{vo.enterpriseId} and e.id=b.enterprise_id AND e.chain_type=0;
+    <if test="vo.content != null">
+      and a.content = #{vo.content}
+    </if>
+    <if test="vo.statusRecom != null">
+      and a.status_recom = #{vo.statusRecom}
+    </if>
+
+    <if test="vo.roleIdsStr != null and vo.roleIdsStr != ''">
+      and ( (b.approver_id=0 and b.approval_role_id in (${vo.roleIdsStr})) or   b.approver_id=#{vo.currentUserId} )
+    </if>
+
+    <if test="vo.name != null and vo.name != ''">
+      and a.flow_id in
+      (
+      select c.id from saas_approval_flow c where c.`name` like '%${vo.name}%'
+      )
+    </if>
+    <if test="vo.startOrgId != null and vo.startOrgId != 0">
+      and a.start_org_id = #{vo.startOrgId}
+    </if>
+    <if test="vo.starterName != null and vo.starterName != ''">
+      and a.starter_name like '%${vo.starterName}%'
+    </if>
+    <if test="vo.approvalOrgId != null and vo.approvalOrgId != 0">
+      and b.approval_org_id=#{vo.approvalOrgId}
+    </if>
+    <if test="vo.approverName != null and vo.approverName != ''">
+      and b.approver_name like '%${vo.approverName}%'
+    </if>
+
+
+    group by a.id order by a.id desc
+  </select>
+
+
+  <select id="getActionList4FlowOrg" resultMap="BaseResultMap">
+    SELECT
+    a.id,
+    a.flow_id,
+    a.content,
+    a.data_id,
+    a.code,
+    a.name,
+    a.start_time,
+    a.start_org_id,
+    a.start_org_name,
+    a.starter_id,
+    a.starter_name,
+    a.status_recom
+    ,a.current_approver,previous_approver,next_approver
+    ,a.current_approver_name,current_approval_stage
+    ,a.previous_approver_name,previous_approval_stage
+    ,a.next_approver_name,next_approval_stage
+    FROM
+    saas_approval_flow_detail apfd ,
+    saas_approval_flow apf,
+    saas_approval_flow_action a,
+    saas_approval_flow_action_detail b
+    where apf.id = apfd.flow_id
+    AND apfd.approval_org = 1
+    AND  a.flow_id = apf.id
+    AND a.status_recom in (0,-1)
+    AND b.approval_flow_action_id = a.id
+    and a.enterprise_id = #{vo.enterpriseId}
+    <if test="vo.content != null">
+      and a.content = #{vo.content}
+    </if>
+    <if test="vo.statusRecom != null">
+      and a.status_recom = #{vo.statusRecom}
+    </if>
+
+    <if test="vo.roleIdsStr != null and vo.roleIdsStr != ''">
+      and ( (b.approver_id=0 and b.approval_role_id in (${vo.roleIdsStr})) or   b.approver_id=#{vo.currentUserId} )
+    </if>
+
+    <if test="vo.name != null and vo.name != ''">
+      and a.flow_id in
+      (
+      select c.id from saas_approval_flow c where c.`name` like '%${vo.name}%'
+      )
+    </if>
+    <if test="vo.startOrgId != null and vo.startOrgId != 0">
+      and a.start_org_id = #{vo.startOrgId}
+    </if>
+    <if test="vo.starterName != null and vo.starterName != ''">
+      and a.starter_name like '%${vo.starterName}%'
+    </if>
+    <if test="vo.approvalOrgId != null and vo.approvalOrgId != 0">
+      and b.approval_org_id=#{vo.approvalOrgId}
+    </if>
+    <if test="vo.approverName != null and vo.approverName != ''">
+      and b.approver_name like '%${vo.approverName}%'
+    </if>
+
+
+    group by a.id order by a.id desc
+  </select>
+
+
+
+  <select id="getActionList" resultMap="BaseResultMap">
+    select
+		a.id,
+		a.flow_id,
+		a.content,
+		a.data_id,
+		a.code,
+		a.name,
+		a.start_time,
+		a.start_org_id,
+		a.start_org_name,
+		a.starter_id,
+		a.starter_name,
+		a.status_recom
+      ,a.current_approver,a.previous_approver,a.next_approver
+      ,a.current_approver_name,a.current_approval_stage
+      ,a.previous_approver_name,a.previous_approval_stage
+      ,a.next_approver_name,a.next_approval_stage
+	from saas_approval_flow_action a , saas_approval_flow_action_detail b
+	where b.approver_id = #{vo.currentUserId} and a.id = b.approval_flow_action_id
+    <if test="vo.content != null">
+        and a.content = #{vo.content}
+    </if>
+    <if test="vo.statusRecom != null">
+      and a.status_recom = #{vo.statusRecom}
+    </if>
+
+    <if test="vo.roleIdsStr != null and vo.roleIdsStr != ''">
+      and ( (b.approver_id=0 and b.approval_role_id in (${vo.roleIdsStr})) or   b.approver_id=#{vo.currentUserId} )
+    </if>
+
+    <if test="vo.name != null and vo.name != ''">
+		and a.flow_id in 
+		(
+			select c.id from saas_approval_flow c where c.`name` like '%${vo.name}%'
+		)
+	</if>
+	<if test="vo.startOrgId != null and vo.startOrgId != 0">
+		and a.start_org_id = #{vo.startOrgId}
+	</if>
+	<if test="vo.starterName != null and vo.starterName != ''">
+		and a.starter_name like '%${vo.starterName}%'
+	</if>
+	<if test="vo.approvalOrgId != null and vo.approvalOrgId != 0">
+		and b.approval_org_id=#{vo.approvalOrgId}
+	</if>
+	<if test="vo.approverName != null and vo.approverName != ''">
+		and b.approver_name like '%${vo.approverName}%'
+	</if>
+
+
+    group by a.id order by a.id desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_approval_flow_action
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction">
+    insert into saas_approval_flow_action (id, enterprise_id, content, 
+      flow_id, operation_type, data_id, 
+      code, name, start_time, 
+      start_org_id, starter_id, status_recom
+      ,current_approver,previous_approver,next_approver
+          ,current_approver_name,current_approval_stage
+          ,previous_approver_name,previous_approval_stage
+          ,next_approver_name,next_approval_stage
+          )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
+      #{flowId,jdbcType=BIGINT}, #{operationType,jdbcType=INTEGER}, #{dataId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{startOrgId,jdbcType=BIGINT}, #{starterId,jdbcType=BIGINT}, #{statusRecom,jdbcType=INTEGER})
+      ,#{currentApprover,jdbcType=BIGINT}, #{previousApprover,jdbcType=BIGINT}, #{nextApprover,jdbcType=BIGINT},
+      #{currentApproverName,jdbcType=VARCHAR},#{currentApprovalStage,jdbcType=VARCHAR},
+      #{previousApproverName,jdbcType=VARCHAR},#{previousApprovalStage,jdbcType=VARCHAR},
+      #{nextApproverName,jdbcType=VARCHAR},#{nextApprovalStage,jdbcType=VARCHAR}
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_approval_flow_action
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="flowId != null">
+        flow_id,
+      </if>
+      <if test="operationType != null">
+        operation_type,
+      </if>
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="startOrgId != null">
+        start_org_id,
+      </if>
+        <if test="startOrgName != null">
+            start_org_name,
+        </if>
+      <if test="starterId != null">
+        starter_id,
+      </if>
+      <if test="starterName != null">
+        starter_name,
+      </if>
+      <if test="statusRecom != null">
+        status_recom,
+      </if>
+        <if test="currentApprover != null">
+            current_approver,
+        </if>
+        <if test="previousApprover != null">
+            previous_approver,
+        </if>
+        <if test="nextApprover != null">
+            next_approver,
+        </if>
+
+      <if test="currentApproverName != null">
+        current_approver_name,
+      </if>
+      <if test="currentApprovalStage != null">
+        current_approval_stage,
+      </if>
+      <if test="previousApproverName != null">
+        previous_approver_name,
+        </if>
+      <if test="previousApprovalStage != null">
+        previous_approval_stage,
+      </if>
+
+      <if test="nextApproverName != null">
+        next_approver_name,
+      </if>
+      <if test="nextApprovalStage != null">
+        next_approval_stage,
+      </if>
+
+      <if test="currentApprovalDate != null">
+        current_approval_date,
+      </if>
+      <if test="previousApprovalDate != null">
+        previous_approval_date,
+      </if>
+
+      <if test="currentApprovalRole != null">
+        current_approval_role,
+      </if>
+      <if test="previousApprovalRole != null">
+        previous_approval_role,
+      </if>
+      <if test="nextApprovalRole != null">
+        next_approval_role,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="flowId != null">
+        #{flowId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null">
+        #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="dataId != null">
+        #{dataId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startOrgId != null">
+        #{startOrgId,jdbcType=BIGINT},
+      </if>
+        <if test="startOrgName != null">
+            #{startOrgName,jdbcType=VARCHAR},
+        </if>
+      <if test="starterId != null">
+        #{starterId,jdbcType=BIGINT},
+      </if>
+        <if test="starterName != null">
+            #{starterName,jdbcType=VARCHAR},
+        </if>
+        <if test="statusRecom != null">
+            #{statusRecom,jdbcType=BIGINT},
+        </if>
+
+      <if test="currentApprover != null">
+        #{currentApprover,jdbcType=BIGINT},
+      </if>
+      <if test="previousApprover != null">
+        #{previousApprover,jdbcType=BIGINT},
+      </if>
+      <if test="nextApprover != null">
+        #{nextApprover,jdbcType=BIGINT},
+      </if>
+
+      <if test="currentApproverName != null">
+        #{currentApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentApprovalStage != null">
+        #{currentApprovalStage,jdbcType=VARCHAR},
+      </if>
+      <if test="previousApproverName != null">
+        #{previousApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="previousApprovalStage != null">
+        #{previousApprovalStage,jdbcType=VARCHAR},
+      </if>
+
+      <if test="nextApproverName != null">
+        #{nextApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="nextApprovalStage != null">
+        #{nextApprovalStage,jdbcType=VARCHAR},
+      </if>
+
+      <if test="currentApprovalDate != null">
+        #{currentApprovalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="previousApprovalDate != null">
+        #{previousApprovalDate,jdbcType=TIMESTAMP},
+      </if>
+
+      <if test="currentApprovalRole != null">
+        #{currentApprovalRole,jdbcType=BIGINT},
+      </if>
+      <if test="previousApprovalRole != null">
+        #{previousApprovalRole,jdbcType=BIGINT},
+      </if>
+      <if test="nextApprovalRole != null">
+        #{nextApprovalRole,jdbcType=BIGINT},
+      </if>
+
+      </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction">
+    update saas_approval_flow_action
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="flowId != null">
+        flow_id = #{flowId,jdbcType=BIGINT},
+      </if>
+      <if test="operationType != null">
+        operation_type = #{operationType,jdbcType=INTEGER},
+      </if>
+      <if test="dataId != null">
+        data_id = #{dataId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startOrgId != null">
+        start_org_id = #{startOrgId,jdbcType=BIGINT},
+      </if>
+        <if test="startOrgName != null">
+            start_org_name = #{startOrgName,jdbcType=BIGINT},
+        </if>
+      <if test="starterId != null">
+        starter_id = #{starterId,jdbcType=BIGINT},
+      </if>
+
+      <if test="starterName != null">
+        starter_name = #{starterName,jdbcType=VARCHAR},
+      </if>
+      <if test="statusRecom != null">
+        status_recom = #{statusRecom,jdbcType=BIGINT},
+      </if>
+
+      <if test="currentApprover != null">
+        current_approver = #{currentApprover,jdbcType=BIGINT},
+      </if>
+      <if test="previousApprover != null">
+        previous_approver = #{previousApprover,jdbcType=BIGINT},
+      </if>
+      <if test="nextApprover != null">
+        next_approver = #{nextApprover,jdbcType=BIGINT},
+      </if>
+
+      <if test="currentApproverName != null">
+        current_approver_name = #{currentApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentApprovalStage != null">
+        current_approval_stage = #{currentApprovalStage,jdbcType=VARCHAR},
+      </if>
+      <if test="previousApproverName != null">
+        previous_approver_name = #{previousApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="previousApprovalStage != null">
+        previous_approval_stage = #{previousApprovalStage,jdbcType=VARCHAR},
+      </if>
+
+      <if test="nextApproverName != null">
+        next_approver_name = #{nextApproverName,jdbcType=VARCHAR},
+      </if>
+      <if test="nextApprovalStage != null">
+        next_approval_stage = #{nextApprovalStage,jdbcType=VARCHAR},
+      </if>
+
+      <if test="currentApprovalDate != null">
+        current_approval_date = #{currentApprovalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="previousApprovalDate != null">
+        previous_approval_date = #{previousApprovalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentApprovalRole != null">
+        current_approval_role = #{currentApprovalRole,jdbcType=BIGINT},
+      </if>
+      <if test="previousApprovalRole != null">
+        previous_approval_role = #{previousApprovalRole,jdbcType=BIGINT},
+      </if>
+      <if test="nextApprovalRole != null">
+        next_approval_role = #{nextApprovalRole,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.approval.entity.ApprovalFlowAction">
+    update saas_approval_flow_action
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      flow_id = #{flowId,jdbcType=BIGINT},
+      operation_type = #{operationType,jdbcType=INTEGER},
+      data_id = #{dataId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      start_org_id = #{startOrgId,jdbcType=BIGINT},
+      starter_id = #{starterId,jdbcType=BIGINT},
+      status_recom = #{statusRecom,jdbcType=INTEGER},
+      current_approval_date = #{currentApprovalDate,jdbcType=VARCHAR},
+      previous_approval_date = #{previousApprovalDate,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateStatusRecom">
+    update saas_approval_flow_action
+    set 
+    status_recom = #{statusRecom,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectPendingApprovalFlowCount" resultType="com.rograndec.feijiayun.chain.business.index.pending.vo.ApprovalFlowPendingCountVO">
+    SELECT
+
+    k.content
+    ,k.contentDesc
+    ,count(k.content) count
+    FROM
+
+    (SELECT saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.current_approval_role roleId,
+    safa.current_approval_stage approvalStage
+
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND safa.flow_id=saf.id
+    AND  saf.status=1
+    AND safa.status_recom=#{currentstatusRecom,jdbcType=INTEGER} AND safa.current_approver=#{approverId,jdbcType=BIGINT}
+
+    UNION
+
+    SELECT
+    saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.next_approval_role roleId,
+    safa.next_approval_stage approvalStage
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.flow_id=saf.id
+    AND safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND  saf.status=1
+    AND safa.status_recom=#{nextstatusRecom,jdbcType=INTEGER} AND safa.next_approver=#{approverId,jdbcType=BIGINT}
+
+    UNION
+
+    SELECT saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.current_approval_role roleId,
+    safa.current_approval_stage approvalStage
+
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND safa.flow_id=saf.id
+    AND  saf.status=1
+    AND safa.status_recom=#{currentstatusRecom,jdbcType=INTEGER} AND safa.current_approval_role IN
+    <foreach item="item" index="index" collection="roles"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    UNION
+
+    SELECT
+    saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.next_approval_role roleId,
+    safa.next_approval_stage approvalStage
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.flow_id=saf.id
+    AND safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND  saf.status=1
+    AND safa.status_recom=#{nextstatusRecom,jdbcType=INTEGER} AND safa.next_approval_role IN
+    <foreach item="item" index="index" collection="roles"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    ) k GROUP BY k.content
+  </select>
+
+  <select id="selectPendingApprovalFlow" resultType="com.rograndec.feijiayun.chain.business.index.pending.vo.ApprovalFlowPendingVO">
+    SELECT
+
+      k.flowId ,
+      k.flowActionId ,
+      k.approveDate ,
+      k.dataId ,
+      k.code,
+      k.content,
+      k.approvalStage,
+      k.contentDesc,
+      k.roleId
+    FROM
+
+    (SELECT saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+     safa.current_approval_role roleId,
+    safa.current_approval_stage approvalStage
+
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND safa.flow_id=saf.id
+    AND  saf.status=1
+    AND safa.status_recom=#{currentstatusRecom,jdbcType=INTEGER} AND safa.current_approver=#{approverId,jdbcType=BIGINT}
+
+    UNION
+
+    SELECT
+    saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+     safa.next_approval_role roleId,
+    safa.next_approval_stage approvalStage
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.flow_id=saf.id
+    AND safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND  saf.status=1
+    AND safa.status_recom=#{nextstatusRecom,jdbcType=INTEGER} AND safa.next_approver=#{approverId,jdbcType=BIGINT}
+
+    UNION
+
+    SELECT saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.current_approval_role roleId,
+    safa.current_approval_stage approvalStage
+
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND safa.flow_id=saf.id
+    AND  saf.status=1
+    AND safa.status_recom=#{currentstatusRecom,jdbcType=INTEGER} AND safa.current_approval_role IN
+    <foreach item="item" index="index" collection="roles"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+    UNION
+
+    SELECT
+    saf.id flowId,
+    safa.id flowActionId,
+    safa.current_approval_date approveDate,
+    safa.data_id dataId,
+    safa.code,
+    safa.content,
+    safc.name contentDesc,
+    safa.next_approval_role roleId,
+    safa.next_approval_stage approvalStage
+    FROM
+    saas_approval_flow saf,
+    saas_approval_flow_action safa,
+    saas_approval_flow_content safc
+    WHERE safa.flow_id=saf.id
+    AND safa.enterprise_id=#{enterpriseId,jdbcType=BIGINT}
+    AND safc.content_id = safa.content
+    AND  saf.status=1
+    AND safa.status_recom=#{nextstatusRecom,jdbcType=INTEGER} AND safa.next_approval_role IN
+    <foreach item="item" index="index" collection="roles"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    ) k order by k.approveDate desc
+  </select>
+
+
+    <select id="getApprovalFlowByParam" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM
+        saas_approval_flow flow
+        WHERE  1=1
+        <if test="enterpriseId != null">
+           AND flow.enterprise_id = #{enterpriseId}
+        </if>
+        <if test="defaultFlag != null">
+            AND flow.default_flag = #{defaultFlag}
+        </if>
+        <if test="name != null">
+            AND  name = #{name}
+        </if>
+        limit 1
+
+    </select>
+</mapper>

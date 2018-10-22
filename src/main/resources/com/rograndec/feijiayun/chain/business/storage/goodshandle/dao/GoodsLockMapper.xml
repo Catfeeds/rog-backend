@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.goodshandle.dao.GoodsLockMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="lock_date" jdbcType="TIMESTAMP" property="lockDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="lock_man_id" jdbcType="BIGINT" property="lockManId" />
+    <result column="lock_man_code" jdbcType="VARCHAR" property="lockManCode" />
+    <result column="lock_man_name" jdbcType="VARCHAR" property="lockManName" />
+    <result column="lock_reason" jdbcType="INTEGER" property="lockReason" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, lock_date, code, lock_man_id, lock_man_code, 
+    lock_man_name, lock_reason, quantity_total, varieties_quantity, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_goods_lock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_goods_lock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    insert into saas_goods_lock (id, enterprise_id, parent_id, 
+      order_type, lock_date, code, 
+      lock_man_id, lock_man_code, lock_man_name, 
+      lock_reason, quantity_total, varieties_quantity, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{lockDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{lockManId,jdbcType=BIGINT}, #{lockManCode,jdbcType=VARCHAR}, #{lockManName,jdbcType=VARCHAR}, 
+      #{lockReason,jdbcType=INTEGER}, #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    insert into saas_goods_lock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="baseOrderId != null">
+        base_order_id,
+      </if>
+      <if test="baseOrderType != null">
+        base_order_type,
+      </if>
+      <if test="baseOrderCode != null">
+        base_order_code,
+      </if>
+      <if test="baseOrderDate != null">
+        base_order_date,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="lockDate != null">
+        lock_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="lockManId != null">
+        lock_man_id,
+      </if>
+      <if test="lockManCode != null">
+        lock_man_code,
+      </if>
+      <if test="lockManName != null">
+        lock_man_name,
+      </if>
+      <if test="lockReason != null">
+        lock_reason,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="baseOrderId != null">
+        #{baseOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="baseOrderType != null">
+        #{baseOrderType,jdbcType=INTEGER},
+      </if>
+      <if test="baseOrderCode != null">
+        #{baseOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="baseOrderDate != null">
+        #{baseOrderDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="lockDate != null">
+        #{lockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="lockManId != null">
+        #{lockManId,jdbcType=BIGINT},
+      </if>
+      <if test="lockManCode != null">
+        #{lockManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lockManName != null">
+        #{lockManName,jdbcType=VARCHAR},
+      </if>
+      <if test="lockReason != null">
+        #{lockReason,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    update saas_goods_lock
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="lockDate != null">
+        lock_date = #{lockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="lockManId != null">
+        lock_man_id = #{lockManId,jdbcType=BIGINT},
+      </if>
+      <if test="lockManCode != null">
+        lock_man_code = #{lockManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lockManName != null">
+        lock_man_name = #{lockManName,jdbcType=VARCHAR},
+      </if>
+      <if test="lockReason != null">
+        lock_reason = #{lockReason,jdbcType=INTEGER},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    update saas_goods_lock
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      lock_date = #{lockDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      lock_man_id = #{lockManId,jdbcType=BIGINT},
+      lock_man_code = #{lockManCode,jdbcType=VARCHAR},
+      lock_man_name = #{lockManName,jdbcType=VARCHAR},
+      lock_reason = #{lockReason,jdbcType=INTEGER},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <sql id="whereSql">
+    <where>
+      <if test="status != null and status != '' and status != 0">and a.status=#{status}</if>
+      <if test="enterpriseId != null and enterpriseId != ''">and a.enterprise_id=#{enterpriseId}</if>
+      <if test="startDate != null and startDate != ''">and a.lock_date>=str_to_date(#{startDate},'%Y-%m-%d %T')</if>
+      <if test="endDate != null and endDate != ''">and str_to_date(#{endDate},'%Y-%m-%d %T')>=a.lock_date</if>
+      <if test="code != null and code != ''">and a.code like CONCAT('%',#{code},'%')</if>
+      <if test="lockManName != null and lockManName!=''">and a.lock_man_name like CONCAT('%',#{lockManName},'%')</if>
+      <if test="lockReason != null and lockReason != ''">and a.lock_reason=#{lockReason}</if>
+    </where>
+  </sql>
+  <!--<查询商品锁定单数量>-->
+  <select id="countGoodsLockDateByParam" resultType="int" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.RequestGoodsLockListVo">
+    select
+      count(1)
+    from saas_goods_lock a
+    <include refid="whereSql" />
+  </select>
+  <!-- <查询商品锁定单数据>-->
+  <select id="getGoodsLockDateByParam" resultMap="BaseResultMap" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.vo.RequestGoodsLockListVo">
+    select
+      a.id,
+      a.lock_date,
+      a.code,
+      a.lock_man_name,
+      a.lock_reason,
+      a.remark,
+      a.`status`
+    from saas_goods_lock a
+    <include refid="whereSql" />
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+    </if>
+    <if test="pageNo != null and pageSize !=null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+    <select id="selectGoodsByParam"
+            resultType="com.rograndec.feijiayun.chain.business.retail.pricing.vo.SelectPricingGoodsVO">
+
+      SELECT
+            goods.id AS goodsId ,
+            goods. CODE AS goodsCode ,
+            goods. NAME AS goodsName ,
+            goods.barcode AS barcode ,
+            goods.generic_name AS goodsGenericName ,
+            goods.specification AS goodsSpecification ,
+            goods.manufacturer_id AS manufacturerId ,
+            goods.manufacturer AS manufacturer ,
+            goods.place AS goodsPlace ,
+            goods.unit_id AS unitId ,
+            goods.unit_id AS unitName ,
+            goods.approval_number AS approvalNumber ,
+            goods.dosage_id AS dosageId ,
+            goods.dosage_name AS dosageName ,
+            lot.lot_num AS lotNumber ,
+            lot.id AS lotNumberId ,
+            lot.product_date AS productDate ,
+            lot.valid_until AS validUntil ,
+            st.usable_quantity AS usableQuantity ,
+            st.lock_quantity AS lockQuantity ,
+            st.shelf_id AS shelfId ,
+            st.shelf_name AS shelfName ,
+            st.id AS stId ,
+            st.shelf_status_desc AS shelfStatusDesc
+        FROM
+            saas_stock st
+        LEFT JOIN saas_goods goods ON goods.id = st.goods_id
+        AND goods.`status` = 1
+        AND goods.approve_status = 1
+        AND goods.valid_flag =1
+        LEFT JOIN saas_lot_number lot ON goods.id = lot.goods_id
+        LEFT JOIN saas_warehouse_shelf shelf ON shelf.id = st.shelf_id
+        LEFT JOIN saas_warehouse_cargo_area area ON area.id = shelf.cargo_area_id
+
+        AND lot.enterprise_id = st.enterprise_id
+        WHERE
+            st.enterprise_id = #{enterpriseId}
+        AND st.`lot_id` = lot.id
+        AND st.inventory_status = 0
+
+      <if test="jobArea != null">
+        and area.job_area = #{jobArea}
+      </if>
+
+      <if test="param != null and param != ''">
+        and
+        (goods.name like concat('%', #{param},'%')
+        or goods.code like concat('%', #{param},'%')
+        or goods.pinyin_code like concat('%', #{param},'%')
+        or goods.approval_number like concat('%', #{param},'%')
+        or goods.barcode like concat('%', #{param},'%')
+        or goods.generic_name like concat('%', #{param},'%')
+        )
+      </if>
+
+      GROUP BY st.goods_id ,
+         lot.id ,
+         st.shelf_id
+      HAVING sum(st.usable_quantity) > 0
+
+    </select>
+
+    <update id="updateGoodsStockStatus" parameterType="com.rograndec.feijiayun.chain.business.storage.goodshandle.entity.GoodsLock">
+    update saas_goods_lock
+    set
+      status = #{status,jdbcType=INTEGER},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT} and status=92
+  </update>
+</mapper>

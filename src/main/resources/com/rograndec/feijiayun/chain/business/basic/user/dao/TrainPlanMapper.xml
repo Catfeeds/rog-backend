@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.TrainPlanMapper">
+    <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlan">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
+        <result column="planner_id" jdbcType="BIGINT" property="plannerId"/>
+        <result column="planner_code" jdbcType="VARCHAR" property="plannerCode"/>
+        <result column="planner_name" jdbcType="VARCHAR" property="plannerName"/>
+        <result column="plan_date" jdbcType="TIMESTAMP" property="planDate"/>
+        <result column="plan_title" jdbcType="VARCHAR" property="planTitle"/>
+        <result column="plan_year" jdbcType="INTEGER" property="planYear"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="train_type" jdbcType="INTEGER" property="trainType"/>
+        <result column="train_content" jdbcType="INTEGER" property="trainContent"/>
+        <result column="train_goal" jdbcType="VARCHAR" property="trainGoal"/>
+        <result column="train_method" jdbcType="INTEGER" property="trainMethod"/>
+        <result column="train_org" jdbcType="VARCHAR" property="trainOrg"/>
+        <result column="train_place" jdbcType="VARCHAR" property="trainPlace"/>
+        <result column="lecturer" jdbcType="VARCHAR" property="lecturer"/>
+        <result column="lesson_hour" jdbcType="DECIMAL" property="lessonHour"/>
+        <result column="dept_ids" jdbcType="VARCHAR" property="deptIds"/>
+        <result column="position_ids" jdbcType="VARCHAR" property="positionIds"/>
+        <result column="user_ids" jdbcType="VARCHAR" property="userIds"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="creater_code" jdbcType="VARCHAR" property="createrCode"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId"/>
+        <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode"/>
+        <result column="modifier_name" jdbcType="VARCHAR" property="modifierName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="CheckWaitTrainPlanVoMap"
+               type="com.rograndec.feijiayun.chain.business.basic.user.vo.CheckWaitTrainPlanVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="planner_id" jdbcType="VARCHAR" property="plannerId"/>
+        <result column="planner_name" jdbcType="VARCHAR" property="plannerName"/>
+        <result column="plan_date" jdbcType="TIMESTAMP" property="planDate"/>
+        <result column="plan_title" jdbcType="VARCHAR" property="planTitle"/>
+        <result column="plan_year" jdbcType="INTEGER" property="planYear"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="train_type" jdbcType="INTEGER" property="trainType"/>
+        <result column="train_content" jdbcType="INTEGER" property="trainContent"/>
+        <result column="train_goal" jdbcType="VARCHAR" property="trainGoal"/>
+        <result column="train_method" jdbcType="INTEGER" property="trainMethod"/>
+        <result column="train_org" jdbcType="VARCHAR" property="trainOrg"/>
+        <result column="train_place" jdbcType="VARCHAR" property="trainPlace"/>
+        <result column="lecturer" jdbcType="VARCHAR" property="lecturer"/>
+        <result column="lesson_hour" jdbcType="DECIMAL" property="lessonHour"/>
+        <result column="dept_ids" jdbcType="VARCHAR" property="deptIds"/>
+        <result column="position_ids" jdbcType="VARCHAR" property="positionIds"/>
+        <result column="user_ids" jdbcType="VARCHAR" property="userIds"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <resultMap id="ClickWaitTrainPlanHeadVOMap"
+               type="com.rograndec.feijiayun.chain.business.basic.user.vo.ClickWaitTrainPlanHeadVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="planner_id" jdbcType="BIGINT" property="plannerId"/>
+        <result column="planner_name" jdbcType="VARCHAR" property="plannerName"/>
+        <result column="plan_date" jdbcType="TIMESTAMP" property="planDate"/>
+        <result column="plan_title" jdbcType="VARCHAR" property="planTitle"/>
+        <result column="plan_year" jdbcType="INTEGER" property="planYear"/>
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate"/>
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate"/>
+        <result column="train_type" jdbcType="INTEGER" property="trainType"/>
+        <result column="train_content" jdbcType="INTEGER" property="trainContent"/>
+        <result column="train_goal" jdbcType="VARCHAR" property="trainGoal"/>
+        <result column="train_method" jdbcType="INTEGER" property="trainMethod"/>
+        <result column="train_org" jdbcType="VARCHAR" property="trainOrg"/>
+        <result column="train_place" jdbcType="VARCHAR" property="trainPlace"/>
+        <result column="lecturer" jdbcType="VARCHAR" property="lecturer"/>
+        <result column="lesson_hour" jdbcType="DECIMAL" property="lessonHour"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, enterprise_id, enterprise_code, enterprise_name, parent_id, code, order_type, 
+    planner_id, planner_code, planner_name, plan_date, plan_title, plan_year, start_date, 
+    end_date, train_type, train_content, train_goal, train_method, train_org, train_place, 
+    lecturer, lesson_hour, dept_ids, position_ids, user_ids, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_train_plan
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_train_plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlan"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into saas_train_plan (id, enterprise_id, enterprise_code, 
+      enterprise_name, parent_id, code, 
+      order_type, planner_id, planner_code, 
+      planner_name, plan_date, plan_title, 
+      plan_year, start_date, end_date, 
+      train_type, train_content, train_goal, 
+      train_method, train_org, train_place, 
+      lecturer, lesson_hour, dept_ids, 
+      position_ids, user_ids, status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{enterpriseCode,jdbcType=VARCHAR}, 
+      #{enterpriseName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=INTEGER}, #{plannerId,jdbcType=BIGINT}, #{plannerCode,jdbcType=VARCHAR}, 
+      #{plannerName,jdbcType=VARCHAR}, #{planDate,jdbcType=TIMESTAMP}, #{planTitle,jdbcType=VARCHAR}, 
+      #{planYear,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{trainType,jdbcType=INTEGER}, #{trainContent,jdbcType=INTEGER}, #{trainGoal,jdbcType=VARCHAR}, 
+      #{trainMethod,jdbcType=INTEGER}, #{trainOrg,jdbcType=VARCHAR}, #{trainPlace,jdbcType=VARCHAR}, 
+      #{lecturer,jdbcType=VARCHAR}, #{lessonHour,jdbcType=DECIMAL}, #{deptIds,jdbcType=VARCHAR}, 
+      #{positionIds,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlan"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into saas_train_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="enterpriseCode != null">
+                enterprise_code,
+            </if>
+            <if test="enterpriseName != null">
+                enterprise_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="plannerId != null">
+                planner_id,
+            </if>
+            <if test="plannerCode != null">
+                planner_code,
+            </if>
+            <if test="plannerName != null">
+                planner_name,
+            </if>
+            <if test="planDate != null">
+                plan_date,
+            </if>
+            <if test="planTitle != null">
+                plan_title,
+            </if>
+            <if test="planYear != null">
+                plan_year,
+            </if>
+            <if test="startDate != null">
+                start_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="trainType != null">
+                train_type,
+            </if>
+            <if test="trainContent != null">
+                train_content,
+            </if>
+            <if test="trainGoal != null">
+                train_goal,
+            </if>
+            <if test="trainMethod != null">
+                train_method,
+            </if>
+            <if test="trainOrg != null">
+                train_org,
+            </if>
+            <if test="trainPlace != null">
+                train_place,
+            </if>
+            <if test="lecturer != null">
+                lecturer,
+            </if>
+            <if test="lessonHour != null">
+                lesson_hour,
+            </if>
+            <if test="deptIds != null">
+                dept_ids,
+            </if>
+            <if test="positionIds != null">
+                position_ids,
+            </if>
+            <if test="userIds != null">
+                user_ids,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createrCode != null">
+                creater_code,
+            </if>
+            <if test="createrName != null">
+                creater_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifierId != null">
+                modifier_id,
+            </if>
+            <if test="modifierCode != null">
+                modifier_code,
+            </if>
+            <if test="modifierName != null">
+                modifier_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseCode != null">
+                #{enterpriseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseName != null">
+                #{enterpriseName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="plannerId != null">
+                #{plannerId,jdbcType=BIGINT},
+            </if>
+            <if test="plannerCode != null">
+                #{plannerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="plannerName != null">
+                #{plannerName,jdbcType=VARCHAR},
+            </if>
+            <if test="planDate != null">
+                #{planDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="planTitle != null">
+                #{planTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="planYear != null">
+                #{planYear,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="trainType != null">
+                #{trainType,jdbcType=INTEGER},
+            </if>
+            <if test="trainContent != null">
+                #{trainContent,jdbcType=INTEGER},
+            </if>
+            <if test="trainGoal != null">
+                #{trainGoal,jdbcType=VARCHAR},
+            </if>
+            <if test="trainMethod != null">
+                #{trainMethod,jdbcType=INTEGER},
+            </if>
+            <if test="trainOrg != null">
+                #{trainOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="trainPlace != null">
+                #{trainPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="lecturer != null">
+                #{lecturer,jdbcType=VARCHAR},
+            </if>
+            <if test="lessonHour != null">
+                #{lessonHour,jdbcType=DECIMAL},
+            </if>
+            <if test="deptIds != null">
+                #{deptIds,jdbcType=VARCHAR},
+            </if>
+            <if test="positionIds != null">
+                #{positionIds,jdbcType=VARCHAR},
+            </if>
+            <if test="userIds != null">
+                #{userIds,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlan">
+        update saas_train_plan
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseCode != null">
+                enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseName != null">
+                enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                order_type = #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="plannerId != null">
+                planner_id = #{plannerId,jdbcType=BIGINT},
+            </if>
+            <if test="plannerCode != null">
+                planner_code = #{plannerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="plannerName != null">
+                planner_name = #{plannerName,jdbcType=VARCHAR},
+            </if>
+            <if test="planDate != null">
+                plan_date = #{planDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="planTitle != null">
+                plan_title = #{planTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="planYear != null">
+                plan_year = #{planYear,jdbcType=INTEGER},
+            </if>
+            <if test="startDate != null">
+                start_date = #{startDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="trainType != null">
+                train_type = #{trainType,jdbcType=INTEGER},
+            </if>
+            <if test="trainContent != null">
+                train_content = #{trainContent,jdbcType=INTEGER},
+            </if>
+            <if test="trainGoal != null">
+                train_goal = #{trainGoal,jdbcType=VARCHAR},
+            </if>
+            <if test="trainMethod != null">
+                train_method = #{trainMethod,jdbcType=INTEGER},
+            </if>
+            <if test="trainOrg != null">
+                train_org = #{trainOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="trainPlace != null">
+                train_place = #{trainPlace,jdbcType=VARCHAR},
+            </if>
+            <if test="lecturer != null">
+                lecturer = #{lecturer,jdbcType=VARCHAR},
+            </if>
+            <if test="lessonHour != null">
+                lesson_hour = #{lessonHour,jdbcType=DECIMAL},
+            </if>
+            <if test="deptIds != null">
+                dept_ids = #{deptIds,jdbcType=VARCHAR},
+            </if>
+            <if test="positionIds != null">
+                position_ids = #{positionIds,jdbcType=VARCHAR},
+            </if>
+            <if test="userIds != null">
+                user_ids = #{userIds,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.TrainPlan">
+    update saas_train_plan
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      planner_id = #{plannerId,jdbcType=BIGINT},
+      planner_code = #{plannerCode,jdbcType=VARCHAR},
+      planner_name = #{plannerName,jdbcType=VARCHAR},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
+      plan_title = #{planTitle,jdbcType=VARCHAR},
+      plan_year = #{planYear,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      train_type = #{trainType,jdbcType=INTEGER},
+      train_content = #{trainContent,jdbcType=INTEGER},
+      train_goal = #{trainGoal,jdbcType=VARCHAR},
+      train_method = #{trainMethod,jdbcType=INTEGER},
+      train_org = #{trainOrg,jdbcType=VARCHAR},
+      train_place = #{trainPlace,jdbcType=VARCHAR},
+      lecturer = #{lecturer,jdbcType=VARCHAR},
+      lesson_hour = #{lessonHour,jdbcType=DECIMAL},
+      dept_ids = #{deptIds,jdbcType=VARCHAR},
+      position_ids = #{positionIds,jdbcType=VARCHAR},
+      user_ids = #{userIds,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="queryCountByWaitTrainPlanPageParams" resultType="java.lang.Long">
+        select
+        count(1)
+        from saas_train_plan
+        where  status = #{type}
+        <if test="chainType != 0">
+            AND enterprise_id = #{enterpriseId}
+        </if>
+        <if test="chainType == 0">
+            AND (enterprise_id = #{enterpriseId} or parent_id = #{enterpriseId})
+        </if>
+        <if test="startTimes != null and endTimes != null">
+            and plan_date between #{startTimes} and #{endTimes}
+        </if>
+        <if test="code != null and code != ''">
+            AND INSTR(code ,#{code})
+        </if>
+        <if test="plannerName != null and plannerName != ''">
+            AND INSTR(planner_name ,#{plannerName})
+        </if>
+        <if test="planYear != null and planYear != ''">
+            AND ( plan_year = #{planYear})
+        </if>
+        <if test="planTitle != null and planTitle != ''">
+            AND INSTR(plan_title ,#{planTitle})
+        </if>
+        <if test="trainType != null and trainType != ''">
+            AND ( train_type = #{trainType})
+        </if>
+        <if test="trainContent != null and trainContent != ''">
+            AND ( train_content = #{trainContent})
+        </if>
+    </select>
+    <select id="selectByWaitTrainPlanPageParams"
+            resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.WaitTrainPlanPageVO">
+        SELECT
+        id,
+        enterprise_code AS enterpriseCode,
+        enterprise_name AS enterpriseName,
+        plan_date AS planDate,
+        code,
+        planner_name AS plannerName,
+        plan_year AS planYear,
+        plan_title AS planTitle,
+        start_date AS startDate,
+        end_date AS endDate,
+        train_type AS trainType,
+        train_content AS trainContent
+        FROM saas_train_plan
+        WHERE status = #{type}
+        <if test="chainType != 0">
+            AND enterprise_id = #{enterpriseId}
+        </if>
+        <if test="chainType == 0">
+            AND (enterprise_id = #{enterpriseId} or parent_id = #{enterpriseId})
+        </if>
+        <if test="startTimes != null and endTimes != null">
+            and plan_date between #{startTimes} and #{endTimes}
+        </if>
+        <if test="code != null and code != ''">
+            AND INSTR(code ,#{code})
+        </if>
+        <if test="plannerName != null and plannerName != ''">
+            AND INSTR(planner_name ,#{plannerName})
+        </if>
+        <if test="planYear != null and planYear != ''">
+            AND ( plan_year = #{planYear})
+        </if>
+        <if test="planTitle != null and planTitle != ''">
+            AND INSTR(plan_title ,#{planTitle})
+        </if>
+        <if test="trainType != null and trainType != ''">
+            AND ( train_type = #{trainType})
+        </if>
+        <if test="trainContent != null and trainContent != ''">
+            AND ( train_content = #{trainContent})
+        </if>
+        <if test="orderName != null and orderType!=null">
+            ORDER BY ${orderName} ${orderType}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="selectByCheckWaitTrainPlanPageParams" resultMap="CheckWaitTrainPlanVoMap">
+    SELECT
+    id, enterprise_id, enterprise_code, enterprise_name, code, order_type,
+    planner_id, planner_code, planner_name, plan_date, plan_title, plan_year, start_date,
+    end_date, train_type, train_content, train_goal, train_method, train_org, train_place,
+    lecturer, lesson_hour, dept_ids, position_ids, user_ids, status, remark
+    FROM saas_train_plan
+    WHERE id = #{id}
+  </select>
+    <select id="selectByDeptIds" resultType="com.rograndec.feijiayun.chain.business.system.set.entity.Department">
+        select
+        group_concat(name) name
+        from saas_department
+        where
+        (enterprise_id = #{enterpriseId} or sys_type in(0,1))
+        AND id IN
+        <foreach item="item" index="index" collection="deptId"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectByPositionIds" resultType="com.rograndec.feijiayun.chain.business.system.set.entity.Position">
+        select
+        group_concat(name) name
+        from saas_position
+        where
+        (enterprise_id = #{enterpriseId} or sys_type in(0,1))
+        AND id IN
+        <foreach item="item" index="index" collection="positionId"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectByUserIds" resultType="com.rograndec.feijiayun.chain.business.basic.user.entity.User">
+        select
+        group_concat(name) name
+        from saas_user
+        where
+        1 = 1
+        AND id IN
+        <foreach item="item" index="index" collection="userId"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectByClickWaitTrainPlanHeadParams" resultMap="ClickWaitTrainPlanHeadVOMap">
+    SELECT
+    id, enterprise_id, enterprise_code, enterprise_name, code, order_type,
+    planner_id, planner_code, planner_name, plan_date, plan_title, plan_year, start_date,
+    end_date, train_type, train_content, train_goal, train_method, train_org, train_place,
+    lecturer, lesson_hour, dept_ids, position_ids, user_ids, status, remark
+    FROM saas_train_plan
+    WHERE id = #{id}
+  </select>
+    <select id="queryCountEnterprise" resultType="java.lang.Long">
+        SELECT
+        count(1)
+        FROM
+        saas_enterprise
+        WHERE
+        1 = 1
+        <if test="chainType != 0">
+            AND id = #{enterpriseId}
+        </if>
+        <if test="chainType == 0">
+            AND (id = #{enterpriseId} or parent_id = #{enterpriseId})
+        </if>
+        <if test="key != null">
+            AND (
+            INSTR(name ,#{key})
+            OR INSTR(code ,#{key})
+            OR INSTR(pinyin ,#{key})
+            )
+        </if>
+    </select>
+    <select id="selectEnterprise" resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.EnterprisePageVO">
+        SELECT
+        id,
+        CODE,
+        NAME
+        FROM
+        saas_enterprise
+        WHERE
+        1 = 1
+        <if test="chainType != 0">
+            AND id = #{enterpriseId}
+        </if>
+        <if test="chainType == 0">
+            AND (id = #{enterpriseId} or parent_id = #{enterpriseId})
+        </if>
+        <if test="key != null ">
+            AND (
+            INSTR(name ,#{key})
+            OR INSTR(code ,#{key})
+            OR INSTR(pinyin ,#{key})
+            )
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    
+    <select id="getTrainPlanReport" resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.ResponseTrainPlanVO">
+	    SELECT 
+		  tp.id,enterprise_code AS enterpriseCode, enterprise_name AS enterpriseName,tp.`code`,
+		  <!-- planner_id, planner_code, -->
+		  planner_name AS plannerName,plan_date AS planDate,plan_title AS planTitle,plan_year AS planYear,
+		  start_date AS startDate,end_date AS endDate,train_type AS trainType,train_content AS trainContent
+		FROM
+		  saas_train_plan tp 
+		  LEFT JOIN `saas_enterprise` e 
+		    ON e.`id` = tp.`enterprise_id`
+		    <if test="sign==1">
+		     LEFT JOIN `saas_train_plan_detail` detail ON detail.`plan_id`=tp.`id`
+		    </if> 
+		    WHERE 1=1
+		   AND (tp.`enterprise_id` = #{enterpriseId} or tp.`parent_id`=#{enterpriseId})
+		    
+		 <if test="chainType != null">
+		  AND e.`chain_type`=#{chainType}
+		 </if>  
+		  <if test="code != null and code!='' ">
+		  AND tp.`code`=#{code}
+		 </if>   
+		 <if test="enterpriseCode != null and enterpriseCode!=''">
+		 AND enterprise_code=#{enterpriseCode}
+		 </if>    
+		 <if test="enterpriseName != null and enterpriseName!=''">
+         AND  INSTR(enterprise_name ,#{enterpriseName})
+		 </if>    
+		 
+	    <if test="startTime != null and endTime != null">
+            AND plan_date between #{startTime} and #{endTime}
+        </if>
+        <if test="plannerName != null and plannerName != ''">
+            AND planner_name=#{plannerName}
+        </if>
+        <if test="planYear != null">
+            AND plan_year = #{planYear}
+        </if>
+        <if test="planTitle != null and planTitle != ''">
+            AND plan_title=#{planTitle}
+        </if>
+        <if test="trainType != null">
+            AND train_type = #{trainType}
+        </if>
+        <if test="trainContent != null">
+            AND train_content = #{trainContent}
+        </if>
+        
+        
+         <if test="sign==1">
+		      AND (detail.`id` IS NOT NULL)
+		  </if> 
+        
+         <if test="sign==1">
+		     GROUP BY tp.`id`
+		  </if> 
+        
+        <if test="enterpriseCodeOrder==0 and planDateOrder==0">
+            ORDER BY enterprise_code DESC,plan_date DESC
+        </if>
+        <if test="enterpriseCodeOrder==1 and planDateOrder==0">
+            ORDER BY enterprise_code,plan_date DESC
+        </if>
+        <if test="enterpriseCodeOrder==0 and planDateOrder==1">
+            ORDER BY enterprise_code DESC,plan_date
+        </if>
+        <if test="enterpriseCodeOrder==1 and planDateOrder==1">
+            ORDER BY enterprise_code ,plan_date
+        </if>
+		
+		<if test=" start!=null and pageSize!=null">
+		LIMIT #{start},#{pageSize} 
+		</if> 
+		
+    </select>
+    
+    <select id="getTrainPlanReportTotalNum" resultType="java.lang.Integer">
+		SELECT 
+		  COUNT(DISTINCT(tp.id)) 
+		FROM
+		  saas_train_plan tp 
+		  LEFT JOIN `saas_enterprise` e 
+		    ON e.`id` = tp.`enterprise_id` 
+		    <if test="sign==1">
+		     LEFT JOIN `saas_train_plan_detail` detail ON detail.`plan_id`=tp.`id`
+		    </if> 
+		WHERE 1 = 1 
+		  AND (
+		    tp.`enterprise_id` = #{enterpriseId} 
+		    OR tp.`parent_id` = #{enterpriseId}
+		  )
+		  
+		   <if test="sign==1">
+		      AND (detail.`id` IS NOT NULL)
+		  </if> 
+		  
+		   <if test="chainType != null">
+		  AND e.`chain_type`=#{chainType}
+		 </if> 
+		  <if test="code != null">
+		  AND tp.`code`=#{code}
+		 </if>   
+		 <if test="enterpriseCode != null and enterpriseCode!=''">
+		 AND enterprise_code=#{enterpriseCode}
+		 </if>    
+		 <if test="enterpriseName != null and enterpriseName!=''">
+		 AND enterprise_name=#{enterpriseName}
+		 </if>    
+		    
+	    <if test="startTime != null and endTime != null">
+            AND plan_date between #{startTime} and #{endTime}
+        </if>
+        <if test="plannerName != null and plannerName != ''">
+            AND planner_name=#{plannerName}
+        </if>
+        <if test="planYear != null">
+            AND plan_year = #{planYear}
+        </if>
+        <if test="planTitle != null and planTitle != ''">
+            AND plan_title=#{planTitle}
+        </if>
+        <if test="trainType != null">
+            AND train_type = #{trainType}
+        </if>
+        <if test="trainContent != null">
+            AND train_content = #{trainContent}
+        </if>
+        
+        <if test="enterpriseCodeOrder==0 and planDateOrder==0">
+            ORDER BY enterprise_code DESC,plan_date DESC
+        </if>
+        <if test="enterpriseCodeOrder==1 and planDateOrder==0">
+            ORDER BY enterprise_code,plan_date DESC
+        </if>
+        <if test="enterpriseCodeOrder==0 and planDateOrder==1">
+            ORDER BY enterprise_code DESC,plan_date
+        </if>
+        <if test="enterpriseCodeOrder==1 and planDateOrder==1">
+            ORDER BY enterprise_code ,plan_date
+        </if>
+    </select>
+    
+    <select id="getTrainRecordReportDtlList" resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.ResponseTrainPlanDetailVO">
+     SELECT
+	    s.id,s.dept_ids AS deptIds,GROUP_CONCAT(DISTINCT department.`name`) AS deptNames,s.position_ids AS positionIds,
+	    GROUP_CONCAT(DISTINCT posit.`name`) AS positionNames,
+	    s.user_id AS userId,u.`name` AS userName, s.train_lesson_hour AS trainLessonHour,
+	    s.train_performance AS trainPerformance, s.examine_item AS examineItem, s.examine_method AS examineMethod,
+	    GROUP_CONCAT(DISTINCT s.examine_start_time,' — ', s.examine_end_time) AS examineTime,
+	    s.examine_result AS examineResult, s.measures AS measures, s.remark AS remark
+	  FROM saas_train_plan_detail s  
+	  LEFT JOIN `saas_user_dept` dept ON dept.user_id=s.user_id
+	  LEFT JOIN `saas_department` department ON department.id=dept.dept_id
+	  LEFT JOIN `saas_user_position` pos ON pos.user_id=s.user_id
+	  LEFT JOIN `saas_position` posit ON posit.id=pos.`position_id`
+	  LEFT JOIN `saas_user` u ON s.user_id=u.id
+	  WHERE 1=1
+	  AND (s.enterprise_id = #{enterpriseId} OR s.`parent_id`=#{enterpriseId})
+	  AND s.plan_id = #{id}
+	  GROUP BY s.user_id
+	 <if test=" start!=null and pageSize!=null">
+		LIMIT #{start},#{pageSize} 
+	 </if> 
+    </select>
+    
+    <select id="getTrainRecordReportDtlListTotalNum" resultType="java.lang.Integer">
+      SELECT
+	    COUNT(s.id)
+	  FROM saas_train_plan_detail s  
+	  WHERE 1=1
+	  AND (s.enterprise_id = #{enterpriseId} OR s.`parent_id`=#{enterpriseId})
+	  AND s.plan_id = #{id}
+    </select>
+    
+</mapper>

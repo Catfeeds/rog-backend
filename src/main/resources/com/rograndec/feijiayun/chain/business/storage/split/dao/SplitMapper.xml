@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.storage.split.dao.SplitMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.storage.split.entity.Split">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="split_date" jdbcType="TIMESTAMP" property="splitDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="split_man_id" jdbcType="BIGINT" property="splitManId" />
+    <result column="split_man_code" jdbcType="VARCHAR" property="splitManCode" />
+    <result column="split_man_name" jdbcType="VARCHAR" property="splitManName" />
+    <result column="audit_man_id" jdbcType="BIGINT" property="auditManId" />
+    <result column="audit_man_code" jdbcType="VARCHAR" property="auditManCode" />
+    <result column="audit_man_name" jdbcType="VARCHAR" property="auditManName" />
+    <result column="flow_code" jdbcType="VARCHAR" property="flowCode" />
+
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="split_quantity_total" jdbcType="DECIMAL" property="splitQuantityTotal" />
+    <result column="split_varieties_quantity" jdbcType="INTEGER" property="splitVarietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, order_type, split_date, code, split_man_id, split_man_code, 
+    split_man_name, audit_man_id, audit_man_code, audit_man_name, flow_code, quantity_total,varieties_quantity,
+    split_quantity_total,split_varieties_quantity,amount_total,notax_amount_total,tax_amount_total,
+    status, remark, creater_id, creater_code, creater_name, create_time,
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_split
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_split
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.Split">
+    insert into saas_split (id, enterprise_id, parent_id, 
+      order_type, split_date, code, 
+      split_man_id, split_man_code, split_man_name, 
+      audit_man_id, audit_man_code, audit_man_name, 
+      flow_code, quantity_total, varieties_quantity,
+      split_quantity_total, split_varieties_quantity,
+      amount_total, notax_amount_total, tax_amount_total,
+      status, remark, creater_id,
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{orderType,jdbcType=INTEGER}, #{splitDate,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, 
+      #{splitManId,jdbcType=BIGINT}, #{splitManCode,jdbcType=VARCHAR}, #{splitManName,jdbcType=VARCHAR}, 
+      #{auditManId,jdbcType=BIGINT}, #{auditManCode,jdbcType=VARCHAR}, #{auditManName,jdbcType=VARCHAR}, 
+      #{flowCode,jdbcType=VARCHAR}, #{quantityTotal,jdbcType=DECIMAL},#{varietiesQuantity,jdbcType=INTEGER},
+      #{splitQuantityTotal,jdbcType=DECIMAL},#{splitVarietiesQuantity,jdbcType=INTEGER},
+      #{amountTotal,jdbcType=DECIMAL},#{notaxAmountTotal,jdbcType=DECIMAL},#{taxAmountTotal,jdbcType=DECIMAL},
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT},
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.Split">
+    insert into saas_split
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="splitDate != null">
+        split_date,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="splitManId != null">
+        split_man_id,
+      </if>
+      <if test="splitManCode != null">
+        split_man_code,
+      </if>
+      <if test="splitManName != null">
+        split_man_name,
+      </if>
+      <if test="auditManId != null">
+        audit_man_id,
+      </if>
+      <if test="auditManCode != null">
+        audit_man_code,
+      </if>
+      <if test="auditManName != null">
+        audit_man_name,
+      </if>
+      <if test="flowCode != null">
+        flow_code,
+      </if>
+
+        <if test="quantityTotal != null">
+            quantity_total,
+        </if>
+        <if test="varietiesQuantity != null">
+            varieties_quantity,
+        </if>
+        <if test="splitQuantityTotal != null">
+            split_quantity_total,
+        </if>
+        <if test="splitVarietiesQuantity != null">
+            split_varieties_quantity,
+        </if>
+        <if test="amountTotal != null">
+            amount_total,
+        </if>
+        <if test="notaxAmountTotal != null">
+            notax_amount_total,
+        </if>
+        <if test="taxAmountTotal != null">
+            tax_amount_total,
+        </if>
+
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="splitDate != null">
+        #{splitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="splitManId != null">
+        #{splitManId,jdbcType=BIGINT},
+      </if>
+      <if test="splitManCode != null">
+        #{splitManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="splitManName != null">
+        #{splitManName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManId != null">
+        #{auditManId,jdbcType=BIGINT},
+      </if>
+      <if test="auditManCode != null">
+        #{auditManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManName != null">
+        #{auditManName,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null">
+        #{flowCode,jdbcType=VARCHAR},
+      </if>
+
+        <if test="quantityTotal != null">
+            #{quantityTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="varietiesQuantity != null">
+            #{varietiesQuantity,jdbcType=INTEGER},
+        </if>
+        <if test="splitQuantityTotal != null">
+            #{splitQuantityTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="splitVarietiesQuantity != null">
+            #{splitVarietiesQuantity,jdbcType=INTEGER},
+        </if>
+        <if test="amountTotal != null">
+            #{amountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="notaxAmountTotal != null">
+            #{notaxAmountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="taxAmountTotal != null">
+            #{taxAmountTotal,jdbcType=DECIMAL},
+        </if>
+
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.Split">
+    update saas_split
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="splitDate != null">
+        split_date = #{splitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="splitManId != null">
+        split_man_id = #{splitManId,jdbcType=BIGINT},
+      </if>
+      <if test="splitManCode != null">
+        split_man_code = #{splitManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="splitManName != null">
+        split_man_name = #{splitManName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManId != null">
+        audit_man_id = #{auditManId,jdbcType=BIGINT},
+      </if>
+      <if test="auditManCode != null">
+        audit_man_code = #{auditManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditManName != null">
+        audit_man_name = #{auditManName,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null">
+        flow_code = #{flowCode,jdbcType=VARCHAR},
+      </if>
+
+        <if test="quantityTotal != null">
+            quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="varietiesQuantity != null">
+            varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+        </if>
+        <if test="splitQuantityTotal != null">
+            split_quantity_total = #{splitQuantityTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="splitVarietiesQuantity != null">
+            split_varieties_quantity = #{splitVarietiesQuantity,jdbcType=INTEGER},
+        </if>
+        <if test="amountTotal != null">
+            amount_total = #{amountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="notaxAmountTotal != null">
+            notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+        </if>
+        <if test="taxAmountTotal != null">
+            tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+        </if>
+
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.storage.split.entity.Split">
+    update saas_split
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      order_type = #{orderType,jdbcType=INTEGER},
+      split_date = #{splitDate,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      split_man_id = #{splitManId,jdbcType=BIGINT},
+      split_man_code = #{splitManCode,jdbcType=VARCHAR},
+      split_man_name = #{splitManName,jdbcType=VARCHAR},
+      audit_man_id = #{auditManId,jdbcType=BIGINT},
+      audit_man_code = #{auditManCode,jdbcType=VARCHAR},
+      audit_man_name = #{auditManName,jdbcType=VARCHAR},
+      flow_code = #{flowCode,jdbcType=VARCHAR},
+          quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+          varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+          split_quantity_total = #{splitQuantityTotal,jdbcType=DECIMAL},
+          split_varieties_quantity = #{splitVarietiesQuantity,jdbcType=INTEGER},
+          amount_total = #{amountTotal,jdbcType=DECIMAL},
+          notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+          tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--搜索可拆零的商品列表-->
+    <select id="selectGoodsStock"
+            resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.SplitGoodsStockVO">
+        SELECT
+        goo.id AS goodsId,
+        goo.code AS goodsCode,
+        goo.name AS goodsName,
+        goo.barcode AS barcode,
+        goo.generic_name AS goodsGenericName,
+        goo.dosage_id AS dosageId,
+        goo.dosage_name AS dosageName,
+        goo.specification AS goodsSpecification,
+        goo.unit_id AS unitId,
+        goo.unit_id AS unitName,
+        goo.manufacturer_id AS manufacturerId,
+        goo.manufacturer AS manufacturer,
+        goo.place AS goodsPlace,
+        goo.approval_number AS approvalNumber,
+        lot.lot_num AS lotNumber,
+        lot.id AS lotId,
+        lot.product_date AS productDate,
+        lot.valid_until AS validDate,
+        ws.id AS srcShelfId,
+        ws.name AS srcShelfName,
+        st.shelf_id AS shelfId,
+        st.shelf_name AS shelfName,
+        st.shelf_status_desc AS shelfStatusDesc,
+        st.usable_quantity AS quantity,
+        ss.split_goods_id AS splitGoodsId,
+        goo.code as splitGoodsCode,
+        goo.name as splitGoodsName,
+        ss.split_specification AS splitSpecification,
+        ss.split_unit_name AS splitUnitName,
+        ss.split_quantity AS splitQuantity,
+        ss.split_shelf_id AS splitShelfId,
+        ss.split_shelf_name AS splitShelfName
+        FROM
+        saas_split_set ss,
+        saas_goods goo,
+        saas_stock st,
+        saas_lot_number lot ,
+        saas_warehouse_shelf ws,
+        saas_warehouse_cargo_area area
+        WHERE
+        ss.goods_id = goo.id
+        AND
+        <if test="type == 0">
+            ss.enterprise_id = #{enterpriseId}
+        </if>
+        <if test="type == 1">
+            ( ss.enterprise_id = #{enterpriseId} or ss.enterprise_id = #{currentEId} )
+        </if>
+        and
+        goo.id = st.goods_id
+        AND st.lot_id = lot.id
+        AND ws.id = st.shelf_id
+        AND ws.cargo_area_id = area.id
+        AND area.job_type = 0
+        AND area.job_area = 0
+        AND st.usable_quantity > 0
+        AND st.enterprise_id = #{currentEId}
+        <if test="param != null and param != ''">
+            and (goo.name like concat('%', #{param},'%')
+            or goo.code like concat('%', #{param},'%')
+            or goo.pinyin_code like concat('%', #{param},'%')
+            or goo.approval_number like concat('%', #{param},'%')
+            or goo.barcode like concat('%', #{param},'%')
+            or goo.generic_name like concat('%', #{param},'%')
+            or INSTR(lot.lot_num,#{param})
+            or INSTR(ws.name,#{param})
+            )
+
+        </if>
+    </select>
+    <!--搜索可拆零的商品列表-->
+    <select id="selectGoodsStockById"
+            resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.SplitGoodsStockVO">
+        SELECT
+        goo.id AS goodsId,
+        goo.code AS goodsCode,
+        goo.name AS goodsName,
+        goo.barcode AS barcode,
+        goo.generic_name AS goodsGenericName,
+        goo.dosage_id AS dosageId,
+        goo.dosage_name AS dosageName,
+        goo.specification AS goodsSpecification,
+        goo.unit_id AS unitId,
+        goo.unit_id AS unitName,
+        goo.manufacturer_id AS manufacturerId,
+        goo.manufacturer AS manufacturer,
+        goo.place AS goodsPlace,
+        goo.approval_number AS approvalNumber,
+        lot.lot_num AS lotNumber,
+        lot.id AS lotId,
+        lot.product_date AS productDate,
+        lot.valid_until AS validDate,
+        ws.id AS srcShelfId,
+        ws.name AS srcShelfName,
+        st.shelf_id AS shelfId,
+        st.shelf_name AS shelfName,
+        st.shelf_status_desc AS shelfStatusDesc,
+        st.usable_quantity AS quantity,
+        ss.split_goods_id AS splitGoodsId,
+        ss.split_specification AS splitSpecification,
+        ss.split_unit_name AS splitUnitName,
+        ss.split_quantity AS splitQuantity
+        FROM
+	    saas_goods goo,
+        saas_stock st,
+        saas_lot_number lot,
+        saas_warehouse_shelf ws,
+        saas_split_set ss,
+        saas_warehouse_cargo_area area
+        WHERE
+        goo.id = st.goods_id
+        AND st.lot_id = lot.id
+        AND ws.id = st.shelf_id
+        AND goo.id = ss.goods_id
+        AND ws.cargo_area_id = area.id
+        AND area.job_type = 0
+        AND area.job_area = 0
+        AND st.usable_quantity > 0
+        AND st.enterprise_id = #{enterpriseId}
+        AND ss.goods_id = #{goodsId}
+        AND ss.split_goods_id = #{splitGoodsId}
+        AND lot.id = #{lotId}
+        AND st.shelf_id = #{shelfId}
+    </select>
+  <select id="getSplitOrderList" resultType="com.rograndec.feijiayun.chain.business.storage.split.vo.SplitOrderPageVO">
+     SELECT
+     id AS id,
+     date_format(split_date, '%Y-%m-%d') AS splitDate,
+     code AS code,
+     split_man_id AS splitManId,
+     split_man_code AS splitManCode,
+     split_man_name AS splitManName,
+     audit_man_id AS auditManId,
+     audit_man_code AS auditManCode,
+     audit_man_name AS auditManName,
+     remark AS remark
+     FROM
+     saas_split
+     WHERE enterprise_id = #{enterpriseId}
+      <if test="startTime != null and endTime != null">
+          and split_date between #{startTime} and #{endTime}
+      </if>
+      <if test="code != null and code != ''">
+          AND code like concat('%', #{code},'%')
+      </if>
+      <if test="splitManName != null and splitManName != ''">
+          AND split_man_name like concat('%', #{splitManName},'%')
+      </if>
+      <if test="auditManName != null and auditManName != ''">
+          AND audit_man_name like concat('%', #{auditManName},'%')
+      </if>
+
+      <choose>
+          <when test="order != null and sort != null">
+              order by ${order} ${sort}
+          </when>
+          <otherwise>
+              order by id desc
+          </otherwise>
+      </choose>
+  </select>
+    <select id="selectFatherGoodSplitReport"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsSplitReportPageVO">
+        /**
+        搜寻商品拆零报表（总部）
+        */
+        SELECT
+        d.id as id,
+        u.code as enterpriseCode,
+        u.name as enterpriseName,
+        d.split_date as splitDate,
+        d.split_code as code,
+        s.split_man_name as splitManName,
+        s.audit_man_name as auditManName,
+        s.flow_code as flowCode,
+        d.goods_id as goodsId,
+        d.goods_code as goodsCode,
+        d.goods_name as goodsName,
+        d.lot_number as lotNum,
+        d.product_date as productDate,
+        d.valid_date as validDate,
+        d.shelf_id as shelfId,
+        d.shelf_name as shelfName,
+        d.shelf_status_desc as shelfStatusDesc,
+        d.quantity as quantity,
+        /**
+          拆零商品信息
+        */
+        d.split_goods_id as splitGoodsId,
+        d.split_goods_code as splitGoodsCode,
+        d.split_shelf_name as splitShelfName,
+        d.split_shelf_status_desc as splitShelfStatusDesc,
+        d.split_quantity as splitQuantity,
+        d.status as status,
+        g.business_variety as businessVariety,
+        g.category_id as categoryId,
+        (
+        SELECT
+        cate.name
+        FROM
+        saas_goods_category cate
+        WHERE
+        cate.id = g.category_id
+        ) AS categoryName,
+        g.goods_attribute as goodsAttribute,
+        g.prescription_drug as prescriptionDrug,
+        g.otc_type as otcType,
+        g.cosmetics as cosmetics,
+        g.domestic_import as domesticImport,
+        g.management_scope_id as managementScopeId,
+        g.management_scope_name as managementScopeName,
+        g.special_drug as specialDrug,
+        g.spirit_drug_type as spiritDrugType,
+        g.formulation_type as formulationType,
+        g.in_charge_drug as inChargeDrug,
+        g.limit_quantity as limitQuantity,
+        g.storage_temp as storageTemp,
+        g.storage_condition_name as storageConditionName,
+        g.quality_period as qualityPeriod,
+        g.quality_period_unit as qualityPeriodUnit
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_enterprise u
+        ON u.id = d.enterprise_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        <if test="chainType != null">
+            and u.chain_type = #{chainType}
+        </if>
+        <if test="enterpriseCode != null">
+            and INSTR(u.code,#{enterpriseCode})
+        </if>
+        <if test="enterpriseName != null">
+            and INSTR(u.name,#{enterpriseName})
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+        <if test="start != null and pageSize != null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+    <select id="selectSonGoodSplitReport"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsSplitReportPageVO">
+        /**
+        搜寻商品拆零报表（分部）
+        */
+        SELECT
+        d.id as id,
+        d.split_date as splitDate,
+        d.split_code as code,
+        s.split_man_name as splitManName,
+        s.audit_man_name as auditManName,
+        s.flow_code as flowCode,
+        d.goods_id as goodsId,
+        d.goods_code as goodsCode,
+        d.goods_name as goodsName,
+        d.lot_number as lotNum,
+        d.product_date as productDate,
+        d.valid_date as validDate,
+        d.shelf_id as shelfId,
+        d.shelf_name as shelfName,
+        d.shelf_status_desc as shelfStatusDesc,
+        d.quantity as quantity,
+        /**
+        拆零商品信息
+        */
+        d.split_goods_id as splitGoodsId,
+        d.split_goods_code as splitGoodsCode,
+        d.split_shelf_name as splitShelfName,
+        d.split_shelf_status_desc as splitShelfStatusDesc,
+        d.split_quantity as splitQuantity,
+        d.status as status,
+        g.business_variety as businessVariety,
+        g.category_id as categoryId,
+        (
+        SELECT
+        cate.name
+        FROM
+        saas_goods_category cate
+        WHERE
+        cate.id = g.category_id
+        ) AS categoryName,
+        g.goods_attribute as goodsAttribute,
+        g.prescription_drug as prescriptionDrug,
+        g.otc_type as otcType,
+        g.cosmetics as cosmetics,
+        g.domestic_import as domesticImport,
+        g.management_scope_id as managementScopeId,
+        g.management_scope_name as managementScopeName,
+        g.special_drug as specialDrug,
+        g.spirit_drug_type as spiritDrugType,
+        g.formulation_type as formulationType,
+        g.in_charge_drug as inChargeDrug,
+        g.limit_quantity as limitQuantity,
+        g.storage_temp as storageTemp,
+        g.storage_condition_name as storageConditionName,
+        g.quality_period as qualityPeriod,
+        g.quality_period_unit as qualityPeriodUnit
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE d.enterprise_id = #{enterpriseId}
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+        <if test="start != null and pageSize != null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+    <select id="selectFatherTotalRecord" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_enterprise u
+        ON u.id = d.enterprise_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        <if test="chainType != null">
+            and u.chain_type = #{chainType}
+        </if>
+        <if test="enterpriseCode != null">
+            and INSTR(u.code,#{enterpriseCode})
+        </if>
+        <if test="enterpriseName != null">
+            and INSTR(u.name,#{enterpriseName})
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectSonTotalRecord" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE d.enterprise_id = #{enterpriseId}
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectFatherGoodsSplitStastic"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsSplitStasticVO">
+        SELECT
+        sum(d.quantity) AS quantity,
+        sum(d.split_quantity) AS splitQuantity
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_enterprise u
+        ON u.id = d.enterprise_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE (u.id = #{enterpriseId} or u.parent_id = #{enterpriseId})
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        <if test="chainType != null">
+            and u.chain_type = #{chainType}
+        </if>
+        <if test="enterpriseCode != null">
+            and INSTR(u.code,#{enterpriseCode})
+        </if>
+        <if test="enterpriseName != null">
+            and INSTR(u.name,#{enterpriseName})
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectSonGoodsSplitStastic"
+            resultType="com.rograndec.feijiayun.chain.business.report.quality.storage.vo.GoodsSplitStasticVO">
+        SELECT
+        sum(d.quantity) AS quantity,
+        sum(d.split_quantity) AS splitQuantity
+        FROM saas_split_detail d
+        LEFT JOIN saas_split s
+        ON s.id = d.split_id
+        LEFT JOIN saas_goods g
+        ON g.id = d.goods_id
+        WHERE d.enterprise_id = #{enterpriseId}
+        <if test="businessVariety != null">
+            and g.business_variety = #{businessVariety}
+        </if>
+        <if test="param != null">
+            and (
+            INSTR(g.code,#{param})
+            or INSTR(g.barcode,#{param})
+            or INSTR(g.name,#{param})
+            or INSTR(g.generic_name,#{param})
+            or INSTR(g.approval_number,#{param}))
+        </if>
+        /**
+        起始时间----终止时间
+        */
+        <if test="startTime != null">
+            and d.split_date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and d.split_date &lt;= #{endTime}
+        </if>
+        <if test="code != null">
+            and INSTR(d.split_code,#{code})
+        </if>
+        <if test="splitManName != null">
+            and INSTR(s.split_man_name,#{splitManName})
+        </if>
+        <if test="auditManName != null">
+            and INSTR(s.audit_man_name,#{auditManName})
+        </if>
+        <if test="flowCode != null">
+            and INSTR(s.flow_code,#{flowCode})
+        </if>
+        <if test="status != null">
+            and s.status = #{status}
+        </if>
+        <if test="categoryId != null">
+            and g.category_id = #{categoryId}
+        </if>
+        <if test="domesticImport != null">
+            and g.domestic_import = #{domesticImport}
+        </if>
+        <if test="storageTemp != null">
+            and g.storage_temp = #{storageTemp}
+        </if>
+        <if test="storageConditionName != null">
+            and INSTR(g.storage_condition_name,#{storageConditionName})
+        </if>
+        <if test="registeredTrademark != null">
+            and INSTR(g.registered_trademark,#{registeredTrademark})
+        </if>
+        <if test="brand != null">
+            and INSTR(g.brand,#{brand})
+        </if>
+        <if test="goodsAttribute != null">
+            and g.goods_attribute = #{goodsAttribute}
+        </if>
+        <if test="prescriptionDrug != null">
+            and g.prescription_drug = #{prescriptionDrug}
+        </if>
+        <if test="otcType != null">
+            and g.otc_type = #{otcType}
+        </if>
+        <if test="managementScopeId != null">
+            and g.management_scope_id = #{managementScopeId}
+        </if>
+        <if test="specialDrug != null">
+            and g.special_drug = #{specialDrug}
+        </if>
+        <if test="inChargeDrug != null">
+            and g.in_charge_drug = #{inChargeDrug}
+        </if>
+        <if test="spiritDrugType != null">
+            and g.spirit_drug_type = #{spiritDrugType}
+        </if>
+        <if test="formulationType != null">
+            and g.formulation_type = #{formulationType}
+        </if>
+        <choose>
+            <when test="order != null and sort != null">
+                order by d.${order} ${sort}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

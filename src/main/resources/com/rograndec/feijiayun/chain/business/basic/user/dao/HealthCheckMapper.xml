@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.user.dao.HealthCheckMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.user.entity.HealthCheck">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="plan_man_id" jdbcType="BIGINT" property="planManId" />
+            <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+            <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="plan_man_code" jdbcType="VARCHAR" property="planManCode" />
+    <result column="plan_man_name" jdbcType="VARCHAR" property="planManName" />
+    <result column="plan_year" jdbcType="INTEGER" property="planYear" />
+    <result column="check_type" jdbcType="INTEGER" property="checkType" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="check_org" jdbcType="VARCHAR" property="checkOrg" />
+    <result column="check_place" jdbcType="VARCHAR" property="checkPlace" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+    <resultMap id="selectList" type="com.rograndec.feijiayun.chain.business.basic.user.vo.HealthCheckVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+    <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="plan_man_id" jdbcType="BIGINT" property="planManId" />
+    <result column="plan_man_code" jdbcType="VARCHAR" property="planManCode" />
+    <result column="plan_man_name" jdbcType="VARCHAR" property="planManName" />
+    <result column="plan_year" jdbcType="INTEGER" property="planYear" />
+    <result column="check_type" jdbcType="INTEGER" property="checkType" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="check_org" jdbcType="VARCHAR" property="checkOrg" />
+    <result column="check_place" jdbcType="VARCHAR" property="checkPlace" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status_desc" jdbcType="VARCHAR" property="statusDesc" />
+    <result column="check_type_desc" jdbcType="VARCHAR" property="checkTypeDesc" />
+    
+  </resultMap>
+   <resultMap id="HealthCheckVO" type="com.rograndec.feijiayun.chain.business.basic.user.vo.HealthCheckVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+                <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+                <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="plan_man_id" jdbcType="BIGINT" property="planManId" />
+    <result column="plan_man_code" jdbcType="VARCHAR" property="planManCode" />
+    <result column="plan_man_name" jdbcType="VARCHAR" property="planManName" />
+    <result column="plan_year" jdbcType="INTEGER" property="planYear" />
+    <result column="check_type" jdbcType="INTEGER" property="checkType" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="check_org" jdbcType="VARCHAR" property="checkOrg" />
+    <result column="check_place" jdbcType="VARCHAR" property="checkPlace" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <collection property="healthCheckDetailVOList" ofType="com.rograndec.feijiayun.chain.business.basic.user.vo.HealthCheckDetailVO">
+      <id column="detail_id" jdbcType="BIGINT" property="id" />
+      <result column="detail_check_id" jdbcType="BIGINT" property="checkId" />
+      <result column="detail_user_id" jdbcType="BIGINT" property="userId" />
+      <result column="detail_user_code" jdbcType="VARCHAR" property="userCode" />
+      <result column="detail_user_name" jdbcType="VARCHAR" property="userName" />
+      
+      <result column="detail_dept_name" jdbcType="VARCHAR" property="deptName" />
+      <result column="detail_position_name" jdbcType="VARCHAR" property="positionName" />
+      <result column="detail_sex" jdbcType="VARCHAR" property="sex" />
+      <result column="detail_birth_date" jdbcType="TIMESTAMP" property="birthDate" />
+      <result column="detail_induction_time" jdbcType="TIMESTAMP" property="inductionTime" />
+      <result column="detail_file_name" jdbcType="VARCHAR" property="fileName" />
+      
+      <result column="detail_check_date" jdbcType="TIMESTAMP" property="checkDate" />
+      <result column="detail_check_result" jdbcType="VARCHAR" property="checkResult" />
+      <result column="detail_measures" jdbcType="VARCHAR" property="measures" />
+      <result column="detail_file_id" jdbcType="BIGINT" property="fileId" />
+      <result column="detail_remark" jdbcType="VARCHAR" property="remark" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id,enterprise_code,enterprise_name,code,order_type, plan_date, plan_man_id, plan_man_code, plan_man_name, 
+    plan_year, check_type, start_date, end_date, check_org, check_place, status, remark, 
+    creater_id, creater_code, creater_name, create_time, modifier_id, modifier_code, 
+    modifier_name, update_time
+  </sql>
+  <select id="selectById" parameterType="java.lang.Long" resultMap="HealthCheckVO">
+    select 
+    ck.id, ck.enterprise_id, ck.parent_id,ck.code,ck.enterprise_code,ck.enterprise_name,ck.order_type, ck.plan_date, ck.plan_man_id, ck.plan_man_code, ck.plan_man_name, 
+    ck.plan_year, ck.check_type, ck.start_date, ck.end_date, ck.check_org, ck.check_place, ck.status, ck.remark, 
+    detail.id as detail_id,detail.check_id as detail_check_id,detail.user_id as detail_user_id,detail.user_code as detail_user_code,
+    detail.user_name as detail_user_name,detail.check_date as detail_check_date,detail.check_result as detail_check_result,
+    detail.measures as detail_measures,detail.file_id as detail_file_id,detail.remark as detail_remark,
+    person.birth_date as detail_birth_date,
+    admin.induction_time as detail_induction_time,
+    file.file_name as detail_file_name
+    from saas_health_check ck
+    LEFT JOIN saas_health_check_detail detail ON detail.check_id = ck.id
+    LEFT JOIN saas_user user ON detail.user_id=user.id
+	LEFT JOIN saas_user_administration admin ON admin.user_id = user.id
+    LEFT JOIN saas_user_personal person ON person.user_id = user.id
+    LEFT JOIN saas_file file ON file.id=detail.file_id
+    where ck.id =#{id,jdbcType=BIGINT}
+    </select>
+     <select id="selectList" parameterType="java.util.Map" resultMap="selectList">
+    select
+    id,code,enterprise_code,enterprise_name,plan_date, plan_man_id, plan_man_code, plan_man_name, 
+    plan_year, check_type, start_date, end_date, check_org, check_place, status, remark, 
+    case
+    when check_type = 0 then '岗前检查'
+    when check_type = 1 then '年度检查'
+    else  '其他'  
+    end
+    as check_type_desc,
+    case
+    when status = 0 then '待培训'
+    when status = 1 then '已培训'
+    else  '其他'  
+    end
+    as status_desc
+    from saas_health_check
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+    <if test="code != null and code!=''"> 
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="planYear != null and planYear!=''">
+    	and plan_year = #{planYear,jdbcType=VARCHAR}
+    </if>
+     <if test="checkType != null and checkType!=''">
+    	and check_type = #{checkType,jdbcType=VARCHAR}
+    </if>
+    <if test="planManName != null and planManName!=''">
+    	and plan_man_name = #{planManName,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate!=''" > 
+	    and plan_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate!=''" > 
+	    and plan_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+	<choose>
+        <when test="sortField != null and sortField!='' and sort != null and sort!=''">
+             order by ${sortField}  ${sort}
+        </when>
+        <otherwise>
+            order by create_time desc
+        </otherwise>
+    </choose>
+	    limit ${pageNo},${pageSize}
+  </select>
+  
+   <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_health_check
+    where enterprise_id = #{enterpriseId,jdbcType=BIGINT}
+     <if test="code != null and code!=''">
+        and code = #{code,jdbcType=VARCHAR}
+    </if>
+      <if test="planYear != null and planYear!=''">
+    	and plan_year = #{planYear,jdbcType=VARCHAR}
+    </if>
+    <if test="planManName != null and planManName!=''">
+    	and plan_man_name = #{planManName,jdbcType=VARCHAR}
+    </if>
+      <if test="checkType != null and checkType!=''">
+    	and check_type = #{checkType,jdbcType=VARCHAR}
+    </if>
+	<if test="startDate != null and startDate!=''" > 
+	    and plan_date &gt;=  #{startDate,jdbcType=TIMESTAMP}
+	</if>
+	<if test="endDate != null and endDate!=''" > 
+	    and plan_date &lt;=  #{endDate,jdbcType=TIMESTAMP}
+	</if>
+  </select>
+  <select id="selectUserMessage"  resultType="com.rograndec.feijiayun.chain.business.basic.user.vo.HealthCheckUserVO">
+   SELECT
+	  USER .id AS userId,
+	  USER . CODE AS userCode,
+	  USER . NAME AS userName,
+	  person.sex AS sex,
+	  person.birth_date AS birthDate,
+	  admin.induction_time AS inductionTime
+   FROM
+	  saas_user USER,
+	  saas_user_dept deptUser,
+	  saas_user_administration admin,
+	  saas_user_personal person
+   WHERE
+	  USER .enterprise_id = #{enterpriseId}
+      AND deptUser.user_id = USER .id
+      AND admin.user_id = USER .id
+      AND person.user_id = USER .id
+   GROUP BY
+	USER .id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_health_check
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_health_check
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.HealthCheck" keyProperty="id" useGeneratedKeys="true">
+    insert into saas_health_check (id, enterprise_id, parent_id, code, enterprise_code,enterprise_name,order_type,
+      plan_date, plan_man_id, plan_man_code, 
+      plan_man_name, plan_year, check_type, 
+      start_date, end_date, check_org, 
+      check_place, status, remark, 
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT},#{parentId,jdbcType=BIGINT},
+      #{code,jdbcType=VARCHAR}, #{enterpriseCode,jdbcType=VARCHAR}, #{enterpriseName,jdbcType=VARCHAR},#{orderType,jdbcType=INTEGER},
+      #{planDate,jdbcType=TIMESTAMP}, #{planManId,jdbcType=BIGINT}, #{planManCode,jdbcType=VARCHAR}, 
+      #{planManName,jdbcType=VARCHAR}, #{planYear,jdbcType=INTEGER}, #{checkType,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, #{checkOrg,jdbcType=VARCHAR}, 
+      #{checkPlace,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.HealthCheck">
+    insert into saas_health_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+       <if test="code != null">
+        code,
+      </if>
+      <if test="enterpriseCode != null">
+        enterprise_code,
+      </if>
+      <if test="enterpriseName != null">
+        enterprise_name,
+      </if>
+       <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="planDate != null">
+        plan_date,
+      </if>
+      <if test="planManId != null">
+        plan_man_id,
+      </if>
+      <if test="planManCode != null">
+        plan_man_code,
+      </if>
+      <if test="planManName != null">
+        plan_man_name,
+      </if>
+      <if test="planYear != null">
+        plan_year,
+      </if>
+      <if test="checkType != null">
+        check_type,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="checkOrg != null">
+        check_org,
+      </if>
+      <if test="checkPlace != null">
+        check_place,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+       <if test="enterpriseCode != null">
+            #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+           #{enterpriseName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{order_type,jdbcType=INTEGER},
+      </if>
+      <if test="planDate != null">
+        #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planManId != null">
+        #{planManId,jdbcType=BIGINT},
+      </if>
+      <if test="planManCode != null">
+        #{planManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planManName != null">
+        #{planManName,jdbcType=VARCHAR},
+      </if>
+      <if test="planYear != null">
+        #{planYear,jdbcType=INTEGER},
+      </if>
+      <if test="checkType != null">
+        #{checkType,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOrg != null">
+        #{checkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPlace != null">
+        #{checkPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.HealthCheck">
+    update saas_health_check
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+        <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+         <if test="enterpriseCode != null">
+          enterprise_code=  #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseName != null">
+          enterprise_name=#{enterpriseName,jdbcType=VARCHAR},
+      </if>
+        <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="planDate != null">
+        plan_date = #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planManId != null">
+        plan_man_id = #{planManId,jdbcType=BIGINT},
+      </if>
+      <if test="planManCode != null">
+        plan_man_code = #{planManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planManName != null">
+        plan_man_name = #{planManName,jdbcType=VARCHAR},
+      </if>
+      <if test="planYear != null">
+        plan_year = #{planYear,jdbcType=INTEGER},
+      </if>
+      <if test="checkType != null">
+        check_type = #{checkType,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkOrg != null">
+        check_org = #{checkOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPlace != null">
+        check_place = #{checkPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.user.entity.HealthCheck">
+    update saas_health_check
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+           enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+                enterprise_name = #{enterpriseName,jdbcType=VARCHAR},
+      order_type = #{order_type,jdbcType=INTEGER},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
+      plan_man_id = #{planManId,jdbcType=BIGINT},
+      plan_man_code = #{planManCode,jdbcType=VARCHAR},
+      plan_man_name = #{planManName,jdbcType=VARCHAR},
+      plan_year = #{planYear,jdbcType=INTEGER},
+      check_type = #{checkType,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      check_org = #{checkOrg,jdbcType=VARCHAR},
+      check_place = #{checkPlace,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getHealthCheckReportList" resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.ResponseHealthCheckVO">
+	 SELECT hc.`id`,en.`id` AS enterpriseId,en.`code` AS enterpriseCode,en.`name` AS enterpriseName,hc.`code`,
+		 hc.`plan_date` AS planDate,hc.`plan_man_name`AS planManName,hc.`plan_year` AS planYear,hc.`check_type` AS checkType,
+		 hc.`start_date` AS startDate,hc.`end_date` AS endDate,hc.`check_org` AS checkOrg,hc.`check_place` AS checkPlace,
+	  CASE
+	    WHEN hc.`check_type` = 0
+	    THEN '岗前检查'
+	    WHEN hc.`check_type` = 1
+	    THEN '年度检查'
+	    ELSE
+	    hc.`check_type`
+	    END AS checkTypeName
+	 FROM `saas_health_check` hc
+	 LEFT JOIN `saas_health_check_detail` hcd ON hcd.`check_id`=hc.`id`
+	 LEFT JOIN `saas_enterprise` en ON hc.`enterprise_id`=en.`id`
+	 WHERE 1=1
+	 AND (hc.`enterprise_id`=#{enterpriseId} OR hc.`parent_id`=#{enterpriseId})
+	 AND (hcd.id IS NOT NULL)
+	 
+	 <if test="chainType!=null">
+	 AND en.chain_type=#{chainType}
+	 </if>
+	 <if test="enterpriseCode!=null and enterpriseCode!=''">
+	 AND en.`code`=#{enterpriseCode}
+	 </if>
+	 <if test="enterpriseName !=null and enterpriseName!=''">
+ 	 AND en.`name`like concat('%', #{enterpriseName},'%')
+	 </if>
+	 
+	 <if test="startTime!=nul and endTime!=null">
+	 AND( hc.`plan_date` BETWEEN #{startTime} AND #{endTime})
+	 </if>
+	 
+	 <if test="code!=null and code!='' ">
+	 AND hc.`code`=#{code}
+	 </if>
+	 <if test="planManName!=null and planManName!='' ">
+	 AND hc.`plan_man_name`=#{planManName} 
+	 </if>
+	 <if test="planYear!=null and planYear!='' ">
+	 AND hc.`plan_year`=#{planYear}
+	 </if>
+	 <if test="checkType!=null">
+	 AND hc.`check_type`=#{checkType}
+	 </if>
+	 
+	 GROUP BY hc.`id`
+	 
+	 <if test="enterpriseCodeOrder==0 and planDateOrder==0">
+         ORDER BY en.`code` DESC,hc.`plan_date` DESC
+     </if>
+     <if test="enterpriseCodeOrder==1 and planDateOrder==0">
+         ORDER BY en.`code`,hc.`plan_date` DESC
+     </if>
+     <if test="enterpriseCodeOrder==0 and planDateOrder==1">
+         ORDER BY en.`code` DESC,hc.`plan_date` DESC
+     </if>
+     <if test="enterpriseCodeOrder==1 and planDateOrder==1">
+         ORDER BY en.`code` ,hc.`plan_date`
+     </if>
+	 
+	 LIMIT #{start},#{pageSize}
+  </select>
+  
+  <select id="getHealthCheckReportListTotalNum" resultType="java.lang.Integer">
+  	 SELECT COUNT(DISTINCT(hc.`id`))
+	 FROM `saas_health_check` hc
+	 LEFT JOIN `saas_health_check_detail` hcd ON hcd.`check_id`=hc.`id`
+	 LEFT JOIN `saas_enterprise` en ON hc.`enterprise_id`=en.`id`
+	 WHERE 1=1
+	 AND (hc.`enterprise_id`=#{enterpriseId} OR hc.`parent_id`=#{enterpriseId})
+	 AND (hcd.id IS NOT NULL)
+	 
+	 <if test="chainType!=null">
+	 AND en.chain_type=#{chainType}
+	 </if>
+	 <if test="enterpriseCode!=null and enterpriseCode!=''">
+	 AND en.`code`=#{enterpriseCode}
+	 </if>
+	 <if test="enterpriseName !=null and enterpriseName!=''">
+ 	 AND en.`name`like concat('%', #{enterpriseName},'%')
+	 </if>
+	 
+	 <if test="startTime!=nul and endTime!=null">
+	 AND( hc.`plan_date` BETWEEN #{startTime} AND #{endTime})
+	 </if>
+	 
+	 <if test="code!=null and code!='' ">
+	 AND hc.`code`=#{code}
+	 </if>
+	 <if test="planManName!=null and planManName!='' ">
+	 AND hc.`plan_man_name`=#{planManName} 
+	 </if>
+	 <if test="planYear!=null and planYear!=''">
+	 AND hc.`plan_year`=#{planYear}
+	 </if>
+	 <if test="checkType!=null">
+	 AND hc.`check_type`=#{checkType}
+	 </if>
+  </select>
+  
+  <select id="getHealthCheckReportDetlList" resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.ResponseHealthCheckDetailVO">
+    SELECT detail.`id`,detail.`user_id` AS userId,detail.`user_code` AS userCode,detail.`user_name` AS userName,
+	GROUP_CONCAT(DISTINCT department.`name`) AS deptNames,GROUP_CONCAT(DISTINCT posit.name) AS positionNames,
+	per.`sex`,per.`birth_date` AS birthDate,ad.`induction_time` AS inductionTime,detail.`check_date` AS checkDate,
+	detail.`check_result` AS checkResult,detail.`measures` AS measures,detail.`file_id` AS fileId,IFNULL(f.`file_name`,'') AS fileName,
+	 CASE
+	    WHEN per.`sex` = 0
+	    THEN '男'
+	    WHEN per.`sex` = 1
+	    THEN '女'
+	    WHEN per.`sex` = 2
+	    THEN '其它'
+	    ELSE
+	    per.`sex`
+	    END AS sexName
+	FROM `saas_health_check_detail` detail
+	LEFT JOIN `saas_user_dept` dept ON dept.`user_id`=detail.`user_id`
+	LEFT JOIN `saas_department` department ON department.id=dept.`dept_id`
+	LEFT JOIN `saas_user_position` pos ON pos.`user_id`=detail.`user_id`
+	LEFT JOIN `saas_position` posit ON posit.id=pos.`position_id`
+	LEFT JOIN `saas_user_personal` per ON per.user_id=detail.`user_id`
+	LEFT JOIN `saas_user_administration` ad ON ad.`user_id`=detail.`user_id`
+	LEFT JOIN `saas_file` f ON f.`id`=detail.`file_id`
+	WHERE 1=1
+	AND (detail.`enterprise_id`=#{enterpriseId} OR detail.`parent_id`=#{enterpriseId})
+	AND detail.`check_id`=#{id}
+	GROUP BY detail.`id`
+	
+	<if test="start!=null and pageSize!=null">
+	LIMIT #{start},#{pageSize}
+	</if>
+	
+  </select>
+  
+  <select id="getHealthCheckReportDetlListTotalNum"  resultType="java.lang.Integer">
+    SELECT COUNT(detail.`id`)
+	FROM `saas_health_check_detail` detail
+	WHERE 1=1
+	AND (detail.`enterprise_id`=#{enterpriseId} OR detail.`parent_id`=#{enterpriseId})
+	AND detail.`check_id`=#{id}
+  </select>
+  
+  <select id="getHealthCheckReportById" resultType="com.rograndec.feijiayun.chain.business.report.quality.user.vo.ResponseHealthCheckVO">
+   SELECT hc.`id`,en.`id` AS enterpriseId,en.`code` AS enterpriseCode,en.`name` AS enterpriseName,hc.`code`,
+		 hc.`plan_date` AS planDate,hc.`plan_man_name`AS planManName,hc.`plan_year` AS planYear,hc.`check_type` AS checkType,
+		 hc.`start_date` AS startDate,hc.`end_date` AS endDate,hc.`check_org` AS checkOrg,hc.`check_place` AS checkPlace,
+	  CASE
+	    WHEN hc.`check_type` = 0
+	    THEN '岗前检查'
+	    WHEN hc.`check_type` = 1
+	    THEN '年度检查'
+	    ELSE
+	    hc.`check_type`
+	    END AS checkTypeName
+	 FROM `saas_health_check` hc
+	
+	 LEFT JOIN `saas_enterprise` en ON hc.`enterprise_id`=en.`id`
+	 WHERE 1=1
+	 AND hc.`id`=#{id}
+  </select>
+  
+</mapper>

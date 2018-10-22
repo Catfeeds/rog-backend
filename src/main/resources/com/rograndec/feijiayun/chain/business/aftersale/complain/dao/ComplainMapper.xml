@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.aftersale.complain.dao.ComplainMapper">
+    <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.aftersale.complain.entity.Complain">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="order_type" jdbcType="INTEGER" property="orderType"/>
+        <result column="complain_date" jdbcType="TIMESTAMP" property="complainDate"/>
+        <result column="accept_man_id" jdbcType="BIGINT" property="acceptManId"/>
+        <result column="accept_man_code" jdbcType="VARCHAR" property="acceptManCode"/>
+        <result column="accept_man_name" jdbcType="VARCHAR" property="acceptManName"/>
+        <result column="channel" jdbcType="INTEGER" property="channel"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="opinion" jdbcType="VARCHAR" property="opinion"/>
+        <result column="investigate_estimate" jdbcType="VARCHAR" property="investigateEstimate"/>
+        <result column="investigate_time" jdbcType="TIMESTAMP" property="investigateTime"/>
+        <result column="investigate_man_name" jdbcType="VARCHAR" property="investigateManName"/>
+        <result column="estimate_time" jdbcType="TIMESTAMP" property="estimateTime"/>
+        <result column="estimate_man_name" jdbcType="VARCHAR" property="estimateManName"/>
+        <result column="handle_measures" jdbcType="VARCHAR" property="handleMeasures"/>
+        <result column="handle_time" jdbcType="TIMESTAMP" property="handleTime"/>
+        <result column="handle_man_name" jdbcType="VARCHAR" property="handleManName"/>
+        <result column="feedback_follow" jdbcType="VARCHAR" property="feedbackFollow"/>
+        <result column="feedback_date" jdbcType="TIMESTAMP" property="feedbackDate"/>
+        <result column="feedback_man_name" jdbcType="VARCHAR" property="feedbackManName"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="creater_id" jdbcType="BIGINT" property="createrId"/>
+        <result column="creater_code" jdbcType="VARCHAR" property="createrCode"/>
+        <result column="creater_name" jdbcType="VARCHAR" property="createrName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modifier_id" jdbcType="BIGINT" property="modifierId"/>
+        <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode"/>
+        <result column="modifier_name" jdbcType="VARCHAR" property="modifierName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap type="com.rograndec.feijiayun.chain.business.aftersale.complain.vo.GetGoodsVO" id="SelectGoodsMap">
+        <id property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="genericName" column="generic_name"/>
+        <result property="dosageName" column="dosage_name"/>
+        <result property="dosageId" column="dosage_id"/>
+        <result property="specification" column="specification"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="manufacturerId" column="manufacturer_id"/>
+        <result property="unitName" column="unit_name"/>
+        <result property="unitId" column="unit_id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, order_type, complain_date, accept_man_id, accept_man_code, 
+    accept_man_name, channel, name, sex, age, mobile_phone, telephone, email, company, 
+    address, goods_id, content, opinion, investigate_estimate, investigate_time, investigate_man_name, 
+    estimate_time, estimate_man_name, handle_measures, handle_time, handle_man_name, 
+    feedback_follow, feedback_date, feedback_man_name, status, remark, creater_id, creater_code, 
+    creater_name, create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from saas_complain
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_complain
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.aftersale.complain.entity.Complain" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_complain (id, enterprise_id, parent_id, 
+      code, order_type, complain_date, 
+      accept_man_id, accept_man_code, accept_man_name, 
+      channel, name, sex, 
+      age, mobile_phone, telephone, 
+      email, company, address, 
+      goods_id, content, opinion, 
+      investigate_estimate, investigate_time, 
+      investigate_man_name, estimate_time, estimate_man_name, 
+      handle_measures, handle_time, handle_man_name, 
+      feedback_follow, feedback_date, feedback_man_name, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, #{complainDate,jdbcType=TIMESTAMP}, 
+      #{acceptManId,jdbcType=BIGINT}, #{acceptManCode,jdbcType=VARCHAR}, #{acceptManName,jdbcType=VARCHAR}, 
+      #{channel,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{age,jdbcType=INTEGER}, #{mobilePhone,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{opinion,jdbcType=VARCHAR}, 
+      #{investigateEstimate,jdbcType=VARCHAR}, #{investigateTime,jdbcType=TIMESTAMP}, 
+      #{investigateManName,jdbcType=VARCHAR}, #{estimateTime,jdbcType=TIMESTAMP}, #{estimateManName,jdbcType=VARCHAR}, 
+      #{handleMeasures,jdbcType=VARCHAR}, #{handleTime,jdbcType=TIMESTAMP}, #{handleManName,jdbcType=VARCHAR}, 
+      #{feedbackFollow,jdbcType=VARCHAR}, #{feedbackDate,jdbcType=TIMESTAMP}, #{feedbackManName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective"
+            parameterType="com.rograndec.feijiayun.chain.business.aftersale.complain.entity.Complain" useGeneratedKeys="true" keyProperty="id">
+        insert into saas_complain
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="orderType != null">
+                order_type,
+            </if>
+            <if test="complainDate != null">
+                complain_date,
+            </if>
+            <if test="acceptManId != null">
+                accept_man_id,
+            </if>
+            <if test="acceptManCode != null">
+                accept_man_code,
+            </if>
+            <if test="acceptManName != null">
+                accept_man_name,
+            </if>
+            <if test="channel != null">
+                channel,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="mobilePhone != null">
+                mobile_phone,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="opinion != null">
+                opinion,
+            </if>
+            <if test="investigateEstimate != null">
+                investigate_estimate,
+            </if>
+            <if test="investigateTime != null">
+                investigate_time,
+            </if>
+            <if test="investigateManName != null">
+                investigate_man_name,
+            </if>
+            <if test="estimateTime != null">
+                estimate_time,
+            </if>
+            <if test="estimateManName != null">
+                estimate_man_name,
+            </if>
+            <if test="handleMeasures != null">
+                handle_measures,
+            </if>
+            <if test="handleTime != null">
+                handle_time,
+            </if>
+            <if test="handleManName != null">
+                handle_man_name,
+            </if>
+            <if test="feedbackFollow != null">
+                feedback_follow,
+            </if>
+            <if test="feedbackDate != null">
+                feedback_date,
+            </if>
+            <if test="feedbackManName != null">
+                feedback_man_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createrCode != null">
+                creater_code,
+            </if>
+            <if test="createrName != null">
+                creater_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifierId != null">
+                modifier_id,
+            </if>
+            <if test="modifierCode != null">
+                modifier_code,
+            </if>
+            <if test="modifierName != null">
+                modifier_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="complainDate != null">
+                #{complainDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="acceptManId != null">
+                #{acceptManId,jdbcType=BIGINT},
+            </if>
+            <if test="acceptManCode != null">
+                #{acceptManCode,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptManName != null">
+                #{acceptManName,jdbcType=VARCHAR},
+            </if>
+            <if test="channel != null">
+                #{channel,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="mobilePhone != null">
+                #{mobilePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="opinion != null">
+                #{opinion,jdbcType=VARCHAR},
+            </if>
+            <if test="investigateEstimate != null">
+                #{investigateEstimate,jdbcType=VARCHAR},
+            </if>
+            <if test="investigateTime != null">
+                #{investigateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="investigateManName != null">
+                #{investigateManName,jdbcType=VARCHAR},
+            </if>
+            <if test="estimateTime != null">
+                #{estimateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="estimateManName != null">
+                #{estimateManName,jdbcType=VARCHAR},
+            </if>
+            <if test="handleMeasures != null">
+                #{handleMeasures,jdbcType=VARCHAR},
+            </if>
+            <if test="handleTime != null">
+                #{handleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="handleManName != null">
+                #{handleManName,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackFollow != null">
+                #{feedbackFollow,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackDate != null">
+                #{feedbackDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feedbackManName != null">
+                #{feedbackManName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.rograndec.feijiayun.chain.business.aftersale.complain.entity.Complain">
+        update saas_complain
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="orderType != null">
+                order_type = #{orderType,jdbcType=INTEGER},
+            </if>
+            <if test="complainDate != null">
+                complain_date = #{complainDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="acceptManId != null">
+                accept_man_id = #{acceptManId,jdbcType=BIGINT},
+            </if>
+            <if test="acceptManCode != null">
+                accept_man_code = #{acceptManCode,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptManName != null">
+                accept_man_name = #{acceptManName,jdbcType=VARCHAR},
+            </if>
+            <if test="channel != null">
+                channel = #{channel,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="mobilePhone != null">
+                mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="opinion != null">
+                opinion = #{opinion,jdbcType=VARCHAR},
+            </if>
+            <if test="investigateEstimate != null">
+                investigate_estimate = #{investigateEstimate,jdbcType=VARCHAR},
+            </if>
+            <if test="investigateTime != null">
+                investigate_time = #{investigateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="investigateManName != null">
+                investigate_man_name = #{investigateManName,jdbcType=VARCHAR},
+            </if>
+            <if test="estimateTime != null">
+                estimate_time = #{estimateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="estimateManName != null">
+                estimate_man_name = #{estimateManName,jdbcType=VARCHAR},
+            </if>
+            <if test="handleMeasures != null">
+                handle_measures = #{handleMeasures,jdbcType=VARCHAR},
+            </if>
+            <if test="handleTime != null">
+                handle_time = #{handleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="handleManName != null">
+                handle_man_name = #{handleManName,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackFollow != null">
+                feedback_follow = #{feedbackFollow,jdbcType=VARCHAR},
+            </if>
+            <if test="feedbackDate != null">
+                feedback_date = #{feedbackDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="feedbackManName != null">
+                feedback_man_name = #{feedbackManName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=BIGINT},
+            </if>
+            <if test="createrCode != null">
+                creater_code = #{createrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifierId != null">
+                modifier_id = #{modifierId,jdbcType=BIGINT},
+            </if>
+            <if test="modifierCode != null">
+                modifier_code = #{modifierCode,jdbcType=VARCHAR},
+            </if>
+            <if test="modifierName != null">
+                modifier_name = #{modifierName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.rograndec.feijiayun.chain.business.aftersale.complain.entity.Complain">
+    update saas_complain
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      complain_date = #{complainDate,jdbcType=TIMESTAMP},
+      accept_man_id = #{acceptManId,jdbcType=BIGINT},
+      accept_man_code = #{acceptManCode,jdbcType=VARCHAR},
+      accept_man_name = #{acceptManName,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      opinion = #{opinion,jdbcType=VARCHAR},
+      investigate_estimate = #{investigateEstimate,jdbcType=VARCHAR},
+      investigate_time = #{investigateTime,jdbcType=TIMESTAMP},
+      investigate_man_name = #{investigateManName,jdbcType=VARCHAR},
+      estimate_time = #{estimateTime,jdbcType=TIMESTAMP},
+      estimate_man_name = #{estimateManName,jdbcType=VARCHAR},
+      handle_measures = #{handleMeasures,jdbcType=VARCHAR},
+      handle_time = #{handleTime,jdbcType=TIMESTAMP},
+      handle_man_name = #{handleManName,jdbcType=VARCHAR},
+      feedback_follow = #{feedbackFollow,jdbcType=VARCHAR},
+      feedback_date = #{feedbackDate,jdbcType=TIMESTAMP},
+      feedback_man_name = #{feedbackManName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="queryCountByComplainPageParams" resultType="java.lang.Long">
+    select
+    count(1)
+    from saas_complain
+    where enterprise_id = #{enterpriseId}
+  </select>
+    <select id="selectByComplainPageParams"
+            resultType="com.rograndec.feijiayun.chain.business.aftersale.complain.vo.ComplainPageVO">
+        select
+        id,
+        complain_date AS complainDate,
+        code,
+        accept_man_name AS acceptManName,
+        channel,
+        name,
+        content
+        from saas_complain
+        where enterprise_id = #{enterpriseId}
+        <if test="startTimes != null and endTimes != null">
+            and complain_date between #{startTimes} and #{endTimes}
+        </if>
+        <if test="code != null and code != ''">
+            AND INSTR( code , #{code})
+        </if>
+        <if test="acceptManName != null and acceptManName != ''">
+            AND INSTR( accept_man_name , #{acceptManName})
+        </if>
+        <if test="name != null and name != ''">
+            AND INSTR( name , #{name})
+        </if>
+        <if test="orderName != null and orderType!=null">
+            ORDER BY ${orderName} ${orderType}
+        </if>
+        ORDER BY complain_date desc
+        limit #{start},#{pageSize}
+    </select>
+    <select id="selectByComplainId"
+            resultType="com.rograndec.feijiayun.chain.business.aftersale.complain.vo.CheckComplainVO">
+        SELECT
+        id,
+	code,
+	order_type AS orderType,
+	complain_date AS complainDate,
+	accept_man_id AS acceptManId,
+	accept_man_code as acceptManCode,
+	accept_man_name AS acceptManName,
+	channel,
+	name,
+	sex,
+	age,
+	mobile_phone AS mobilePhone,
+	telephone,
+	email,
+	company,
+	address,
+	goods_id AS goodsId,
+	content,
+	opinion,
+	investigate_estimate AS investigateEstimate,
+	investigate_time AS investigateTime,
+	investigate_man_name AS investigateManName,
+	estimate_time AS estimateTime,
+	estimate_man_name AS estimateManName,
+	handle_measures AS handleMeasures,
+	handle_time AS handleTime,
+	handle_man_name AS  handleManName,
+	feedback_follow AS feedbackFollow,
+	feedback_date AS  feedbackDate,
+	feedback_man_name AS feedbackManName,
+	status,
+	remark
+        FROM saas_complain
+        where enterprise_id = #{enterpriseId}
+        AND id = #{id}
+    </select>
+    <select id="selectGoodsVoByParams" resultMap="SelectGoodsMap">
+        select
+        id,code,generic_name,dosage_name,dosage_id,specification,manufacturer,manufacturer_id,unit_name,unit_id
+        from saas_goods
+        where
+        <choose>
+            <when test="divisionId != null">
+                    enterprise_id = #{enterpriseId}
+                    and owner_id in ( #{divisionId},#{enterpriseId})
+            </when>
+            <otherwise>
+                    enterprise_id = #{enterpriseId} and owner_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <if test="param != null and param != ''">
+            AND (
+            INSTR(code ,#{param})
+            OR INSTR(barcode ,#{param})
+            OR INSTR(pinyin_code ,#{param})
+            OR INSTR(name ,#{param})
+            OR INSTR(generic_name ,#{param})
+            OR INSTR(approval_number ,#{param})
+            )
+        </if>
+        limit 100
+    </select>
+
+    <select id="selectReportPage"
+            resultType="com.rograndec.feijiayun.chain.business.aftersale.complain.vo.ComplainPageVO">
+
+        select enterprise.`code` as enterpriseCode, enterprise.`name` as enterpriseName,
+        complain.id,complain.name,
+        complain.complain_date AS complainDate,
+        complain.code,
+        complain.accept_man_name AS acceptManName,
+        complain.channel,
+        complain.content
+        from saas_complain  complain
+        join saas_enterprise enterprise on complain.enterprise_id = enterprise.id
+        <include refid="reportWhereSql"></include>
+        <if test="pageStart != null">
+            limit #{pageStart},#{pageSize}
+        </if>
+    </select>
+    <select id="selectReportPageCount" resultType="java.lang.Integer">
+
+        select
+          count(*)
+        from saas_complain  complain
+        join saas_enterprise enterprise on complain.enterprise_id = enterprise.id
+        <include refid="reportWhereSql"></include>
+    </select>
+
+    <sql id="reportWhereSql">
+        <where>
+            1= 1
+            <choose>
+                <when test="type == 1">
+                    and (complain.enterprise_id = #{enterpriseId} OR complain.parent_id = #{enterpriseId})
+                </when>
+                <otherwise>
+                    and complain.enterprise_id = #{enterpriseId}
+                </otherwise>
+            </choose>
+            <if test="enterpriseCode != null and enterpriseCode!= ''">
+
+                and enterprise.code = #{enterpriseCode}
+            </if>
+            <if test="chainType != null">
+                and enterprise.chain_type = #{chainType}
+            </if>
+            <if test="enterpriseName != null and enterpriseName != ''">
+
+                and INSTR(enterprise.name , #{enterpriseName})
+            </if>
+
+            <if test="code != null and code != ''">
+                AND complain.code  = #{code}
+            </if>
+
+            <if test="channel != null ">
+                and complain.channel = #{channel}
+            </if>
+            <if test="acceptManName != null and acceptManName != ''">
+                AND  complain.accept_man_name = #{acceptManName}
+            </if>
+            <if test="name != null and name != ''">
+                AND  complain.name  =  #{name}
+            </if>
+            <if test="start != null and end != null">
+                and complain.complain_date between #{start} and #{end}
+            </if>
+            <if test="order != null and order !='' and sort!=null and sort != ''">
+                ORDER BY complain.${order} ${sort}
+            </if>
+
+            <if test="sort == null  and order == null ">
+                ORDER BY complain.id desc
+            </if>
+
+        </where>
+    </sql>
+</mapper>

@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.goods.price.dao.PriceOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="price_order_id" jdbcType="BIGINT" property="priceOrderId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="distr_price" jdbcType="DECIMAL" property="distrPrice" />
+    <result column="distr_tax_rate" jdbcType="DECIMAL" property="distrTaxRate" />
+    <result column="distr_tax_rate_id" jdbcType="BIGINT" property="distrTaxRateId" />
+    <result column="notax_distr_price" jdbcType="DECIMAL" property="notaxDistrPrice" />
+    <result column="retail_price" jdbcType="DECIMAL" property="retailPrice" />
+    <result column="member_price" jdbcType="DECIMAL" property="memberPrice" />
+    <result column="sale_tax_rate" jdbcType="DECIMAL" property="saleTaxRate" />
+    <result column="sale_tax_rate_id" jdbcType="BIGINT" property="saleTaxRateId" />
+    <result column="notax_retail_price" jdbcType="DECIMAL" property="notaxRetailPrice" />
+    <result column="notax_member_price" jdbcType="DECIMAL" property="notaxMemberPrice" />
+
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="pur_tax_rate" jdbcType="DECIMAL" property="purTaxRate" />
+    <result column="pur_tax_rate_id" jdbcType="BIGINT" property="purTaxRateId" />
+    <result column="pur_price" jdbcType="DECIMAL" property="purPrice" />
+
+    <result column="in_tax_rate" jdbcType="DECIMAL" property="inTaxRate" />
+    <result column="in_tax_rate_id" jdbcType="BIGINT" property="inTaxRateId" />
+    <result column="in_price" jdbcType="DECIMAL" property="inPrice" />
+
+
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, price_order_id, enterprise_id, parent_id, goods_id, distr_price, distr_tax_rate, distr_tax_rate_id,
+    notax_distr_price, retail_price, member_price, sale_tax_rate,sale_tax_rate_id, notax_retail_price,
+    notax_member_price,
+    supplier_id, pur_tax_rate,pur_tax_rate_id, pur_price, in_tax_rate,in_tax_rate_id, in_price,
+    status, remark, creater_id, creater_code, creater_name, create_time,
+    modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+
+  <sql id="detail_Base_Column_List">
+    detail.id,
+    detail.price_order_id,
+    detail.enterprise_id,
+    detail.parent_id,
+    detail.goods_id,
+    detail.distr_price,
+    detail.distr_tax_rate,
+    detail.distr_tax_rate_id,
+    detail.notax_distr_price,
+    detail.retail_price,
+    detail.member_price,
+    detail.sale_tax_rate,
+    detail.sale_tax_rate_id,
+    detail.notax_retail_price,
+    detail.notax_member_price,
+    detail.supplier_id,
+    detail.pur_tax_rate,
+    detail.pur_tax_rate_id,
+    detail.pur_price,
+    detail.in_tax_rate,
+    detail.in_tax_rate_id,
+    detail.in_price,
+    detail.status,
+    detail.remark,
+    detail.creater_id,
+    detail.creater_code,
+    detail.creater_name,
+    detail.create_time,
+    detail.modifier_id,
+    detail.modifier_code,
+    detail.modifier_name,
+    detail.update_time
+  </sql>
+  
+  <sql id="Rate_Join_Base_Column_List">
+    d.id, d.price_order_id, d.enterprise_id, d.parent_id, d.goods_id, d.distr_price, d.distr_tax_rate, d.distr_tax_rate_id,
+    notax_distr_price, d.retail_price, d.member_price, r.tax_rate as sale_tax_rate, r.id as sale_tax_rate_id, d.notax_retail_price,
+    notax_member_price,
+    supplier_id, d.pur_tax_rate, d.pur_tax_rate_id, d.pur_price, d.in_tax_rate, d.in_tax_rate_id, d.in_price,
+    d.status, d.remark, d.creater_id, d.creater_code, d.creater_name, d.create_time,
+    d.modifier_id, d.modifier_code, d.modifier_name, d.update_time
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByPriceOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from saas_price_order_detail
+  where price_order_id = #{priceOrderId,jdbcType=BIGINT}
+</select>
+
+  <select id="selectByPriceOrderIdCount" parameterType="java.lang.Long" resultType="Integer">
+    select
+    COUNT(*)
+    from saas_price_order_detail
+    where price_order_id = #{priceOrderId,jdbcType=BIGINT}
+  </select>
+
+  <!--selectByPriceOrderIdPage-->
+  <select id="selectByPriceOrderIdPage"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where price_order_id = #{priceOrderId,jdbcType=BIGINT}
+
+    <if test="goodsIdList != null and goodsIdList.size > 0">
+      and goods_id in
+      <foreach collection="goodsIdList" item="item" separator="," close=")" open="(" index="index">
+         #{item}
+      </foreach>
+    </if>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+
+  </select>
+
+  <select id="selectByPriceOrderIdAndParam"  resultMap="BaseResultMap">
+    select
+    <include refid="detail_Base_Column_List" />
+    from saas_price_order_detail detail ,saas_goods goo
+    where detail.price_order_id = #{priceOrderId,jdbcType=BIGINT}
+    and detail.goods_id = goo.id
+    <if test="param != null">
+      and (
+      INSTR(goo.name,#{param})
+      or INSTR(goo.code,#{param})
+      or INSTR(goo.pinyin_code,#{param})
+      or INSTR(goo.approval_number,#{param})
+      or INSTR(goo.barcode,#{param})
+      or INSTR(goo.generic_name,#{param}))
+    </if>
+    <if test="start != null and pageSize != null">
+      limit #{start},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectByPriceOrderIdAndParamCount"  resultType="integer">
+    select
+    count(*)
+    from saas_price_order_detail detail ,saas_goods goo
+    where detail.price_order_id = #{priceOrderId,jdbcType=BIGINT}
+    and detail.goods_id = goo.id
+    <if test="param != null">
+      and (
+      INSTR(goo.name,#{param})
+      or INSTR(goo.code,#{param})
+      or INSTR(goo.pinyin_code,#{param})
+      or INSTR(goo.approval_number,#{param})
+      or INSTR(goo.barcode,#{param})
+      or INSTR(goo.generic_name,#{param}))
+    </if>
+
+  </select>
+
+  <select id="selectByIdAndGoodsIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where id = #{id,jdbcType=BIGINT} AND goods_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectByPriceOrderIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where price_order_id IN
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  
+  <select id="selectByGoodsIdsAndEnterpriseId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where enterprise_id = #{enterpriseId}
+    	and goods_id in 
+		<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+
+  <!--enterprise_id=2 AND parent_id=0 AND price_order_id=38 AND goods_id=12;-->
+  <select id="selectByIndex" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where enterprise_id = #{enterpriseId}
+    AND parent_id = #{parentId}
+    AND price_order_id = #{priceOrderId}
+    and goods_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+
+  <select id="selectByGIdsAndEIdAndSId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_price_order_detail
+    where enterprise_id = #{enterpriseId}
+    and supplier_id = #{supplierId}
+    and goods_id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <select id="selectByGoodsIdAndEnterpriseId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_price_order_detail
+      where enterprise_id = #{enterpriseId}
+      and goods_id = #{goodsId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_price_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByPriceOrderId" parameterType="java.lang.Long">
+    delete from saas_price_order_detail
+    where price_order_id = #{priceOrderId,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail">
+    insert into saas_price_order_detail (id, price_order_id, enterprise_id, 
+      parent_id, goods_id, distr_price, 
+      distr_tax_rate, distr_tax_rate_id, notax_distr_price, retail_price,
+      member_price, sale_tax_rate,sale_tax_rate_id, notax_retail_price,
+      notax_member_price,
+
+      supplier_id, pur_tax_rate,pur_tax_rate_id, pur_price, in_tax_rate,in_tax_rate_id, in_price,
+      status, remark,
+      creater_id, creater_code, creater_name, 
+      create_time, modifier_id, modifier_code, 
+      modifier_name, update_time)
+    values (#{id,jdbcType=BIGINT}, #{priceOrderId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{distrPrice,jdbcType=DECIMAL}, 
+      #{distrTaxRate,jdbcType=DECIMAL}, #{distrTaxRateId,jdbcType=BIGINT}, #{notaxDistrPrice,jdbcType=DECIMAL}, #{retailPrice,jdbcType=DECIMAL},
+      #{memberPrice,jdbcType=DECIMAL}, #{saleTaxRate,jdbcType=DECIMAL}, #{saleTaxRateId,jdbcType=BIGINT}, #{notaxRetailPrice,jdbcType=DECIMAL},
+      #{notaxMemberPrice,jdbcType=DECIMAL},
+
+      #{supplierId,jdbcType=BIGINT},#{purTaxRate,jdbcType=DECIMAL},#{purTaxRateId,jdbcType=BIGINT},#{purPrice,jdbcType=DECIMAL},
+      #{inTaxRate,jdbcType=DECIMAL},#{inTaxRateId,jdbcType=BIGINT},#{inPrice,jdbcType=DECIMAL},
+
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+      #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, 
+      #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail"
+          useGeneratedKeys="true"
+          keyProperty="id">
+    insert into saas_price_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="priceOrderId != null">
+        price_order_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="distrPrice != null">
+        distr_price,
+      </if>
+      <if test="distrTaxRate != null">
+        distr_tax_rate,
+      </if>
+      <if test="distrTaxRateId != null">
+        distr_tax_rate_id,
+      </if>
+      <if test="notaxDistrPrice != null">
+        notax_distr_price,
+      </if>
+      <if test="retailPrice != null">
+        retail_price,
+      </if>
+      <if test="memberPrice != null">
+        member_price,
+      </if>
+      <if test="saleTaxRate != null">
+        sale_tax_rate,
+      </if>
+      <if test="saleTaxRateId != null">
+        sale_tax_rate_id,
+      </if>
+      <if test="notaxRetailPrice != null">
+        notax_retail_price,
+      </if>
+      <if test="notaxMemberPrice != null">
+        notax_member_price,
+      </if>
+
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="purTaxRate != null">
+        pur_tax_rate,
+      </if>
+      <if test="purTaxRateId != null">
+        pur_tax_rate_id,
+      </if>
+      <if test="purPrice != null">
+        pur_price,
+      </if>
+      <if test="inTaxRate != null">
+        in_tax_rate,
+      </if>
+      <if test="inTaxRateId != null">
+        in_tax_rate_id,
+      </if>
+      <if test="inPrice != null">
+        in_price,
+      </if>
+
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="priceOrderId != null">
+        #{priceOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPrice != null">
+        #{distrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRate != null">
+        #{distrTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRateId != null">
+        #{distrTaxRateId},
+      </if>
+      <if test="notaxDistrPrice != null">
+        #{notaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null">
+        #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberPrice != null">
+        #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRate != null">
+        #{saleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRateId != null">
+        #{saleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxRetailPrice != null">
+        #{notaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxMemberPrice != null">
+        #{notaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="purTaxRate != null">
+        #{purTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="purTaxRateId != null">
+        #{purTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="purPrice != null">
+        #{purPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inTaxRate != null">
+        #{inTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="inTaxRateId != null">
+        #{inTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="inPrice != null">
+        #{inPrice,jdbcType=DECIMAL},
+      </if>
+
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail">
+    update saas_price_order_detail
+    <set>
+      <if test="priceOrderId != null">
+        price_order_id = #{priceOrderId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="distrPrice != null">
+        distr_price = #{distrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRate != null">
+        distr_tax_rate = #{distrTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="distrTaxRateId != null">
+        distr_tax_rate_id = #{distrTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxDistrPrice != null">
+        notax_distr_price = #{notaxDistrPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="retailPrice != null">
+        retail_price = #{retailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="memberPrice != null">
+        member_price = #{memberPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRate != null">
+        sale_tax_rate = #{saleTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="saleTaxRateId != null">
+        sale_tax_rate_id = #{saleTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="notaxRetailPrice != null">
+        notax_retail_price = #{notaxRetailPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxMemberPrice != null">
+        notax_member_price = #{notaxMemberPrice,jdbcType=DECIMAL},
+      </if>
+
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="purTaxRate != null">
+        pur_tax_rate = #{purTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="purTaxRateId != null">
+        pur_tax_rate_id = #{purTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="purPrice != null">
+        pur_price = #{purPrice,jdbcType=DECIMAL},
+      </if>
+
+      <if test="inTaxRate != null">
+        in_tax_rate = #{inTaxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="inTaxRateId != null">
+        in_tax_rate_id = #{inTaxRateId,jdbcType=BIGINT},
+      </if>
+      <if test="inPrice != null">
+        in_price = #{inPrice,jdbcType=DECIMAL},
+      </if>
+
+
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail">
+    update saas_price_order_detail
+    set price_order_id = #{priceOrderId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
+      distr_price = #{distrPrice,jdbcType=DECIMAL},
+      distr_tax_rate = #{distrTaxRate,jdbcType=DECIMAL},
+      distr_tax_rate_id = #{distrTaxRateId,jdbcType=BIGINT},
+      notax_distr_price = #{notaxDistrPrice,jdbcType=DECIMAL},
+      retail_price = #{retailPrice,jdbcType=DECIMAL},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      sale_tax_rate = #{saleTaxRate,jdbcType=DECIMAL},
+      sale_tax_rate_id = #{saleTaxRateId,jdbcType=BIGINT},
+      notax_retail_price = #{notaxRetailPrice,jdbcType=DECIMAL},
+      notax_member_price = #{notaxMemberPrice,jdbcType=DECIMAL},
+
+      supplier_id = #{supplierId,jdbcType=BIGINT},
+      pur_tax_rate = #{purTaxRate,jdbcType=DECIMAL},
+      pur_tax_rate_id = #{purTaxRateId,jdbcType=BIGINT},
+      pur_price = #{purPrice,jdbcType=DECIMAL},
+      in_tax_rate = #{inTaxRate,jdbcType=DECIMAL},
+      in_tax_rate_id = #{inTaxRateId,jdbcType=BIGINT},
+      in_price = #{inPrice,jdbcType=DECIMAL},
+
+
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = now()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectPriceOrderDetailByIds" resultMap="BaseResultMap">
+    select 
+    <include refid="Rate_Join_Base_Column_List" />
+    from saas_price_order_detail d LEFT JOIN saas_goods_tax_rate r
+		on d.sale_tax_rate_id = r.id
+    where d.id in
+    	<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+  
+  <update id="batchUpdate"  parameterType="java.util.List">  
+      <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+             	update saas_price_order_detail 
+             set  
+               	sale_tax_rate=#{item.distrTaxRate},
+               	retail_price=#{item.retailPrice},
+               	member_price=#{item.memberPrice},
+               	sale_tax_rate=#{item.saleTaxRate},
+               	notax_retail_price=#{item.notaxRetailPrice},
+               	notax_member_price=#{item.notaxMemberPrice},
+               	modifier_id=#{item.modifierId},
+               	modifier_code=#{item.modifierCode},
+               	modifier_name=#{item.modifierName},
+               	update_time=now()
+             where id = #{item.id}  
+      </foreach>  
+  </update> 
+  
+  <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+    insert into saas_price_order_detail (price_order_id, enterprise_id, parent_id,
+    goods_id, status, 
+    distr_tax_rate,
+    distr_tax_rate_id,
+    retail_price,
+    member_price,
+    sale_tax_rate,
+    sale_tax_rate_id,
+    distr_price,
+    notax_distr_price,
+    notax_retail_price,
+    notax_member_price,
+    creater_id, creater_code, creater_name,
+    create_time, modifier_id, modifier_code, modifier_name, update_time)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.priceOrderId,jdbcType=BIGINT}, #{item.enterpriseId,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT},
+      #{item.goodsId,jdbcType=BIGINT},#{item.status,jdbcType=INTEGER},
+      #{item.distrTaxRate,jdbcType=DECIMAL},
+      #{item.distrTaxRateId,jdbcType=BIGINT},
+      #{item.retailPrice,jdbcType=DECIMAL},
+      #{item.memberPrice,jdbcType=DECIMAL},
+      #{item.saleTaxRate,jdbcType=DECIMAL},
+      #{item.saleTaxRateId,jdbcType=BIGINT},
+      #{item.distrPrice,jdbcType=DECIMAL},
+      #{item.notaxDistrPrice,jdbcType=DECIMAL},
+      #{item.notaxRetailPrice,jdbcType=DECIMAL},
+      #{item.notaxMemberPrice,jdbcType=DECIMAL},
+      #{item.createrId,jdbcType=BIGINT}, #{item.createrCode,jdbcType=VARCHAR}, #{item.createrName,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},#{item.modifierId,jdbcType=BIGINT}, #{item.modifierCode,jdbcType=VARCHAR}, #{item.modifierName,jdbcType=VARCHAR},
+      #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <select id="selectDistrPriceByOrderIdAndEnterpriseId" resultType="java.util.Map" >
+    select
+    	goods_id, distr_price
+    from saas_price_order_detail
+    	where price_order_id = #{distrPriceOrderId}
+    and enterprise_id = #{enterpriseId}
+  </select>
+  
+  <!-- 根据企业ID、价格清单ID、商品ID获取配送价格 -->
+  <select id="selectDistrPriceByEnterpriseIdAndPriceOrderIdAndGoodId" resultType="java.math.BigDecimal">
+      SELECT
+			t.distr_price AS distPrice
+		FROM
+			saas_price_order_detail t
+		WHERE
+			t.enterprise_id = #{enterpriseId}
+		AND t.price_order_id = #{priceOrderId}
+		AND t.goods_id = #{goodsId}
+  </select>
+
+  <select id="selectByEnterpriseIdAndPriceOrderIdAndGoodId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    saas_price_order_detail t
+    WHERE
+    t.enterprise_id = #{enterpriseId}
+    AND t.price_order_id = #{priceOrderId}
+    AND t.goods_id = #{goodsId}
+  </select>
+
+  <update id="updateSplitGoodsPrices" parameterType="com.rograndec.feijiayun.chain.business.goods.price.entity.PriceOrderDetail">
+      UPDATE
+      saas_price_order_detail
+      SET
+      retail_price = #{retailPrice,jdbcType=DECIMAL},
+      member_price = #{memberPrice,jdbcType=DECIMAL},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = now()
+      WHERE
+      goods_id = #{goodsId}
+      and enterprise_id = #{enterpriseId}
+	  and parent_id = #{parentId}
+  </update>
+
+  <select id="selectDistrTaxRateByGoodsIdAndDistrPriceOrderId" resultType="java.util.Map">
+      SELECT
+			t.distr_tax_rate_id AS distrTaxRateId,
+			t.distr_tax_rate AS distrTaxRate
+		FROM
+			saas_price_order_detail t
+		WHERE
+			t.enterprise_id = #{enterpriseId}
+		AND t.price_order_id = #{priceOrderId}
+		AND t.goods_id = #{goodsId}
+  </select>
+  
+ <select id="getEnterpriseDefault" resultMap="BaseResultMap">
+      select
+      spod.id, spod.distr_tax_rate, spod.distr_tax_rate_id
+      from saas_price_order_detail spod 
+		inner JOIN saas_price_order spo on spo.id=spod.price_order_id
+      where spo.enterprise_id = #{enterpriseId} and spo.sys_type=1
+      and spod.goods_id =  #{goodsId}
+  </select>
+
+
+</mapper>

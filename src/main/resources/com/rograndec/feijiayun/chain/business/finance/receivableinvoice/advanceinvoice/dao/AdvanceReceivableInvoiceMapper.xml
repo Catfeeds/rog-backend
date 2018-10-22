@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.dao.AdvanceReceivableInvoiceMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.entity.AdvanceReceivableInvoice">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="order_type" jdbcType="INTEGER" property="orderType" />
+    <result column="bill_date" jdbcType="TIMESTAMP" property="billDate" />
+    <result column="bill_man_id" jdbcType="BIGINT" property="billManId" />
+    <result column="bill_man_code" jdbcType="VARCHAR" property="billManCode" />
+    <result column="bill_man_name" jdbcType="VARCHAR" property="billManName" />
+    <result column="finance_account_type" jdbcType="INTEGER" property="financeAccountType" />
+    <result column="purchase_unit_id" jdbcType="BIGINT" property="purchaseUnitId" />
+    <result column="purchase_unit_code" jdbcType="VARCHAR" property="purchaseUnitCode" />
+    <result column="purchase_unit_name" jdbcType="VARCHAR" property="purchaseUnitName" />
+    <result column="quantity_total" jdbcType="DECIMAL" property="quantityTotal" />
+    <result column="varieties_quantity" jdbcType="INTEGER" property="varietiesQuantity" />
+    <result column="amount_total" jdbcType="DECIMAL" property="amountTotal" />
+    <result column="notax_amount_total" jdbcType="DECIMAL" property="notaxAmountTotal" />
+    <result column="tax_amount_total" jdbcType="DECIMAL" property="taxAmountTotal" />
+    <result column="clear_amount_total" jdbcType="DECIMAL" property="clearAmountTotal" />
+    <result column="unclear_amount_total" jdbcType="DECIMAL" property="unclearAmountTotal" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="account_status" jdbcType="INTEGER" property="accountStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, code, order_type, bill_date, bill_man_id, bill_man_code, finance_account_type,
+    bill_man_name, purchase_unit_id, purchase_unit_code, purchase_unit_name, quantity_total, 
+    varieties_quantity, amount_total, notax_amount_total, tax_amount_total, clear_amount_total, 
+    unclear_amount_total, status, account_status, remark, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_advance_receivable_invoice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectWithUnclear"
+            resultType="com.rograndec.feijiayun.chain.business.finance.receivablepayment.receivable.vo.ReceivableDocumentsPageVO">
+      SELECT
+      eid AS eid,
+      baseOrderDate AS baseOrderDate,
+      status AS status,
+      baseOrderId AS baseOrderId,
+      baseOrderCode AS baseOrderCode,
+      baseOrderType AS baseOrderType,
+      amount AS amount,
+      purchaseId AS purchaseId,
+      clearAmount AS clearAmount,
+      unclearAmount AS unclearAmount
+      FROM
+      (
+      SELECT
+      enterprise_id AS eid,
+      bill_date AS baseOrderDate,
+      status AS status,
+      id AS baseOrderId,
+      CODE AS baseOrderCode,
+      order_type AS baseOrderType,
+      amount_total AS amount,
+      purchase_unit_id AS purchaseId,
+      clear_amount_total AS clearAmount,
+      unclear_amount_total AS unclearAmount
+      FROM
+      saas_advance_receivable_invoice
+      UNION ALL
+      SELECT
+      enterprise_id as eid,
+      bill_date AS baseOrderDate,
+      status AS status,
+      id AS baseOrderId,
+      CODE AS baseOrderCode,
+      order_type AS baseOrderType,
+      amount_total AS amount,
+      purchase_unit_id AS purchaseId,
+      clear_amount_total AS clearAmount,
+      unclear_amount_total AS unclearAmount
+      FROM
+      saas_receivable_invoice
+      ) c where c.eid = #{enterpriseId}
+      <if test="list != null">
+        and status IN
+        <foreach collection="list" index="index" item="item" open="("
+                 separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="purchase != null">
+        and purchaseId = #{purchase}
+      </if>
+      <if test="startDate != null and endDate != null">
+        AND baseOrderDate BETWEEN #{startDate} AND #{endDate}
+      </if>
+      <choose>
+        <when test="order != null and sort != null">
+          order by ${order} ${sort}
+        </when>
+        <otherwise>
+          order by baseOrderDate desc,baseOrderCode desc
+        </otherwise>
+      </choose>
+      <if test="start != null and pageSize != null">
+        limit #{start},#{pageSize}
+      </if>
+    </select>
+  <select id="selectTotalRecord" resultType="java.lang.Integer">
+    SELECT
+    COUNT(*)
+    FROM
+    (
+    SELECT
+    enterprise_id AS eid,
+    bill_date AS baseOrderDate,
+    status AS status,
+    id AS baseOrderId,
+    CODE AS baseOrderCode,
+    order_type AS baseOrderType,
+    amount_total AS amount,
+    purchase_unit_id AS purchaseId,
+    clear_amount_total AS clearAmount,
+    unclear_amount_total AS unclearAmount
+    FROM
+    saas_advance_receivable_invoice
+    UNION ALL
+    SELECT
+    enterprise_id as eid,
+    bill_date AS baseOrderDate,
+    status AS status,
+    id AS baseOrderId,
+    CODE AS baseOrderCode,
+    order_type AS baseOrderType,
+    amount_total AS amount,
+    purchase_unit_id AS purchaseId,
+    clear_amount_total AS clearAmount,
+    unclear_amount_total AS unclearAmount
+    FROM
+    saas_receivable_invoice
+    ) c where c.eid = #{enterpriseId}
+    <if test="list != null">
+      and status IN
+      <foreach collection="list" index="index" item="item" open="("
+               separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="purchase != null">
+      and purchaseId = #{purchase}
+    </if>
+    <if test="startDate != null and endDate != null">
+      AND baseOrderDate BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by baseOrderDate desc,baseOrderCode desc
+      </otherwise>
+    </choose>
+  </select>
+  <select id="selectAmountTotal"
+          resultType="com.rograndec.feijiayun.chain.business.finance.receivablepayment.receivable.vo.ReceivableDocumentsVO">
+    SELECT
+    sum(amount) AS amountTotal,
+    sum(clearAmount) AS clearAmountTotal,
+    sum(unclearAmount) AS unclearAmountTotal
+    FROM
+    (
+    SELECT
+    enterprise_id AS eid,
+    bill_date AS baseOrderDate,
+    status AS status,
+    id AS baseOrderId,
+    CODE AS baseOrderCode,
+    order_type AS baseOrderType,
+    amount_total AS amount,
+    purchase_unit_id AS purchaseId,
+    clear_amount_total AS clearAmount,
+    unclear_amount_total AS unclearAmount
+    FROM
+    saas_advance_receivable_invoice
+    UNION ALL
+    SELECT
+    enterprise_id as eid,
+    bill_date AS baseOrderDate,
+    status AS status,
+    id AS baseOrderId,
+    CODE AS baseOrderCode,
+    order_type AS baseOrderType,
+    amount_total AS amount,
+    purchase_unit_id AS purchaseId,
+    clear_amount_total AS clearAmount,
+    unclear_amount_total AS unclearAmount
+    FROM
+    saas_receivable_invoice
+    ) c where c.eid = #{enterpriseId}
+    <if test="list != null">
+      and status IN
+      <foreach collection="list" index="index" item="item" open="("
+               separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="purchase != null">
+      and purchaseId = #{purchase}
+    </if>
+    <if test="startDate != null and endDate != null">
+      AND baseOrderDate BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <choose>
+      <when test="order != null and sort != null">
+        order by ${order} ${sort}
+      </when>
+      <otherwise>
+        order by baseOrderDate desc,baseOrderCode desc
+      </otherwise>
+    </choose>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_advance_receivable_invoice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.entity.AdvanceReceivableInvoice" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_advance_receivable_invoice (id, enterprise_id, parent_id, 
+      code, order_type, bill_date, 
+      bill_man_id, bill_man_code, bill_man_name, finance_account_type,
+      purchase_unit_id, purchase_unit_code, purchase_unit_name, 
+      quantity_total, varieties_quantity, amount_total, 
+      notax_amount_total, tax_amount_total, clear_amount_total, 
+      unclear_amount_total, status, account_status, 
+      remark, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER}, #{billDate,jdbcType=TIMESTAMP}, 
+      #{billManId,jdbcType=BIGINT}, #{billManCode,jdbcType=VARCHAR}, #{billManName,jdbcType=VARCHAR}, #{financeAccountType,jdbcType=INTEGER},
+      #{purchaseUnitId,jdbcType=BIGINT}, #{purchaseUnitCode,jdbcType=VARCHAR}, #{purchaseUnitName,jdbcType=VARCHAR}, 
+      #{quantityTotal,jdbcType=DECIMAL}, #{varietiesQuantity,jdbcType=INTEGER}, #{amountTotal,jdbcType=DECIMAL}, 
+      #{notaxAmountTotal,jdbcType=DECIMAL}, #{taxAmountTotal,jdbcType=DECIMAL}, #{clearAmountTotal,jdbcType=DECIMAL}, 
+      #{unclearAmountTotal,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{accountStatus,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.entity.AdvanceReceivableInvoice" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_advance_receivable_invoice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="billDate != null">
+        bill_date,
+      </if>
+      <if test="billManId != null">
+        bill_man_id,
+      </if>
+      <if test="billManCode != null">
+        bill_man_code,
+      </if>
+      <if test="billManName != null">
+        bill_man_name,
+      </if>
+      <if test="financeAccountType != null">
+        finance_account_type,
+      </if>
+      <if test="purchaseUnitId != null">
+        purchase_unit_id,
+      </if>
+      <if test="purchaseUnitCode != null">
+        purchase_unit_code,
+      </if>
+      <if test="purchaseUnitName != null">
+        purchase_unit_name,
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total,
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity,
+      </if>
+      <if test="amountTotal != null">
+        amount_total,
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total,
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total,
+      </if>
+      <if test="clearAmountTotal != null">
+        clear_amount_total,
+      </if>
+      <if test="unclearAmountTotal != null">
+        unclear_amount_total,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="accountStatus != null">
+        account_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billManId != null">
+        #{billManId,jdbcType=BIGINT},
+      </if>
+      <if test="billManCode != null">
+        #{billManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billManName != null">
+        #{billManName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountType != null">
+        #{financeAccountType,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseUnitId != null">
+        #{purchaseUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseUnitCode != null">
+        #{purchaseUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseUnitName != null">
+        #{purchaseUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmountTotal != null">
+        #{clearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearAmountTotal != null">
+        #{unclearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="accountStatus != null">
+        #{accountStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.entity.AdvanceReceivableInvoice">
+    update saas_advance_receivable_invoice
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="billDate != null">
+        bill_date = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billManId != null">
+        bill_man_id = #{billManId,jdbcType=BIGINT},
+      </if>
+      <if test="billManCode != null">
+        bill_man_code = #{billManCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billManName != null">
+        bill_man_name = #{billManName,jdbcType=VARCHAR},
+      </if>
+      <if test="financeAccountType != null">
+        finance_account_type = #{financeAccountType,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseUnitId != null">
+        purchase_unit_id = #{purchaseUnitId,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseUnitCode != null">
+        purchase_unit_code = #{purchaseUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseUnitName != null">
+        purchase_unit_name = #{purchaseUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityTotal != null">
+        quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="varietiesQuantity != null">
+        varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="amountTotal != null">
+        amount_total = #{amountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="notaxAmountTotal != null">
+        notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="taxAmountTotal != null">
+        tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmountTotal != null">
+        clear_amount_total = #{clearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="unclearAmountTotal != null">
+        unclear_amount_total = #{unclearAmountTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="accountStatus != null">
+        account_status = #{accountStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.finance.receivableinvoice.advanceinvoice.entity.AdvanceReceivableInvoice">
+    update saas_advance_receivable_invoice
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=INTEGER},
+      bill_date = #{billDate,jdbcType=TIMESTAMP},
+      bill_man_id = #{billManId,jdbcType=BIGINT},
+      bill_man_code = #{billManCode,jdbcType=VARCHAR},
+      bill_man_name = #{billManName,jdbcType=VARCHAR},
+      finance_account_type = #{financeAccountType,jdbcType=INTEGER},
+      purchase_unit_id = #{purchaseUnitId,jdbcType=BIGINT},
+      purchase_unit_code = #{purchaseUnitCode,jdbcType=VARCHAR},
+      purchase_unit_name = #{purchaseUnitName,jdbcType=VARCHAR},
+      quantity_total = #{quantityTotal,jdbcType=DECIMAL},
+      varieties_quantity = #{varietiesQuantity,jdbcType=INTEGER},
+      amount_total = #{amountTotal,jdbcType=DECIMAL},
+      notax_amount_total = #{notaxAmountTotal,jdbcType=DECIMAL},
+      tax_amount_total = #{taxAmountTotal,jdbcType=DECIMAL},
+      clear_amount_total = #{clearAmountTotal,jdbcType=DECIMAL},
+      unclear_amount_total = #{unclearAmountTotal,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      account_status = #{accountStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectAdvanceReceivableInvoiceList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_advance_receivable_invoice
+    <include refid="advance_receivable_invoice_list_where" />
+    <if test="invoiceListrequestVo.orderName != null and invoiceListrequestVo.orderType != null">
+        order by ${invoiceListrequestVo.orderName}  ${invoiceListrequestVo.orderType}  
+    </if>
+    <if test="invoiceListrequestVo.orderName == null or invoiceListrequestVo.orderType == null">
+      ORDER BY id DESC
+    </if>
+    limit #{start},#{pageSize}
+  </select>
+   <sql id="advance_receivable_invoice_list_where">
+	    <where>
+		     <if test="invoiceListrequestVo.enterpriseId != null ">
+		       enterprise_id= #{invoiceListrequestVo.enterpriseId}
+		     </if>
+		     <if test="invoiceListrequestVo.startTime != null and invoiceListrequestVo.endTime != null">
+		       and  DATE(bill_date) BETWEEN #{invoiceListrequestVo.startTime} AND #{invoiceListrequestVo.endTime}
+		     </if>
+		     <if test="invoiceListrequestVo.purchaseUnitCode != null and invoiceListrequestVo.purchaseUnitCode != ''">
+		         and purchase_unit_code = #{invoiceListrequestVo.purchaseUnitCode}
+		     </if>
+		     <if test="invoiceListrequestVo.purchaseUnitName != null and invoiceListrequestVo.purchaseUnitName != ''">
+		     	and purchase_unit_name like CONCAT('%',#{invoiceListrequestVo.purchaseUnitName},'%')
+		     </if>
+		     <if test="invoiceListrequestVo.code != null and invoiceListrequestVo.code != ''">
+		     	and code= #{invoiceListrequestVo.code}
+		     </if>
+		     <if test="invoiceListrequestVo.postManName != null and invoiceListrequestVo.postManName != ''">
+		     	and bill_man_name= #{invoiceListrequestVo.postManName}
+		     </if>
+		     <if test="invoiceListrequestVo.status != null">
+		     	and status= #{invoiceListrequestVo.status}
+		     </if>
+		     <if test="invoiceListrequestVo.accountStatus != null">
+		     	and account_status= #{invoiceListrequestVo.accountStatus}
+		     </if>
+	    </where>
+   </sql>
+ <select id="selectAdvanceReceivableInvoiceListCount"  resultType="Long">
+    select 
+    count(1)
+    from saas_advance_receivable_invoice
+    <include refid="advance_receivable_invoice_list_where" />
+  </select>
+</mapper>

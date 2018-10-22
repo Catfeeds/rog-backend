@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.online.purchase.order.dao.MphsupplierRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphsupplierRelevance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="mph_supplier_id" jdbcType="BIGINT" property="mphSupplierId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, supplier_id, mph_supplier_id, enterprise_id, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_mphsupplier_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_mphsupplier_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphsupplierRelevance">
+    insert into saas_mphsupplier_relevance (id, supplier_id, mph_supplier_id, 
+      enterprise_id, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{mphSupplierId,jdbcType=BIGINT}, 
+      #{enterpriseId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphsupplierRelevance">
+    insert into saas_mphsupplier_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="mphSupplierId != null">
+        #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphsupplierRelevance">
+    update saas_mphsupplier_relevance
+    <set>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphsupplierRelevance">
+    update saas_mphsupplier_relevance
+    set supplier_id = #{supplierId,jdbcType=BIGINT},
+      mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByMPHSupplyId"  resultType="com.rograndec.feijiayun.chain.business.online.purchase.smart.vo.SelectSupplierVO">
+    select
+		s.id,
+		s.code,
+        s.name,
+		s.pinyin,
+		s.sale_man_id AS saleManId,
+		s.sale_man_code AS saleManCode,
+		s.sale_man_name AS saleManName,
+		ss.telephone AS saleManPhone
+    from saas_supplier s
+    LEFT JOIN saas_mphsupplier_relevance mr ON mr.supplier_id = s.id
+		LEFT JOIN saas_supplier_saler ss on ss.supplier_id = s.id
+    where mr.mph_supplier_id = #{odSellerId}  and mr.enterprise_id = #{enterpriseId} limit 0,1
+  </select>
+  <select id="selectByMPHSupplyName"  resultType="com.rograndec.feijiayun.chain.business.online.purchase.smart.vo.SelectBoundSupplyVO">
+    SELECT
+    s.id AS supplyId,
+    s.code AS supplyCode,
+    s.name AS supplyName,
+    s.sale_man_name AS supplySalerName
+    from saas_supplier s
+    where s.owner_id = #{enterpriseId}
+    <if test="mphSupplyName != null">
+      AND (s.name like concat('%', #{mphSupplyName},'%')
+      OR s.pinyin like concat('%', #{mphSupplyName},'%')
+      OR s.code like concat('%', #{mphSupplyName},'%')
+      )
+    </if>
+  </select>
+  <select id="selectByMPHSupplyIdForUnBoundSupply"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    FROM saas_mphsupplier_relevance
+    where enterprise_id = #{enterpriseId}
+    AND supplier_id =  #{supplyId}
+    AND mph_supplier_id = #{mphSupplyId}
+  </select>
+  <select id="selectByMPHSupplyIdForSave"  resultType="java.lang.Integer">
+      select
+      count(1)
+      FROM saas_mphsupplier_relevance
+      where enterprise_id = #{enterpriseId}
+      AND mph_supplier_id = #{mphSupplierId}
+  </select>
+</mapper>

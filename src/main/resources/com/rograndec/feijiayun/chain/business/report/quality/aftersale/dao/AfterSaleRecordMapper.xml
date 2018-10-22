@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.quality.aftersale.dao.AfterSaleRecordMapper">
+
+    <!--追回记录-->
+    <resultMap id="RecoverRecordResultMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.aftersale.vo.RecoverRecordReportPageVO">
+
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="recover_man" jdbcType="VARCHAR" property="recoverMan" />
+        <result column="recover_man_phone" jdbcType="VARCHAR" property="recoverManPhone" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+        <result column="recover_quantity" jdbcType="DECIMAL" property="recoverQuantity" />
+        <result column="unrecover_quantity" jdbcType="DECIMAL" property="unrecoverQuantity" />
+        <result column="unrecover_reason" jdbcType="VARCHAR" property="unrecoverReason" />
+        <result column="recover_reason" jdbcType="VARCHAR" property="recoverReason" />
+
+        <result column="medical_accident" jdbcType="VARCHAR" property="medicalAccident" />
+        <result column="handle_measures" jdbcType="INTEGER" property="handleMeasures" />
+
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="goods_code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <!--召回记录-->
+    <resultMap id="RecallRecordResultMap"
+               type="com.rograndec.feijiayun.chain.business.report.quality.aftersale.vo.RecallRecordReportPageVO">
+
+        <id column="id" jdbcType="BIGINT" property="id" />
+
+        <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode"/>
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName"/>
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="plan_date" jdbcType="TIMESTAMP" property="planDate" />
+
+        <result column="lot_number" jdbcType="VARCHAR" property="lotNumber" />
+        <result column="product_date" jdbcType="TIMESTAMP" property="productDate" />
+        <result column="valid_date" jdbcType="TIMESTAMP" property="validDate" />
+
+        <result column="recall_company" jdbcType="VARCHAR" property="recallCompany" />
+        <result column="recall_man" jdbcType="VARCHAR" property="recallMan" />
+        <result column="recall_man_phone" jdbcType="VARCHAR" property="recallManPhone" />
+        <result column="recall_level" jdbcType="INTEGER" property="recallLevel" />
+        <result column="recall_time_limit" jdbcType="INTEGER" property="recallTimeLimit" />
+        <result column="recall_reason" jdbcType="INTEGER" property="recallReason" />
+        <result column="recall_deposit" jdbcType="INTEGER" property="recallDeposit" />
+
+        <result column="handle_measures" jdbcType="INTEGER" property="handleMeasures" />
+
+
+
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="goods_code" jdbcType="VARCHAR" property="goodsCode"/>
+        <result column="barcode" jdbcType="VARCHAR" property="barcode"/>
+        <result column="name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="generic_name" jdbcType="VARCHAR" property="goodsGenericName"/>
+        <result column="dosage_id" jdbcType="BIGINT" property="dosageId"/>
+        <result column="dosage_name" jdbcType="VARCHAR" property="dosageName"/>
+        <result column="unit_id" jdbcType="BIGINT" property="unitId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="specification" jdbcType="VARCHAR" property="goodsSpecification"/>
+        <result column="manufacturer_id" jdbcType="BIGINT" property="manufacturerId"/>
+        <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer"/>
+        <result column="place" jdbcType="VARCHAR" property="goodsPlace"/>
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber"/>
+        <result column="business_variety" jdbcType="INTEGER" property="businessVariety"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goods_attribute" jdbcType="INTEGER" property="goodsAttribute"/>
+        <result column="domestic_import" jdbcType="INTEGER" property="domesticImport"/>
+        <result column="management_scope_name" jdbcType="VARCHAR" property="managementScopeName"/>
+        <result column="special_drug" jdbcType="INTEGER" property="specialDrug"/>
+        <result column="in_charge_drug" jdbcType="INTEGER" property="inChargeDrug"/>
+        <result column="limit_quantity" jdbcType="DECIMAL" property="limitQuantity"/>
+        <result column="storage_temp" jdbcType="INTEGER" property="storageTemp"/>
+        <result column="storage_condition_name" jdbcType="VARCHAR" property="storageConditionName"/>
+        <result column="quality_period" jdbcType="INTEGER" property="qualityPeriod"/>
+        <result column="quality_period_unit" jdbcType="INTEGER" property="qualityPeriodUnit"/>
+    </resultMap>
+
+    <sql id="whereSqlGoods">
+        <if test="businessVariety!=null and businessVariety!=''">and goo.business_variety =#{businessVariety}</if>
+
+        <if test="param != null and param != ''">
+            and (
+            INSTR(goo.name,#{param})
+            or INSTR(goo.code,#{param})
+            or INSTR(goo.pinyin_code,#{param})
+            or INSTR(goo.approval_number,#{param})
+            or INSTR(goo.barcode,#{param})
+            or INSTR(goo.generic_name,#{param}))
+        </if>
+        <if test="chainType!=null">and se.chain_type=#{chainType}</if>
+        <if test="enterpriseCode!=null and enterpriseCode!=''">and se.code like CONCAT('%',#{enterpriseCode},'%')</if>
+        <if test="enterpriseName!=null and enterpriseName!=''">and se.name like CONCAT('%',#{enterpriseName},'%')</if>
+        <if test="categoryId!=null">and goo.category_id=#{categoryId}</if>
+        <if test="domesticImport!=null">and goo.domestic_import=#{domesticImport}</if>
+        <if test="storageTemp!=null">and goo.storage_temp=#{storageTemp}</if>
+        <if test="storageConditionName!=null and storageConditionName!=''">and goo.storage_condition_name like
+            CONCAT('%',#{storageConditionName},'%')
+        </if>
+        <if test="registeredTrademark!=null and registeredTrademark!=''">and goo.registered_trademark like
+            CONCAT('%',#{registeredTrademark},'%')
+        </if>
+        <if test="brand!=null and brand!=''">and goo.brand like CONCAT('%',#{brand},'%')</if>
+        <if test="goodsAttribute!=null">and goo.goods_attribute=#{goodsAttribute}</if>
+        <if test="prescriptionDrug!=null">and goo.prescription_drug=#{prescriptionDrug}</if>
+        <if test="otcType!=null">and goo.otc_type=#{otcType}</if>
+        <if test="specialDrug!=null">and goo.special_drug=#{specialDrug}</if>
+        <if test="inChargeDrug!=null">and goo.in_charge_drug=#{inChargeDrug}</if>
+        <if test="managementScopeId!=null">and goo.management_scope_id=#{managementScopeId}
+        </if>
+        <if test="spiritDrugType!=null">and goo.spirit_drug_type=#{spiritDrugType}</if>
+        <if test="formulationType!=null">and goo.formulation_type=#{formulationType}</if>
+    </sql>
+
+    <!-- 追回记录 -->
+    <select id="selectRecoverReportPage" resultMap="RecoverRecordResultMap">
+
+        SELECT
+            se.`code` AS enterprise_code ,
+            se.`name` AS enterprise_name ,
+            goo.id as goods_id,
+            goo. CODE  as goods_code,
+            goo.barcode ,
+            goo. NAME ,
+            goo.generic_name ,
+            goo.dosage_id ,
+            goo.dosage_name ,
+            goo.unit_id ,
+            goo.unit_name ,
+            goo.specification ,
+            goo.manufacturer_id ,
+            goo.manufacturer ,
+            goo.place ,
+            goo.approval_number ,
+            goo.business_variety ,
+            goo.goods_attribute ,
+            goo.domestic_import ,
+            goo.management_scope_name ,
+            goo.special_drug ,
+            goo.in_charge_drug ,
+            goo.limit_quantity ,
+            goo.storage_temp ,
+            goo.storage_condition_name ,
+            goo.quality_period ,
+            goo.quality_period_unit ,
+            gc. NAME AS category_name ,
+            plan.id,
+            plan.`code` ,
+            plan.plan_date ,
+            plan.recover_man ,
+            plan.recover_man_phone ,
+            record.handle_measures,
+            planDtl.recover_reason,
+            dtl.lot_number ,
+            dtl.product_date ,
+            dtl.valid_date ,
+            dtl.recover_quantity ,
+            dtl.unrecover_quantity ,
+            dtl.unrecover_reason ,
+            dtl.medical_accident
+
+        FROM
+             saas_recover_plan plan
+        JOIN saas_recover_record record ON record.base_order_id = plan.id
+        JOIN saas_recover_record_detail dtl ON dtl.recover_id  = record.id
+        JOIN saas_recover_plan_detail planDtl ON  dtl.base_order_dtl_id = planDtl.id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+
+        <include refid="RecoverReportWhereSql"></include>
+
+    </select>
+
+
+    <select id="selectRecoverTotal" resultType="java.util.Map">
+
+        SELECT
+        sum(dtl.recover_quantity ) as recoverQuantity,
+        sum(dtl.unrecover_quantity) as unrecoverQuantity
+        FROM
+        saas_recover_plan plan
+        JOIN saas_recover_record record ON record.base_order_id = plan.id
+        JOIN saas_recover_record_detail dtl ON dtl.recover_id  = record.id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        <include refid="RecoverReportWhereSql"></include>
+
+    </select>
+
+    <select id="selectRecoverReportPageCount" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+             saas_recover_plan plan
+        JOIN saas_recover_record record ON record.base_order_id = plan.id
+        JOIN saas_recover_record_detail dtl ON dtl.recover_id  = record.id
+        JOIN saas_recover_plan_detail planDtl ON  dtl.base_order_dtl_id = planDtl.id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        <include refid="RecoverReportWhereSql"></include>
+    </select>
+
+
+    <sql id="RecoverReportWhereSql">
+        WHERE 1= 1
+        <choose>
+            <when test="type == 1">
+                and (plan.enterprise_id = #{enterpriseId} OR plan.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and plan.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlGoods"></include>
+
+        <if test="start != null and end != null">
+            and  plan.plan_date between #{start} and #{end}
+        </if>
+        <if test="code != null and code != '' ">
+            and plan.code = #{code}
+        </if>
+        <if test="recoverMan != null" >
+            and plan.recover_man = #{recoverMan}
+        </if>
+
+        <if test="sort == null and sort =='' and order == null and order == ''">
+            order by plan.id desc,plan.plan_date desc,plan.code desc
+        </if>
+        <if test="order != null and order !='' and sort!=null and sort != ''">
+            order by plan.${order}  ${sort}
+        </if>
+    </sql>
+
+    <select id="selectRecallReportPage" resultMap="RecallRecordResultMap">
+
+        SELECT
+            plan.recall_company ,
+            plan.recall_man ,
+            plan.recall_man_phone ,
+            plan.recall_level ,
+            plan.recall_time_limit ,
+            plan.recall_reason ,
+            plan.recall_deposit ,
+            plan.code,
+            plan.plan_date,
+            plan.id,
+            rc.handle_measures ,
+            rc.quantity_total ,
+            dtl.lot_number ,
+            dtl.product_date ,
+            dtl.valid_date ,
+            dtl.quantity ,
+            se.`code` AS enterprise_code ,
+            se.`name` AS enterprise_name ,
+            goo.id as goods_id,
+            goo. CODE  as goods_code,
+            goo.barcode ,
+            goo. NAME ,
+            goo.generic_name ,
+            goo.dosage_id ,
+            goo.dosage_name ,
+            goo.unit_id ,
+            goo.unit_name ,
+            goo.specification ,
+            goo.manufacturer_id ,
+            goo.manufacturer ,
+            goo.place ,
+            goo.approval_number ,
+            goo.business_variety ,
+            goo.goods_attribute ,
+            goo.domestic_import ,
+            goo.management_scope_name ,
+            goo.special_drug ,
+            goo.in_charge_drug ,
+            goo.limit_quantity ,
+            goo.storage_temp ,
+            goo.storage_condition_name ,
+            goo.quality_period ,
+            goo.quality_period_unit ,
+            gc. NAME AS category_name
+        FROM
+            saas_recall_plan plan
+        JOIN saas_recall_record rc ON rc.base_order_id = plan.id
+        JOIN saas_recall_record_detail dtl ON dtl.recall_id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        <include refid="RecallReportWhereSql"></include>
+
+        <if test="pageStart != null">
+            limit #{pageStart},#{pageSize}
+        </if>
+
+
+    </select>
+    <select id="selectRecallTotal" resultType="java.util.Map">
+
+        SELECT
+          sum(dtl.quantity) as quantity
+
+        FROM
+        saas_recall_plan plan
+        JOIN saas_recall_record rc ON rc.base_order_id = plan.id
+        JOIN saas_recall_record_detail dtl ON dtl.recall_id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        <include refid="RecallReportWhereSql"></include>
+
+
+    </select>
+    <select id="selectRecallReportPageCount" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        saas_recall_plan plan
+        JOIN saas_recall_record rc ON rc.base_order_id = plan.id
+        JOIN saas_recall_record_detail dtl ON dtl.recall_id
+        LEFT JOIN saas_goods goo ON goo.id = dtl.goods_id
+        LEFT JOIN saas_enterprise se ON plan.enterprise_id = se.id
+        LEFT JOIN saas_goods_category gc ON goo.category_id = gc.id
+        <include refid="RecallReportWhereSql"></include>
+
+    </select>
+
+    <sql id="RecallReportWhereSql">
+        WHERE 1= 1
+        <choose>
+            <when test="type == 1">
+                and (plan.enterprise_id = #{enterpriseId} OR plan.parent_id = #{enterpriseId})
+            </when>
+            <otherwise>
+                and plan.enterprise_id = #{enterpriseId}
+            </otherwise>
+        </choose>
+        <include refid="whereSqlGoods"></include>
+
+        <if test="start != null and end != null">
+            and  plan.plan_date between #{start} and #{end}
+        </if>
+        <if test="code != null and code != '' ">
+            and plan.code = #{code}
+        </if>
+        <if test="recallMan != null" >
+            and plan.recall_man = #{recallMan}
+        </if>
+
+        <if test="recallCompany != null and recallCompany != ''">
+            and plan.recall_company like CONCAT('%',#{recallCompany},'%')
+        </if>
+        <if test="recallLevel != null">
+            and plan.recallLevel = #{recallLevel}
+        </if>
+
+        <if test="sort == null and sort =='' and order == null and order == ''">
+            order by plan.id desc,plan.plan_date desc,plan.code desc
+        </if>
+        <if test="order != null and order !='' and sort!=null and sort != ''">
+            order by plan.${order}  ${sort}
+        </if>
+    </sql>
+</mapper>

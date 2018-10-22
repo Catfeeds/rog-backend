@@ -1,0 +1,1155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.report.storage.dao.StockWarnReportGoodsMaintanceMapper">
+  <select id="selectParertGoodsMaintanceList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnGoodsMaintanceVO">
+	  	SELECT
+	  		g.business_variety as businessVariety,
+			e.code as storeCode,
+			e.name as storeName,
+			s.goods_code as code,
+			g.generic_name as genericName,
+			g.dosage_name as dosageName,
+			g.specification as specification,
+			g.manufacturer as manufacturer,
+			g.unit_name as unitName,
+			g.place as place,
+			s.lot_num as lotNum,
+			ln.product_date as productDate,
+			ln.valid_until as validUntil,
+			s.shelf_id as shelfId,
+			s.shelf_name as shelfName,
+			sum(s.quantity) as stockQuantity,
+			sum(s.usable_quantity) as usableQuantity,
+			gs.maintenance_type as maintanceType,
+			case when 0 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0))
+			when 1 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0) * 30)
+			when 2 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0) * 365)
+			END AS maintanceCycle,
+			s.last_maintain_time as lastMaintanceDate,
+			
+			case when 0 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0))
+			when 1 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0) * 30)
+			when 2 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0) * 365)
+			END AS nearPeriodCycle
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.areaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+	    </if>
+	    <if test="vo.cargoAreaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+	    </if>
+	    <if test="vo.shelfId != null">  
+	    	and s.shelf_id = #{vo.shelfId}
+	    </if>
+	    <if test="vo.lotNum != null">  
+	    	and s.lot_num like '%${vo.lotNum}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+	<if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountParertGoodsMaintanceList" resultType ="java.lang.Long">
+	 select count(1) from(   
+		SELECT
+			s.id
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.areaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+	    </if>
+	    <if test="vo.cargoAreaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+	    </if>
+	    <if test="vo.shelfId != null">  
+	    	and s.shelf_id = #{vo.shelfId}
+	    </if>
+	    <if test="vo.lotNum != null">  
+	    	and s.lot_num like '%${vo.lotNum}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id	
+	    )tab1	
+  </select>
+  
+  <select id="queryParertGoodsMaintanceList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnGoodsMaintanceTotalVO">
+    select 
+    	sum(stockQuantity) as stockQuantity,
+    	sum(usableQuantity) as usableQuantity
+	from(
+	    SELECT
+			sum(s.quantity) as stockQuantity,
+			sum(s.usable_quantity) as usableQuantity
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.areaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+	    </if>
+	    <if test="vo.cargoAreaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+	    </if>
+	    <if test="vo.shelfId != null">  
+	    	and s.shelf_id = #{vo.shelfId}
+	    </if>
+	    <if test="vo.lotNum != null">  
+	    	and s.lot_num like '%${vo.lotNum}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+	  )tab1	
+  </select>
+
+	<select id="selectGoodsMaintance2WarSet" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnGoodsMaintanceVO">
+		select * from(
+		SELECT
+		g.business_variety as businessVariety,
+		e.code as storeCode,
+		e.name as storeName,
+		s.goods_code as code,
+		g.generic_name as genericName,
+		g.dosage_name as dosageName,
+		g.specification as specification,
+		g.manufacturer as manufacturer,
+		g.unit_name as unitName,
+		g.place as place,
+		s.lot_num as lotNum,
+		ln.product_date as productDate,
+		ln.valid_until as validUntil,
+		s.shelf_id as shelfId,
+		s.shelf_name as shelfName,
+		sum(s.quantity) as stockQuantity,
+		sum(s.usable_quantity) as usableQuantity,
+		gs.maintenance_type as maintanceType,
+		case when 0 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0))
+		when 1 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0) * 30)
+		when 2 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0) * 365)
+		END AS maintanceCycle,
+		s.last_maintain_time as lastMaintanceDate,
+
+		case when 0 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0))
+		when 1 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0) * 30)
+		when 2 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0) * 365)
+		END AS nearPeriodCycle
+		FROM
+		saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		and gs.maintenance_type = 1
+		and g.enterprise_id = #{enterpriseId} and g.owner_id = #{ownerId}
+		group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+
+		union
+
+		select * from
+		(
+		SELECT
+		g.business_variety as businessVariety,
+		e.code as storeCode,
+		e.name as storeName,
+		s.goods_code as code,
+		g.generic_name as genericName,
+		g.dosage_name as dosageName,
+		g.specification as specification,
+		g.manufacturer as manufacturer,
+		g.unit_name as unitName,
+		g.place as place,
+		s.lot_num as lotNum,
+		ln.product_date as productDate,
+		ln.valid_until as validUntil,
+		s.shelf_id as shelfId,
+		s.shelf_name as shelfName,
+		sum(s.quantity) as stockQuantity,
+		sum(s.usable_quantity) as usableQuantity,
+		'1' as maintanceType,
+		case when 0 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0))
+		when 1 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0) * 30)
+		when 2 = gs.maintenance_cycle_unit
+		then (ifnull(gs.maintenance_cycle, 0) * 365)
+		END AS maintanceCycle,
+		s.last_maintain_time as lastMaintanceDate,
+
+		case when 0 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0))
+		when 1 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0) * 30)
+		when 2 = gs.near_effect_period_unit
+		then (ifnull(near_effect_period, 0) * 365)
+		END AS nearPeriodCycle
+		FROM
+		saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		and gs.maintenance_type = 0
+		and g.enterprise_id = #{enterpriseId} and g.owner_id = #{ownerId}
+		group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+		)tab1 where datediff(CURDATE(), validUntil) &lt; (nearPeriodCycle-#{warnDays})
+		)tab2
+	</select>
+
+
+  <select id="selectGoodsMaintanceList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnGoodsMaintanceVO">
+	  select * from(	
+	  	SELECT
+	  		g.business_variety as businessVariety,
+			e.code as storeCode,
+			e.name as storeName,
+			s.goods_code as code,
+			g.generic_name as genericName,
+			g.dosage_name as dosageName,
+			g.specification as specification,
+			g.manufacturer as manufacturer,
+			g.unit_name as unitName,
+			g.place as place,
+			s.lot_num as lotNum,
+			ln.product_date as productDate,
+			ln.valid_until as validUntil,
+			s.shelf_id as shelfId,
+			s.shelf_name as shelfName,
+			sum(s.quantity) as stockQuantity,
+			sum(s.usable_quantity) as usableQuantity,
+			gs.maintenance_type as maintanceType,
+			case when 0 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0))
+			when 1 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0) * 30)
+			when 2 = gs.maintenance_cycle_unit
+				then (ifnull(gs.maintenance_cycle, 0) * 365)
+			END AS maintanceCycle,
+			s.last_maintain_time as lastMaintanceDate,
+			
+			case when 0 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0))
+			when 1 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0) * 30)
+			when 2 = gs.near_effect_period_unit
+				then (ifnull(near_effect_period, 0) * 365)
+			END AS nearPeriodCycle
+		FROM
+			saas_stock s
+		LEFT JOIN saas_goods g ON s.goods_id = g.id
+		left join saas_lot_number ln on s.lot_id = ln.id
+		left join saas_goods_storage gs on s.goods_id = gs.goods_id
+		left join saas_goods_business gb on s.goods_id = gb.goods_id
+		LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+		where s.quantity > 0
+		and gs.maintenance_type = 1
+		<if test="enterpriseId != null">
+			and s.enterprise_id = #{enterpriseId}
+		</if>
+		<if test="parentId != null">
+			and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+		</if>
+	    <if test="vo.storeId != null and vo.storeId !='0'">  
+	    	and s.enterprise_id = #{vo.storeId}
+	    </if>
+	    <if test="vo.storeName != null and vo.storeName !=''">  
+	    	and e.name like '%${vo.storeName}%'
+	    </if>
+	    <if test="vo.businessVariety != null">  
+	    	and g.business_variety = #{vo.businessVariety}
+	    </if>
+	    <if test="vo.goodsAttribute != null">  
+	    	and g.goods_attribute = #{vo.goodsAttribute}
+	    </if>
+	    <if test="vo.prescriptionDrug != null">  
+	    	and g.prescription_drug = #{vo.prescriptionDrug}
+	    </if>
+	    <if test="vo.categoryId != null">  
+	    	and g.category_id = #{vo.categoryId}
+	    </if>
+	    <if test="vo.goodsNature != null">  
+	    	and g.goods_nature = #{vo.goodsNature}
+	    </if>
+	    <if test="vo.domesticImport != null">  
+	    	and g.domestic_import = #{vo.domesticImport}
+	    </if>
+	    <if test="vo.storageTemp != null">  
+	    	and g.storage_temp = #{vo.storageTemp}
+	    </if>
+	    <if test="vo.maintenanceType != null">  
+	    	and gs.maintenance_type = #{vo.maintenanceType}
+	    </if>
+	    <if test="vo.medicalInsurance != null">  
+	    	and g.medical_insurance = #{vo.medicalInsurance}
+	    </if>
+	    <if test="vo.managementScopeId != null">  
+	    	and g.management_scope_id = #{vo.managementScopeId}
+	    </if>
+	    <if test="vo.specialDrug != null">  
+	    	and g.special_drug = #{vo.specialDrug}
+	    </if>
+	    <if test="vo.inChargeDrug != null">  
+	    	and g.in_charge_drug = #{vo.inChargeDrug}
+	    </if>
+	    <if test="vo.configurationFlag != null">  
+	    	and g.configuration_flag = #{vo.configurationFlag}
+	    </if>
+	    <if test="vo.managementMode != null">  
+	    	and gb.management_mode = #{vo.managementMode}
+	    </if>
+	    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+	    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+	    </if>
+	    <if test="vo.brand != null and vo.brand != ''">  
+	    	and g.brand like '%${vo.brand}%'
+	    </if>
+	    <if test="vo.grade != null and vo.grade != ''">  
+	    	and g.grade like '%${vo.grade}%'
+	    </if>
+	    <if test="vo.areaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+	    </if>
+	    <if test="vo.cargoAreaId != null">  
+	    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+	    </if>
+	    <if test="vo.shelfId != null">  
+	    	and s.shelf_id = #{vo.shelfId}
+	    </if>
+	    <if test="vo.lotNum != null">  
+	    	and s.lot_num like '%${vo.lotNum}%'
+	    </if>
+	    <if test="vo.key != null and vo.key != ''">  
+	    	and (
+		    		INSTR(s.goods_code, #{vo.key})
+		    	or INSTR(g.barcode, #{vo.key})
+		    	or INSTR(g.pinyin_code, #{vo.key})
+		    	or INSTR(s.goods_name, #{vo.key})
+		    	or INSTR(g.generic_name, #{vo.key})
+		    	or INSTR(g.approval_number, #{vo.key})
+	    	)
+	    </if>
+			group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+		
+	   union all
+	   
+		   select * from
+		   	  (
+				SELECT
+	  				g.business_variety as businessVariety,
+					e.code as storeCode,
+					e.name as storeName,
+					s.goods_code as code,
+					g.generic_name as genericName,
+					g.dosage_name as dosageName,
+					g.specification as specification,
+					g.manufacturer as manufacturer,
+					g.unit_name as unitName,
+					g.place as place,
+					s.lot_num as lotNum,
+					ln.product_date as productDate,
+					ln.valid_until as validUntil,
+					s.shelf_id as shelfId,
+					s.shelf_name as shelfName,
+					sum(s.quantity) as stockQuantity,
+					sum(s.usable_quantity) as usableQuantity,
+					'1' as maintanceType,
+					case when 0 = gs.maintenance_cycle_unit
+						then (ifnull(gs.maintenance_cycle, 0))
+					when 1 = gs.maintenance_cycle_unit
+						then (ifnull(gs.maintenance_cycle, 0) * 30)
+					when 2 = gs.maintenance_cycle_unit
+						then (ifnull(gs.maintenance_cycle, 0) * 365)
+					END AS maintanceCycle,
+					s.last_maintain_time as lastMaintanceDate,
+					
+					case when 0 = gs.near_effect_period_unit
+						then (ifnull(near_effect_period, 0))
+					when 1 = gs.near_effect_period_unit
+						then (ifnull(near_effect_period, 0) * 30)
+					when 2 = gs.near_effect_period_unit
+						then (ifnull(near_effect_period, 0) * 365)
+					END AS nearPeriodCycle
+				FROM
+					saas_stock s
+				LEFT JOIN saas_goods g ON s.goods_id = g.id
+				left join saas_lot_number ln on s.lot_id = ln.id
+				left join saas_goods_storage gs on s.goods_id = gs.goods_id
+				left join saas_goods_business gb on s.goods_id = gb.goods_id
+				LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+				where s.quantity > 0
+				and gs.maintenance_type = 0
+				<if test="enterpriseId != null">
+					and s.enterprise_id = #{enterpriseId}
+				</if>
+				<if test="parentId != null">
+					and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+				</if>
+			    <if test="vo.storeId != null and vo.storeId !='0'">  
+			    	and s.enterprise_id = #{vo.storeId}
+			    </if>
+			    <if test="vo.storeName != null and vo.storeName !=''">  
+			    	and e.name like '%${vo.storeName}%'
+			    </if>
+			    <if test="vo.businessVariety != null">  
+			    	and g.business_variety = #{vo.businessVariety}
+			    </if>
+			    <if test="vo.goodsAttribute != null">  
+			    	and g.goods_attribute = #{vo.goodsAttribute}
+			    </if>
+			    <if test="vo.prescriptionDrug != null">  
+			    	and g.prescription_drug = #{vo.prescriptionDrug}
+			    </if>
+			    <if test="vo.categoryId != null">  
+			    	and g.category_id = #{vo.categoryId}
+			    </if>
+			    <if test="vo.goodsNature != null">  
+			    	and g.goods_nature = #{vo.goodsNature}
+			    </if>
+			    <if test="vo.domesticImport != null">  
+			    	and g.domestic_import = #{vo.domesticImport}
+			    </if>
+			    <if test="vo.storageTemp != null">  
+			    	and g.storage_temp = #{vo.storageTemp}
+			    </if>
+			    <if test="vo.maintenanceType != null">  
+			    	and gs.maintenance_type = #{vo.maintenanceType}
+			    </if>
+			    <if test="vo.medicalInsurance != null">  
+			    	and g.medical_insurance = #{vo.medicalInsurance}
+			    </if>
+			    <if test="vo.managementScopeId != null">  
+			    	and g.management_scope_id = #{vo.managementScopeId}
+			    </if>
+			    <if test="vo.specialDrug != null">  
+			    	and g.special_drug = #{vo.specialDrug}
+			    </if>
+			    <if test="vo.inChargeDrug != null">  
+			    	and g.in_charge_drug = #{vo.inChargeDrug}
+			    </if>
+			    <if test="vo.configurationFlag != null">  
+			    	and g.configuration_flag = #{vo.configurationFlag}
+			    </if>
+			    <if test="vo.managementMode != null">  
+			    	and gb.management_mode = #{vo.managementMode}
+			    </if>
+			    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+			    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+			    </if>
+			    <if test="vo.brand != null and vo.brand != ''">  
+			    	and g.brand like '%${vo.brand}%'
+			    </if>
+			    <if test="vo.grade != null and vo.grade != ''">  
+			    	and g.grade like '%${vo.grade}%'
+			    </if>
+			    <if test="vo.areaId != null">  
+			    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+			    </if>
+			    <if test="vo.cargoAreaId != null">  
+			    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+			    </if>
+			    <if test="vo.shelfId != null">  
+			    	and s.shelf_id = #{vo.shelfId}
+			    </if>
+			    <if test="vo.lotNum != null">  
+			    	and s.lot_num like '%${vo.lotNum}%'
+			    </if>
+			    <if test="vo.key != null and vo.key != ''">  
+			    	and (
+				    		INSTR(s.goods_code, #{vo.key})
+				    	or INSTR(g.barcode, #{vo.key})
+				    	or INSTR(g.pinyin_code, #{vo.key})
+				    	or INSTR(s.goods_name, #{vo.key})
+				    	or INSTR(g.generic_name, #{vo.key})
+				    	or INSTR(g.approval_number, #{vo.key})
+			    	)
+			    </if>
+					group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+			)tab1 where datediff(CURDATE(), validUntil) &lt; nearPeriodCycle		
+	)tab2		
+	<if test="order != null and order != ''">
+        order by ${order} ${sort}
+    </if>	
+    <if test="start != null">
+	    limit #{start}, #{pageSize}	
+    </if>	
+  </select>
+  
+  <select id="queryCountGoodsMaintanceList" resultType ="java.lang.Long">
+	 select count(1) from(   
+		select * from(	
+		  	SELECT
+		  		s.id
+			FROM
+				saas_stock s
+			LEFT JOIN saas_goods g ON s.goods_id = g.id
+			left join saas_lot_number ln on s.lot_id = ln.id
+			left join saas_goods_storage gs on s.goods_id = gs.goods_id
+			left join saas_goods_business gb on s.goods_id = gb.goods_id
+			LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+			where s.quantity > 0
+			and gs.maintenance_type = 1
+			<if test="enterpriseId != null">
+				and s.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="parentId != null">
+				and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+			</if>
+		    <if test="vo.storeId != null and vo.storeId !='0'">  
+		    	and s.enterprise_id = #{vo.storeId}
+		    </if>
+		    <if test="vo.storeName != null and vo.storeName !=''">  
+		    	and e.name like '%${vo.storeName}%'
+		    </if>
+		    <if test="vo.businessVariety != null">  
+		    	and g.business_variety = #{vo.businessVariety}
+		    </if>
+		    <if test="vo.goodsAttribute != null">  
+		    	and g.goods_attribute = #{vo.goodsAttribute}
+		    </if>
+		    <if test="vo.prescriptionDrug != null">  
+		    	and g.prescription_drug = #{vo.prescriptionDrug}
+		    </if>
+		    <if test="vo.categoryId != null">  
+		    	and g.category_id = #{vo.categoryId}
+		    </if>
+		    <if test="vo.goodsNature != null">  
+		    	and g.goods_nature = #{vo.goodsNature}
+		    </if>
+		    <if test="vo.domesticImport != null">  
+		    	and g.domestic_import = #{vo.domesticImport}
+		    </if>
+		    <if test="vo.storageTemp != null">  
+		    	and g.storage_temp = #{vo.storageTemp}
+		    </if>
+		    <if test="vo.maintenanceType != null">  
+		    	and gs.maintenance_type = #{vo.maintenanceType}
+		    </if>
+		    <if test="vo.medicalInsurance != null">  
+		    	and g.medical_insurance = #{vo.medicalInsurance}
+		    </if>
+		    <if test="vo.managementScopeId != null">  
+		    	and g.management_scope_id = #{vo.managementScopeId}
+		    </if>
+		    <if test="vo.specialDrug != null">  
+		    	and g.special_drug = #{vo.specialDrug}
+		    </if>
+		    <if test="vo.inChargeDrug != null">  
+		    	and g.in_charge_drug = #{vo.inChargeDrug}
+		    </if>
+		    <if test="vo.configurationFlag != null">  
+		    	and g.configuration_flag = #{vo.configurationFlag}
+		    </if>
+		    <if test="vo.managementMode != null">  
+		    	and gb.management_mode = #{vo.managementMode}
+		    </if>
+		    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+		    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+		    </if>
+		    <if test="vo.brand != null and vo.brand != ''">  
+		    	and g.brand like '%${vo.brand}%'
+		    </if>
+		    <if test="vo.grade != null and vo.grade != ''">  
+		    	and g.grade like '%${vo.grade}%'
+		    </if>
+		    <if test="vo.areaId != null">  
+		    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+		    </if>
+		    <if test="vo.cargoAreaId != null">  
+		    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+		    </if>
+		    <if test="vo.shelfId != null">  
+		    	and s.shelf_id = #{vo.shelfId}
+		    </if>
+		    <if test="vo.lotNum != null">  
+		    	and s.lot_num like '%${vo.lotNum}%'
+		    </if>
+		    <if test="vo.key != null and vo.key != ''">  
+		    	and (
+			    		INSTR(s.goods_code, #{vo.key})
+			    	or INSTR(g.barcode, #{vo.key})
+			    	or INSTR(g.pinyin_code, #{vo.key})
+			    	or INSTR(s.goods_name, #{vo.key})
+			    	or INSTR(g.generic_name, #{vo.key})
+			    	or INSTR(g.approval_number, #{vo.key})
+		    	)
+		    </if>
+				group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+			
+		   union all
+		   
+			   select id from
+			   	  (
+					SELECT
+						s.id,
+						ln.valid_until as validUntil,
+						
+						case when 0 = gs.near_effect_period_unit
+							then (ifnull(near_effect_period, 0))
+						when 1 = gs.near_effect_period_unit
+							then (ifnull(near_effect_period, 0) * 30)
+						when 2 = gs.near_effect_period_unit
+							then (ifnull(near_effect_period, 0) * 365)
+						END AS nearPeriodCycle
+					FROM
+						saas_stock s
+					LEFT JOIN saas_goods g ON s.goods_id = g.id
+					left join saas_lot_number ln on s.lot_id = ln.id
+					left join saas_goods_storage gs on s.goods_id = gs.goods_id
+					left join saas_goods_business gb on s.goods_id = gb.goods_id
+					LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+					where s.quantity > 0
+					and gs.maintenance_type = 0
+					<if test="enterpriseId != null">
+						and s.enterprise_id = #{enterpriseId}
+					</if>
+					<if test="parentId != null">
+						and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+					</if>
+				    <if test="vo.storeId != null and vo.storeId !='0'">  
+				    	and s.enterprise_id = #{vo.storeId}
+				    </if>
+				    <if test="vo.storeName != null and vo.storeName !=''">  
+				    	and e.name like '%${vo.storeName}%'
+				    </if>
+				    <if test="vo.businessVariety != null">  
+				    	and g.business_variety = #{vo.businessVariety}
+				    </if>
+				    <if test="vo.goodsAttribute != null">  
+				    	and g.goods_attribute = #{vo.goodsAttribute}
+				    </if>
+				    <if test="vo.prescriptionDrug != null">  
+				    	and g.prescription_drug = #{vo.prescriptionDrug}
+				    </if>
+				    <if test="vo.categoryId != null">  
+				    	and g.category_id = #{vo.categoryId}
+				    </if>
+				    <if test="vo.goodsNature != null">  
+				    	and g.goods_nature = #{vo.goodsNature}
+				    </if>
+				    <if test="vo.domesticImport != null">  
+				    	and g.domestic_import = #{vo.domesticImport}
+				    </if>
+				    <if test="vo.storageTemp != null">  
+				    	and g.storage_temp = #{vo.storageTemp}
+				    </if>
+				    <if test="vo.maintenanceType != null">  
+				    	and gs.maintenance_type = #{vo.maintenanceType}
+				    </if>
+				    <if test="vo.medicalInsurance != null">  
+				    	and g.medical_insurance = #{vo.medicalInsurance}
+				    </if>
+				    <if test="vo.managementScopeId != null">  
+				    	and g.management_scope_id = #{vo.managementScopeId}
+				    </if>
+				    <if test="vo.specialDrug != null">  
+				    	and g.special_drug = #{vo.specialDrug}
+				    </if>
+				    <if test="vo.inChargeDrug != null">  
+				    	and g.in_charge_drug = #{vo.inChargeDrug}
+				    </if>
+				    <if test="vo.configurationFlag != null">  
+				    	and g.configuration_flag = #{vo.configurationFlag}
+				    </if>
+				    <if test="vo.managementMode != null">  
+				    	and gb.management_mode = #{vo.managementMode}
+				    </if>
+				    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+				    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+				    </if>
+				    <if test="vo.brand != null and vo.brand != ''">  
+				    	and g.brand like '%${vo.brand}%'
+				    </if>
+				    <if test="vo.grade != null and vo.grade != ''">  
+				    	and g.grade like '%${vo.grade}%'
+				    </if>
+				    <if test="vo.areaId != null">  
+				    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+				    </if>
+				    <if test="vo.cargoAreaId != null">  
+				    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+				    </if>
+				    <if test="vo.shelfId != null">  
+				    	and s.shelf_id = #{vo.shelfId}
+				    </if>
+				    <if test="vo.lotNum != null">  
+				    	and s.lot_num like '%${vo.lotNum}%'
+				    </if>
+				    <if test="vo.key != null and vo.key != ''">  
+				    	and (
+					    		INSTR(s.goods_code, #{vo.key})
+					    	or INSTR(g.barcode, #{vo.key})
+					    	or INSTR(g.pinyin_code, #{vo.key})
+					    	or INSTR(s.goods_name, #{vo.key})
+					    	or INSTR(g.generic_name, #{vo.key})
+					    	or INSTR(g.approval_number, #{vo.key})
+				    	)
+				    </if>
+						group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+				)tab1 where datediff(CURDATE(), validUntil) &lt; nearPeriodCycle		
+			)tab2
+	    )tab3	
+  </select>
+  
+  <select id="queryGoodsMaintanceList" resultType="com.rograndec.feijiayun.chain.business.report.storage.vo.StockWarnGoodsMaintanceTotalVO">
+    select 
+    	sum(stockQuantity) as stockQuantity,
+    	sum(usableQuantity) as usableQuantity
+	from(
+			  	SELECT
+					sum(s.quantity) as stockQuantity,
+					sum(s.usable_quantity) as usableQuantity
+				FROM
+					saas_stock s
+				LEFT JOIN saas_goods g ON s.goods_id = g.id
+				left join saas_lot_number ln on s.lot_id = ln.id
+				left join saas_goods_storage gs on s.goods_id = gs.goods_id
+				left join saas_goods_business gb on s.goods_id = gb.goods_id
+				LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+				where s.quantity > 0
+				and gs.maintenance_type = 1
+				<if test="enterpriseId != null">
+					and s.enterprise_id = #{enterpriseId}
+				</if>
+				<if test="parentId != null">
+					and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+				</if>
+			    <if test="vo.storeId != null and vo.storeId !='0'">  
+			    	and s.enterprise_id = #{vo.storeId}
+			    </if>
+			    <if test="vo.storeName != null and vo.storeName !=''">  
+			    	and e.name like '%${vo.storeName}%'
+			    </if>
+			    <if test="vo.businessVariety != null">  
+			    	and g.business_variety = #{vo.businessVariety}
+			    </if>
+			    <if test="vo.goodsAttribute != null">  
+			    	and g.goods_attribute = #{vo.goodsAttribute}
+			    </if>
+			    <if test="vo.prescriptionDrug != null">  
+			    	and g.prescription_drug = #{vo.prescriptionDrug}
+			    </if>
+			    <if test="vo.categoryId != null">  
+			    	and g.category_id = #{vo.categoryId}
+			    </if>
+			    <if test="vo.goodsNature != null">  
+			    	and g.goods_nature = #{vo.goodsNature}
+			    </if>
+			    <if test="vo.domesticImport != null">  
+			    	and g.domestic_import = #{vo.domesticImport}
+			    </if>
+			    <if test="vo.storageTemp != null">  
+			    	and g.storage_temp = #{vo.storageTemp}
+			    </if>
+			    <if test="vo.maintenanceType != null">  
+			    	and gs.maintenance_type = #{vo.maintenanceType}
+			    </if>
+			    <if test="vo.medicalInsurance != null">  
+			    	and g.medical_insurance = #{vo.medicalInsurance}
+			    </if>
+			    <if test="vo.managementScopeId != null">  
+			    	and g.management_scope_id = #{vo.managementScopeId}
+			    </if>
+			    <if test="vo.specialDrug != null">  
+			    	and g.special_drug = #{vo.specialDrug}
+			    </if>
+			    <if test="vo.inChargeDrug != null">  
+			    	and g.in_charge_drug = #{vo.inChargeDrug}
+			    </if>
+			    <if test="vo.configurationFlag != null">  
+			    	and g.configuration_flag = #{vo.configurationFlag}
+			    </if>
+			    <if test="vo.managementMode != null">  
+			    	and gb.management_mode = #{vo.managementMode}
+			    </if>
+			    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+			    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+			    </if>
+			    <if test="vo.brand != null and vo.brand != ''">  
+			    	and g.brand like '%${vo.brand}%'
+			    </if>
+			    <if test="vo.grade != null and vo.grade != ''">  
+			    	and g.grade like '%${vo.grade}%'
+			    </if>
+			    <if test="vo.areaId != null">  
+			    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+			    </if>
+			    <if test="vo.cargoAreaId != null">  
+			    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+			    </if>
+			    <if test="vo.shelfId != null">  
+			    	and s.shelf_id = #{vo.shelfId}
+			    </if>
+			    <if test="vo.lotNum != null">  
+			    	and s.lot_num like '%${vo.lotNum}%'
+			    </if>
+			    <if test="vo.key != null and vo.key != ''">  
+			    	and (
+				    		INSTR(s.goods_code, #{vo.key})
+				    	or INSTR(g.barcode, #{vo.key})
+				    	or INSTR(g.pinyin_code, #{vo.key})
+				    	or INSTR(s.goods_name, #{vo.key})
+				    	or INSTR(g.generic_name, #{vo.key})
+				    	or INSTR(g.approval_number, #{vo.key})
+			    	)
+			    </if>
+					group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+				
+			   union all
+			   
+				   select stockQuantity, usableQuantity from
+				   	  (
+						SELECT
+							ln.valid_until as validUntil,
+							sum(s.quantity) as stockQuantity,
+							sum(s.usable_quantity) as usableQuantity,
+							
+							case when 0 = gs.near_effect_period_unit
+								then (ifnull(near_effect_period, 0))
+							when 1 = gs.near_effect_period_unit
+								then (ifnull(near_effect_period, 0) * 30)
+							when 2 = gs.near_effect_period_unit
+								then (ifnull(near_effect_period, 0) * 365)
+							END AS nearPeriodCycle
+						FROM
+							saas_stock s
+						LEFT JOIN saas_goods g ON s.goods_id = g.id
+						left join saas_lot_number ln on s.lot_id = ln.id
+						left join saas_goods_storage gs on s.goods_id = gs.goods_id
+						left join saas_goods_business gb on s.goods_id = gb.goods_id
+						LEFT JOIN saas_enterprise e on s.enterprise_id = e.id
+						where s.quantity > 0
+						and gs.maintenance_type = 0
+						<if test="enterpriseId != null">
+							and s.enterprise_id = #{enterpriseId}
+						</if>
+						<if test="parentId != null">
+							and (s.enterprise_id = #{parentId} or s.parent_id = #{parentId})
+						</if>
+					    <if test="vo.storeId != null and vo.storeId !='0'">  
+					    	and s.enterprise_id = #{vo.storeId}
+					    </if>
+					    <if test="vo.storeName != null and vo.storeName !=''">  
+					    	and e.name like '%${vo.storeName}%'
+					    </if>
+					    <if test="vo.businessVariety != null">  
+					    	and g.business_variety = #{vo.businessVariety}
+					    </if>
+					    <if test="vo.goodsAttribute != null">  
+					    	and g.goods_attribute = #{vo.goodsAttribute}
+					    </if>
+					    <if test="vo.prescriptionDrug != null">  
+					    	and g.prescription_drug = #{vo.prescriptionDrug}
+					    </if>
+					    <if test="vo.categoryId != null">  
+					    	and g.category_id = #{vo.categoryId}
+					    </if>
+					    <if test="vo.goodsNature != null">  
+					    	and g.goods_nature = #{vo.goodsNature}
+					    </if>
+					    <if test="vo.domesticImport != null">  
+					    	and g.domestic_import = #{vo.domesticImport}
+					    </if>
+					    <if test="vo.storageTemp != null">  
+					    	and g.storage_temp = #{vo.storageTemp}
+					    </if>
+					    <if test="vo.maintenanceType != null">  
+					    	and gs.maintenance_type = #{vo.maintenanceType}
+					    </if>
+					    <if test="vo.medicalInsurance != null">  
+					    	and g.medical_insurance = #{vo.medicalInsurance}
+					    </if>
+					    <if test="vo.managementScopeId != null">  
+					    	and g.management_scope_id = #{vo.managementScopeId}
+					    </if>
+					    <if test="vo.specialDrug != null">  
+					    	and g.special_drug = #{vo.specialDrug}
+					    </if>
+					    <if test="vo.inChargeDrug != null">  
+					    	and g.in_charge_drug = #{vo.inChargeDrug}
+					    </if>
+					    <if test="vo.configurationFlag != null">  
+					    	and g.configuration_flag = #{vo.configurationFlag}
+					    </if>
+					    <if test="vo.managementMode != null">  
+					    	and gb.management_mode = #{vo.managementMode}
+					    </if>
+					    <if test="vo.registeredTrademark != null and vo.registeredTrademark != ''">  
+					    	and g.registered_trademark like '%${vo.registeredTrademark}%'
+					    </if>
+					    <if test="vo.brand != null and vo.brand != ''">  
+					    	and g.brand like '%${vo.brand}%'
+					    </if>
+					    <if test="vo.grade != null and vo.grade != ''">  
+					    	and g.grade like '%${vo.grade}%'
+					    </if>
+					    <if test="vo.areaId != null">  
+					    	and s.shelf_id in (select id from saas_warehouse_shelf where warehouse_area_id = #{vo.areaId})
+					    </if>
+					    <if test="vo.cargoAreaId != null">  
+					    	and s.shelf_id in (select id from saas_warehouse_shelf where cargo_area_id = #{vo.cargoAreaId})
+					    </if>
+					    <if test="vo.shelfId != null">  
+					    	and s.shelf_id = #{vo.shelfId}
+					    </if>
+					    <if test="vo.lotNum != null">  
+					    	and s.lot_num like '%${vo.lotNum}%'
+					    </if>
+					    <if test="vo.key != null and vo.key != ''">  
+					    	and (
+						    		INSTR(s.goods_code, #{vo.key})
+						    	or INSTR(g.barcode, #{vo.key})
+						    	or INSTR(g.pinyin_code, #{vo.key})
+						    	or INSTR(s.goods_name, #{vo.key})
+						    	or INSTR(g.generic_name, #{vo.key})
+						    	or INSTR(g.approval_number, #{vo.key})
+					    	)
+					    </if>
+							group by s.enterprise_id, s.goods_id, s.lot_id, s.shelf_id
+					)tab1 where datediff(CURDATE(), validUntil) &lt; nearPeriodCycle		
+	  )tab2	
+  </select>
+  
+</mapper>

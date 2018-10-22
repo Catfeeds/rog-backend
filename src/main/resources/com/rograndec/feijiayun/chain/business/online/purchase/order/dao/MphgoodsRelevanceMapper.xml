@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.online.purchase.order.dao.MphgoodsRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphgoodsRelevance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="mph_goods_id" jdbcType="BIGINT" property="mphGoodsId" />
+    <result column="mph_goods_name" jdbcType="VARCHAR" property="mphGoodsName" />
+    <result column="mph_goods_place" jdbcType="VARCHAR" property="mphGoodsPlace" />
+    <result column="mph_goods_specification" jdbcType="VARCHAR" property="mphGoodsSpecification" />
+    <result column="mph_goods_manufacturer" jdbcType="VARCHAR" property="mphGoodsManufacturer" />
+    <result column="mph_supplier_id" jdbcType="BIGINT" property="mphSupplierId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, goods_id, enterprise_id, mph_goods_id, mph_goods_name, mph_goods_place, mph_goods_specification, 
+    mph_goods_manufacturer, mph_supplier_id, creater_id, creater_code, creater_name, 
+    create_time, modifier_id, modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_mphgoods_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_mphgoods_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphgoodsRelevance">
+    insert into saas_mphgoods_relevance (id, goods_id, enterprise_id, 
+      mph_goods_id, mph_goods_name, mph_goods_place, 
+      mph_goods_specification, mph_goods_manufacturer, 
+      mph_supplier_id, creater_id, creater_code, 
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, 
+      #{mphGoodsId,jdbcType=BIGINT}, #{mphGoodsName,jdbcType=VARCHAR}, #{mphGoodsPlace,jdbcType=VARCHAR}, 
+      #{mphGoodsSpecification,jdbcType=VARCHAR}, #{mphGoodsManufacturer,jdbcType=VARCHAR}, 
+      #{mphSupplierId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphgoodsRelevance">
+    insert into saas_mphgoods_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="mphGoodsId != null">
+        mph_goods_id,
+      </if>
+      <if test="mphGoodsName != null">
+        mph_goods_name,
+      </if>
+      <if test="mphGoodsPlace != null">
+        mph_goods_place,
+      </if>
+      <if test="mphGoodsSpecification != null">
+        mph_goods_specification,
+      </if>
+      <if test="mphGoodsManufacturer != null">
+        mph_goods_manufacturer,
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsId != null">
+        #{mphGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsName != null">
+        #{mphGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsPlace != null">
+        #{mphGoodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsSpecification != null">
+        #{mphGoodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsManufacturer != null">
+        #{mphGoodsManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSupplierId != null">
+        #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphgoodsRelevance">
+    update saas_mphgoods_relevance
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsId != null">
+        mph_goods_id = #{mphGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="mphGoodsName != null">
+        mph_goods_name = #{mphGoodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsPlace != null">
+        mph_goods_place = #{mphGoodsPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsSpecification != null">
+        mph_goods_specification = #{mphGoodsSpecification,jdbcType=VARCHAR},
+      </if>
+      <if test="mphGoodsManufacturer != null">
+        mph_goods_manufacturer = #{mphGoodsManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="mphSupplierId != null">
+        mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.online.purchase.order.entity.MphgoodsRelevance">
+    update saas_mphgoods_relevance
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      mph_goods_id = #{mphGoodsId,jdbcType=BIGINT},
+      mph_goods_name = #{mphGoodsName,jdbcType=VARCHAR},
+      mph_goods_place = #{mphGoodsPlace,jdbcType=VARCHAR},
+      mph_goods_specification = #{mphGoodsSpecification,jdbcType=VARCHAR},
+      mph_goods_manufacturer = #{mphGoodsManufacturer,jdbcType=VARCHAR},
+      mph_supplier_id = #{mphSupplierId,jdbcType=BIGINT},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="querySaasMphgoodsRelevance" resultType="java.lang.String" parameterType="map">
+  select goods_id from saas_mphgoods_relevance where enterprise_id = #{map.entrepriseId} and goods_id = #{map.odGId} limit 0,1
+  </select>
+  <select id="querySaasGoodsByName" resultType="java.lang.Integer" parameterType="map">
+  select count(1) from saas_goods where enterprise_id = #{map.entrepriseId}  and name = #{map.odName} and manufacturer = #{map.odManufacture}  and specification =  #{map.odSpecifications} ;
+  </select>
+  <select id="selectBYGid" resultType="com.rograndec.feijiayun.chain.business.online.purchase.smart.vo.BoundGoodsVO" >
+    select
+    CONCAT(g.code,IFNULL(g.name,IFNULL(g.generic_name,'')),IFNULL(g.manufacturer,'')) AS boundGoods,
+    g.id AS goodsId
+    from saas_mphgoods_relevance mr
+    LEFT JOIN saas_goods g ON g.id = mr.goods_id
+    where mr.mph_goods_id = #{odGId} and mr.enterprise_id = #{enterpriseId}
+  </select>
+  <select id="selectByMPHData" resultType="com.rograndec.feijiayun.chain.business.online.purchase.smart.vo.SelectBoundGoodsVO" >
+    select
+    g.id AS goodsId,
+    g.`code` AS goodsCode,
+    g.generic_name AS genericName,
+    g.specification,
+    g.manufacturer,
+    g.place
+    from saas_goods g
+    ,saas_safety_stock ss
+    where ss.enterprise_id =  #{enterpriseId}
+    and g.id = ss.goods_id
+    and g.enterprise_id = ss.enterprise_id
+    <if test="mphGoodsName != null">
+      and (g.`code` like concat('%', #{mphGoodsName},'%')
+      OR g.pinyin_code like concat('%', #{mphGoodsName},'%')
+      OR g.`name` like concat('%', #{mphGoodsName},'%')
+      OR g.barcode like concat('%', #{mphGoodsName},'%')
+      OR g.applicant_code like concat('%', #{mphGoodsName},'%')
+      )
+    </if>
+    <if test="list != null">
+      and g.owner_id IN
+      <foreach item="item" index="index" collection="list"
+               open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+    <if test="mphGoodsManufacturer != null">
+      AND g.manufacturer like concat('%', #{mphGoodsManufacturer},'%')
+    </if>
+    <if test="cargoAreaId != null">
+      AND ss.default_shelf_id = #{cargoAreaId}
+    </if>
+  </select>
+  <select id="selectByMPHGoodsIdAndGoodsId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from saas_mphgoods_relevance
+    where enterprise_id = #{enterpriseId}
+    AND mph_goods_id = #{mphGoodsId}
+    AND goods_id = #{goodsId}
+  </select>
+  <select id="selectByMPHGoodsId" resultType="java.lang.Integer" >
+    select
+    count(1)
+    from saas_mphgoods_relevance
+    where enterprise_id = #{enterpriseId}
+    AND mph_goods_id = #{mphGoodsId}
+  </select>
+</mapper>

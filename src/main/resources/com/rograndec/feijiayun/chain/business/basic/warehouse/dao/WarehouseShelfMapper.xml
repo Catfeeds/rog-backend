@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.basic.warehouse.dao.WarehouseShelfMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseShelf">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="warehouse_id" jdbcType="BIGINT" property="warehouseId" />
+    <result column="warehouse_area_id" jdbcType="BIGINT" property="warehouseAreaId" />
+    <result column="cargo_area_id" jdbcType="BIGINT" property="cargoAreaId" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="quantity_limit" jdbcType="DECIMAL" property="quantityLimit" />
+    <result column="weight_limit" jdbcType="DECIMAL" property="weightLimit" />
+    <result column="length_limit" jdbcType="DECIMAL" property="lengthLimit" />
+    <result column="width_limit" jdbcType="DECIMAL" property="widthLimit" />
+    <result column="high_limit" jdbcType="DECIMAL" property="highLimit" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="layer" jdbcType="INTEGER" property="layer" />
+    <result column="layer" jdbcType="INTEGER" property="layer" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.basic.warehouse.vo.RequestWarehouseShelfVO" extends="BaseResultMap">
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, parent_id, warehouse_id, warehouse_area_id, cargo_area_id,sys_type, code,
+    name, quantity_limit, weight_limit, length_limit, width_limit, high_limit,
+    status, remark,layer, creater_id, creater_code, creater_name, create_time, modifier_id,
+    modifier_code, modifier_name, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    *
+    from saas_warehouse_shelf
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_warehouse_shelf
+    where id in
+    	<foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+	     	 #{item}
+	    </foreach>
+  </select>
+
+  <select id="selectBySetIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_warehouse_shelf
+    where id in
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_warehouse_shelf
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseShelf" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_warehouse_shelf (id, enterprise_id, parent_id, 
+      warehouse_id, warehouse_area_id, cargo_area_id, sys_type,
+      code, name,
+      quantity_limit, weight_limit, length_limit, 
+      width_limit, high_limit, status, 
+      remark,layer, creater_id, creater_code,
+      creater_name, create_time, modifier_id, 
+      modifier_code, modifier_name, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, 
+      #{warehouseId,jdbcType=BIGINT}, #{warehouseAreaId,jdbcType=BIGINT}, #{cargoAreaId,jdbcType=BIGINT}, #{sysType,jdbcType=INTEGER},
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{quantityLimit,jdbcType=DECIMAL}, #{weightLimit,jdbcType=DECIMAL}, #{lengthLimit,jdbcType=DECIMAL}, 
+      #{widthLimit,jdbcType=DECIMAL}, #{highLimit,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR},#{layer,jdbcType=INTEGER}, #{createrId,jdbcType=BIGINT}, #{createrCode,jdbcType=VARCHAR},
+      #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=BIGINT}, 
+      #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseShelf" useGeneratedKeys="true" keyProperty="id">
+    insert into saas_warehouse_shelf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="warehouseAreaId != null">
+        warehouse_area_id,
+      </if>
+      <if test="cargoAreaId != null">
+        cargo_area_id,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+
+      <if test="quantityLimit != null">
+        quantity_limit,
+      </if>
+      <if test="weightLimit != null">
+        weight_limit,
+      </if>
+      <if test="lengthLimit != null">
+        length_limit,
+      </if>
+      <if test="widthLimit != null">
+        width_limit,
+      </if>
+      <if test="highLimit != null">
+        high_limit,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="layer != null">
+        layer,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseAreaId != null">
+        #{warehouseAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="cargoAreaId != null">
+        #{cargoAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityLimit != null">
+        #{quantityLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="weightLimit != null">
+        #{weightLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="lengthLimit != null">
+        #{lengthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="widthLimit != null">
+        #{widthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="highLimit != null">
+        #{highLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null">
+        #{layer,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseShelf">
+    update saas_warehouse_shelf
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseAreaId != null">
+        warehouse_area_id = #{warehouseAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="cargoAreaId != null">
+        cargo_area_id = #{cargoAreaId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+
+      <if test="quantityLimit != null">
+        quantity_limit = #{quantityLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="weightLimit != null">
+        weight_limit = #{weightLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="lengthLimit != null">
+        length_limit = #{lengthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="widthLimit != null">
+        width_limit = #{widthLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="highLimit != null">
+        high_limit = #{highLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="layer != null">
+        layer = #{layer,jdbcType=INTEGER},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.basic.warehouse.entity.WarehouseShelf">
+    update saas_warehouse_shelf
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      warehouse_id = #{warehouseId,jdbcType=BIGINT},
+      warehouse_area_id = #{warehouseAreaId,jdbcType=BIGINT},
+      cargo_area_id = #{cargoAreaId,jdbcType=BIGINT},
+      sys_type = #{sysType,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      quantity_limit = #{quantityLimit,jdbcType=DECIMAL},
+      weight_limit = #{weightLimit,jdbcType=DECIMAL},
+      length_limit = #{lengthLimit,jdbcType=DECIMAL},
+      width_limit = #{widthLimit,jdbcType=DECIMAL},
+      high_limit = #{highLimit,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      layer = #{layer,jdbcType=INTEGER},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getShelfByName"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM saas_warehouse_shelf WHERE  name = #{name} and enterprise_id = #{enterpriseId}
+  </select>
+
+  <select id="getWarehouseShelfByEnterpId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM saas_warehouse_shelf WHERE  enterprise_id = #{enterpriseId}
+  </select>
+
+  <!--getWarehouseCargoAreaByParam 根据企业id和企业父id 库区id, 状态查询所有货区-->
+  <select id="getWarehouseShelfByParam" resultMap="BaseResultMapVO">
+
+    SELECT shelf.id, shelf.enterprise_id, shelf.parent_id, shelf.warehouse_id, shelf.warehouse_area_id,
+    shelf.cargo_area_id,shelf.sys_type, shelf.code,
+    shelf.name, shelf.quantity_limit,shelf.weight_limit, shelf.length_limit, shelf.width_limit, shelf.high_limit,
+    shelf.status, shelf.remark,shelf.layer,(SELECT name from saas_warehouse hu WHERE hu.id = cargo.warehouse_id ) as
+    warehouseName,
+    (SELECT name FROM saas_warehouse_area area where area.id = cargo.warehouse_area_id) as warehouseAreaName,
+    (SELECT name from saas_warehouse_cargo_area cargo WHERE cargo.id = shelf.cargo_area_id) as warehouseCargoName
+    FROM saas_warehouse_shelf shelf
+    WHERE shelf.enterprise_id = #{enterpriseId} and shelf.parent_id = #{parentId}
+    <if test="status != null">
+      AND shelf.status = #{status}
+    </if>
+    <if test="warehouseCargoId != null">
+      AND shelf.cargo_area_id = #{warehouseCargoId}
+    </if>
+    <if test="commonVO.warehouseNameOrder == 0 and commonVO.areaNameOrder == 0 and commonVO.codeOrder == 0">
+      ORDER  BY shelf.id desc ,warehouseName desc ,warehouseAreaName desc,shelf.code desc
+    </if>
+
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- 批量插入生成的货位 -->
+  <insert id ="addBatchWarehouseShelf" parameterType="java.util.List" >
+    <selectKey resultType ="java.lang.Long" keyProperty= "id"
+               order= "AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey >
+    insert into saas_warehouse_shelf
+    (enterprise_id, parent_id,
+    warehouse_id, warehouse_area_id, cargo_area_id,sys_type,
+    code, name,
+    quantity_limit, weight_limit, length_limit,
+    width_limit, high_limit, status,
+    remark,layer, creater_id, creater_code,
+    creater_name, create_time, modifier_id,
+    modifier_code, modifier_name, update_time)
+    values
+    <foreach collection ="list" item="item" index= "" separator =",">
+      (#{item.enterpriseId,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT},
+      #{item.warehouseId,jdbcType=BIGINT}, #{item.warehouseAreaId,jdbcType=BIGINT}, #{item.cargoAreaId,jdbcType=BIGINT},#{item.sysType,jdbcType=INTEGER},
+      #{item.code,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR},
+      #{item.quantityLimit,jdbcType=DECIMAL}, #{item.weightLimit,jdbcType=DECIMAL}, #{item.lengthLimit,jdbcType=DECIMAL},
+      #{item.widthLimit,jdbcType=DECIMAL}, #{item.highLimit,jdbcType=DECIMAL}, #{item.status,jdbcType=INTEGER},
+      #{item.remark,jdbcType=VARCHAR},#{item.layer,jdbcType=INTEGER}, #{item.createrId,jdbcType=BIGINT}, #{item.createrCode,jdbcType=VARCHAR},
+      #{item.createrName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifierId,jdbcType=BIGINT},
+      #{item.modifierCode,jdbcType=VARCHAR}, #{item.modifierName,jdbcType=VARCHAR}, #{item.updateTime,jdbcType=TIMESTAMP})
+
+    </foreach >
+  </insert >
+
+  <select id="getShelfInfoById" resultType="map">
+    SELECT
+     shelf.name,
+     area.job_area as jobArea,
+     area.job_type as jobType
+     FROM
+    saas_warehouse_shelf shelf
+    LEFT JOIN
+    saas_warehouse_cargo_area area
+    ON  shelf.cargo_area_id = area.id and shelf.enterprise_id = area.enterprise_id
+    WHERE
+    1=1 and
+    shelf.id = #{id}
+  </select>
+
+  <select id="getShelfIdSByWarehouseID" resultType="java.lang.Long">
+    SELECT shelf.id FROM
+    saas_warehouse_shelf shelf
+    WHERE  shelf.warehouse_id = #{warehouseId} and shelf.enterprise_id = #{enterpriseId}
+  </select>
+
+  <select id="getSysShelfIdSByEnterpriseId" resultType="java.lang.Long">
+    SELECT <include refid="Base_Column_List" /> FROM
+    saas_warehouse_shelf shelf
+    WHERE shelf.enterprise_id = #{enterpriseId} and sys_type =1
+  </select>
+
+  <select id="getShelfIdSByWarehouseAreaID" resultType="java.lang.Long">
+    SELECT  shelf.id  FROM
+    saas_warehouse_shelf shelf
+    WHERE  shelf.warehouse_area_id = #{warehouseAreaId} and shelf.enterprise_id = #{enterpriseId}
+  </select>
+
+  <select id="getShelfIdSByWarehouseCargoID" resultType="java.lang.Long">
+    SELECT  shelf.id FROM
+    saas_warehouse_shelf shelf
+    WHERE  shelf.cargo_area_id = #{cargoAreaId} and shelf.enterprise_id = #{enterpriseId}
+  </select>
+  
+</mapper>

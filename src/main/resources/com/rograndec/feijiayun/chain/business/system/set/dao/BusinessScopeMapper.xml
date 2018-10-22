@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rograndec.feijiayun.chain.business.system.set.dao.BusinessScopeMapper">
+  <resultMap id="BaseResultMap" type="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="enterprise_id" jdbcType="BIGINT" property="enterpriseId" />
+    <result column="sys_type" jdbcType="INTEGER" property="sysType" />
+    <result column="business_variety" jdbcType="INTEGER" property="businessVariety" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="creater_code" jdbcType="VARCHAR" property="createrCode" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier_id" jdbcType="BIGINT" property="modifierId" />
+    <result column="modifier_code" jdbcType="VARCHAR" property="modifierCode" />
+    <result column="modifier_name" jdbcType="VARCHAR" property="modifierName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapVO" type="com.rograndec.feijiayun.chain.business.system.set.vo.BusinessScopeVO" extends="BaseResultMap">
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, enterprise_id, sys_type, business_variety, code, name, status, remark, creater_id, 
+    creater_code, creater_name, create_time, modifier_id, modifier_code, modifier_name, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByDefult" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where sys_type = '1'
+    order by id desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from saas_business_scope
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+    insert into saas_business_scope (id, enterprise_id, sys_type, 
+      business_variety, code, name, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{enterpriseId,jdbcType=BIGINT}, #{sysType,jdbcType=INTEGER}, 
+      #{businessVariety,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createrId,jdbcType=BIGINT}, 
+      #{createrCode,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=BIGINT}, #{modifierCode,jdbcType=VARCHAR}, #{modifierName,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+    insert into saas_business_scope
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="enterpriseId != null">
+        enterprise_id,
+      </if>
+      <if test="sysType != null">
+        sys_type,
+      </if>
+      <if test="businessVariety != null">
+        business_variety,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="createrCode != null">
+        creater_code,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifierId != null">
+        modifier_id,
+      </if>
+      <if test="modifierCode != null">
+        modifier_code,
+      </if>
+      <if test="modifierName != null">
+        modifier_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseId != null">
+        #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="businessVariety != null">
+        #{businessVariety,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+    update saas_business_scope
+    <set>
+      <if test="enterpriseId != null">
+        enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      </if>
+      <if test="sysType != null">
+        sys_type = #{sysType,jdbcType=INTEGER},
+      </if>
+      <if test="businessVariety != null">
+        business_variety = #{businessVariety,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="createrCode != null">
+        creater_code = #{createrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifierId != null">
+        modifier_id = #{modifierId,jdbcType=BIGINT},
+      </if>
+      <if test="modifierCode != null">
+        modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifierName != null">
+        modifier_name = #{modifierName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+    update saas_business_scope
+    set enterprise_id = #{enterpriseId,jdbcType=BIGINT},
+      sys_type = #{sysType,jdbcType=INTEGER},
+      business_variety = #{businessVariety,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=BIGINT},
+      creater_code = #{createrCode,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier_id = #{modifierId,jdbcType=BIGINT},
+      modifier_code = #{modifierCode,jdbcType=VARCHAR},
+      modifier_name = #{modifierName,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getBusinessScopeByBusinessVariety" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where (enterprise_id = #{enterpriseId} or sys_type = '1')
+    and business_variety in 
+    <foreach item="item" index="" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and status = '1'
+  </select>
+  
+  <select id="getBusinessScopeByBusinessScopeId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where (enterprise_id = #{enterpriseId} or enterprise_id = 0)
+    and id in 
+    <foreach item="item" index="index" collection="list"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+  
+  <select id="getScopeQualification" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from saas_business_scope
+    where enterprise_id = #{enterpriseId}
+    union
+    select
+  	<include refid="Base_Column_List" />
+    from saas_business_scope
+    where sys_type = '1'
+    order by id desc
+  </select>
+  
+  <select id="getScopeQualificationById" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from saas_business_scope
+    where enterprise_id = #{parentId}
+    union
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where sys_type = '1'
+    order by id desc
+  </select>
+
+  <select id="getScopeQualificationByDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where status = 1 and business_variety in
+    <foreach item="vId" index="index" collection="varietys"
+             open="(" separator="," close=")">
+      #{vId}
+    </foreach>
+    and id in
+    <foreach item="sId" index="index" collection="scopes"
+             open="(" separator="," close=")">
+      #{sId}
+    </foreach>
+    order by business_variety,code
+  </select>
+
+  <select id="getScopeQualificationByIdAndScopes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where status = 1 and enterprise_id = #{id}  and business_variety in
+    <foreach item="vId" index="index" collection="idList"
+             open="(" separator="," close=")">
+      #{vId}
+    </foreach>
+
+    union
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where status = 1 and sys_type = '1' and business_variety in
+    <foreach item="vId" index="index" collection="idList"
+             open="(" separator="," close=")">
+      #{vId}
+    </foreach>
+    order by business_variety,code
+  </select>
+  
+
+  <insert id="addQualityUnqualified">
+  	insert into saas_business_scope (enterprise_id, sys_type, 
+      business_variety, code, name, 
+      status, remark, creater_id, 
+      creater_code, creater_name, create_time, 
+      modifier_id, modifier_code, modifier_name, 
+      update_time)
+    values (#{user.enterpriseId}, '0', 
+      #{businessScope.businessVariety,jdbcType=INTEGER}, #{businessScope.code,jdbcType=VARCHAR}, #{businessScope.name,jdbcType=VARCHAR}, 
+      #{businessScope.status,jdbcType=INTEGER}, #{businessScope.remark,jdbcType=VARCHAR}, #{user.userId}, 
+      #{user.userCode}, #{user.userName}, NOW(), 
+      #{user.userId}, 
+      #{user.userCode}, #{user.userName}, 
+      NOW())
+  </insert>
+  
+  <update id="updateQualityUnqualified">
+  	update saas_business_scope
+  	set 
+  	  business_variety = #{businessScope.businessVariety,jdbcType=INTEGER},
+      name = #{businessScope.name,jdbcType=VARCHAR},
+      status = #{businessScope.status,jdbcType=INTEGER},
+      remark = #{businessScope.remark,jdbcType=VARCHAR},
+      modifier_id = #{user.userId},
+      modifier_code = #{user.userCode},
+      modifier_name = #{user.userName},
+      update_time = NOW()
+    where id = #{businessScope.id,jdbcType=BIGINT}
+  </update>
+  <select id="findBusinessScopeSelectorByEnterpriseId">
+  	select 
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where enterprise_id = #{arg0}
+    and status = '1'
+    union
+    select 
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where sys_type = '1'
+    and status = '1'
+  </select>
+  
+  <select id = "getScope"  resultType="com.rograndec.feijiayun.chain.business.system.set.entity.BusinessScope">
+  	select <include refid="Base_Column_List" /> from saas_business_scope where id in
+  	<foreach collection="list" index="" item="item" open="(" separator="," close=")">  
+            #{item}
+    </foreach>  
+  </select>
+
+  <select id="getBusinessScopeVOList" resultMap="BaseResultMapVO">
+    SELECT
+    id, enterprise_id, sys_type, business_variety, code, name, status
+    FROM
+    saas_business_scope buc
+    WHERE  1=1
+    <if test="businessVariety != null">
+      AND  buc.business_variety = #{businessVariety}
+    </if>
+    <if test="status">
+      AND buc.status = #{status}
+    </if>
+    <if test="enterpriseId != null">
+      AND buc.enterprise_id = #{enterpriseId}
+    </if>
+    union
+    SELECT
+    id, enterprise_id, sys_type, business_variety, code, name, status
+    FROM
+    saas_business_scope buc
+    WHERE  1=1
+    <if test="businessVariety != null">
+      AND  buc.business_variety = #{businessVariety}
+    </if>
+    <if test="status">
+      AND buc.status = #{status}
+    </if>
+    <if test="enterpriseId != null">
+      AND buc.enterprise_id = 0
+    </if>
+  </select>
+    <select id="hasBusinessCode"
+            resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from saas_business_scope
+      where (enterprise_id = #{enterPriseId} or sys_type = '1')
+      AND code = #{code}
+    </select>
+  <select id="hasBusinessName"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope
+    where (enterprise_id = #{enterPriseId} or sys_type = '1')
+    AND name = #{name}
+
+  </select>
+  <select id="selectEnterpriseByScopeId"
+          resultType="com.rograndec.feijiayun.chain.business.system.enterprise.entity.Enterprise">
+    SELECT  id
+    FROM  saas_enterprise WHERE  find_in_set(#{scopeId},business_scope_id)
+
+  </select>
+  <select id="selectSupplierByScopeId"
+          resultType="com.rograndec.feijiayun.chain.business.basic.supplier.entity.Supplier">
+
+    SELECT id
+    FROM  saas_supplier WHERE  find_in_set(#{scopeId},business_scope_id)
+
+  </select>
+  <select id="selectUserByScopeId" resultType="com.rograndec.feijiayun.chain.business.basic.user.entity.UserAdministration">
+
+    SELECT id
+    FROM  saas_user_administration  WHERE find_in_set(#{scopeId},limit_variety_range)
+
+  </select>
+
+  <select id = "selectByIds"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from saas_business_scope where id in
+    <foreach collection="list" index="" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+</mapper>
